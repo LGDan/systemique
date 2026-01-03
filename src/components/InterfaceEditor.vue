@@ -18,6 +18,7 @@ const localInterface = ref({
   name: props.interface.name,
   type: props.interface.type,
   direction: props.interface.direction,
+  position: props.interface.position || (props.interface.direction === 'input' ? 'left' : 'right'),
   validationRules: { ...props.interface.validationRules }
 })
 
@@ -61,6 +62,16 @@ function removeInterface() {
         <select v-model="localInterface.direction" @change="updateInterface" class="field-input">
           <option value="input">Input</option>
           <option value="output">Output</option>
+        </select>
+      </div>
+
+      <div class="field">
+        <label>Position</label>
+        <select v-model="localInterface.position" @change="updateInterface" class="field-input">
+          <option value="top">Top</option>
+          <option value="bottom">Bottom</option>
+          <option value="left">Left</option>
+          <option value="right">Right</option>
         </select>
       </div>
     </div>

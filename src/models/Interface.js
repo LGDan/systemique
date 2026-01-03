@@ -7,6 +7,7 @@ export class Interface {
     this.name = name
     this.type = type // InterfaceType ID
     this.direction = direction // 'input' or 'output'
+    this.position = direction === 'input' ? 'left' : 'right' // 'top', 'bottom', 'left', 'right'
     this.validationRules = validationRules // Custom validation rules
     this.metadata = {} // Additional metadata
   }
@@ -19,6 +20,7 @@ export class Interface {
       json.direction,
       json.validationRules || {}
     )
+    iface.position = json.position || (json.direction === 'input' ? 'left' : 'right')
     iface.metadata = json.metadata || {}
     return iface
   }
@@ -29,6 +31,7 @@ export class Interface {
       name: this.name,
       type: this.type,
       direction: this.direction,
+      position: this.position,
       validationRules: this.validationRules,
       metadata: this.metadata
     }

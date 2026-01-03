@@ -25,12 +25,15 @@ const component = computed(() => {
   return props.data.component
 })
 
-const inputInterfaces = computed(() => {
-  return component.value?.getInputInterfaces() || []
-})
-
-const outputInterfaces = computed(() => {
-  return component.value?.getOutputInterfaces() || []
+// Group interfaces by position
+const interfacesByPosition = computed(() => {
+  const interfaces = component.value?.interfaces || []
+  return {
+    top: interfaces.filter(i => i.position === 'top'),
+    bottom: interfaces.filter(i => i.position === 'bottom'),
+    left: interfaces.filter(i => i.position === 'left'),
+    right: interfaces.filter(i => i.position === 'right')
+  }
 })
 
 const contextMenuVisible = ref(false)
@@ -117,31 +120,53 @@ function handleSendToLibrary() {
 
 <template>
   <div class="system-node" @contextmenu.prevent="handleContextMenu">
-    <!-- Input interfaces on the left -->
-    <div class="interfaces inputs">
+    <!-- Top interfaces -->
+    <div v-if="interfacesByPosition.top.length > 0" class="interfaces interfaces-top">
       <InterfaceHandle
-        v-for="iface in inputInterfaces"
+        v-for="iface in interfacesByPosition.top"
         :key="iface.id"
         :interface="iface"
-        :position="Position.Left"
+        :position="Position.Top"
       />
     </div>
 
-    <!-- Node content -->
-    <div class="node-content">
-      <div class="node-header">
-        <div class="node-name">{{ component.name }}</div>
-        <div v-if="component.type !== 'generic'" class="node-type">{{ component.type }}</div>
+    <div class="node-main-row">
+      <!-- Left interfaces -->
+      <div v-if="interfacesByPosition.left.length > 0" class="interfaces interfaces-left">
+        <InterfaceHandle
+          v-for="iface in interfacesByPosition.left"
+          :key="iface.id"
+          :interface="iface"
+          :position="Position.Left"
+        />
+      </div>
+
+      <!-- Node content -->
+      <div class="node-content">
+        <div class="node-header">
+          <div class="node-name">{{ component.name }}</div>
+          <div v-if="component.type !== 'generic'" class="node-type">{{ component.type }}</div>
+        </div>
+      </div>
+
+      <!-- Right interfaces -->
+      <div v-if="interfacesByPosition.right.length > 0" class="interfaces interfaces-right">
+        <InterfaceHandle
+          v-for="iface in interfacesByPosition.right"
+          :key="iface.id"
+          :interface="iface"
+          :position="Position.Right"
+        />
       </div>
     </div>
 
-    <!-- Output interfaces on the right -->
-    <div class="interfaces outputs">
+    <!-- Bottom interfaces -->
+    <div v-if="interfacesByPosition.bottom.length > 0" class="interfaces interfaces-bottom">
       <InterfaceHandle
-        v-for="iface in outputInterfaces"
+        v-for="iface in interfacesByPosition.bottom"
         :key="iface.id"
         :interface="iface"
-        :position="Position.Right"
+        :position="Position.Bottom"
       />
     </div>
     
@@ -166,11 +191,18 @@ function handleSendToLibrary() {
   border-radius: 8px;
   padding: 12px;
   display: flex;
-  align-items: center;
+  flex-direction: column;
+  align-items: stretch;
   gap: 8px;
   box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
   position: relative;
   user-select: none;
+}
+
+.node-main-row {
+  display: flex;
+  align-items: center;
+  gap: 8px;
 }
 
 .node-content {
@@ -178,6 +210,7 @@ function handleSendToLibrary() {
   display: flex;
   flex-direction: column;
   gap: 8px;
+  min-width: 100px;
 }
 
 .node-header {
@@ -200,8 +233,18 @@ function handleSendToLibrary() {
 
 .interfaces {
   display: flex;
-  flex-direction: column;
   gap: 8px;
+}
+
+.interfaces-top,
+.interfaces-bottom {
+  flex-direction: row;
+  justify-content: center;
+}
+
+.interfaces-left,
+.interfaces-right {
+  flex-direction: column;
   min-width: 60px;
 }
 
