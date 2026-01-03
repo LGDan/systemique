@@ -72,6 +72,52 @@ function removeInterface(interfaceId) {
   if (!component.value) return
   component.value.removeInterface(interfaceId)
 }
+
+function duplicateInterface(interfaceId) {
+  if (!component.value) return
+  
+  const sourceInterface = component.value.getInterface(interfaceId)
+  if (!sourceInterface) return
+  
+  // Generate new ID
+  const newInterfaceId = `interface-${Date.now()}-${Math.random().toString(36).substr(2, 9)}`
+  
+  // Extract and increment number from name
+  const incrementedName = incrementInterfaceName(sourceInterface.name)
+  
+  // Create new interface with all properties copied
+  const newInterface = new Interface(
+    newInterfaceId,
+    incrementedName,
+    sourceInterface.type,
+    sourceInterface.direction,
+    sourceInterface.validationRules
+  )
+  newInterface.position = sourceInterface.position
+  newInterface.icon = sourceInterface.icon
+  newInterface.metadata = { ...sourceInterface.metadata }
+  
+  component.value.addInterface(newInterface)
+}
+
+/**
+ * Increment the number at the end of an interface name
+ * Examples: "Port 1" -> "Port 2", "Network" -> "Network 2", "Outlet 10" -> "Outlet 11"
+ */
+function incrementInterfaceName(name) {
+  // Match trailing digits
+  const match = name.match(/^(.*\D)?(\d+)$/)
+  
+  if (match) {
+    // Name has trailing number - increment it
+    const prefix = match[1] || ''
+    const number = parseInt(match[2], 10)
+    return `${prefix}${number + 1}`
+  } else {
+    // No trailing number - add " 2"
+    return `${name} 2`
+  }
+}
 </script>
 
 <template>
@@ -130,6 +176,7 @@ function removeInterface(interfaceId) {
             :interface="iface"
             @update="updateInterface"
             @remove="removeInterface"
+            @duplicate="duplicateInterface"
           />
         </div>
       </div>

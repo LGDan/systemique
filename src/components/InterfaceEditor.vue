@@ -11,7 +11,7 @@ const props = defineProps({
   }
 })
 
-const emit = defineEmits(['update', 'remove'])
+const emit = defineEmits(['update', 'remove', 'duplicate'])
 
 const interfaceTypes = getAllInterfaceTypes()
 
@@ -34,6 +34,10 @@ function updateInterface() {
 function removeInterface() {
   emit('remove', props.interface.id)
 }
+
+function duplicateInterface() {
+  emit('duplicate', props.interface.id)
+}
 </script>
 
 <template>
@@ -46,7 +50,8 @@ function removeInterface() {
         class="interface-name-input"
         @blur="updateInterface"
       />
-      <button @click="removeInterface" class="remove-button">×</button>
+      <button @click="duplicateInterface" class="duplicate-button" title="Duplicate interface">⎘</button>
+      <button @click="removeInterface" class="remove-button" title="Remove interface">×</button>
     </div>
     
     <div class="interface-fields">
@@ -110,6 +115,25 @@ function removeInterface() {
   border: 1px solid #ddd;
   border-radius: 4px;
   font-size: 12px;
+}
+
+.duplicate-button {
+  width: 24px;
+  height: 24px;
+  border: none;
+  background: #4ECDC4;
+  color: white;
+  border-radius: 4px;
+  cursor: pointer;
+  font-size: 14px;
+  line-height: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.duplicate-button:hover {
+  background: #3AB8B0;
 }
 
 .remove-button {
