@@ -894,7 +894,7 @@
           "metadata": {}
         },
         {
-          "id": "usb-3-a",
+          "id": "usb-3-b",
           "name": "USB3 Bottom Left",
           "type": "usb",
           "direction": "input",
@@ -912,7 +912,7 @@
           "metadata": {}
         },
         {
-          "id": "usb-2-a",
+          "id": "usb-2-b",
           "name": "USB2 Bottom Right",
           "type": "usb",
           "direction": "input",
