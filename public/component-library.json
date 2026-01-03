@@ -862,7 +862,7 @@
           "name": "Micro HDMI Socket 1",
           "type": "hdmi",
           "direction": "input",
-          "position": "bottom",
+          "position": "right",
           "rules": {},
           "metadata": {}
         },
@@ -871,7 +871,7 @@
           "name": "Micro HDMI Socket 2",
           "type": "hdmi",
           "direction": "input",
-          "position": "bottom",
+          "position": "right",
           "rules": {},
           "metadata": {}
         },
@@ -880,7 +880,7 @@
           "name": "USB-C Socket (Power)",
           "type": "usb",
           "direction": "input",
-          "position": "bottom",
+          "position": "left",
           "rules": {},
           "metadata": {}
         },
@@ -889,7 +889,7 @@
           "name": "USB3 Top Left",
           "type": "usb",
           "direction": "input",
-          "position": "bottom",
+          "position": "right",
           "rules": {},
           "metadata": {}
         },
@@ -898,7 +898,7 @@
           "name": "USB3 Bottom Left",
           "type": "usb",
           "direction": "input",
-          "position": "bottom",
+          "position": "right",
           "rules": {},
           "metadata": {}
         },
@@ -907,7 +907,7 @@
           "name": "USB2 Top Right",
           "type": "usb",
           "direction": "input",
-          "position": "bottom",
+          "position": "right",
           "rules": {},
           "metadata": {}
         },
@@ -916,7 +916,7 @@
           "name": "USB2 Bottom Right",
           "type": "usb",
           "direction": "input",
-          "position": "bottom",
+          "position": "right",
           "rules": {},
           "metadata": {}
         },
@@ -925,7 +925,7 @@
           "name": "MicroSD Card Slot",
           "type": "microsd",
           "direction": "input",
-          "position": "bottom",
+          "position": "right",
           "rules": {},
           "metadata": {}
         },
@@ -934,7 +934,7 @@
           "name": "PCIe FFC",
           "type": "ffc-cable",
           "direction": "input",
-          "position": "bottom",
+          "position": "right",
           "rules": {},
           "metadata": {}
         }
