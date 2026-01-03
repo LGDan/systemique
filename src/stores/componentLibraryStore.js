@@ -1,12 +1,27 @@
 import { defineStore } from 'pinia'
-import { ref } from 'vue'
+import { ref, computed } from 'vue'
 import { Component } from '../models/Component.js'
 
 export const useComponentLibraryStore = defineStore('componentLibrary', () => {
   const components = ref(new Map()) // Map<componentId, Component>
-  const categories = ref(['Hardware', 'Software', 'Network', 'Storage', 'Custom'])
   const isLoading = ref(false)
   const loadError = ref(null)
+
+  /**
+   * Dynamically compute all unique categories from components
+   */
+  const categories = computed(() => {
+    const categorySet = new Set()
+    
+    for (const component of components.value.values()) {
+      if (component.categories && Array.isArray(component.categories)) {
+        component.categories.forEach(cat => categorySet.add(cat))
+      }
+    }
+    
+    // Return sorted array of categories
+    return Array.from(categorySet).sort()
+  })
 
   /**
    * Load component library from JSON file or data
@@ -148,8 +163,12 @@ export const useComponentLibraryStore = defineStore('componentLibrary', () => {
   }
 
   function getComponentsByCategory(category) {
-    // For now, return all components. Can be extended with category metadata
-    return getAllComponents()
+    return getAllComponents().filter(component => {
+      // Check if component has the specified category
+      return component.categories && 
+             Array.isArray(component.categories) && 
+             component.categories.includes(category)
+    })
   }
 
   function createComponentFromTemplate(templateId, newId, position = { x: 0, y: 0 }) {

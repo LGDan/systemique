@@ -7,6 +7,7 @@
       "type": "server",
       "properties": {},
       "icon": "server",
+      "categories": ["Hardware", "Compute"],
       "interfaces": [
         {
           "id": "power-in",
@@ -38,8 +39,7 @@
       ],
       "nestedSystemId": null,
       "position": { "x": 0, "y": 0 },
-      "metadata": {},
-      "icon": "server"
+      "metadata": {}
     },
     {
       "id": "switch-template",
@@ -47,6 +47,7 @@
       "type": "switch",
       "properties": {},
       "icon": "switch",
+      "categories": ["Hardware", "Network"],
       "interfaces": [
         {
           "id": "power-in",
@@ -212,6 +213,7 @@
       "type": "database",
       "properties": {},
       "icon": "database",
+      "categories": ["Software", "Storage", "Data"],
       "interfaces": [
         {
           "id": "network-in",
@@ -243,8 +245,7 @@
       ],
       "nestedSystemId": null,
       "position": { "x": 0, "y": 0 },
-      "metadata": {},
-      "icon": "database"
+      "metadata": {}
     },
     {
       "id": "pdu-template",
@@ -252,6 +253,7 @@
       "type": "pdu",
       "properties": {},
       "icon": "pdu",
+      "categories": ["Hardware", "Power"],
       "interfaces": [
         {
           "id": "power-in",
@@ -373,8 +375,7 @@
       ],
       "nestedSystemId": null,
       "position": { "x": 0, "y": 0 },
-      "metadata": {},
-      "icon": "pdu"
+      "metadata": {}
     },
     {
       "id": "rack-template",
@@ -382,6 +383,7 @@
       "type": "rack",
       "properties": {},
       "icon": "rack",
+      "categories": ["Hardware", "Infrastructure"],
       "interfaces": [
         {
           "id": "physical-in",
@@ -413,15 +415,15 @@
       ],
       "nestedSystemId": null,
       "position": { "x": 0, "y": 0 },
-      "metadata": {},
-      "icon": "rack"
+      "metadata": {}
     },
     {
       "id": "api-service-template",
       "name": "API Service",
       "type": "api-service",
       "properties": {},
-      "icon": "api",
+      "icon": "api-service",
+      "categories": ["Software", "Service"],
       "interfaces": [
         {
           "id": "network-in",
@@ -453,8 +455,7 @@
       ],
       "nestedSystemId": null,
       "position": { "x": 0, "y": 0 },
-      "metadata": {},
-      "icon": "api"
+      "metadata": {}
     }
   ]
 }
