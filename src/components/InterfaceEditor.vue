@@ -2,6 +2,7 @@
 import { ref, computed } from 'vue'
 import { Interface } from '../models/Interface.js'
 import { getAllInterfaceTypes } from '../config/defaultInterfaceTypes.js'
+import IconPicker from './IconPicker.vue'
 
 const props = defineProps({
   interface: {
@@ -19,6 +20,7 @@ const localInterface = ref({
   type: props.interface.type,
   direction: props.interface.direction,
   position: props.interface.position || (props.interface.direction === 'input' ? 'left' : 'right'),
+  icon: props.interface.icon || null,
   validationRules: { ...props.interface.validationRules }
 })
 
@@ -73,6 +75,14 @@ function removeInterface() {
           <option value="left">Left</option>
           <option value="right">Right</option>
         </select>
+      </div>
+
+      <div class="field">
+        <label>Icon</label>
+        <IconPicker 
+          v-model="localInterface.icon"
+          @update:modelValue="updateInterface"
+        />
       </div>
     </div>
   </div>

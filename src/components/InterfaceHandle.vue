@@ -2,6 +2,7 @@
 import { Handle, Position } from '@vue-flow/core'
 import { computed } from 'vue'
 import { getInterfaceType } from '../config/defaultInterfaceTypes.js'
+import MdiIcon from './MdiIcon.vue'
 
 const props = defineProps({
   interface: {
@@ -19,6 +20,20 @@ const interfaceType = computed(() => {
 })
 
 const handleStyle = computed(() => {
+  // If there's an icon, make the handle larger and transparent
+  if (props.interface.icon) {
+    return {
+      backgroundColor: 'transparent',
+      border: 'none',
+      borderRadius: '50%',
+      width: '20px',
+      height: '20px',
+      display: 'flex',
+      alignItems: 'center',
+      justifyContent: 'center'
+    }
+  }
+  
   return {
     backgroundColor: interfaceType.value?.color || '#DDA0DD',
     border: '2px solid #fff',
@@ -56,7 +71,15 @@ const labelPositionClass = computed(() => {
       :position="position"
       :style="handleStyle"
       class="interface-handle"
-    />
+    >
+      <MdiIcon 
+        v-if="interface.icon" 
+        :name="interface.icon" 
+        :size="16"
+        :color="interfaceType?.color || '#666'"
+        class="interface-icon"
+      />
+    </Handle>
     <div class="interface-label">
       {{ interface.name }}
     </div>
@@ -74,6 +97,10 @@ const labelPositionClass = computed(() => {
 .interface-handle {
   flex-shrink: 0;
   z-index: 10;
+}
+
+.interface-icon {
+  pointer-events: none;
 }
 
 .interface-label {
