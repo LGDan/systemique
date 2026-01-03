@@ -197,6 +197,8 @@ function handleSendToLibrary() {
   box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
   position: relative;
   user-select: none;
+  /* Add margin to ensure labels don't get cut off */
+  margin: 30px;
 }
 
 .node-main-row {
@@ -233,7 +235,7 @@ function handleSendToLibrary() {
 
 .interfaces {
   display: flex;
-  gap: 8px;
+  gap: 16px;
 }
 
 .interfaces-top,
