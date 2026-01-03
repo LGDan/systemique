@@ -1,0 +1,24 @@
+{
+  "name": "vue-flow-starter",
+  "version": "0.0.0",
+  "scripts": {
+    "start": "vite",
+    "build": "vite build"
+  },
+  "dependencies": {
+    "@vue-flow/background": "latest",
+    "@vue-flow/controls": "latest",
+    "@vue-flow/core": "latest",
+    "@vue-flow/minimap": "latest",
+    "pinia": "^2.1.7",
+    "vue": "^3.5.12"
+  },
+  "devDependencies": {
+    "@antfu/eslint-config": "^3.12.2",
+    "@vitejs/plugin-vue": "^5.2.1",
+    "eslint": "^9.17.0",
+    "vite": "^6.0.7"
+  },
+  "keywords": [],
+  "description": ""
+}
