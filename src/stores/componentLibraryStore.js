@@ -1,63 +1,135 @@
 import { defineStore } from 'pinia'
 import { ref } from 'vue'
 import { Component } from '../models/Component.js'
-import { Interface } from '../models/Interface.js'
 
 export const useComponentLibraryStore = defineStore('componentLibrary', () => {
   const components = ref(new Map()) // Map<componentId, Component>
   const categories = ref(['Hardware', 'Software', 'Network', 'Storage', 'Custom'])
+  const isLoading = ref(false)
+  const loadError = ref(null)
 
-  // Initialize with default components
-  function initializeDefaults() {
-    // Server component
-    const server = new Component('server-template', 'Server', 'server')
-    server.addInterface(new Interface('power-in', 'Power Input', 'power', 'input'))
-    server.addInterface(new Interface('network-out', 'Network', 'network', 'output'))
-    server.addInterface(new Interface('data-out', 'Data', 'data', 'output'))
-    components.value.set('server-template', server)
+  /**
+   * Load component library from JSON file or data
+   */
+  async function loadFromJSON(jsonData) {
+    try {
+      const data = typeof jsonData === 'string' ? JSON.parse(jsonData) : jsonData
+      
+      if (!data.components || !Array.isArray(data.components)) {
+        throw new Error('Invalid library format: missing components array')
+      }
 
-    // Network Switch
-    const switch_ = new Component('switch-template', 'Network Switch', 'switch')
-    switch_.addInterface(new Interface('power-in', 'Power Input', 'power', 'input'))
-    switch_.addInterface(new Interface('network-in-1', 'Port 1', 'network', 'input'))
-    switch_.addInterface(new Interface('network-in-2', 'Port 2', 'network', 'input'))
-    switch_.addInterface(new Interface('network-out-1', 'Port 1', 'network', 'output'))
-    switch_.addInterface(new Interface('network-out-2', 'Port 2', 'network', 'output'))
-    components.value.set('switch-template', switch_)
+      // Clear existing components
+      components.value.clear()
 
-    // Database
-    const database = new Component('database-template', 'Database', 'database')
-    database.addInterface(new Interface('power-in', 'Power Input', 'power', 'input'))
-    database.addInterface(new Interface('network-in', 'Network', 'network', 'input'))
-    database.addInterface(new Interface('data-out', 'Data', 'data', 'output'))
-    database.addInterface(new Interface('api-out', 'API', 'api', 'output'))
-    components.value.set('database-template', database)
+      // Load components from JSON
+      data.components.forEach(compData => {
+        try {
+          const component = Component.fromJSON(compData)
+          components.value.set(component.id, component)
+        } catch (err) {
+          console.warn(`Failed to load component ${compData.id}:`, err)
+        }
+      })
 
-    // PDU (Power Distribution Unit)
-    const pdu = new Component('pdu-template', 'PDU', 'pdu')
-    pdu.addInterface(new Interface('power-in', 'Power Input', 'power', 'input'))
-    pdu.addInterface(new Interface('power-out-1', 'Outlet 1', 'power', 'output'))
-    pdu.addInterface(new Interface('power-out-2', 'Outlet 2', 'power', 'output'))
-    pdu.addInterface(new Interface('power-out-3', 'Outlet 3', 'power', 'output'))
-    components.value.set('pdu-template', pdu)
-
-    // Rack
-    const rack = new Component('rack-template', 'Server Rack', 'rack')
-    rack.addInterface(new Interface('physical-in', 'Rack Position', 'physical', 'input'))
-    rack.addInterface(new Interface('power-in', 'Power Input', 'power', 'input'))
-    rack.addInterface(new Interface('power-out', 'Power Output', 'power', 'output'))
-    components.value.set('rack-template', rack)
-
-    // API Service
-    const apiService = new Component('api-service-template', 'API Service', 'api-service')
-    apiService.addInterface(new Interface('network-in', 'Network', 'network', 'input'))
-    apiService.addInterface(new Interface('api-out', 'API', 'api', 'output'))
-    apiService.addInterface(new Interface('data-in', 'Data', 'data', 'input'))
-    components.value.set('api-service-template', apiService)
+      return { success: true, count: components.value.size }
+    } catch (error) {
+      console.error('Failed to load component library:', error)
+      throw error
+    }
   }
 
-  // Initialize on store creation
-  initializeDefaults()
+  /**
+   * Load component library from server
+   */
+  async function loadFromServer(url = '/component-library.json') {
+    isLoading.value = true
+    loadError.value = null
+
+    try {
+      const response = await fetch(url)
+      if (!response.ok) {
+        throw new Error(`Failed to load library: ${response.statusText}`)
+      }
+
+      const data = await response.json()
+      const result = await loadFromJSON(data)
+      
+      isLoading.value = false
+      return result
+    } catch (error) {
+      loadError.value = error.message
+      isLoading.value = false
+      console.error('Failed to load component library from server:', error)
+      // Fall back to defaults if server load fails
+      initializeDefaults()
+      throw error
+    }
+  }
+
+  /**
+   * Export component library to JSON
+   */
+  function exportToJSON() {
+    const componentsArray = Array.from(components.value.values()).map(comp => comp.toJSON())
+    
+    return {
+      version: '1.0',
+      components: componentsArray
+    }
+  }
+
+  /**
+   * Download component library as JSON file
+   */
+  function downloadJSON(filename = 'component-library.json') {
+    const data = exportToJSON()
+    const jsonString = JSON.stringify(data, null, 2)
+    const blob = new Blob([jsonString], { type: 'application/json' })
+    const url = URL.createObjectURL(blob)
+    
+    const link = document.createElement('a')
+    link.href = url
+    link.download = filename
+    document.body.appendChild(link)
+    link.click()
+    document.body.removeChild(link)
+    URL.revokeObjectURL(url)
+  }
+
+  /**
+   * Import component library from file
+   */
+  async function importFromFile(file) {
+    return new Promise((resolve, reject) => {
+      const reader = new FileReader()
+      
+      reader.onload = async (e) => {
+        try {
+          const jsonData = e.target.result
+          const result = await loadFromJSON(jsonData)
+          resolve(result)
+        } catch (error) {
+          reject(error)
+        }
+      }
+      
+      reader.onerror = () => {
+        reject(new Error('Failed to read file'))
+      }
+      
+      reader.readAsText(file)
+    })
+  }
+
+  /**
+   * Initialize with default components (fallback)
+   */
+  function initializeDefaults() {
+    // This is kept as a fallback if server loading fails
+    // The actual defaults are now in the JSON file
+    console.log('Using fallback default components')
+  }
 
   function addComponent(component) {
     components.value.set(component.id, component)
@@ -87,21 +159,35 @@ export const useComponentLibraryStore = defineStore('componentLibrary', () => {
     }
 
     // Deep clone the component
-    const newComponent = Component.fromJSON(template.toJSON())
+    const templateData = template.toJSON()
+    const newComponent = Component.fromJSON(templateData)
     newComponent.id = newId
     newComponent.position = position
+    
     return newComponent
   }
+
+  // Load from server on initialization
+  loadFromServer().catch(err => {
+    console.warn('Failed to load library from server, using defaults:', err.message)
+  })
 
   return {
     components,
     categories,
+    isLoading,
+    loadError,
     addComponent,
     removeComponent,
     getComponent,
     getAllComponents,
     getComponentsByCategory,
-    createComponentFromTemplate
+    createComponentFromTemplate,
+    loadFromJSON,
+    loadFromServer,
+    exportToJSON,
+    downloadJSON,
+    importFromFile
   }
 })
 

@@ -3,7 +3,6 @@ import { ref, computed } from 'vue'
 import ComponentPalette from './components/ComponentPalette.vue'
 import SystemCanvas from './components/SystemCanvas.vue'
 import PropertiesPanel from './components/PropertiesPanel.vue'
-import BreadcrumbNav from './components/BreadcrumbNav.vue'
 import GroupDialog from './components/GroupDialog.vue'
 import { useSystemStore } from './stores/systemStore.js'
 import { useVueFlow } from '@vue-flow/core'
@@ -37,7 +36,6 @@ function handleGroup() {
     <div class="app-header">
       <div class="header-left">
         <h1 class="app-title">Systemique</h1>
-        <BreadcrumbNav />
       </div>
       <div class="header-actions">
         <button @click="handleGroup" :disabled="selectedComponentIds.length < 2" class="action-button">

@@ -1,8 +1,11 @@
 <script setup>
-import { computed } from 'vue'
+import { computed, ref, onMounted, onUnmounted } from 'vue'
 import { Position } from '@vue-flow/core'
 import InterfaceHandle from './InterfaceHandle.vue'
+import ContextMenu from './ContextMenu.vue'
 import { useSystemStore } from '../stores/systemStore.js'
+import { useComponentLibraryStore } from '../stores/componentLibraryStore.js'
+import { Component } from '../models/Component.js'
 
 const props = defineProps({
   id: {
@@ -16,6 +19,7 @@ const props = defineProps({
 })
 
 const systemStore = useSystemStore()
+const libraryStore = useComponentLibraryStore()
 
 const component = computed(() => {
   return props.data.component
@@ -29,24 +33,90 @@ const outputInterfaces = computed(() => {
   return component.value?.getOutputInterfaces() || []
 })
 
-const hasNestedSystem = computed(() => {
-  return component.value?.hasNestedSystem() || false
+const contextMenuVisible = ref(false)
+const contextMenuPosition = ref({ x: 0, y: 0 })
+
+const contextMenuItems = computed(() => {
+  return [
+    {
+      id: 'send-to-library',
+      label: 'Send to Library',
+      icon: '📚',
+      action: 'sendToLibrary'
+    },
+    {
+      id: 'delete',
+      label: 'Delete',
+      icon: '🗑️',
+      action: 'delete'
+    }
+  ]
 })
 
-function handleDrillDown() {
-  if (hasNestedSystem.value) {
-    systemStore.drillDown(component.value.id)
-  } else {
-    // Create nested system if it doesn't exist
-    const systemName = `${component.value.name} - Internal`
-    systemStore.createNestedSystem(component.value.id, systemName)
-    systemStore.drillDown(component.value.id)
+function handleContextMenu(event) {
+  event.preventDefault()
+  event.stopPropagation()
+  contextMenuPosition.value = { x: event.clientX, y: event.clientY }
+  contextMenuVisible.value = true
+}
+
+function handleMenuSelect(item) {
+  if (item.action === 'sendToLibrary') {
+    handleSendToLibrary()
+  } else if (item.action === 'delete') {
+    systemStore.removeComponent(component.value.id)
+  }
+  contextMenuVisible.value = false
+}
+
+let closeMenuHandler = null
+
+onMounted(() => {
+  // Close context menu when clicking elsewhere
+  closeMenuHandler = () => {
+    contextMenuVisible.value = false
+  }
+  document.addEventListener('close-context-menus', closeMenuHandler)
+})
+
+onUnmounted(() => {
+  if (closeMenuHandler) {
+    document.removeEventListener('close-context-menus', closeMenuHandler)
+  }
+})
+
+/**
+ * Generate a unique ID
+ */
+function generateUniqueId(prefix) {
+  return `${prefix}-${Date.now()}-${Math.random().toString(36).substr(2, 9)}`
+}
+
+function handleSendToLibrary() {
+  try {
+    const originalComponent = component.value
+    if (!originalComponent) {
+      alert('No component selected to send to library.')
+      return
+    }
+
+    const templateId = generateUniqueId('template')
+    const templateComponent = Component.fromJSON(originalComponent.toJSON())
+    templateComponent.id = templateId
+    templateComponent.position = { x: 0, y: 0 }
+    templateComponent.nestedSystemId = null // Clear any nested system references
+
+    libraryStore.addComponent(templateComponent)
+    alert(`Component "${originalComponent.name}" has been added to the library!`)
+  } catch (error) {
+    console.error('Error sending component to library:', error)
+    alert(`Failed to add component to library: ${error.message}`)
   }
 }
 </script>
 
 <template>
-  <div class="system-node">
+  <div class="system-node" @contextmenu.prevent="handleContextMenu">
     <!-- Input interfaces on the left -->
     <div class="interfaces inputs">
       <InterfaceHandle
@@ -63,13 +133,6 @@ function handleDrillDown() {
         <div class="node-name">{{ component.name }}</div>
         <div v-if="component.type !== 'generic'" class="node-type">{{ component.type }}</div>
       </div>
-      
-      <div v-if="hasNestedSystem" class="nested-indicator" @click="handleDrillDown">
-        <span>🔽</span> Has nested system
-      </div>
-      <div v-else class="drill-down-button" @click="handleDrillDown">
-        <span>➕</span> Create nested system
-      </div>
     </div>
 
     <!-- Output interfaces on the right -->
@@ -81,6 +144,17 @@ function handleDrillDown() {
         :position="Position.Right"
       />
     </div>
+    
+    <Teleport to="body">
+      <ContextMenu
+        :visible="contextMenuVisible"
+        :x="contextMenuPosition.x"
+        :y="contextMenuPosition.y"
+        :items="contextMenuItems"
+        @close="contextMenuVisible = false"
+        @select="handleMenuSelect"
+      />
+    </Teleport>
   </div>
 </template>
 
@@ -95,6 +169,8 @@ function handleDrillDown() {
   align-items: center;
   gap: 8px;
   box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  position: relative;
+  user-select: none;
 }
 
 .node-content {

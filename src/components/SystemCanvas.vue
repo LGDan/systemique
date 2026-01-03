@@ -1,5 +1,5 @@
 <script setup>
-import { ref, computed, onMounted, watch } from 'vue'
+import { ref, onMounted, watch } from 'vue'
 import { VueFlow, useVueFlow } from '@vue-flow/core'
 import { Background } from '@vue-flow/background'
 import { Controls } from '@vue-flow/controls'
@@ -59,6 +59,72 @@ onEdgesChange((changes) => {
     }
   })
 })
+
+// Helper function to generate unique IDs
+function generateUniqueId(prefix) {
+  return `${prefix}-${Date.now()}-${Math.random().toString(36).substr(2, 9)}`
+}
+
+// Helper function to recursively clone a system and all its nested systems
+function cloneSystemRecursively(system, baseId, systemIdMap = new Map(), componentIdMap = new Map()) {
+  if (systemIdMap.has(system.id)) {
+    return systemIdMap.get(system.id)
+  }
+
+  const systemData = system.toJSON()
+  const newSystemId = generateUniqueId(`${baseId}-system`)
+  const newSystem = System.fromJSON(systemData)
+  newSystem.id = newSystemId
+  newSystem.parentSystemId = systemStore.currentSystemId.value
+
+  systemIdMap.set(system.id, newSystem)
+
+  // Clone all components and update their IDs
+  const clonedComponents = []
+  for (const comp of newSystem.components) {
+    const oldComponentId = comp.id
+    const newComponentId = generateUniqueId(`${baseId}-comp`)
+    componentIdMap.set(oldComponentId, newComponentId)
+
+    comp.id = newComponentId
+    comp.position = { ...comp.position } // Create new position object
+
+    // Recursively clone nested systems
+    if (comp.nestedSystemId) {
+      const originalNestedSystem = systemStore.getSystem(comp.nestedSystemId)
+      if (originalNestedSystem) {
+        const clonedNestedSystem = cloneSystemRecursively(originalNestedSystem, baseId, systemIdMap, componentIdMap)
+        comp.nestedSystemId = clonedNestedSystem.id
+        systemStore.systems.value.set(clonedNestedSystem.id, clonedNestedSystem)
+      } else {
+        console.warn(`Nested system with ID ${comp.nestedSystemId} not found`)
+        comp.nestedSystemId = null
+      }
+    }
+    clonedComponents.push(comp)
+  }
+  newSystem.components = clonedComponents
+
+  // Clone all connections and update their component references
+  const clonedConnections = []
+  for (const conn of newSystem.connections) {
+    const newConnectionId = generateUniqueId(`${baseId}-conn`)
+    const newConn = Connection.fromJSON(conn.toJSON())
+    newConn.id = newConnectionId
+
+    // Update component references
+    if (componentIdMap.has(newConn.sourceComponentId)) {
+      newConn.sourceComponentId = componentIdMap.get(newConn.sourceComponentId)
+    }
+    if (componentIdMap.has(newConn.targetComponentId)) {
+      newConn.targetComponentId = componentIdMap.get(newConn.targetComponentId)
+    }
+    clonedConnections.push(newConn)
+  }
+  newSystem.connections = clonedConnections
+
+  return newSystem
+}
 
 // Handle new connections
 onConnect((params) => {
@@ -121,8 +187,9 @@ function handleDrop(event) {
   const newComponent = libraryStore.createComponentFromTemplate(componentId, newComponentId, position)
   
   if (newComponent) {
+    // Clear any nested system references from templates
+    newComponent.nestedSystemId = null
     systemStore.addComponent(newComponent)
-    // The watch will automatically update nodes and edges
   }
 }
 
@@ -137,6 +204,15 @@ onMounted(() => {
   if (viewport) {
     viewport.addEventListener('drop', handleDrop)
     viewport.addEventListener('dragover', handleDragOver)
+  }
+  
+  // Close context menus when clicking on canvas
+  const canvas = document.querySelector('.system-canvas')
+  if (canvas) {
+    canvas.addEventListener('click', (e) => {
+      // Close any open context menus by dispatching a custom event
+      document.dispatchEvent(new CustomEvent('close-context-menus'))
+    })
   }
 })
 </script>

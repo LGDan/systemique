@@ -8,6 +8,7 @@ const systemStore = useSystemStore()
 
 const searchQuery = ref('')
 const selectedCategory = ref('All')
+const fileInputRef = ref(null)
 
 const filteredComponents = computed(() => {
   let components = libraryStore.getAllComponents()
@@ -35,12 +36,62 @@ function handleDragStart(event, component) {
 function generateComponentId() {
   return `component-${Date.now()}-${Math.random().toString(36).substr(2, 9)}`
 }
+
+function handleExport() {
+  try {
+    libraryStore.downloadJSON()
+  } catch (error) {
+    console.error('Failed to export library:', error)
+    alert('Failed to export library: ' + error.message)
+  }
+}
+
+function handleImportClick() {
+  fileInputRef.value?.click()
+}
+
+async function handleImportFile(event) {
+  const file = event.target.files?.[0]
+  if (!file) return
+
+  try {
+    const result = await libraryStore.importFromFile(file)
+    alert(`Successfully imported ${result.count} components!`)
+  } catch (error) {
+    console.error('Failed to import library:', error)
+    alert('Failed to import library: ' + error.message)
+  }
+
+  // Clear the file input
+  event.target.value = ''
+}
+
+async function handleReload() {
+  try {
+    const result = await libraryStore.loadFromServer()
+    alert(`Successfully loaded ${result.count} components from server!`)
+  } catch (error) {
+    console.error('Failed to reload library:', error)
+    alert('Failed to reload library: ' + error.message)
+  }
+}
 </script>
 
 <template>
   <div class="component-palette">
     <div class="palette-header">
       <h3>Component Library</h3>
+      <div class="header-actions">
+        <button @click="handleReload" class="icon-button" title="Reload from server">
+          🔄
+        </button>
+        <button @click="handleImportClick" class="icon-button" title="Import library">
+          📁
+        </button>
+        <button @click="handleExport" class="icon-button" title="Export library">
+          💾
+        </button>
+      </div>
     </div>
     
     <div class="palette-controls">
@@ -59,7 +110,15 @@ function generateComponentId() {
       </select>
     </div>
 
-    <div class="components-list">
+    <div v-if="libraryStore.isLoading" class="loading-message">
+      Loading library...
+    </div>
+
+    <div v-else-if="libraryStore.loadError" class="error-message">
+      {{ libraryStore.loadError }}
+    </div>
+
+    <div v-else class="components-list">
       <div
         v-for="component in filteredComponents"
         :key="component.id"
@@ -77,6 +136,15 @@ function generateComponentId() {
         </div>
       </div>
     </div>
+
+    <!-- Hidden file input for import -->
+    <input
+      ref="fileInputRef"
+      type="file"
+      accept=".json"
+      style="display: none"
+      @change="handleImportFile"
+    />
   </div>
 </template>
 
@@ -95,6 +163,9 @@ function generateComponentId() {
   padding: 16px;
   background: #fff;
   border-bottom: 1px solid #ddd;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
 }
 
 .palette-header h3 {
@@ -102,6 +173,26 @@ function generateComponentId() {
   font-size: 16px;
   font-weight: 600;
   color: #333;
+}
+
+.header-actions {
+  display: flex;
+  gap: 4px;
+}
+
+.icon-button {
+  background: none;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  padding: 4px 8px;
+  cursor: pointer;
+  font-size: 14px;
+  transition: all 0.2s;
+}
+
+.icon-button:hover {
+  background: #f5f5f5;
+  border-color: #4ECDC4;
 }
 
 .palette-controls {
@@ -120,6 +211,25 @@ function generateComponentId() {
   border: 1px solid #ddd;
   border-radius: 4px;
   font-size: 12px;
+}
+
+.loading-message,
+.error-message {
+  padding: 16px;
+  text-align: center;
+  font-size: 12px;
+}
+
+.loading-message {
+  color: #666;
+}
+
+.error-message {
+  color: #e74c3c;
+  background: #fee;
+  border: 1px solid #fcc;
+  border-radius: 4px;
+  margin: 8px;
 }
 
 .components-list {

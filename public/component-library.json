@@ -1,0 +1,248 @@
+{
+  "version": "1.0",
+  "components": [
+    {
+      "id": "server-template",
+      "name": "Server",
+      "type": "server",
+      "properties": {},
+      "interfaces": [
+        {
+          "id": "power-in",
+          "name": "Power Input",
+          "type": "power",
+          "direction": "input",
+          "rules": {},
+          "metadata": {}
+        },
+        {
+          "id": "network-out",
+          "name": "Network",
+          "type": "network",
+          "direction": "output",
+          "rules": {},
+          "metadata": {}
+        },
+        {
+          "id": "data-out",
+          "name": "Data",
+          "type": "data",
+          "direction": "output",
+          "rules": {},
+          "metadata": {}
+        }
+      ],
+      "nestedSystemId": null,
+      "position": { "x": 0, "y": 0 },
+      "metadata": {}
+    },
+    {
+      "id": "switch-template",
+      "name": "Network Switch",
+      "type": "switch",
+      "properties": {},
+      "interfaces": [
+        {
+          "id": "power-in",
+          "name": "Power Input",
+          "type": "power",
+          "direction": "input",
+          "rules": {},
+          "metadata": {}
+        },
+        {
+          "id": "network-in-1",
+          "name": "Port 1",
+          "type": "network",
+          "direction": "input",
+          "rules": {},
+          "metadata": {}
+        },
+        {
+          "id": "network-in-2",
+          "name": "Port 2",
+          "type": "network",
+          "direction": "input",
+          "rules": {},
+          "metadata": {}
+        },
+        {
+          "id": "network-out-1",
+          "name": "Port 1",
+          "type": "network",
+          "direction": "output",
+          "rules": {},
+          "metadata": {}
+        },
+        {
+          "id": "network-out-2",
+          "name": "Port 2",
+          "type": "network",
+          "direction": "output",
+          "rules": {},
+          "metadata": {}
+        }
+      ],
+      "nestedSystemId": null,
+      "position": { "x": 0, "y": 0 },
+      "metadata": {}
+    },
+    {
+      "id": "database-template",
+      "name": "Database",
+      "type": "database",
+      "properties": {},
+      "interfaces": [
+        {
+          "id": "power-in",
+          "name": "Power Input",
+          "type": "power",
+          "direction": "input",
+          "rules": {},
+          "metadata": {}
+        },
+        {
+          "id": "network-in",
+          "name": "Network",
+          "type": "network",
+          "direction": "input",
+          "rules": {},
+          "metadata": {}
+        },
+        {
+          "id": "data-out",
+          "name": "Data",
+          "type": "data",
+          "direction": "output",
+          "rules": {},
+          "metadata": {}
+        },
+        {
+          "id": "api-out",
+          "name": "API",
+          "type": "api",
+          "direction": "output",
+          "rules": {},
+          "metadata": {}
+        }
+      ],
+      "nestedSystemId": null,
+      "position": { "x": 0, "y": 0 },
+      "metadata": {}
+    },
+    {
+      "id": "pdu-template",
+      "name": "PDU",
+      "type": "pdu",
+      "properties": {},
+      "interfaces": [
+        {
+          "id": "power-in",
+          "name": "Power Input",
+          "type": "power",
+          "direction": "input",
+          "rules": {},
+          "metadata": {}
+        },
+        {
+          "id": "power-out-1",
+          "name": "Outlet 1",
+          "type": "power",
+          "direction": "output",
+          "rules": {},
+          "metadata": {}
+        },
+        {
+          "id": "power-out-2",
+          "name": "Outlet 2",
+          "type": "power",
+          "direction": "output",
+          "rules": {},
+          "metadata": {}
+        },
+        {
+          "id": "power-out-3",
+          "name": "Outlet 3",
+          "type": "power",
+          "direction": "output",
+          "rules": {},
+          "metadata": {}
+        }
+      ],
+      "nestedSystemId": null,
+      "position": { "x": 0, "y": 0 },
+      "metadata": {}
+    },
+    {
+      "id": "rack-template",
+      "name": "Server Rack",
+      "type": "rack",
+      "properties": {},
+      "interfaces": [
+        {
+          "id": "physical-in",
+          "name": "Rack Position",
+          "type": "physical",
+          "direction": "input",
+          "rules": {},
+          "metadata": {}
+        },
+        {
+          "id": "power-in",
+          "name": "Power Input",
+          "type": "power",
+          "direction": "input",
+          "rules": {},
+          "metadata": {}
+        },
+        {
+          "id": "power-out",
+          "name": "Power Output",
+          "type": "power",
+          "direction": "output",
+          "rules": {},
+          "metadata": {}
+        }
+      ],
+      "nestedSystemId": null,
+      "position": { "x": 0, "y": 0 },
+      "metadata": {}
+    },
+    {
+      "id": "api-service-template",
+      "name": "API Service",
+      "type": "api-service",
+      "properties": {},
+      "interfaces": [
+        {
+          "id": "network-in",
+          "name": "Network",
+          "type": "network",
+          "direction": "input",
+          "rules": {},
+          "metadata": {}
+        },
+        {
+          "id": "api-out",
+          "name": "API",
+          "type": "api",
+          "direction": "output",
+          "rules": {},
+          "metadata": {}
+        },
+        {
+          "id": "data-in",
+          "name": "Data",
+          "type": "data",
+          "direction": "input",
+          "rules": {},
+          "metadata": {}
+        }
+      ],
+      "nestedSystemId": null,
+      "position": { "x": 0, "y": 0 },
+      "metadata": {}
+    }
+  ]
+}
+
