@@ -5,7 +5,11 @@ import {
   mdiServer,
   mdiRouterNetwork,
   mdiDatabase,
+  mdiPowerSocket,
   mdiPowerSocketUs,
+  mdiPowerSocketEu,
+  mdiPowerSocketUk,
+  mdiPowerPlug,
   mdiServerNetwork,
   mdiApi,
   mdiApplicationBracesOutline,
@@ -16,7 +20,14 @@ import {
   mdiServerSecurity,
   mdiCloudOutline,
   mdiCog,
-  mdiMemory
+  mdiMemory,
+  mdiArrowExpandVertical,
+  mdiEthernet,
+  mdiEthernetCable,
+  mdiTable,
+  mdiTableRow,
+  mdiTableColumn,
+  mdiHarddisk,
 } from '@mdi/js'
 
 /**
@@ -36,14 +47,23 @@ export const iconRegistry = {
   'switch': mdiRouterNetwork,
   'network': mdiNetworkOutline,
   'router': mdiRouterNetwork,
+  'ethernet': mdiEthernet,
+  'ethernet-cable': mdiEthernetCable,
   
   // Storage & Data
   'database': mdiDatabase,
   'storage': mdiCubeOutline,
+  'table': mdiTable,
+  'table-row': mdiTableRow,
+  'table-column': mdiTableColumn,
+  'harddisk': mdiHarddisk,
   
   // Power
-  'pdu': mdiPowerSocketUs,
-  'power': mdiPowerSocketUs,
+  'pdu': mdiPowerSocket,
+  'power-socket-us': mdiPowerSocketUs,
+  'power-socket-eu': mdiPowerSocketEu,
+  'power-socket-uk': mdiPowerSocketUk,
+  'power-plug': mdiPowerPlug,
   
   // Services & Software
   'api': mdiApi,
@@ -55,6 +75,7 @@ export const iconRegistry = {
   // Hardware
   'memory': mdiMemory,
   'component': mdiCubeOutline,
+  'rack-unit': mdiArrowExpandVertical,
 }
 
 /**
