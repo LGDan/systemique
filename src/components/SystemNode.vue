@@ -3,6 +3,7 @@ import { computed, ref, onMounted, onUnmounted } from 'vue'
 import { Position } from '@vue-flow/core'
 import InterfaceHandle from './InterfaceHandle.vue'
 import ContextMenu from './ContextMenu.vue'
+import MdiIcon from './MdiIcon.vue'
 import { useSystemStore } from '../stores/systemStore.js'
 import { useComponentLibraryStore } from '../stores/componentLibraryStore.js'
 import { Component } from '../models/Component.js'
@@ -144,7 +145,15 @@ function handleSendToLibrary() {
       <!-- Node content -->
       <div class="node-content">
         <div class="node-header">
-          <div class="node-name">{{ component.name }}</div>
+          <div class="node-title-row">
+            <MdiIcon 
+              v-if="component.icon" 
+              :name="component.icon" 
+              :size="20"
+              class="node-icon"
+            />
+            <div class="node-name">{{ component.name }}</div>
+          </div>
           <div v-if="component.type !== 'generic'" class="node-type">{{ component.type }}</div>
         </div>
       </div>
@@ -219,6 +228,17 @@ function handleSendToLibrary() {
   display: flex;
   flex-direction: column;
   gap: 4px;
+}
+
+.node-title-row {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.node-icon {
+  flex-shrink: 0;
+  color: #666;
 }
 
 .node-name {

@@ -6,6 +6,7 @@
       "name": "Server",
       "type": "server",
       "properties": {},
+      "icon": "server",
       "interfaces": [
         {
           "id": "power-in",
@@ -37,13 +38,15 @@
       ],
       "nestedSystemId": null,
       "position": { "x": 0, "y": 0 },
-      "metadata": {}
+      "metadata": {},
+      "icon": "server"
     },
     {
       "id": "switch-template",
       "name": "16 Port Network Switch",
       "type": "switch",
       "properties": {},
+      "icon": "switch",
       "interfaces": [
         {
           "id": "power-in",
@@ -208,6 +211,7 @@
       "name": "Database",
       "type": "database",
       "properties": {},
+      "icon": "database",
       "interfaces": [
         {
           "id": "network-in",
@@ -239,13 +243,15 @@
       ],
       "nestedSystemId": null,
       "position": { "x": 0, "y": 0 },
-      "metadata": {}
+      "metadata": {},
+      "icon": "database"
     },
     {
       "id": "pdu-template",
       "name": "PDU",
       "type": "pdu",
       "properties": {},
+      "icon": "pdu",
       "interfaces": [
         {
           "id": "power-in",
@@ -367,13 +373,15 @@
       ],
       "nestedSystemId": null,
       "position": { "x": 0, "y": 0 },
-      "metadata": {}
+      "metadata": {},
+      "icon": "pdu"
     },
     {
       "id": "rack-template",
       "name": "Server Rack",
       "type": "rack",
       "properties": {},
+      "icon": "rack",
       "interfaces": [
         {
           "id": "physical-in",
@@ -405,13 +413,15 @@
       ],
       "nestedSystemId": null,
       "position": { "x": 0, "y": 0 },
-      "metadata": {}
+      "metadata": {},
+      "icon": "rack"
     },
     {
       "id": "api-service-template",
       "name": "API Service",
       "type": "api-service",
       "properties": {},
+      "icon": "api",
       "interfaces": [
         {
           "id": "network-in",
@@ -443,7 +453,8 @@
       ],
       "nestedSystemId": null,
       "position": { "x": 0, "y": 0 },
-      "metadata": {}
+      "metadata": {},
+      "icon": "api"
     }
   ]
 }

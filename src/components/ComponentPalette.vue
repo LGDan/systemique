@@ -2,6 +2,7 @@
 import { ref, computed } from 'vue'
 import { useComponentLibraryStore } from '../stores/componentLibraryStore.js'
 import { useSystemStore } from '../stores/systemStore.js'
+import MdiIcon from './MdiIcon.vue'
 
 const libraryStore = useComponentLibraryStore()
 const systemStore = useSystemStore()
@@ -126,7 +127,15 @@ async function handleReload() {
         draggable="true"
         @dragstart="handleDragStart($event, component)"
       >
-        <div class="component-icon">{{ component.type.charAt(0).toUpperCase() }}</div>
+        <div class="component-icon">
+          <MdiIcon 
+            v-if="component.icon" 
+            :name="component.icon" 
+            :size="32"
+            color="#666"
+          />
+          <span v-else>{{ component.type.charAt(0).toUpperCase() }}</span>
+        </div>
         <div class="component-info">
           <div class="component-name">{{ component.name }}</div>
           <div class="component-type">{{ component.type }}</div>

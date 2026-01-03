@@ -13,6 +13,7 @@ export class Component {
     this.nestedSystemId = null // ID of nested system if this component has one
     this.position = { x: 0, y: 0 }
     this.metadata = {}
+    this.icon = null // Material Design Icon path
   }
 
   static fromJSON(json) {
@@ -26,6 +27,7 @@ export class Component {
     component.nestedSystemId = json.nestedSystemId || null
     component.position = json.position || { x: 0, y: 0 }
     component.metadata = json.metadata || {}
+    component.icon = json.icon || null
     return component
   }
 
@@ -38,7 +40,8 @@ export class Component {
       interfaces: this.interfaces.map(i => i.toJSON()),
       nestedSystemId: this.nestedSystemId,
       position: this.position,
-      metadata: this.metadata
+      metadata: this.metadata,
+      icon: this.icon
     }
   }
 

@@ -6,6 +6,7 @@
     "build": "vite build"
   },
   "dependencies": {
+    "@mdi/js": "^7.4.47",
     "@vue-flow/background": "latest",
     "@vue-flow/controls": "latest",
     "@vue-flow/core": "latest",
