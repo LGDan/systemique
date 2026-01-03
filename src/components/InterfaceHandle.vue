@@ -92,29 +92,31 @@ const labelPositionClass = computed(() => {
 .label-left .interface-label {
   position: absolute;
   right: 100%;
-  margin-right: 12px;
+  margin-right: 20px;
 }
 
 .label-right .interface-label {
   position: absolute;
   left: 100%;
-  margin-left: 12px;
+  margin-left: 20px;
 }
 
 .label-top .interface-label {
   position: absolute;
-  bottom: 100%;
-  margin-bottom: 12px;
-  left: 50%;
-  transform: translateX(-50%);
+  left: -8px;
+  bottom: calc(100% + 1px); /* Push it above the component */
+  transform: rotate(-90deg);
+  transform-origin: top left;
+  white-space: nowrap;
 }
 
 .label-bottom .interface-label {
   position: absolute;
-  top: 100%;
-  margin-top: 12px;
-  left: 50%;
-  transform: translateX(-50%);
+  left: -8px;
+  top: calc(100% + 1px); /* Push it below the component */
+  transform: rotate(90deg);
+  transform-origin: bottom left;
+  white-space: nowrap;
 }
 </style>
 
