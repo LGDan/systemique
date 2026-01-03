@@ -5,6 +5,7 @@ import { useSystemStore } from '../stores/systemStore.js'
 import { Interface } from '../models/Interface.js'
 import { getAllInterfaceTypes } from '../config/defaultInterfaceTypes.js'
 import InterfaceEditor from './InterfaceEditor.vue'
+import IconPicker from './IconPicker.vue'
 
 const { getSelectedNodes } = useVueFlow()
 const systemStore = useSystemStore()
@@ -24,6 +25,7 @@ const component = computed(() => {
 const localProperties = ref({
   name: '',
   type: '',
+  icon: null,
   properties: {}
 })
 
@@ -32,6 +34,7 @@ watch(component, (newComponent) => {
     localProperties.value = {
       name: newComponent.name,
       type: newComponent.type,
+      icon: newComponent.icon,
       properties: { ...newComponent.properties }
     }
   }
@@ -43,6 +46,7 @@ function updateComponent() {
   if (component.value) {
     component.value.name = localProperties.value.name
     component.value.type = localProperties.value.type
+    component.value.icon = localProperties.value.icon
     component.value.properties = localProperties.value.properties
   }
 }
@@ -101,6 +105,14 @@ function removeInterface(interfaceId) {
             type="text"
             class="field-input"
             @blur="updateComponent"
+          />
+        </div>
+
+        <div class="field">
+          <label>Icon</label>
+          <IconPicker 
+            v-model="localProperties.icon"
+            @update:modelValue="updateComponent"
           />
         </div>
       </div>
