@@ -41,7 +41,7 @@
     },
     {
       "id": "switch-template",
-      "name": "Network Switch",
+      "name": "16 Port Network Switch",
       "type": "switch",
       "properties": {},
       "interfaces": [
@@ -55,38 +55,146 @@
           "metadata": {}
         },
         {
-          "id": "network-in-1",
+          "id": "network-port-1",
           "name": "Port 1",
           "type": "network",
           "direction": "input",
-          "position": "left",
+          "position": "bottom",
           "rules": {},
           "metadata": {}
         },
         {
-          "id": "network-in-2",
+          "id": "network-port-2",
           "name": "Port 2",
           "type": "network",
           "direction": "input",
-          "position": "left",
+          "position": "bottom",
           "rules": {},
           "metadata": {}
         },
         {
-          "id": "network-out-1",
-          "name": "Port 1",
+          "id": "network-port-3",
+          "name": "Port 3",
           "type": "network",
-          "direction": "output",
-          "position": "right",
+          "direction": "input",
+          "position": "bottom",
           "rules": {},
           "metadata": {}
         },
         {
-          "id": "network-out-2",
-          "name": "Port 2",
+          "id": "network-port-4",
+          "name": "Port 4",
           "type": "network",
-          "direction": "output",
-          "position": "right",
+          "direction": "input",
+          "position": "bottom",
+          "rules": {},
+          "metadata": {}
+        },
+        {
+          "id": "network-port-5",
+          "name": "Port 5",
+          "type": "network",
+          "direction": "input",
+          "position": "bottom",
+          "rules": {},
+          "metadata": {}
+        },
+        {
+          "id": "network-port-6",
+          "name": "Port 6",
+          "type": "network",
+          "direction": "input",
+          "position": "bottom",
+          "rules": {},
+          "metadata": {}
+        },
+        {
+          "id": "network-port-7",
+          "name": "Port 7",
+          "type": "network",
+          "direction": "input",
+          "position": "bottom",
+          "rules": {},
+          "metadata": {}
+        },
+        {
+          "id": "network-port-8",
+          "name": "Port 8",
+          "type": "network",
+          "direction": "input",
+          "position": "bottom",
+          "rules": {},
+          "metadata": {}
+        },
+        {
+          "id": "network-port-9",
+          "name": "Port 9",
+          "type": "network",
+          "direction": "input",
+          "position": "bottom",
+          "rules": {},
+          "metadata": {}
+        },
+        {
+          "id": "network-port-10",
+          "name": "Port 10",
+          "type": "network",
+          "direction": "input",
+          "position": "bottom",
+          "rules": {},
+          "metadata": {}
+        },
+        {
+          "id": "network-port-11",
+          "name": "Port 11",
+          "type": "network",
+          "direction": "input",
+          "position": "bottom",
+          "rules": {},
+          "metadata": {}
+        },
+        {
+          "id": "network-port-12",
+          "name": "Port 12",
+          "type": "network",
+          "direction": "input",
+          "position": "bottom",
+          "rules": {},
+          "metadata": {}
+        },
+        {
+          "id": "network-port-13",
+          "name": "Port 13",
+          "type": "network",
+          "direction": "input",
+          "position": "bottom",
+          "rules": {},
+          "metadata": {}
+        },
+        {
+          "id": "network-port-14",
+          "name": "Port 14",
+          "type": "network",
+          "direction": "input",
+          "position": "bottom",
+          "rules": {},
+          "metadata": {}
+        },
+        {
+          "id": "network-port-15",
+          "name": "Port 15",
+          "type": "network",
+          "direction": "input",
+          "position": "bottom",
+          "rules": {},
+          "metadata": {}
+        },
+        {
+          "id": "network-port-16",
+          "name": "Port 16",
+          "type": "network",
+          "direction": "input",
+          "position": "bottom",
           "rules": {},
           "metadata": {}
         }
@@ -101,15 +209,6 @@
       "type": "database",
       "properties": {},
       "interfaces": [
-        {
-          "id": "power-in",
-          "name": "Power Input",
-          "type": "power",
-          "direction": "input",
-          "position": "top",
-          "rules": {},
-          "metadata": {}
-        },
         {
           "id": "network-in",
           "name": "Network",
@@ -178,6 +277,87 @@
         {
           "id": "power-out-3",
           "name": "Outlet 3",
+          "type": "power",
+          "direction": "output",
+          "position": "right",
+          "rules": {},
+          "metadata": {}
+        },
+        {
+          "id": "power-out-4",
+          "name": "Outlet 4",
+          "type": "power",
+          "direction": "output",
+          "position": "right",
+          "rules": {},
+          "metadata": {}
+        },
+        {
+          "id": "power-out-5",
+          "name": "Outlet 5",
+          "type": "power",
+          "direction": "output",
+          "position": "right",
+          "rules": {},
+          "metadata": {}
+        },
+        {
+          "id": "power-out-6",
+          "name": "Outlet 6",
+          "type": "power",
+          "direction": "output",
+          "position": "right",
+          "rules": {},
+          "metadata": {}
+        },
+        {
+          "id": "power-out-7",
+          "name": "Outlet 7",
+          "type": "power",
+          "direction": "output",
+          "position": "right",
+          "rules": {},
+          "metadata": {}
+        },
+        {
+          "id": "power-out-8",
+          "name": "Outlet 8",
+          "type": "power",
+          "direction": "output",
+          "position": "right",
+          "rules": {},
+          "metadata": {}
+        },
+        {
+          "id": "power-out-9",
+          "name": "Outlet 9",
+          "type": "power",
+          "direction": "output",
+          "position": "right",
+          "rules": {},
+          "metadata": {}
+        },
+        {
+          "id": "power-out-10",
+          "name": "Outlet 10",
+          "type": "power",
+          "direction": "output",
+          "position": "right",
+          "rules": {},
+          "metadata": {}
+        },
+        {
+          "id": "power-out-11",
+          "name": "Outlet 11",
+          "type": "power",
+          "direction": "output",
+          "position": "right",
+          "rules": {},
+          "metadata": {}
+        },
+        {
+          "id": "power-out-12",
+          "name": "Outlet 12",
           "type": "power",
           "direction": "output",
           "position": "right",
