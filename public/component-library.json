@@ -839,6 +839,109 @@
       "nestedSystemId": null,
       "position": { "x": 0, "y": 0 },
       "metadata": {}
+    },
+    {
+      "id": "raspberry-pi-template",
+      "name": "Raspberry Pi 5 Model B",
+      "type": "hardware",
+      "properties": {},
+      "icon": "component",
+      "categories": ["Hardware", "Compute"],
+      "interfaces": [
+        {
+          "id": "network-in",
+          "name": "Ethernet",
+          "type": "network",
+          "direction": "input",
+          "position": "left",
+          "rules": {},
+          "metadata": {}
+        },
+        {
+          "id": "hdmi-socket-1",  
+          "name": "Micro HDMI Socket 1",
+          "type": "hdmi",
+          "direction": "input",
+          "position": "bottom",
+          "rules": {},
+          "metadata": {}
+        },
+        {
+          "id": "hdmi-socket-2",  
+          "name": "Micro HDMI Socket 2",
+          "type": "hdmi",
+          "direction": "input",
+          "position": "bottom",
+          "rules": {},
+          "metadata": {}
+        },
+        {
+          "id": "usb-c-in",
+          "name": "USB-C Socket (Power)",
+          "type": "usb",
+          "direction": "input",
+          "position": "bottom",
+          "rules": {},
+          "metadata": {}
+        },
+        {
+          "id": "usb-3-a",
+          "name": "USB3 Top Left",
+          "type": "usb",
+          "direction": "input",
+          "position": "bottom",
+          "rules": {},
+          "metadata": {}
+        },
+        {
+          "id": "usb-3-a",
+          "name": "USB3 Bottom Left",
+          "type": "usb",
+          "direction": "input",
+          "position": "bottom",
+          "rules": {},
+          "metadata": {}
+        },
+        {
+          "id": "usb-2-a",
+          "name": "USB2 Top Right",
+          "type": "usb",
+          "direction": "input",
+          "position": "bottom",
+          "rules": {},
+          "metadata": {}
+        },
+        {
+          "id": "usb-2-a",
+          "name": "USB2 Bottom Right",
+          "type": "usb",
+          "direction": "input",
+          "position": "bottom",
+          "rules": {},
+          "metadata": {}
+        },
+        {
+          "id": "microsd-card-slot",
+          "name": "MicroSD Card Slot",
+          "type": "microsd",
+          "direction": "input",
+          "position": "bottom",
+          "rules": {},
+          "metadata": {}
+        },
+        {
+          "id": "pci-e",
+          "name": "PCIe FFC",
+          "type": "ffc-cable",
+          "direction": "input",
+          "position": "bottom",
+          "rules": {},
+          "metadata": {}
+        }
+      ],
+      "nestedSystemId": null,
+      "position": { "x": 0, "y": 0 },
+      "metadata": {}
     }
   ]
 }
