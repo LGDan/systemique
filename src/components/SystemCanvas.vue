@@ -151,6 +151,11 @@ onMounted(() => {
       :default-zoom="1.5"
       :min-zoom="0.2"
       :max-zoom="4"
+      :pan-on-drag="[1, 2]"
+      :selection-on-drag="true"
+      :pan-on-scroll="true"
+      :nodes-draggable="true"
+      :nodes-connectable="true"
     >
       <Background pattern-color="#aaa" :gap="8" />
       <MiniMap />
