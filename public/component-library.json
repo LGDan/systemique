@@ -456,6 +456,389 @@
       "nestedSystemId": null,
       "position": { "x": 0, "y": 0 },
       "metadata": {}
+    },
+    {
+      "id": "cable-cat5-template",
+      "name": "RJ45 Cat5 Cable",
+      "type": "cable",
+      "properties": {
+        "category": "Cat5",
+        "maxSpeed": "100Mbps",
+        "maxLength": "100m"
+      },
+      "icon": "ethernet-cable",
+      "categories": ["Cable", "Network"],
+      "interfaces": [
+        {
+          "id": "end-a",
+          "name": "End A",
+          "type": "network",
+          "direction": "output",
+          "position": "left",
+          "rules": {},
+          "metadata": {}
+        },
+        {
+          "id": "end-b",
+          "name": "End B",
+          "type": "network",
+          "direction": "output",
+          "position": "right",
+          "rules": {},
+          "metadata": {}
+        }
+      ],
+      "nestedSystemId": null,
+      "position": { "x": 0, "y": 0 },
+      "metadata": {}
+    },
+    {
+      "id": "cable-cat6-template",
+      "name": "RJ45 Cat6 Cable",
+      "type": "cable",
+      "properties": {
+        "category": "Cat6",
+        "maxSpeed": "10Gbps",
+        "maxLength": "55m"
+      },
+      "icon": "ethernet-cable",
+      "categories": ["Cable", "Network"],
+      "interfaces": [
+        {
+          "id": "end-a",
+          "name": "End A",
+          "type": "network",
+          "direction": "output",
+          "position": "left",
+          "rules": {},
+          "metadata": {}
+        },
+        {
+          "id": "end-b",
+          "name": "End B",
+          "type": "network",
+          "direction": "output",
+          "position": "right",
+          "rules": {},
+          "metadata": {}
+        }
+      ],
+      "nestedSystemId": null,
+      "position": { "x": 0, "y": 0 },
+      "metadata": {}
+    },
+    {
+      "id": "cable-sfp-template",
+      "name": "SFP Module",
+      "type": "cable",
+      "properties": {
+        "type": "SFP",
+        "maxSpeed": "1Gbps"
+      },
+      "icon": "fiber-cable",
+      "categories": ["Cable", "Network"],
+      "interfaces": [
+        {
+          "id": "plug-end",
+          "name": "Plug",
+          "type": "network",
+          "direction": "output",
+          "position": "right",
+          "rules": {},
+          "metadata": {}
+        },
+        {
+          "id": "socket-end",
+          "name": "LC Input",
+          "type": "network",
+          "direction": "input",
+          "position": "left",
+          "rules": {},
+          "metadata": {}
+        }
+      ],
+      "nestedSystemId": null,
+      "position": { "x": 0, "y": 0 },
+      "metadata": {}
+    },
+    {
+      "id": "cable-sfp-plus-template",
+      "name": "SFP+ Cable",
+      "type": "cable",
+      "properties": {
+        "type": "SFP+",
+        "maxSpeed": "10Gbps"
+      },
+      "icon": "fiber-cable",
+      "categories": ["Cable", "Network"],
+      "interfaces": [
+        {
+          "id": "plug-end",
+          "name": "Plug",
+          "type": "network",
+          "direction": "output",
+          "position": "right",
+          "rules": {},
+          "metadata": {}
+        },
+        {
+          "id": "socket-end",
+          "name": "LC Input",
+          "type": "network",
+          "direction": "output",
+          "position": "left",
+          "rules": {},
+          "metadata": {}
+        }
+      ],
+      "nestedSystemId": null,
+      "position": { "x": 0, "y": 0 },
+      "metadata": {}
+    },
+    {
+      "id": "cable-qsfp-plus-template",
+      "name": "QSFP+ Cable",
+      "type": "cable",
+      "properties": {
+        "type": "QSFP+",
+        "maxSpeed": "40Gbps"
+      },
+      "icon": "fiber-cable",
+      "categories": ["Cable", "Network"],
+      "interfaces": [
+        {
+          "id": "plug-end",
+          "name": "Plug",
+          "type": "network",
+          "direction": "output",
+          "position": "right",
+          "rules": {},
+          "metadata": {}
+        },
+        {
+          "id": "socket-end",
+          "name": "LC Input",
+          "type": "network",
+          "direction": "output",
+          "position": "left",
+          "rules": {},
+          "metadata": {}
+        }
+      ],
+      "nestedSystemId": null,
+      "position": { "x": 0, "y": 0 },
+      "metadata": {}
+    },
+    {
+      "id": "cable-qsfp28-template",
+      "name": "QSFP28 Cable",
+      "type": "cable",
+      "properties": {
+        "type": "QSFP28",
+        "maxSpeed": "100Gbps"
+      },
+      "icon": "fiber-cable",
+      "categories": ["Cable", "Network"],
+      "interfaces": [
+        {
+          "id": "plug-end",
+          "name": "Plug",
+          "type": "network",
+          "direction": "output",
+          "position": "right",
+          "rules": {},
+          "metadata": {}
+        },
+        {
+          "id": "socket-end",
+          "name": "LC Input",
+          "type": "network",
+          "direction": "output",
+          "position": "left",
+          "rules": {},
+          "metadata": {}
+        }
+      ],
+      "nestedSystemId": null,
+      "position": { "x": 0, "y": 0 },
+      "metadata": {}
+    },
+    {
+      "id": "cable-c13-c14-template",
+      "name": "C13-C14 Power Cable",
+      "type": "cable",
+      "properties": {
+        "type": "C13-C14",
+        "voltage": "250V",
+        "current": "10A"
+      },
+      "icon": "power-cable",
+      "categories": ["Cable", "Power"],
+      "interfaces": [
+        {
+          "id": "c13-end",
+          "name": "C13 (Female)",
+          "type": "power",
+          "direction": "input",
+          "position": "left",
+          "rules": {},
+          "metadata": {}
+        },
+        {
+          "id": "c14-end",
+          "name": "C14 (Male)",
+          "type": "power",
+          "direction": "output",
+          "position": "right",
+          "rules": {},
+          "metadata": {}
+        }
+      ],
+      "nestedSystemId": null,
+      "position": { "x": 0, "y": 0 },
+      "metadata": {}
+    },
+    {
+      "id": "cable-usb-a-to-c-template",
+      "name": "USB-A to USB-C Cable",
+      "type": "cable",
+      "properties": {
+        "type": "USB-A to USB-C",
+        "usbVersion": "USB 3.0",
+        "maxSpeed": "5Gbps"
+      },
+      "icon": "usb-cable",
+      "categories": ["Cable", "Data"],
+      "interfaces": [
+        {
+          "id": "usb-a-end",
+          "name": "USB-A Male",
+          "type": "data",
+          "direction": "output",
+          "position": "left",
+          "rules": {},
+          "metadata": {}
+        },
+        {
+          "id": "usb-c-end",
+          "name": "USB-C Male",
+          "type": "data",
+          "direction": "output",
+          "position": "right",
+          "rules": {},
+          "metadata": {}
+        }
+      ],
+      "nestedSystemId": null,
+      "position": { "x": 0, "y": 0 },
+      "metadata": {}
+    },
+    {
+      "id": "cable-usb-c-to-c-template",
+      "name": "USB-C to USB-C Cable",
+      "type": "cable",
+      "properties": {
+        "type": "USB-C to USB-C",
+        "usbVersion": "USB 3.1",
+        "maxSpeed": "10Gbps"
+      },
+      "icon": "usb-cable",
+      "categories": ["Cable", "Data"],
+      "interfaces": [
+        {
+          "id": "usb-c-end-a",
+          "name": "USB-C Male A",
+          "type": "data",
+          "direction": "output",
+          "position": "left",
+          "rules": {},
+          "metadata": {}
+        },
+        {
+          "id": "usb-c-end-b",
+          "name": "USB-C Male B",
+          "type": "data",
+          "direction": "output",
+          "position": "right",
+          "rules": {},
+          "metadata": {}
+        }
+      ],
+      "nestedSystemId": null,
+      "position": { "x": 0, "y": 0 },
+      "metadata": {}
+    },
+    {
+      "id": "cable-fiber-sm-lc-template",
+      "name": "Single Mode LC/LC Fibre",
+      "type": "cable",
+      "properties": {
+        "type": "Single Mode",
+        "connector": "LC/LC",
+        "wavelength": "1310nm/1550nm",
+        "maxDistance": "10km"
+      },
+      "icon": "fiber-cable",
+      "categories": ["Cable", "Network", "Fiber"],
+      "interfaces": [
+        {
+          "id": "lc-end-a",
+          "name": "LC A",
+          "type": "network",
+          "direction": "output",
+          "position": "left",
+          "rules": {},
+          "metadata": {}
+        },
+        {
+          "id": "lc-end-b",
+          "name": "LC B",
+          "type": "network",
+          "direction": "output",
+          "position": "right",
+          "rules": {},
+          "metadata": {}
+        }
+      ],
+      "nestedSystemId": null,
+      "position": { "x": 0, "y": 0 },
+      "metadata": {}
+    },
+    {
+      "id": "cable-fiber-mm-lc-template",
+      "name": "Multimode LC/LC Fibre",
+      "type": "cable",
+      "properties": {
+        "type": "Multimode",
+        "connector": "LC/LC",
+        "wavelength": "850nm/1300nm",
+        "maxDistance": "550m"
+      },
+      "icon": "fiber-cable",
+      "categories": ["Cable", "Network", "Fiber"],
+      "interfaces": [
+        {
+          "id": "lc-end-a",
+          "name": "LC A",
+          "type": "network",
+          "direction": "output",
+          "position": "left",
+          "rules": {},
+          "metadata": {}
+        },
+        {
+          "id": "lc-end-b",
+          "name": "LC B",
+          "type": "network",
+          "direction": "output",
+          "position": "right",
+          "rules": {},
+          "metadata": {}
+        }
+      ],
+      "nestedSystemId": null,
+      "position": { "x": 0, "y": 0 },
+      "metadata": {}
     }
   ]
 }

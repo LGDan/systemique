@@ -28,6 +28,10 @@ import {
   mdiTableRow,
   mdiTableColumn,
   mdiHarddisk,
+  mdiLanConnect,
+  mdiLanPending,
+  mdiPowerPlugOutline,
+  mdiUsb,
 } from '@mdi/js'
 
 /**
@@ -49,6 +53,10 @@ export const iconRegistry = {
   'router': mdiRouterNetwork,
   'ethernet': mdiEthernet,
   'ethernet-cable': mdiEthernetCable,
+  'cable': mdiEthernetCable,
+  'lan-cable': mdiLanConnect,
+  'fiber': mdiLanPending,
+  'fiber-cable': mdiLanPending,
   
   // Storage & Data
   'database': mdiDatabase,
@@ -64,6 +72,11 @@ export const iconRegistry = {
   'power-socket-eu': mdiPowerSocketEu,
   'power-socket-uk': mdiPowerSocketUk,
   'power-plug': mdiPowerPlug,
+  'power-cable': mdiPowerPlugOutline,
+  
+  // USB & Connectors
+  'usb': mdiUsb,
+  'usb-cable': mdiUsb,
   
   // Services & Software
   'api': mdiApi,
