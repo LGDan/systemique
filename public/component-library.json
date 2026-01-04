@@ -42,169 +42,212 @@
       "metadata": {}
     },
     {
-      "id": "switch-template",
+      "id": "16-port-network-switch-template",
       "name": "16 Port Network Switch",
       "type": "switch",
       "properties": {},
       "icon": "switch",
-      "categories": ["Hardware", "Network"],
+      "categories": [
+        "Hardware",
+        "Network"
+      ],
       "interfaces": [
         {
-          "id": "power-in",
-          "name": "Power Input",
+          "id": "psu-1",
+          "name": "PSU 1",
           "type": "power",
           "direction": "input",
-          "position": "top",
+          "position": "left",
           "rules": {},
-          "metadata": {}
+          "metadata": {},
+          "icon": "pdu"
         },
         {
-          "id": "network-port-1",
+          "id": "psu-2",
+          "name": "PSU 2",
+          "type": "power",
+          "direction": "input",
+          "position": "left",
+          "rules": {},
+          "metadata": {},
+          "icon": "pdu"
+        },
+        {
+          "id": "rack-position",
+          "name": "Rack Position",
+          "type": "physical",
+          "direction": "output",
+          "position": "left",
+          "rules": {},
+          "metadata": {},
+          "icon": "rack-unit"
+        },
+        {
+          "id": "port-1",
           "name": "Port 1",
           "type": "network",
           "direction": "input",
           "position": "bottom",
           "rules": {},
-          "metadata": {}
+          "metadata": {},
+          "icon": "ethernet"
         },
         {
-          "id": "network-port-2",
+          "id": "port-2",
           "name": "Port 2",
           "type": "network",
           "direction": "input",
           "position": "bottom",
           "rules": {},
-          "metadata": {}
+          "metadata": {},
+          "icon": "ethernet"
         },
         {
-          "id": "network-port-3",
+          "id": "port-3",
           "name": "Port 3",
           "type": "network",
           "direction": "input",
           "position": "bottom",
           "rules": {},
-          "metadata": {}
+          "metadata": {},
+          "icon": "ethernet"
         },
         {
-          "id": "network-port-4",
+          "id": "port-4",
           "name": "Port 4",
           "type": "network",
           "direction": "input",
           "position": "bottom",
           "rules": {},
-          "metadata": {}
+          "metadata": {},
+          "icon": "ethernet"
         },
         {
-          "id": "network-port-5",
+          "id": "port-5",
           "name": "Port 5",
           "type": "network",
           "direction": "input",
           "position": "bottom",
           "rules": {},
-          "metadata": {}
+          "metadata": {},
+          "icon": "ethernet"
         },
         {
-          "id": "network-port-6",
+          "id": "port-6",
           "name": "Port 6",
           "type": "network",
           "direction": "input",
           "position": "bottom",
           "rules": {},
-          "metadata": {}
+          "metadata": {},
+          "icon": "ethernet"
         },
         {
-          "id": "network-port-7",
+          "id": "port-7",
           "name": "Port 7",
           "type": "network",
           "direction": "input",
           "position": "bottom",
           "rules": {},
-          "metadata": {}
+          "metadata": {},
+          "icon": "ethernet"
         },
         {
-          "id": "network-port-8",
+          "id": "port-8",
           "name": "Port 8",
           "type": "network",
           "direction": "input",
           "position": "bottom",
           "rules": {},
-          "metadata": {}
+          "metadata": {},
+          "icon": "ethernet"
         },
         {
-          "id": "network-port-9",
+          "id": "port-9",
           "name": "Port 9",
           "type": "network",
           "direction": "input",
           "position": "bottom",
           "rules": {},
-          "metadata": {}
+          "metadata": {},
+          "icon": "ethernet"
         },
         {
-          "id": "network-port-10",
+          "id": "port-10",
           "name": "Port 10",
           "type": "network",
           "direction": "input",
           "position": "bottom",
           "rules": {},
-          "metadata": {}
+          "metadata": {},
+          "icon": "ethernet"
         },
         {
-          "id": "network-port-11",
+          "id": "port-11",
           "name": "Port 11",
           "type": "network",
           "direction": "input",
           "position": "bottom",
           "rules": {},
-          "metadata": {}
+          "metadata": {},
+          "icon": "ethernet"
         },
         {
-          "id": "network-port-12",
+          "id": "port-12",
           "name": "Port 12",
           "type": "network",
           "direction": "input",
           "position": "bottom",
           "rules": {},
-          "metadata": {}
+          "metadata": {},
+          "icon": "ethernet"
         },
         {
-          "id": "network-port-13",
+          "id": "port-13",
           "name": "Port 13",
           "type": "network",
           "direction": "input",
           "position": "bottom",
           "rules": {},
-          "metadata": {}
+          "metadata": {},
+          "icon": "ethernet"
         },
         {
-          "id": "network-port-14",
+          "id": "port-14",
           "name": "Port 14",
           "type": "network",
           "direction": "input",
           "position": "bottom",
           "rules": {},
-          "metadata": {}
+          "metadata": {},
+          "icon": "ethernet"
         },
         {
-          "id": "network-port-15",
+          "id": "port-15",
           "name": "Port 15",
           "type": "network",
           "direction": "input",
           "position": "bottom",
           "rules": {},
-          "metadata": {}
+          "metadata": {},
+          "icon": "ethernet"
         },
         {
-          "id": "network-port-16",
+          "id": "port-16",
           "name": "Port 16",
           "type": "network",
           "direction": "input",
           "position": "bottom",
           "rules": {},
-          "metadata": {}
+          "metadata": {},
+          "icon": "ethernet"
         }
       ],
       "nestedSystemId": null,
-      "position": { "x": 0, "y": 0 },
+      "position": {
+        "x": 0,
+        "y": 0
+      },
       "metadata": {}
     },
     {
@@ -1122,7 +1165,7 @@
       "metadata": {}
     },
     {
-      "id": "cable-c13-c14-template",
+      "id": "c13-c14-power-cable-template",
       "name": "C13-C14 Power Cable",
       "type": "cable",
       "properties": {
@@ -1131,29 +1174,37 @@
         "current": "10A"
       },
       "icon": "power-cable",
-      "categories": ["Cable", "Power"],
+      "categories": [
+        "Cable",
+        "Power"
+      ],
       "interfaces": [
         {
-          "id": "c13-end",
+          "id": "c13-female",
           "name": "C13 (Female)",
           "type": "power",
           "direction": "input",
           "position": "left",
           "rules": {},
-          "metadata": {}
+          "metadata": {},
+          "icon": "pdu"
         },
         {
-          "id": "c14-end",
+          "id": "c14-male",
           "name": "C14 (Male)",
           "type": "power",
           "direction": "output",
           "position": "right",
           "rules": {},
-          "metadata": {}
+          "metadata": {},
+          "icon": "pdu"
         }
       ],
       "nestedSystemId": null,
-      "position": { "x": 0, "y": 0 },
+      "position": {
+        "x": 0,
+        "y": 0
+      },
       "metadata": {}
     },
     {
