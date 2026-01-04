@@ -14,6 +14,7 @@ export const DEFAULT_INTERFACE_TYPES = [
 
 /**
  * Get interface type by ID
+ * Note: For editable types, use useInterfaceTypesStore() directly in Vue components
  */
 export function getInterfaceType(id) {
   return DEFAULT_INTERFACE_TYPES.find(t => t.id === id) || DEFAULT_INTERFACE_TYPES.find(t => t.id === 'custom')
@@ -21,6 +22,8 @@ export function getInterfaceType(id) {
 
 /**
  * Get all interface types
+ * Note: For editable types, use useInterfaceTypesStore() directly in Vue components
+ * This function returns the default static types
  */
 export function getAllInterfaceTypes() {
   return DEFAULT_INTERFACE_TYPES

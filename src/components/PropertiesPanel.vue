@@ -2,13 +2,14 @@
 import { ref, computed, watch } from 'vue'
 import { useVueFlow } from '@vue-flow/core'
 import { useSystemStore } from '../stores/systemStore.js'
+import { useInterfaceTypesStore } from '../stores/interfaceTypesStore.js'
 import { Interface } from '../models/Interface.js'
-import { getAllInterfaceTypes } from '../config/defaultInterfaceTypes.js'
 import InterfaceEditor from './InterfaceEditor.vue'
 import IconPicker from './IconPicker.vue'
 
 const { getSelectedNodes } = useVueFlow()
 const systemStore = useSystemStore()
+const typesStore = useInterfaceTypesStore()
 
 const selectedNode = computed(() => {
   const nodes = getSelectedNodes.value
@@ -40,7 +41,7 @@ watch(component, (newComponent) => {
   }
 }, { immediate: true })
 
-const interfaceTypes = getAllInterfaceTypes()
+const interfaceTypes = computed(() => typesStore.getAllTypes())
 
 function updateComponent() {
   if (component.value) {

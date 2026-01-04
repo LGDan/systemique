@@ -83,7 +83,7 @@ function handleGroup() {
             @click="activeTab = 'rules'"
             :class="['tab-button', { active: activeTab === 'rules' }]"
           >
-            Rules
+            Interface Management
           </button>
         </div>
       </div>

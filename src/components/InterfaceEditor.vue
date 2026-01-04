@@ -1,7 +1,7 @@
 <script setup>
 import { ref, computed } from 'vue'
 import { Interface } from '../models/Interface.js'
-import { getAllInterfaceTypes } from '../config/defaultInterfaceTypes.js'
+import { useInterfaceTypesStore } from '../stores/interfaceTypesStore.js'
 import IconPicker from './IconPicker.vue'
 
 const props = defineProps({
@@ -13,7 +13,8 @@ const props = defineProps({
 
 const emit = defineEmits(['update', 'remove', 'duplicate'])
 
-const interfaceTypes = getAllInterfaceTypes()
+const typesStore = useInterfaceTypesStore()
+const interfaceTypes = computed(() => typesStore.getAllTypes())
 
 const localInterface = ref({
   name: props.interface.name,
