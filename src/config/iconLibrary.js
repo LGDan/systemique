@@ -32,6 +32,32 @@ import {
   mdiLanPending,
   mdiPowerPlugOutline,
   mdiUsb,
+  mdiHdmiPort,
+  mdiVideoInputHdmi,
+  mdiMicroSd,
+  mdiUsbCPort,
+  mdiLaserPointer,
+  mdiIp,
+  mdiWeb,
+  mdiCodeBraces,
+  mdiQrcode,
+  mdiKey,
+  mdiKeyboard,
+  mdiMouse,
+  mdiPrinter,
+  mdiScanner,
+  mdiSpeaker,
+  mdiBarcode,
+  mdiDoor,
+  mdiTestTube,
+  mdiCarBattery,
+  mdiWifi,
+  mdiAccessPoint,
+  mdiBluetooth,
+  mdiFolderKey,
+  mdiFolderKeyNetwork,
+  mdiOfficeBuilding,
+  mdiWallFire
 } from '@mdi/js'
 
 /**
@@ -57,6 +83,10 @@ export const iconRegistry = {
   'lan-cable': mdiLanConnect,
   'fiber': mdiLanPending,
   'fiber-cable': mdiLanPending,
+  'wall-fire': mdiWallFire,
+  'wifi': mdiWifi,
+  'access-point': mdiAccessPoint,
+  'bluetooth': mdiBluetooth,
   
   // Storage & Data
   'database': mdiDatabase,
@@ -65,6 +95,9 @@ export const iconRegistry = {
   'table-row': mdiTableRow,
   'table-column': mdiTableColumn,
   'harddisk': mdiHarddisk,
+  'microsd': mdiMicroSd,
+  'folder-key': mdiFolderKey,
+  'folder-key-network': mdiFolderKeyNetwork,
   
   // Power
   'pdu': mdiPowerSocket,
@@ -77,18 +110,41 @@ export const iconRegistry = {
   // USB & Connectors
   'usb': mdiUsb,
   'usb-cable': mdiUsb,
-  
+  'hdmi': mdiHdmiPort,
+  'hdmi-cable': mdiVideoInputHdmi,
+  'usb-c-port': mdiUsbCPort,
+  'laser-pointer': mdiLaserPointer,
+
   // Services & Software
   'api': mdiApi,
   'api-service': mdiApi,
   'application': mdiApplicationBracesOutline,
   'cloud': mdiCloudOutline,
   'service': mdiCog,
+  'ip': mdiIp,
+  'web': mdiWeb,
+  'code-braces': mdiCodeBraces,
   
   // Hardware
   'memory': mdiMemory,
   'component': mdiCubeOutline,
   'rack-unit': mdiArrowExpandVertical,
+
+  // Physical
+  'physical': mdiCubeOutline,
+  'office-building': mdiOfficeBuilding,
+  'door': mdiDoor,
+  'test-tube': mdiTestTube,
+  'car-battery': mdiCarBattery,
+  'qrcode': mdiQrcode,
+  'key': mdiKey,
+  'keyboard': mdiKeyboard,
+  'mouse': mdiMouse,
+  'printer': mdiPrinter,
+  'scanner': mdiScanner,
+  'speaker': mdiSpeaker,
+  'barcode': mdiBarcode,
+
 }
 
 /**
