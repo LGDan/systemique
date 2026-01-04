@@ -43,6 +43,12 @@ const contextMenuPosition = ref({ x: 0, y: 0 })
 const contextMenuItems = computed(() => {
   return [
     {
+      id: 'copy-as-json',
+      label: 'Copy as JSON',
+      icon: '📋',
+      action: 'copyAsJSON'
+    },
+    {
       id: 'send-to-library',
       label: 'Send to Library',
       icon: '📚',
@@ -65,7 +71,9 @@ function handleContextMenu(event) {
 }
 
 function handleMenuSelect(item) {
-  if (item.action === 'sendToLibrary') {
+  if (item.action === 'copyAsJSON') {
+    handleCopyAsJSON()
+  } else if (item.action === 'sendToLibrary') {
     handleSendToLibrary()
   } else if (item.action === 'delete') {
     systemStore.removeComponent(component.value.id)
@@ -94,6 +102,39 @@ onUnmounted(() => {
  */
 function generateUniqueId(prefix) {
   return `${prefix}-${Date.now()}-${Math.random().toString(36).substr(2, 9)}`
+}
+
+async function handleCopyAsJSON() {
+  try {
+    const componentToCopy = component.value
+    if (!componentToCopy) {
+      alert('No component selected to copy.')
+      return
+    }
+
+    const jsonData = componentToCopy.toJSON()
+    const jsonString = JSON.stringify(jsonData, null, 2)
+    
+    // Copy to clipboard
+    if (navigator.clipboard && navigator.clipboard.writeText) {
+      await navigator.clipboard.writeText(jsonString)
+      alert(`Component "${componentToCopy.name}" JSON copied to clipboard!`)
+    } else {
+      // Fallback for older browsers
+      const textArea = document.createElement('textarea')
+      textArea.value = jsonString
+      textArea.style.position = 'fixed'
+      textArea.style.left = '-999999px'
+      document.body.appendChild(textArea)
+      textArea.select()
+      document.execCommand('copy')
+      document.body.removeChild(textArea)
+      alert(`Component "${componentToCopy.name}" JSON copied to clipboard!`)
+    }
+  } catch (error) {
+    console.error('Error copying component to clipboard:', error)
+    alert(`Failed to copy component to clipboard: ${error.message}`)
+  }
 }
 
 function handleSendToLibrary() {
