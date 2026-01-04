@@ -6,10 +6,12 @@ import PropertiesPanel from './components/PropertiesPanel.vue'
 import GroupDialog from './components/GroupDialog.vue'
 import RulesEditor from './components/RulesEditor.vue'
 import SecurityPanel from './components/SecurityPanel.vue'
+import MenuBar from './components/MenuBar.vue'
 import { useSystemStore } from './stores/systemStore.js'
 import { useVueFlow } from '@vue-flow/core'
 import { ExportService } from './utils/exportService.js'
 import { PersistenceService } from './utils/persistenceService.js'
+import { System } from './models/System.js'
 
 const systemStore = useSystemStore()
 const { getSelectedNodes } = useVueFlow()
@@ -22,21 +24,18 @@ const selectedComponentIds = computed(() => {
   return getSelectedNodes.value.map(n => n.id)
 })
 
-function handleExport() {
-  const system = systemStore.currentSystem
-  if (system) {
-    ExportService.downloadJSON(system)
+function handleNewSystem() {
+  if (confirm('Create a new system? Any unsaved changes will be lost.')) {
+    const newSystem = new System(`system-${Date.now()}`, 'New System')
+    systemStore.importSystem(newSystem.toJSON())
+    systemStore.saveToLocalStorage()
   }
 }
 
-function handleExportBOM() {
+function handleSaveAs() {
   const system = systemStore.currentSystem
   if (system) {
-    if (system.components.length === 0) {
-      alert('No components to export in the current system.')
-      return
-    }
-    ExportService.downloadBOMCSV(system)
+    ExportService.downloadJSON(system)
   }
 }
 
@@ -75,6 +74,10 @@ function handleGroup() {
     showGroupDialog.value = true
   }
 }
+
+function handleViewTab(tab) {
+  activeTab.value = tab
+}
 </script>
 
 <template>
@@ -103,28 +106,18 @@ function handleGroup() {
           </button>
         </div>
       </div>
-      <div class="header-actions">
-        <button @click="handleGroup" :disabled="selectedComponentIds.length < 2 || activeTab !== 'design'" class="action-button">
-          Group Components
-        </button>
-        <button @click="handleImportClick" :disabled="activeTab !== 'design'" class="action-button">
-          Import System
-        </button>
-        <button @click="handleExport" class="action-button primary">
-          Export System
-        </button>
-        <button @click="handleExportBOM" class="action-button">
-          Export BOM (CSV)
-        </button>
-        <input
-          ref="importFileInputRef"
-          type="file"
-          accept=".json"
-          style="display: none"
-          @change="handleImportFile"
-        />
-      </div>
     </div>
+
+    <MenuBar
+      :selected-component-ids="selectedComponentIds"
+      :active-tab="activeTab"
+      @group-components="handleGroup"
+      @import-file="handleImportClick"
+      @import-file-change="handleImportFile"
+      @new-system="handleNewSystem"
+      @save-as="handleSaveAs"
+      @view-tab="handleViewTab"
+    />
 
     <div v-if="activeTab === 'design'" class="app-content">
       <ComponentPalette />
