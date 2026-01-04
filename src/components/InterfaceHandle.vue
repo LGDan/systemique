@@ -58,6 +58,24 @@ const labelPositionClass = computed(() => {
       return ''
   }
 })
+
+// Determine label color class based on interface access
+const labelAccessClass = computed(() => {
+  const access = props.interface.access
+  if (!access || access === 'Unset' || access === 'unset') {
+    return '' // Default/unset - no special class
+  }
+  if (access === 'trusted') {
+    return 'access-trusted'
+  }
+  if (access === 'untrusted') {
+    return 'access-untrusted'
+  }
+  if (access === 'ignored') {
+    return 'access-ignored'
+  }
+  return ''
+})
 </script>
 
 <template>
@@ -80,7 +98,7 @@ const labelPositionClass = computed(() => {
         class="interface-icon"
       />
     </Handle>
-    <div class="interface-label">
+    <div class="interface-label" :class="labelAccessClass">
       {{ interface.name }}
     </div>
   </div>
@@ -113,6 +131,19 @@ const labelPositionClass = computed(() => {
   padding: 2px 6px;
   border-radius: 3px;
   box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+}
+
+.interface-label.access-trusted {
+  color: #247c2a; /* Dark green */
+}
+
+.interface-label.access-untrusted {
+  color: #b71c1c; /* Dark red */
+}
+
+.interface-label.access-ignored {
+  color: #929292; /* Grey */
+  text-decoration: line-through;
 }
 
 /* Label positioning for different sides */
