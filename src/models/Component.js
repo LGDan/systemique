@@ -15,6 +15,7 @@ export class Component {
     this.metadata = {}
     this.icon = null // Material Design Icon name
     this.categories = [] // Array of category strings (e.g., ['Hardware', 'Network'])
+    this.description = '' // Component description
   }
 
   static fromJSON(json) {
@@ -30,6 +31,7 @@ export class Component {
     component.metadata = json.metadata || {}
     component.icon = json.icon || null
     component.categories = json.categories || []
+    component.description = json.description || ''
     return component
   }
 
@@ -44,7 +46,8 @@ export class Component {
       position: this.position,
       metadata: this.metadata,
       icon: this.icon,
-      categories: this.categories
+      categories: this.categories,
+      description: this.description
     }
   }
 

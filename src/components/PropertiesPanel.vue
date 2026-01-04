@@ -27,7 +27,8 @@ const localProperties = ref({
   name: '',
   type: '',
   icon: null,
-  properties: {}
+  properties: {},
+  description: ''
 })
 
 watch(component, (newComponent) => {
@@ -36,7 +37,8 @@ watch(component, (newComponent) => {
       name: newComponent.name,
       type: newComponent.type,
       icon: newComponent.icon,
-      properties: { ...newComponent.properties }
+      properties: { ...newComponent.properties },
+      description: newComponent.description || ''
     }
   }
 }, { immediate: true })
@@ -49,6 +51,7 @@ function updateComponent() {
     component.value.type = localProperties.value.type
     component.value.icon = localProperties.value.icon
     component.value.properties = localProperties.value.properties
+    component.value.description = localProperties.value.description
     systemStore.saveToLocalStorage()
   }
 }
@@ -166,6 +169,17 @@ function incrementInterfaceName(name) {
           <IconPicker 
             v-model="localProperties.icon"
             @update:modelValue="updateComponent"
+          />
+        </div>
+
+        <div class="field">
+          <label>Description</label>
+          <textarea
+            v-model="localProperties.description"
+            class="field-input field-textarea"
+            rows="4"
+            placeholder="Enter component description..."
+            @blur="updateComponent"
           />
         </div>
       </div>
@@ -292,6 +306,13 @@ function incrementInterfaceName(name) {
   border: 1px solid #ddd;
   border-radius: 4px;
   font-size: 12px;
+}
+
+.field-textarea {
+  resize: vertical;
+  min-height: 80px;
+  font-family: inherit;
+  line-height: 1.4;
 }
 
 .interfaces-list {
