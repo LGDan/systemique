@@ -1,5 +1,6 @@
 import { areTypesCompatible } from './interfaceCompatibility.js'
 import { getInterfaceType } from '../config/defaultInterfaceTypes.js'
+import { useInterfaceRulesStore } from '../stores/interfaceRulesStore.js'
 
 /**
  * Validation result
@@ -21,12 +22,27 @@ export class ValidationResult {
 
 /**
  * Validate a connection between two interfaces
- * Multi-layered validation: type matching → compatibility matrix → custom rules
+ * Multi-layered validation: type rules → type matching → compatibility matrix → custom rules
  */
 export function validateConnection(sourceInterface, targetInterface) {
-  // Layer 1: Type-based validation (exact match)
+  // Layer 0: Check type-level rules (from rules store)
+  const rulesStore = useInterfaceRulesStore()
+  const typeRule = rulesStore.getRule(sourceInterface.type, targetInterface.type)
+  
+  if (typeRule === false) {
+    return ValidationResult.failure(
+      `Connection from ${sourceInterface.type} to ${targetInterface.type} is denied by type rule`
+    )
+  }
+  
+  if (typeRule === true) {
+    // Type rule explicitly allows, but still check interface-level custom rules
+    return validateCustomRules(sourceInterface, targetInterface)
+  }
+  
+  // Layer 1: Type-based validation (exact match) - default is allow
   if (sourceInterface.type === targetInterface.type) {
-    return ValidationResult.success()
+    return validateCustomRules(sourceInterface, targetInterface)
   }
 
   // Layer 2: Compatibility matrix

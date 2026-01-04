@@ -4,6 +4,7 @@ import ComponentPalette from './components/ComponentPalette.vue'
 import SystemCanvas from './components/SystemCanvas.vue'
 import PropertiesPanel from './components/PropertiesPanel.vue'
 import GroupDialog from './components/GroupDialog.vue'
+import RulesEditor from './components/RulesEditor.vue'
 import { useSystemStore } from './stores/systemStore.js'
 import { useVueFlow } from '@vue-flow/core'
 import { ExportService } from './utils/exportService.js'
@@ -14,6 +15,7 @@ const { getSelectedNodes } = useVueFlow()
 
 const showGroupDialog = ref(false)
 const importFileInputRef = ref(null)
+const activeTab = ref('design') // 'design' or 'rules'
 
 const selectedComponentIds = computed(() => {
   return getSelectedNodes.value.map(n => n.id)
@@ -70,12 +72,26 @@ function handleGroup() {
     <div class="app-header">
       <div class="header-left">
         <h1 class="app-title">Systemique</h1>
+        <div class="tabs">
+          <button 
+            @click="activeTab = 'design'"
+            :class="['tab-button', { active: activeTab === 'design' }]"
+          >
+            Design
+          </button>
+          <button 
+            @click="activeTab = 'rules'"
+            :class="['tab-button', { active: activeTab === 'rules' }]"
+          >
+            Rules
+          </button>
+        </div>
       </div>
       <div class="header-actions">
-        <button @click="handleGroup" :disabled="selectedComponentIds.length < 2" class="action-button">
+        <button @click="handleGroup" :disabled="selectedComponentIds.length < 2 || activeTab !== 'design'" class="action-button">
           Group Components
         </button>
-        <button @click="handleImportClick" class="action-button">
+        <button @click="handleImportClick" :disabled="activeTab !== 'design'" class="action-button">
           Import System
         </button>
         <button @click="handleExport" class="action-button primary">
@@ -94,10 +110,14 @@ function handleGroup() {
       </div>
     </div>
 
-    <div class="app-content">
+    <div v-if="activeTab === 'design'" class="app-content">
       <ComponentPalette />
       <SystemCanvas />
       <PropertiesPanel />
+    </div>
+
+    <div v-else-if="activeTab === 'rules'" class="app-content rules-content">
+      <RulesEditor />
     </div>
 
     <GroupDialog
@@ -132,6 +152,39 @@ function handleGroup() {
   align-items: center;
   gap: 16px;
   flex: 1;
+}
+
+.tabs {
+  display: flex;
+  gap: 4px;
+  margin-left: 16px;
+}
+
+.tab-button {
+  padding: 6px 16px;
+  border: 1px solid #ddd;
+  border-radius: 4px 4px 0 0;
+  background: #f5f5f5;
+  color: #666;
+  cursor: pointer;
+  font-size: 12px;
+  font-weight: 600;
+  transition: all 0.2s;
+  border-bottom: none;
+}
+
+.tab-button:hover {
+  background: #e9e9e9;
+  color: #333;
+}
+
+.tab-button.active {
+  background: white;
+  color: #4ECDC4;
+  border-color: #4ECDC4;
+  border-bottom-color: white;
+  position: relative;
+  z-index: 1;
 }
 
 .app-title {
@@ -183,5 +236,10 @@ function handleGroup() {
   display: flex;
   flex: 1;
   overflow: hidden;
+}
+
+.rules-content {
+  display: flex;
+  flex-direction: column;
 }
 </style>
