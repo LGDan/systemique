@@ -621,6 +621,7 @@ function getCellTitle(sourceType, targetType) {
   border-radius: 6px;
   overflow: hidden;
   background: white;
+  table-layout: fixed;
 }
 
 .matrix-row {
@@ -628,7 +629,9 @@ function getCellTitle(sourceType, targetType) {
 }
 
 .matrix-cell {
-  min-width: 70px;
+  width: 100px;
+  min-width: 100px;
+  max-width: 100px;
   min-height: 50px;
   border-right: 1px solid #e0e0e0;
   border-bottom: 1px solid #e0e0e0;
@@ -636,6 +639,8 @@ function getCellTitle(sourceType, targetType) {
   align-items: center;
   justify-content: center;
   padding: 6px;
+  box-sizing: border-box;
+  overflow: hidden;
 }
 
 .matrix-cell:last-child {
@@ -658,11 +663,15 @@ function getCellTitle(sourceType, targetType) {
 
 .header-cell.corner {
   background: #e0e0e0;
-  min-width: 100px;
+  width: 120px;
+  min-width: 120px;
+  max-width: 120px;
 }
 
 .header-cell.source-label {
-  min-width: 100px;
+  width: 120px;
+  min-width: 120px;
+  max-width: 120px;
   border-right-width: 2px;
 }
 
