@@ -70,7 +70,10 @@ import {
   mdiPackage,
   mdiPackageVariant,
   mdiPackageVariantClosed,
-  mdiEngine
+  mdiEngine,
+  mdiCheckboxIntermediate,
+  mdiDesktopTower,
+  mdiCircleBox
 } from '@mdi/js'
 
 /**
@@ -85,6 +88,7 @@ export const iconRegistry = {
   'server-plus': mdiServerPlus,
   'server-minus': mdiServerMinus,
   'server-security': mdiServerSecurity,
+  'desktop-tower': mdiDesktopTower,
   
   // Network
   'switch': mdiRouterNetwork,
@@ -148,6 +152,7 @@ export const iconRegistry = {
   'package-variant': mdiPackageVariant,
   'package-variant-closed': mdiPackageVariantClosed,
   'engine': mdiEngine,
+  'checkbox-intermediate': mdiCheckboxIntermediate,
   
   // Hardware
   'memory': mdiMemory,
@@ -170,6 +175,7 @@ export const iconRegistry = {
   'scanner': mdiScanner,
   'speaker': mdiSpeaker,
   'barcode': mdiBarcode,
+  'circle-box': mdiCircleBox
 
 }
 

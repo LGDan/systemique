@@ -4122,6 +4122,228 @@
         "y": 0
       },
       "metadata": {}
+    },
+    {
+      "id": "rj45-ethernet-wall-port-template",
+      "name": "RJ45 Ethernet Wall Port",
+      "type": "cable",
+      "properties": {
+        "category": "Cat5",
+        "maxSpeed": "100Mbps",
+        "maxLength": "100m"
+      },
+      "icon": "circle-box",
+      "categories": [
+        "Cable",
+        "Network"
+      ],
+      "interfaces": [
+        {
+          "id": "structured-cabling-1",
+          "name": "Structured Cabling 1",
+          "type": "data",
+          "direction": "input",
+          "position": "left",
+          "rules": {},
+          "metadata": {},
+          "icon": "cable"
+        },
+        {
+          "id": "structured-cabling-2",
+          "name": "Structured Cabling 2",
+          "type": "data",
+          "direction": "input",
+          "position": "left",
+          "rules": {},
+          "metadata": {},
+          "icon": "cable"
+        },
+        {
+          "id": "rj45-presentation-1",
+          "name": "RJ45 Presentation 1",
+          "type": "rj45-socket",
+          "direction": "input",
+          "position": "right",
+          "rules": {},
+          "metadata": {},
+          "icon": "ethernet"
+        },
+        {
+          "id": "rj45-presentation-2",
+          "name": "RJ45 Presentation 2",
+          "type": "rj45-socket",
+          "direction": "input",
+          "position": "right",
+          "rules": {},
+          "metadata": {},
+          "icon": "ethernet"
+        }
+      ],
+      "nestedSystemId": null,
+      "position": {
+        "x": 0,
+        "y": 0
+      },
+      "metadata": {}
+    },
+    {
+      "id": "uk-to-c14-(male)-template",
+      "name": "UK to C14 (Male)",
+      "type": "cable",
+      "properties": {
+        "type": "C13-C14",
+        "voltage": "250V",
+        "current": "10A"
+      },
+      "icon": "power-cable",
+      "categories": [
+        "Cable",
+        "Power"
+      ],
+      "interfaces": [
+        {
+          "id": "c14-male",
+          "name": "C14 (Male)",
+          "type": "power",
+          "direction": "output",
+          "position": "right",
+          "rules": {},
+          "metadata": {},
+          "icon": "pdu"
+        },
+        {
+          "id": "uk",
+          "name": "UK",
+          "type": "power",
+          "direction": "output",
+          "position": "left",
+          "rules": {},
+          "metadata": {},
+          "icon": "power-socket-uk"
+        }
+      ],
+      "nestedSystemId": null,
+      "position": {
+        "x": 0,
+        "y": 0
+      },
+      "metadata": {}
+    },
+    {
+      "id": "uk-13a-socket-template",
+      "name": "UK 13A Socket",
+      "type": "cable",
+      "properties": {
+        "category": "Cat5",
+        "maxSpeed": "100Mbps",
+        "maxLength": "100m"
+      },
+      "icon": "circle-box",
+      "categories": [
+        "Cable",
+        "Network"
+      ],
+      "interfaces": [
+        {
+          "id": "circuit",
+          "name": "Circuit",
+          "type": "data",
+          "direction": "input",
+          "position": "left",
+          "rules": {},
+          "metadata": {},
+          "icon": "cable"
+        },
+        {
+          "id": "socket-1",
+          "name": "Socket 1",
+          "type": "power",
+          "direction": "input",
+          "position": "right",
+          "rules": {},
+          "metadata": {},
+          "icon": "power-socket-uk"
+        },
+        {
+          "id": "socket-2",
+          "name": "Socket 2",
+          "type": "power",
+          "direction": "input",
+          "position": "right",
+          "rules": {},
+          "metadata": {},
+          "icon": "power-socket-uk"
+        }
+      ],
+      "nestedSystemId": null,
+      "position": {
+        "x": 0,
+        "y": 0
+      },
+      "metadata": {}
+    },
+    {
+      "id": "rj45-ethernet-wall-port-template",
+      "name": "RJ45 Ethernet Wall Port",
+      "type": "cable",
+      "properties": {
+        "category": "Cat5",
+        "maxSpeed": "100Mbps",
+        "maxLength": "100m"
+      },
+      "icon": "circle-box",
+      "categories": [
+        "Cable",
+        "Network"
+      ],
+      "interfaces": [
+        {
+          "id": "structured-cabling-1",
+          "name": "Structured Cabling 1",
+          "type": "data",
+          "direction": "input",
+          "position": "left",
+          "rules": {},
+          "metadata": {},
+          "icon": "cable"
+        },
+        {
+          "id": "structured-cabling-2",
+          "name": "Structured Cabling 2",
+          "type": "data",
+          "direction": "input",
+          "position": "left",
+          "rules": {},
+          "metadata": {},
+          "icon": "cable"
+        },
+        {
+          "id": "rj45-presentation-1",
+          "name": "RJ45 Presentation 1",
+          "type": "rj45-socket",
+          "direction": "input",
+          "position": "right",
+          "rules": {},
+          "metadata": {},
+          "icon": "ethernet"
+        },
+        {
+          "id": "rj45-presentation-2",
+          "name": "RJ45 Presentation 2",
+          "type": "rj45-socket",
+          "direction": "input",
+          "position": "right",
+          "rules": {},
+          "metadata": {},
+          "icon": "ethernet"
+        }
+      ],
+      "nestedSystemId": null,
+      "position": {
+        "x": 0,
+        "y": 0
+      },
+      "metadata": {}
     }
   ]
 }
