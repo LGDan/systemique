@@ -248,173 +248,631 @@
       "metadata": {}
     },
     {
-      "id": "pdu-template",
-      "name": "PDU",
+      "id": "rackmount-pdu-(12)-template",
+      "name": "Rackmount PDU (12)",
       "type": "pdu",
       "properties": {},
       "icon": "pdu",
-      "categories": ["Hardware", "Power"],
+      "categories": [
+        "Hardware",
+        "Power"
+      ],
       "interfaces": [
         {
-          "id": "power-in",
+          "id": "rack-pdu-position",
+          "name": "Rack PDU Position",
+          "type": "physical",
+          "direction": "output",
+          "position": "left",
+          "rules": {},
+          "metadata": {},
+          "icon": "rack-unit"
+        },
+        {
+          "id": "power-input",
           "name": "Power Input",
           "type": "power",
           "direction": "input",
           "position": "left",
           "rules": {},
-          "metadata": {}
+          "metadata": {},
+          "icon": "power-plug"
         },
         {
-          "id": "power-out-1",
+          "id": "outlet-1",
           "name": "Outlet 1",
           "type": "power",
           "direction": "output",
           "position": "right",
           "rules": {},
-          "metadata": {}
+          "metadata": {},
+          "icon": "pdu"
         },
         {
-          "id": "power-out-2",
+          "id": "outlet-2",
           "name": "Outlet 2",
           "type": "power",
           "direction": "output",
           "position": "right",
           "rules": {},
-          "metadata": {}
+          "metadata": {},
+          "icon": "pdu"
         },
         {
-          "id": "power-out-3",
+          "id": "outlet-3",
           "name": "Outlet 3",
           "type": "power",
           "direction": "output",
           "position": "right",
           "rules": {},
-          "metadata": {}
+          "metadata": {},
+          "icon": "pdu"
         },
         {
-          "id": "power-out-4",
+          "id": "outlet-4",
           "name": "Outlet 4",
           "type": "power",
           "direction": "output",
           "position": "right",
           "rules": {},
-          "metadata": {}
+          "metadata": {},
+          "icon": "pdu"
         },
         {
-          "id": "power-out-5",
+          "id": "outlet-5",
           "name": "Outlet 5",
           "type": "power",
           "direction": "output",
           "position": "right",
           "rules": {},
-          "metadata": {}
+          "metadata": {},
+          "icon": "pdu"
         },
         {
-          "id": "power-out-6",
+          "id": "outlet-6",
           "name": "Outlet 6",
           "type": "power",
           "direction": "output",
           "position": "right",
           "rules": {},
-          "metadata": {}
+          "metadata": {},
+          "icon": "pdu"
         },
         {
-          "id": "power-out-7",
+          "id": "outlet-7",
           "name": "Outlet 7",
           "type": "power",
           "direction": "output",
           "position": "right",
           "rules": {},
-          "metadata": {}
+          "metadata": {},
+          "icon": "pdu"
         },
         {
-          "id": "power-out-8",
+          "id": "outlet-8",
           "name": "Outlet 8",
           "type": "power",
           "direction": "output",
           "position": "right",
           "rules": {},
-          "metadata": {}
+          "metadata": {},
+          "icon": "pdu"
         },
         {
-          "id": "power-out-9",
+          "id": "outlet-9",
           "name": "Outlet 9",
           "type": "power",
           "direction": "output",
           "position": "right",
           "rules": {},
-          "metadata": {}
+          "metadata": {},
+          "icon": "pdu"
         },
         {
-          "id": "power-out-10",
+          "id": "outlet-10",
           "name": "Outlet 10",
           "type": "power",
           "direction": "output",
           "position": "right",
           "rules": {},
-          "metadata": {}
+          "metadata": {},
+          "icon": "pdu"
         },
         {
-          "id": "power-out-11",
+          "id": "outlet-11",
           "name": "Outlet 11",
           "type": "power",
           "direction": "output",
           "position": "right",
           "rules": {},
-          "metadata": {}
+          "metadata": {},
+          "icon": "pdu"
         },
         {
-          "id": "power-out-12",
+          "id": "outlet-12",
           "name": "Outlet 12",
           "type": "power",
           "direction": "output",
           "position": "right",
           "rules": {},
-          "metadata": {}
+          "metadata": {},
+          "icon": "pdu"
         }
       ],
       "nestedSystemId": null,
-      "position": { "x": 0, "y": 0 },
+      "position": {
+        "x": 0,
+        "y": 0
+      },
       "metadata": {}
     },
     {
-      "id": "rack-template",
-      "name": "Server Rack",
+      "id": "42u-server-rack-template",
+      "name": "42U Server Rack",
       "type": "rack",
       "properties": {},
       "icon": "rack",
-      "categories": ["Hardware", "Infrastructure"],
+      "categories": [
+        "Hardware",
+        "Infrastructure"
+      ],
       "interfaces": [
         {
-          "id": "physical-in",
-          "name": "Rack Position",
+          "id": "room",
+          "name": "Room",
           "type": "physical",
-          "direction": "input",
+          "direction": "output",
           "position": "left",
           "rules": {},
-          "metadata": {}
+          "metadata": {},
+          "icon": "component"
         },
         {
-          "id": "power-in",
-          "name": "Power Input",
-          "type": "power",
+          "id": "r1",
+          "name": "R1",
+          "type": "physical",
           "direction": "input",
-          "position": "bottom",
+          "position": "right",
           "rules": {},
-          "metadata": {}
+          "metadata": {},
+          "icon": "rack-unit"
         },
         {
-          "id": "power-out",
-          "name": "Power Output",
-          "type": "power",
-          "direction": "output",
-          "position": "top",
+          "id": "r2",
+          "name": "R2",
+          "type": "physical",
+          "direction": "input",
+          "position": "right",
           "rules": {},
-          "metadata": {}
+          "metadata": {},
+          "icon": "rack-unit"
+        },
+        {
+          "id": "r3",
+          "name": "R3",
+          "type": "physical",
+          "direction": "input",
+          "position": "right",
+          "rules": {},
+          "metadata": {},
+          "icon": "rack-unit"
+        },
+        {
+          "id": "r4",
+          "name": "R4",
+          "type": "physical",
+          "direction": "input",
+          "position": "right",
+          "rules": {},
+          "metadata": {},
+          "icon": "rack-unit"
+        },
+        {
+          "id": "r5",
+          "name": "R5",
+          "type": "physical",
+          "direction": "input",
+          "position": "right",
+          "rules": {},
+          "metadata": {},
+          "icon": "rack-unit"
+        },
+        {
+          "id": "r6",
+          "name": "R6",
+          "type": "physical",
+          "direction": "input",
+          "position": "right",
+          "rules": {},
+          "metadata": {},
+          "icon": "rack-unit"
+        },
+        {
+          "id": "r7",
+          "name": "R7",
+          "type": "physical",
+          "direction": "input",
+          "position": "right",
+          "rules": {},
+          "metadata": {},
+          "icon": "rack-unit"
+        },
+        {
+          "id": "r8",
+          "name": "R8",
+          "type": "physical",
+          "direction": "input",
+          "position": "right",
+          "rules": {},
+          "metadata": {},
+          "icon": "rack-unit"
+        },
+        {
+          "id": "r9",
+          "name": "R9",
+          "type": "physical",
+          "direction": "input",
+          "position": "right",
+          "rules": {},
+          "metadata": {},
+          "icon": "rack-unit"
+        },
+        {
+          "id": "r10",
+          "name": "R10",
+          "type": "physical",
+          "direction": "input",
+          "position": "right",
+          "rules": {},
+          "metadata": {},
+          "icon": "rack-unit"
+        },
+        {
+          "id": "r11",
+          "name": "R11",
+          "type": "physical",
+          "direction": "input",
+          "position": "right",
+          "rules": {},
+          "metadata": {},
+          "icon": "rack-unit"
+        },
+        {
+          "id": "r12",
+          "name": "R12",
+          "type": "physical",
+          "direction": "input",
+          "position": "right",
+          "rules": {},
+          "metadata": {},
+          "icon": "rack-unit"
+        },
+        {
+          "id": "r13",
+          "name": "R13",
+          "type": "physical",
+          "direction": "input",
+          "position": "right",
+          "rules": {},
+          "metadata": {},
+          "icon": "rack-unit"
+        },
+        {
+          "id": "r14",
+          "name": "R14",
+          "type": "physical",
+          "direction": "input",
+          "position": "right",
+          "rules": {},
+          "metadata": {},
+          "icon": "rack-unit"
+        },
+        {
+          "id": "r15",
+          "name": "R15",
+          "type": "physical",
+          "direction": "input",
+          "position": "right",
+          "rules": {},
+          "metadata": {},
+          "icon": "rack-unit"
+        },
+        {
+          "id": "r16",
+          "name": "R16",
+          "type": "physical",
+          "direction": "input",
+          "position": "right",
+          "rules": {},
+          "metadata": {},
+          "icon": "rack-unit"
+        },
+        {
+          "id": "r17",
+          "name": "R17",
+          "type": "physical",
+          "direction": "input",
+          "position": "right",
+          "rules": {},
+          "metadata": {},
+          "icon": "rack-unit"
+        },
+        {
+          "id": "r18",
+          "name": "R18",
+          "type": "physical",
+          "direction": "input",
+          "position": "right",
+          "rules": {},
+          "metadata": {},
+          "icon": "rack-unit"
+        },
+        {
+          "id": "r19",
+          "name": "R19",
+          "type": "physical",
+          "direction": "input",
+          "position": "right",
+          "rules": {},
+          "metadata": {},
+          "icon": "rack-unit"
+        },
+        {
+          "id": "r20",
+          "name": "R20",
+          "type": "physical",
+          "direction": "input",
+          "position": "right",
+          "rules": {},
+          "metadata": {},
+          "icon": "rack-unit"
+        },
+        {
+          "id": "r21",
+          "name": "R21",
+          "type": "physical",
+          "direction": "input",
+          "position": "right",
+          "rules": {},
+          "metadata": {},
+          "icon": "rack-unit"
+        },
+        {
+          "id": "r22",
+          "name": "R22",
+          "type": "physical",
+          "direction": "input",
+          "position": "right",
+          "rules": {},
+          "metadata": {},
+          "icon": "rack-unit"
+        },
+        {
+          "id": "r23",
+          "name": "R23",
+          "type": "physical",
+          "direction": "input",
+          "position": "right",
+          "rules": {},
+          "metadata": {},
+          "icon": "rack-unit"
+        },
+        {
+          "id": "r24",
+          "name": "R24",
+          "type": "physical",
+          "direction": "input",
+          "position": "right",
+          "rules": {},
+          "metadata": {},
+          "icon": "rack-unit"
+        },
+        {
+          "id": "r25",
+          "name": "R25",
+          "type": "physical",
+          "direction": "input",
+          "position": "right",
+          "rules": {},
+          "metadata": {},
+          "icon": "rack-unit"
+        },
+        {
+          "id": "r26",
+          "name": "R26",
+          "type": "physical",
+          "direction": "input",
+          "position": "right",
+          "rules": {},
+          "metadata": {},
+          "icon": "rack-unit"
+        },
+        {
+          "id": "r27",
+          "name": "R27",
+          "type": "physical",
+          "direction": "input",
+          "position": "right",
+          "rules": {},
+          "metadata": {},
+          "icon": "rack-unit"
+        },
+        {
+          "id": "r28",
+          "name": "R28",
+          "type": "physical",
+          "direction": "input",
+          "position": "right",
+          "rules": {},
+          "metadata": {},
+          "icon": "rack-unit"
+        },
+        {
+          "id": "r29",
+          "name": "R29",
+          "type": "physical",
+          "direction": "input",
+          "position": "right",
+          "rules": {},
+          "metadata": {},
+          "icon": "rack-unit"
+        },
+        {
+          "id": "r30",
+          "name": "R30",
+          "type": "physical",
+          "direction": "input",
+          "position": "right",
+          "rules": {},
+          "metadata": {},
+          "icon": "rack-unit"
+        },
+        {
+          "id": "r31",
+          "name": "R31",
+          "type": "physical",
+          "direction": "input",
+          "position": "right",
+          "rules": {},
+          "metadata": {},
+          "icon": "rack-unit"
+        },
+        {
+          "id": "r32",
+          "name": "R32",
+          "type": "physical",
+          "direction": "input",
+          "position": "right",
+          "rules": {},
+          "metadata": {},
+          "icon": "rack-unit"
+        },
+        {
+          "id": "r33",
+          "name": "R33",
+          "type": "physical",
+          "direction": "input",
+          "position": "right",
+          "rules": {},
+          "metadata": {},
+          "icon": "rack-unit"
+        },
+        {
+          "id": "r34",
+          "name": "R34",
+          "type": "physical",
+          "direction": "input",
+          "position": "right",
+          "rules": {},
+          "metadata": {},
+          "icon": "rack-unit"
+        },
+        {
+          "id": "r35",
+          "name": "R35",
+          "type": "physical",
+          "direction": "input",
+          "position": "right",
+          "rules": {},
+          "metadata": {},
+          "icon": "rack-unit"
+        },
+        {
+          "id": "r36",
+          "name": "R36",
+          "type": "physical",
+          "direction": "input",
+          "position": "right",
+          "rules": {},
+          "metadata": {},
+          "icon": "rack-unit"
+        },
+        {
+          "id": "r37",
+          "name": "R37",
+          "type": "physical",
+          "direction": "input",
+          "position": "right",
+          "rules": {},
+          "metadata": {},
+          "icon": "rack-unit"
+        },
+        {
+          "id": "r38",
+          "name": "R38",
+          "type": "physical",
+          "direction": "input",
+          "position": "right",
+          "rules": {},
+          "metadata": {},
+          "icon": "rack-unit"
+        },
+        {
+          "id": "r39",
+          "name": "R39",
+          "type": "physical",
+          "direction": "input",
+          "position": "right",
+          "rules": {},
+          "metadata": {},
+          "icon": "rack-unit"
+        },
+        {
+          "id": "r40",
+          "name": "R40",
+          "type": "physical",
+          "direction": "input",
+          "position": "right",
+          "rules": {},
+          "metadata": {},
+          "icon": "rack-unit"
+        },
+        {
+          "id": "r41",
+          "name": "R41",
+          "type": "physical",
+          "direction": "input",
+          "position": "right",
+          "rules": {},
+          "metadata": {},
+          "icon": "rack-unit"
+        },
+        {
+          "id": "r42",
+          "name": "R42",
+          "type": "physical",
+          "direction": "input",
+          "position": "right",
+          "rules": {},
+          "metadata": {},
+          "icon": "rack-unit"
+        },
+        {
+          "id": "pdu-rear-right",
+          "name": "PDU Rear Right",
+          "type": "physical",
+          "direction": "input",
+          "position": "right",
+          "rules": {},
+          "metadata": {},
+          "icon": "pdu"
+        },
+        {
+          "id": "pdu-rear-left",
+          "name": "PDU Rear Left",
+          "type": "physical",
+          "direction": "input",
+          "position": "right",
+          "rules": {},
+          "metadata": {},
+          "icon": "pdu"
         }
       ],
       "nestedSystemId": null,
-      "position": { "x": 0, "y": 0 },
+      "position": {
+        "x": 0,
+        "y": 0
+      },
       "metadata": {}
     },
     {
