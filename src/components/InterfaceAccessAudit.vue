@@ -17,8 +17,55 @@ const stats = ref({
   disconnected: 0
 })
 
-// Table data
-const tableData = ref([])
+// Table data (all data)
+const allTableData = ref([])
+
+// Filter state
+const filters = ref({
+  access: 'all', // 'all', 'Unset', 'trusted', 'untrusted', 'ignored'
+  connection: 'all', // 'all', 'connected', 'disconnected'
+  direction: 'all', // 'all', 'input', 'output'
+  interfaceType: 'all' // 'all' or specific type ID
+})
+
+// Computed filtered table data
+const tableData = computed(() => {
+  return allTableData.value.filter(item => {
+    // Filter by access
+    if (filters.value.access !== 'all') {
+      const itemAccess = item.access || 'Unset'
+      if (filters.value.access === 'Unset' && itemAccess !== 'Unset') return false
+      if (filters.value.access !== 'Unset' && itemAccess !== filters.value.access) return false
+    }
+    
+    // Filter by connection status
+    if (filters.value.connection !== 'all') {
+      if (filters.value.connection === 'connected' && !item.connected) return false
+      if (filters.value.connection === 'disconnected' && item.connected) return false
+    }
+    
+    // Filter by direction
+    if (filters.value.direction !== 'all') {
+      if (item.direction !== filters.value.direction) return false
+    }
+    
+    // Filter by interface type
+    if (filters.value.interfaceType !== 'all') {
+      if (item.interfaceType !== filters.value.interfaceType) return false
+    }
+    
+    return true
+  })
+})
+
+// Get unique interface types from table data
+const availableInterfaceTypes = computed(() => {
+  const types = new Set()
+  allTableData.value.forEach(item => {
+    types.add(item.interfaceType)
+  })
+  return Array.from(types).sort()
+})
 
 // Get all interfaces from the current system
 function getAllInterfaces() {
@@ -69,7 +116,7 @@ function runAudit() {
   }
   
   // Build table data and count stats
-  tableData.value = interfaces.map(item => {
+  allTableData.value = interfaces.map(item => {
     // Count access types
     if (item.access === 'Unset' || item.access === null) {
       stats.value.unset++
@@ -97,14 +144,15 @@ function runAudit() {
 }
 
 function exportToCSV() {
-  if (tableData.value.length === 0) {
+  const dataToExport = tableData.value
+  if (dataToExport.length === 0) {
     alert('No data to export. Please run the audit first.')
     return
   }
   
   const headers = ['Component ID', 'Component Name', 'Interface Name', 'Type', 'Direction', 'Access', 'Connected']
   
-  const rows = tableData.value.map(item => {
+  const rows = dataToExport.map(item => {
     const escapeCSV = (value) => {
       if (value === null || value === undefined) {
         return ''
@@ -145,6 +193,32 @@ function getTypeName(typeId) {
   const type = typesStore.getType(typeId)
   return type ? type.name : typeId
 }
+
+// Quick filter functions (for stat card clicks)
+function filterByAccess(access) {
+  if (filters.value.access === access) {
+    filters.value.access = 'all' // Toggle off if already selected
+  } else {
+    filters.value.access = access
+  }
+}
+
+function filterByConnection(connection) {
+  if (filters.value.connection === connection) {
+    filters.value.connection = 'all' // Toggle off if already selected
+  } else {
+    filters.value.connection = connection
+  }
+}
+
+function clearAllFilters() {
+  filters.value = {
+    access: 'all',
+    connection: 'all',
+    direction: 'all',
+    interfaceType: 'all'
+  }
+}
 </script>
 
 <template>
@@ -161,40 +235,92 @@ function getTypeName(typeId) {
 
     <div v-if="stats.total > 0" class="audit-stats">
       <div class="stats-grid">
-        <div class="stat-card">
+        <div class="stat-card" @click="clearAllFilters()" :class="{ 'filter-active': filters.access === 'all' && filters.connection === 'all' && filters.direction === 'all' && filters.interfaceType === 'all' }">
           <div class="stat-label">Total Interfaces</div>
           <div class="stat-value">{{ stats.total }}</div>
         </div>
         
-        <div class="stat-card">
+        <div class="stat-card clickable" @click="filterByAccess('Unset')" :class="{ 'filter-active': filters.access === 'Unset' }">
           <div class="stat-label">Unset</div>
           <div class="stat-value">{{ stats.unset }}</div>
         </div>
         
-        <div class="stat-card">
+        <div class="stat-card clickable" @click="filterByAccess('trusted')" :class="{ 'filter-active': filters.access === 'trusted' }">
           <div class="stat-label">Trusted</div>
           <div class="stat-value trusted">{{ stats.trusted }}</div>
         </div>
         
-        <div class="stat-card">
+        <div class="stat-card clickable" @click="filterByAccess('untrusted')" :class="{ 'filter-active': filters.access === 'untrusted' }">
           <div class="stat-label">Untrusted</div>
           <div class="stat-value untrusted">{{ stats.untrusted }}</div>
         </div>
         
-        <div class="stat-card">
+        <div class="stat-card clickable" @click="filterByAccess('ignored')" :class="{ 'filter-active': filters.access === 'ignored' }">
           <div class="stat-label">Ignored</div>
           <div class="stat-value ignored">{{ stats.ignored }}</div>
         </div>
         
-        <div class="stat-card">
+        <div class="stat-card clickable" @click="filterByConnection('connected')" :class="{ 'filter-active': filters.connection === 'connected' }">
           <div class="stat-label">Connected</div>
           <div class="stat-value connected">{{ stats.connected }}</div>
         </div>
         
-        <div class="stat-card">
+        <div class="stat-card clickable" @click="filterByConnection('disconnected')" :class="{ 'filter-active': filters.connection === 'disconnected' }">
           <div class="stat-label">Disconnected</div>
           <div class="stat-value disconnected">{{ stats.disconnected }}</div>
         </div>
+      </div>
+    </div>
+
+    <div v-if="stats.total > 0 && allTableData.length > 0" class="filters-section">
+      <div class="filters-header">
+        <h4>Filters</h4>
+        <button @click="clearAllFilters()" class="clear-filters-button" v-if="filters.access !== 'all' || filters.connection !== 'all' || filters.direction !== 'all' || filters.interfaceType !== 'all'">
+          Clear All
+        </button>
+      </div>
+      <div class="filters-grid">
+        <div class="filter-group">
+          <label>Access</label>
+          <select v-model="filters.access" class="filter-select">
+            <option value="all">All</option>
+            <option value="Unset">Unset</option>
+            <option value="trusted">Trusted</option>
+            <option value="untrusted">Untrusted</option>
+            <option value="ignored">Ignored</option>
+          </select>
+        </div>
+        
+        <div class="filter-group">
+          <label>Connection</label>
+          <select v-model="filters.connection" class="filter-select">
+            <option value="all">All</option>
+            <option value="connected">Connected</option>
+            <option value="disconnected">Disconnected</option>
+          </select>
+        </div>
+        
+        <div class="filter-group">
+          <label>Direction</label>
+          <select v-model="filters.direction" class="filter-select">
+            <option value="all">All</option>
+            <option value="input">Input</option>
+            <option value="output">Output</option>
+          </select>
+        </div>
+        
+        <div class="filter-group">
+          <label>Interface Type</label>
+          <select v-model="filters.interfaceType" class="filter-select">
+            <option value="all">All</option>
+            <option v-for="typeId in availableInterfaceTypes" :key="typeId" :value="typeId">
+              {{ getTypeName(typeId) }}
+            </option>
+          </select>
+        </div>
+      </div>
+      <div class="filter-results-info">
+        Showing {{ tableData.length }} of {{ allTableData.length }} interfaces
       </div>
     </div>
 
@@ -246,8 +372,12 @@ function getTypeName(typeId) {
       </div>
     </div>
 
-    <div v-else class="audit-placeholder">
+    <div v-else-if="allTableData.length === 0" class="audit-placeholder">
       <p>Click "Run Audit" to analyze interface access levels in the current system.</p>
+    </div>
+    
+    <div v-else class="audit-placeholder">
+      <p>No interfaces match the current filters. Try adjusting your filter criteria.</p>
     </div>
   </div>
 </template>
@@ -314,6 +444,24 @@ function getTypeName(typeId) {
   display: flex;
   flex-direction: column;
   gap: 8px;
+  transition: all 0.2s;
+}
+
+.stat-card.clickable {
+  cursor: pointer;
+}
+
+.stat-card.clickable:hover {
+  background: #f0f0f0;
+  border-color: #4ECDC4;
+  transform: translateY(-2px);
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+}
+
+.stat-card.filter-active {
+  background: #E8F5E9;
+  border-color: #4ECDC4;
+  border-width: 2px;
 }
 
 .stat-label {
@@ -499,6 +647,95 @@ function getTypeName(typeId) {
 
 .connected-no {
   color: #999;
+}
+
+.filters-section {
+  background: #f9f9f9;
+  border: 1px solid #ddd;
+  border-radius: 6px;
+  padding: 16px;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.filters-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.filters-header h4 {
+  margin: 0;
+  font-size: 14px;
+  font-weight: 600;
+  color: #333;
+}
+
+.clear-filters-button {
+  padding: 4px 8px;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  background: white;
+  color: #666;
+  font-size: 11px;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.clear-filters-button:hover {
+  background: #f5f5f5;
+  border-color: #4ECDC4;
+  color: #4ECDC4;
+}
+
+.filters-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+  gap: 12px;
+}
+
+.filter-group {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.filter-group label {
+  font-size: 11px;
+  color: #666;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.filter-select {
+  padding: 6px 10px;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  background: white;
+  color: #333;
+  font-size: 12px;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.filter-select:hover {
+  border-color: #4ECDC4;
+}
+
+.filter-select:focus {
+  outline: none;
+  border-color: #4ECDC4;
+  box-shadow: 0 0 0 2px rgba(78, 205, 196, 0.1);
+}
+
+.filter-results-info {
+  font-size: 12px;
+  color: #666;
+  font-style: italic;
+  padding-top: 8px;
+  border-top: 1px solid #eee;
 }
 
 .audit-placeholder {
