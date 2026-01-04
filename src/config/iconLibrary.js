@@ -66,7 +66,11 @@ import {
   mdiExpansionCard,
   mdiExpansionCardVariant,
   mdiNas,
-  mdiApplication
+  mdiApplication,
+  mdiPackage,
+  mdiPackageVariant,
+  mdiPackageVariantClosed,
+  mdiEngine
 } from '@mdi/js'
 
 /**
@@ -130,7 +134,7 @@ export const iconRegistry = {
   'api-service': mdiApi,
   'application': mdiApplication,
   'cloud': mdiCloudOutline,
-  'service': mdiCog,
+  'cog': mdiCog,
   'ip': mdiIp,
   'web': mdiWeb,
   'code-braces': mdiCodeBraces,
@@ -140,6 +144,10 @@ export const iconRegistry = {
   'account': mdiAccount,
   'account-multiple': mdiAccountMultiple,
   'emoticon': mdiEmoticon,
+  'package': mdiPackage,
+  'package-variant': mdiPackageVariant,
+  'package-variant-closed': mdiPackageVariantClosed,
+  'engine': mdiEngine,
   
   // Hardware
   'memory': mdiMemory,

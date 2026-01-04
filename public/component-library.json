@@ -3508,6 +3508,620 @@
         "y": 0
       },
       "metadata": {}
+    },
+    {
+      "id": "os-installation-template",
+      "name": "OS Installation",
+      "type": "os",
+      "properties": {},
+      "icon": "component",
+      "categories": [
+        "Hardware"
+      ],
+      "interfaces": [
+        {
+          "id": "computer",
+          "name": "Computer",
+          "type": "custom",
+          "direction": "output",
+          "position": "left",
+          "rules": {},
+          "metadata": {},
+          "icon": "component"
+        },
+        {
+          "id": "applications",
+          "name": "Applications",
+          "type": "custom",
+          "direction": "input",
+          "position": "right",
+          "rules": {},
+          "metadata": {},
+          "icon": "disc"
+        },
+        {
+          "id": "configuration",
+          "name": "Configuration",
+          "type": "custom",
+          "direction": "input",
+          "position": "right",
+          "rules": {},
+          "metadata": {},
+          "icon": "cog"
+        },
+        {
+          "id": "directory-service",
+          "name": "Directory Service",
+          "type": "data",
+          "direction": "input",
+          "position": "left",
+          "rules": {},
+          "metadata": {},
+          "icon": "account"
+        },
+        {
+          "id": "config-service",
+          "name": "Config Service",
+          "type": "custom",
+          "direction": "input",
+          "position": "left",
+          "rules": {},
+          "metadata": {},
+          "icon": "cog"
+        }
+      ],
+      "nestedSystemId": null,
+      "position": {
+        "x": 0,
+        "y": 0
+      },
+      "metadata": {}
+    },
+    {
+      "id": "installed-app-template",
+      "name": "Installed App",
+      "type": "App",
+      "properties": {},
+      "icon": "application",
+      "categories": [
+        "Hardware"
+      ],
+      "interfaces": [
+        {
+          "id": "underlying-os",
+          "name": "Underlying OS",
+          "type": "custom",
+          "direction": "output",
+          "position": "left",
+          "rules": {},
+          "metadata": {},
+          "icon": "component"
+        },
+        {
+          "id": "configuration",
+          "name": "Configuration",
+          "type": "custom",
+          "direction": "input",
+          "position": "right",
+          "rules": {},
+          "metadata": {},
+          "icon": "application-braces"
+        }
+      ],
+      "nestedSystemId": null,
+      "position": {
+        "x": 0,
+        "y": 0
+      },
+      "metadata": {}
+    },
+    {
+      "id": "software-configuration-template",
+      "name": "Software Configuration",
+      "type": "software-config",
+      "properties": {},
+      "icon": "application-braces",
+      "categories": [
+        "Hardware"
+      ],
+      "interfaces": [
+        {
+          "id": "software",
+          "name": "Software",
+          "type": "custom",
+          "direction": "output",
+          "position": "left",
+          "rules": {},
+          "metadata": {},
+          "icon": "application"
+        }
+      ],
+      "nestedSystemId": null,
+      "position": {
+        "x": 0,
+        "y": 0
+      },
+      "metadata": {}
+    },
+    {
+      "id": "os-configuration-template",
+      "name": "OS Configuration",
+      "type": "os-config",
+      "properties": {},
+      "icon": "cog",
+      "categories": [
+        "Hardware"
+      ],
+      "interfaces": [
+        {
+          "id": "os-install",
+          "name": "OS Install",
+          "type": "custom",
+          "direction": "output",
+          "position": "left",
+          "rules": {},
+          "metadata": {},
+          "icon": "component"
+        }
+      ],
+      "nestedSystemId": null,
+      "position": {
+        "x": 0,
+        "y": 0
+      },
+      "metadata": {}
+    },
+    {
+      "id": "database-template",
+      "name": "Database",
+      "type": "database",
+      "properties": {},
+      "icon": "database",
+      "categories": [
+        "Software",
+        "Storage",
+        "Data"
+      ],
+      "interfaces": [
+        {
+          "id": "database-engine",
+          "name": "Database Engine",
+          "type": "custom",
+          "direction": "input",
+          "position": "left",
+          "rules": {},
+          "metadata": {},
+          "icon": "database"
+        },
+        {
+          "id": "tables",
+          "name": "Tables",
+          "type": "data",
+          "direction": "input",
+          "position": "right",
+          "rules": {},
+          "metadata": {},
+          "icon": "table"
+        }
+      ],
+      "nestedSystemId": null,
+      "position": {
+        "x": 0,
+        "y": 0
+      },
+      "metadata": {}
+    },
+    {
+      "id": "table-template",
+      "name": "Table",
+      "type": "database-table",
+      "properties": {},
+      "icon": "table",
+      "categories": [
+        "Software",
+        "Storage",
+        "Data"
+      ],
+      "interfaces": [
+        {
+          "id": "database",
+          "name": "Database",
+          "type": "data",
+          "direction": "output",
+          "position": "left",
+          "rules": {},
+          "metadata": {},
+          "icon": "database"
+        },
+        {
+          "id": "column-definitions",
+          "name": "Column Definitions",
+          "type": "data",
+          "direction": "input",
+          "position": "right",
+          "rules": {},
+          "metadata": {},
+          "icon": "table-column"
+        },
+        {
+          "id": "data-rows",
+          "name": "Data Rows",
+          "type": "data",
+          "direction": "input",
+          "position": "right",
+          "rules": {},
+          "metadata": {},
+          "icon": "table-row"
+        }
+      ],
+      "nestedSystemId": null,
+      "position": {
+        "x": 0,
+        "y": 0
+      },
+      "metadata": {}
+    },
+    {
+      "id": "column-definition-template",
+      "name": "Column Definition",
+      "type": "database-table-column",
+      "properties": {},
+      "icon": "table-column",
+      "categories": [
+        "Software",
+        "Storage",
+        "Data"
+      ],
+      "interfaces": [
+        {
+          "id": "table",
+          "name": "Table",
+          "type": "data",
+          "direction": "output",
+          "position": "left",
+          "rules": {},
+          "metadata": {},
+          "icon": "table"
+        }
+      ],
+      "nestedSystemId": null,
+      "position": {
+        "x": 0,
+        "y": 0
+      },
+      "metadata": {}
+    },
+    {
+      "id": "data-row-template",
+      "name": "Data Row",
+      "type": "database-table-row",
+      "properties": {},
+      "icon": "table-column",
+      "categories": [
+        "Software",
+        "Storage",
+        "Data"
+      ],
+      "interfaces": [
+        {
+          "id": "table",
+          "name": "Table",
+          "type": "data",
+          "direction": "output",
+          "position": "left",
+          "rules": {},
+          "metadata": {},
+          "icon": "table"
+        }
+      ],
+      "nestedSystemId": null,
+      "position": {
+        "x": 0,
+        "y": 0
+      },
+      "metadata": {}
+    },
+    {
+      "id": "container-image-registry-template",
+      "name": "Container Image Registry",
+      "type": "application",
+      "properties": {},
+      "icon": "database",
+      "categories": [
+        "Software",
+        "Compute"
+      ],
+      "interfaces": [
+        {
+          "id": "installed-on",
+          "name": "Installed On",
+          "type": "custom",
+          "direction": "output",
+          "position": "left",
+          "rules": {},
+          "metadata": {},
+          "icon": "component"
+        },
+        {
+          "id": "configuration",
+          "name": "Configuration",
+          "type": "custom",
+          "direction": "input",
+          "position": "right",
+          "rules": {},
+          "metadata": {},
+          "icon": "application-braces"
+        },
+        {
+          "id": "data",
+          "name": "Data",
+          "type": "custom",
+          "direction": "output",
+          "position": "left",
+          "rules": {},
+          "metadata": {},
+          "icon": "database"
+        },
+        {
+          "id": "images",
+          "name": "Images",
+          "type": "custom",
+          "direction": "output",
+          "position": "right",
+          "rules": {},
+          "metadata": {},
+          "icon": "package-variant-closed"
+        }
+      ],
+      "nestedSystemId": null,
+      "position": {
+        "x": 0,
+        "y": 0
+      },
+      "metadata": {}
+    },
+    {
+      "id": "container-image-template",
+      "name": "Container Image",
+      "type": "container-image",
+      "properties": {},
+      "icon": "package-variant-closed",
+      "categories": [
+        "Software",
+        "Compute"
+      ],
+      "interfaces": [
+        {
+          "id": "image-registry",
+          "name": "Image Registry",
+          "type": "custom",
+          "direction": "output",
+          "position": "left",
+          "rules": {},
+          "metadata": {},
+          "icon": "cloud"
+        },
+        {
+          "id": "containers",
+          "name": "Containers",
+          "type": "custom",
+          "direction": "input",
+          "position": "right",
+          "rules": {},
+          "metadata": {},
+          "icon": "disc"
+        }
+      ],
+      "nestedSystemId": null,
+      "position": {
+        "x": 0,
+        "y": 0
+      },
+      "metadata": {}
+    },
+    {
+      "id": "container-template",
+      "name": "Container",
+      "type": "container",
+      "properties": {},
+      "icon": "package-variant-closed",
+      "categories": [
+        "Software",
+        "Compute"
+      ],
+      "interfaces": [
+        {
+          "id": "container-runtime",
+          "name": "Container Runtime",
+          "type": "custom",
+          "direction": "output",
+          "position": "left",
+          "rules": {},
+          "metadata": {},
+          "icon": "engine"
+        },
+        {
+          "id": "applications",
+          "name": "Applications",
+          "type": "custom",
+          "direction": "input",
+          "position": "right",
+          "rules": {},
+          "metadata": {},
+          "icon": "disc"
+        }
+      ],
+      "nestedSystemId": null,
+      "position": {
+        "x": 0,
+        "y": 0
+      },
+      "metadata": {}
+    },
+    {
+      "id": "container-runtime-template",
+      "name": "Container Runtime",
+      "type": "application",
+      "properties": {},
+      "icon": "engine",
+      "categories": [
+        "Software",
+        "Compute"
+      ],
+      "interfaces": [
+        {
+          "id": "installed-on",
+          "name": "Installed On",
+          "type": "custom",
+          "direction": "output",
+          "position": "left",
+          "rules": {},
+          "metadata": {},
+          "icon": "component"
+        },
+        {
+          "id": "containers",
+          "name": "Containers",
+          "type": "custom",
+          "direction": "input",
+          "position": "right",
+          "rules": {},
+          "metadata": {},
+          "icon": "package-variant-closed"
+        }
+      ],
+      "nestedSystemId": null,
+      "position": {
+        "x": 0,
+        "y": 0
+      },
+      "metadata": {}
+    },
+    {
+      "id": "hypervisor-template",
+      "name": "Hypervisor",
+      "type": "application",
+      "properties": {},
+      "icon": "engine",
+      "categories": [
+        "Software",
+        "Compute"
+      ],
+      "interfaces": [
+        {
+          "id": "installed-on",
+          "name": "Installed On",
+          "type": "custom",
+          "direction": "output",
+          "position": "left",
+          "rules": {},
+          "metadata": {},
+          "icon": "component"
+        },
+        {
+          "id": "virtual-machines",
+          "name": "Virtual Machines",
+          "type": "custom",
+          "direction": "input",
+          "position": "right",
+          "rules": {},
+          "metadata": {},
+          "icon": "component"
+        }
+      ],
+      "nestedSystemId": null,
+      "position": {
+        "x": 0,
+        "y": 0
+      },
+      "metadata": {}
+    },
+    {
+      "id": "installed-app-template",
+      "name": "Installed App",
+      "type": "application",
+      "properties": {},
+      "icon": "application",
+      "categories": [
+        "Software",
+        "Compute"
+      ],
+      "interfaces": [
+        {
+          "id": "installed-on",
+          "name": "Installed On",
+          "type": "custom",
+          "direction": "output",
+          "position": "left",
+          "rules": {},
+          "metadata": {},
+          "icon": "component"
+        },
+        {
+          "id": "configuration",
+          "name": "Configuration",
+          "type": "custom",
+          "direction": "input",
+          "position": "right",
+          "rules": {},
+          "metadata": {},
+          "icon": "application-braces"
+        }
+      ],
+      "nestedSystemId": null,
+      "position": {
+        "x": 0,
+        "y": 0
+      },
+      "metadata": {}
+    },
+    {
+      "id": "developed-app-template",
+      "name": "Developed App",
+      "type": "application",
+      "properties": {},
+      "icon": "application-braces",
+      "categories": [
+        "Hardware"
+      ],
+      "interfaces": [
+        {
+          "id": "installed-on",
+          "name": "Installed On",
+          "type": "custom",
+          "direction": "output",
+          "position": "left",
+          "rules": {},
+          "metadata": {},
+          "icon": "component"
+        },
+        {
+          "id": "configuration",
+          "name": "Configuration",
+          "type": "custom",
+          "direction": "input",
+          "position": "right",
+          "rules": {},
+          "metadata": {},
+          "icon": "application-braces"
+        },
+        {
+          "id": "source-repository",
+          "name": "Source Repository",
+          "type": "custom",
+          "direction": "input",
+          "position": "left",
+          "rules": {},
+          "metadata": {},
+          "icon": "code-braces"
+        }
+      ],
+      "nestedSystemId": null,
+      "position": {
+        "x": 0,
+        "y": 0
+      },
+      "metadata": {}
     }
   ]
 }
