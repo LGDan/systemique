@@ -2,6 +2,17 @@
   "version": "1.0",
   "components": [
     {
+      "id": "generic-template",
+      "name": "Generic",
+      "type": "generic",
+      "properties": {},
+      "icon": "component",
+      "categories": [
+        "Hardware"
+      ],
+      "interfaces": []
+    },
+    {
       "id": "rackmount-server-template",
       "name": "Rackmount Server",
       "type": "server",
