@@ -28,7 +28,8 @@ const localProperties = ref({
   type: '',
   icon: null,
   properties: {},
-  description: ''
+  description: '',
+  trust: null
 })
 
 watch(component, (newComponent) => {
@@ -38,7 +39,8 @@ watch(component, (newComponent) => {
       type: newComponent.type,
       icon: newComponent.icon,
       properties: { ...newComponent.properties },
-      description: newComponent.description || ''
+      description: newComponent.description || '',
+      trust: newComponent.trust || null
     }
   }
 }, { immediate: true })
@@ -52,6 +54,7 @@ function updateComponent() {
     component.value.icon = localProperties.value.icon
     component.value.properties = localProperties.value.properties
     component.value.description = localProperties.value.description
+    component.value.trust = localProperties.value.trust
     systemStore.saveToLocalStorage()
   }
 }
@@ -181,6 +184,20 @@ function incrementInterfaceName(name) {
             placeholder="Enter component description..."
             @blur="updateComponent"
           />
+        </div>
+
+        <div class="field">
+          <label>Trust</label>
+          <select
+            v-model="localProperties.trust"
+            class="field-input"
+            @change="updateComponent"
+          >
+            <option :value="null">Unset</option>
+            <option value="trusted">Trusted</option>
+            <option value="untrusted">Untrusted</option>
+            <option value="ignored">Ignored</option>
+          </select>
         </div>
       </div>
 

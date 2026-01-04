@@ -26,6 +26,15 @@ const component = computed(() => {
   return props.data.component
 })
 
+// Trust level class for background color
+const trustClass = computed(() => {
+  const trust = component.value?.trust
+  if (trust === 'trusted') return 'trust-trusted'
+  if (trust === 'untrusted') return 'trust-untrusted'
+  if (trust === 'ignored') return 'trust-ignored'
+  return null
+})
+
 // Group interfaces by position
 const interfacesByPosition = computed(() => {
   const interfaces = component.value?.interfaces || []
@@ -301,7 +310,7 @@ function handleSendToLibrary() {
 </script>
 
 <template>
-  <div class="system-node" @contextmenu.prevent="handleContextMenu">
+  <div class="system-node" :class="trustClass" @contextmenu.prevent="handleContextMenu">
     <!-- Top interfaces -->
     <div v-if="interfacesByPosition.top.length > 0" class="interfaces interfaces-top">
       <InterfaceHandle
@@ -387,6 +396,18 @@ function handleSendToLibrary() {
   box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
   position: relative;
   user-select: none;
+}
+
+.system-node.trust-trusted {
+  background: #ccf2cf;
+}
+
+.system-node.trust-untrusted {
+  background: #f1bcc4;
+}
+
+.system-node.trust-ignored {
+  background: #cecece;
 }
 
 .node-main-row {

@@ -16,6 +16,7 @@ export class Component {
     this.icon = null // Material Design Icon name
     this.categories = [] // Array of category strings (e.g., ['Hardware', 'Network'])
     this.description = '' // Component description
+    this.trust = null // Component trust level: null (unset), 'trusted', 'untrusted', 'ignored'
   }
 
   static fromJSON(json) {
@@ -32,6 +33,7 @@ export class Component {
     component.icon = json.icon || null
     component.categories = json.categories || []
     component.description = json.description || ''
+    component.trust = json.trust || null
     return component
   }
 
@@ -47,7 +49,8 @@ export class Component {
       metadata: this.metadata,
       icon: this.icon,
       categories: this.categories,
-      description: this.description
+      description: this.description,
+      trust: this.trust
     }
   }
 
