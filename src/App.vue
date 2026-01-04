@@ -5,6 +5,7 @@ import SystemCanvas from './components/SystemCanvas.vue'
 import PropertiesPanel from './components/PropertiesPanel.vue'
 import GroupDialog from './components/GroupDialog.vue'
 import RulesEditor from './components/RulesEditor.vue'
+import SecurityPanel from './components/SecurityPanel.vue'
 import { useSystemStore } from './stores/systemStore.js'
 import { useVueFlow } from '@vue-flow/core'
 import { ExportService } from './utils/exportService.js'
@@ -15,7 +16,7 @@ const { getSelectedNodes } = useVueFlow()
 
 const showGroupDialog = ref(false)
 const importFileInputRef = ref(null)
-const activeTab = ref('design') // 'design' or 'rules'
+const activeTab = ref('design') // 'design', 'rules', or 'security'
 
 const selectedComponentIds = computed(() => {
   return getSelectedNodes.value.map(n => n.id)
@@ -85,6 +86,12 @@ function handleGroup() {
           >
             Interface Management
           </button>
+          <button 
+            @click="activeTab = 'security'"
+            :class="['tab-button', { active: activeTab === 'security' }]"
+          >
+            Security
+          </button>
         </div>
       </div>
       <div class="header-actions">
@@ -118,6 +125,10 @@ function handleGroup() {
 
     <div v-else-if="activeTab === 'rules'" class="app-content rules-content">
       <RulesEditor />
+    </div>
+
+    <div v-else-if="activeTab === 'security'" class="app-content security-content">
+      <SecurityPanel />
     </div>
 
     <GroupDialog
