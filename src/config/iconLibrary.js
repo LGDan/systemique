@@ -12,7 +12,7 @@ import {
   mdiPowerPlug,
   mdiServerNetwork,
   mdiApi,
-  mdiApplicationBracesOutline,
+  mdiApplicationBraces,
   mdiNetworkOutline,
   mdiCubeOutline,
   mdiServerPlus,
@@ -57,7 +57,16 @@ import {
   mdiFolderKey,
   mdiFolderKeyNetwork,
   mdiOfficeBuilding,
-  mdiWallFire
+  mdiWallFire,
+  mdiDisc,
+  mdiApps,
+  mdiAccount,
+  mdiAccountMultiple,
+  mdiEmoticon,
+  mdiExpansionCard,
+  mdiExpansionCardVariant,
+  mdiNas,
+  mdiApplication
 } from '@mdi/js'
 
 /**
@@ -98,6 +107,7 @@ export const iconRegistry = {
   'microsd': mdiMicroSd,
   'folder-key': mdiFolderKey,
   'folder-key-network': mdiFolderKeyNetwork,
+  'nas': mdiNas,
   
   // Power
   'pdu': mdiPowerSocket,
@@ -118,17 +128,25 @@ export const iconRegistry = {
   // Services & Software
   'api': mdiApi,
   'api-service': mdiApi,
-  'application': mdiApplicationBracesOutline,
+  'application': mdiApplication,
   'cloud': mdiCloudOutline,
   'service': mdiCog,
   'ip': mdiIp,
   'web': mdiWeb,
   'code-braces': mdiCodeBraces,
+  'disc': mdiDisc,
+  'apps': mdiApps,
+  'application-braces': mdiApplicationBraces,
+  'account': mdiAccount,
+  'account-multiple': mdiAccountMultiple,
+  'emoticon': mdiEmoticon,
   
   // Hardware
   'memory': mdiMemory,
   'component': mdiCubeOutline,
   'rack-unit': mdiArrowExpandVertical,
+  'expansion-card': mdiExpansionCard,
+  'expansion-card-variant': mdiExpansionCardVariant,
 
   // Physical
   'physical': mdiCubeOutline,
