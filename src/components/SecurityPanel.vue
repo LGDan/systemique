@@ -1,6 +1,7 @@
 <script setup>
 import { ref } from 'vue'
 import InterfaceAccessAudit from './InterfaceAccessAudit.vue'
+import BoundaryAudit from './BoundaryAudit.vue'
 
 const activeView = ref('interface-access-audit')
 </script>
@@ -16,11 +17,18 @@ const activeView = ref('interface-access-audit')
         >
           Interface Access Audit
         </button>
+        <button 
+          @click="activeView = 'boundary-audit'"
+          :class="['nav-item', { active: activeView === 'boundary-audit' }]"
+        >
+          Boundary Audit
+        </button>
       </nav>
     </div>
     
     <div class="security-content">
       <InterfaceAccessAudit v-if="activeView === 'interface-access-audit'" />
+      <BoundaryAudit v-if="activeView === 'boundary-audit'" />
     </div>
   </div>
 </template>
