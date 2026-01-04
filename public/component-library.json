@@ -2,43 +2,122 @@
   "version": "1.0",
   "components": [
     {
-      "id": "server-template",
-      "name": "Server",
+      "id": "rackmount-server-template",
+      "name": "Rackmount Server",
       "type": "server",
       "properties": {},
       "icon": "server",
-      "categories": ["Hardware", "Compute"],
+      "categories": [
+        "Hardware",
+        "Compute"
+      ],
       "interfaces": [
         {
-          "id": "power-in",
-          "name": "Power Input",
+          "id": "rack-position",
+          "name": "Rack Position",
+          "type": "physical",
+          "direction": "output",
+          "position": "left",
+          "rules": {},
+          "metadata": {},
+          "icon": "rack-unit"
+        },
+        {
+          "id": "psu-1",
+          "name": "PSU 1",
           "type": "power",
           "direction": "input",
           "position": "left",
           "rules": {},
-          "metadata": {}
+          "metadata": {},
+          "icon": "pdu"
         },
         {
-          "id": "network-out",
-          "name": "Network",
+          "id": "psu-2",
+          "name": "PSU 2",
+          "type": "power",
+          "direction": "input",
+          "position": "left",
+          "rules": {},
+          "metadata": {},
+          "icon": "pdu"
+        },
+        {
+          "id": "ipmi",
+          "name": "IPMI",
           "type": "network",
-          "direction": "output",
-          "position": "right",
+          "direction": "input",
+          "position": "left",
           "rules": {},
-          "metadata": {}
+          "metadata": {},
+          "icon": "ethernet"
         },
         {
-          "id": "data-out",
-          "name": "Data",
-          "type": "data",
-          "direction": "output",
+          "id": "1gbe-1",
+          "name": "1GbE 1",
+          "type": "network",
+          "direction": "input",
+          "position": "left",
+          "rules": {},
+          "metadata": {},
+          "icon": "ethernet"
+        },
+        {
+          "id": "1gbe-2",
+          "name": "1GbE 2",
+          "type": "network",
+          "direction": "input",
+          "position": "left",
+          "rules": {},
+          "metadata": {},
+          "icon": "ethernet"
+        },
+        {
+          "id": "1gbe-3",
+          "name": "1GbE 3",
+          "type": "network",
+          "direction": "input",
+          "position": "left",
+          "rules": {},
+          "metadata": {},
+          "icon": "ethernet"
+        },
+        {
+          "id": "1gbe-4",
+          "name": "1GbE 4",
+          "type": "network",
+          "direction": "input",
+          "position": "left",
+          "rules": {},
+          "metadata": {},
+          "icon": "ethernet"
+        },
+        {
+          "id": "drive-bay-1",
+          "name": "Drive Bay 1",
+          "type": "physical",
+          "direction": "input",
           "position": "right",
           "rules": {},
-          "metadata": {}
+          "metadata": {},
+          "icon": "harddisk"
+        },
+        {
+          "id": "drive-bay-2",
+          "name": "Drive Bay 2",
+          "type": "physical",
+          "direction": "input",
+          "position": "right",
+          "rules": {},
+          "metadata": {},
+          "icon": "harddisk"
         }
       ],
       "nestedSystemId": null,
-      "position": { "x": 0, "y": 0 },
+      "position": {
+        "x": 0,
+        "y": 0
+      },
       "metadata": {}
     },
     {
@@ -2757,84 +2836,95 @@
       "metadata": {}
     },
     {
-      "id": "raspberry-pi-template",
+      "id": "raspberry-pi-5-model-b-template",
       "name": "Raspberry Pi 5 Model B",
       "type": "hardware",
       "properties": {},
       "icon": "component",
-      "categories": ["Hardware", "Compute"],
+      "categories": [
+        "Hardware",
+        "Compute"
+      ],
       "interfaces": [
         {
-          "id": "network-in",
+          "id": "ethernet",
           "name": "Ethernet",
-          "type": "network",
+          "type": "rj45-socket",
           "direction": "input",
           "position": "left",
           "rules": {},
-          "metadata": {}
+          "metadata": {},
+          "icon": "ethernet"
         },
         {
-          "id": "hdmi-socket-1",  
+          "id": "micro-hdmi-socket-1",
           "name": "Micro HDMI Socket 1",
           "type": "hdmi",
           "direction": "input",
           "position": "right",
           "rules": {},
-          "metadata": {}
+          "metadata": {},
+          "icon": "hdmi"
         },
         {
-          "id": "hdmi-socket-2",  
+          "id": "micro-hdmi-socket-2",
           "name": "Micro HDMI Socket 2",
           "type": "hdmi",
           "direction": "input",
           "position": "right",
           "rules": {},
-          "metadata": {}
+          "metadata": {},
+          "icon": "hdmi"
         },
         {
-          "id": "usb-c-in",
+          "id": "usb-c-socket-power",
           "name": "USB-C Socket (Power)",
           "type": "usb",
           "direction": "input",
           "position": "left",
           "rules": {},
-          "metadata": {}
+          "metadata": {},
+          "icon": "usb-c-port"
         },
         {
-          "id": "usb-3-a",
+          "id": "usb3-top-left",
           "name": "USB3 Top Left",
           "type": "usb",
           "direction": "input",
           "position": "right",
           "rules": {},
-          "metadata": {}
+          "metadata": {},
+          "icon": "usb"
         },
         {
-          "id": "usb-3-b",
+          "id": "usb3-bottom-left",
           "name": "USB3 Bottom Left",
           "type": "usb",
           "direction": "input",
           "position": "right",
           "rules": {},
-          "metadata": {}
+          "metadata": {},
+          "icon": "usb"
         },
         {
-          "id": "usb-2-a",
+          "id": "usb2-top-right",
           "name": "USB2 Top Right",
           "type": "usb",
           "direction": "input",
           "position": "right",
           "rules": {},
-          "metadata": {}
+          "metadata": {},
+          "icon": "usb"
         },
         {
-          "id": "usb-2-b",
+          "id": "usb2-bottom-right",
           "name": "USB2 Bottom Right",
           "type": "usb",
           "direction": "input",
           "position": "right",
           "rules": {},
-          "metadata": {}
+          "metadata": {},
+          "icon": "usb"
         },
         {
           "id": "microsd-card-slot",
@@ -2843,20 +2933,25 @@
           "direction": "input",
           "position": "right",
           "rules": {},
-          "metadata": {}
+          "metadata": {},
+          "icon": "microsd"
         },
         {
-          "id": "pci-e",
+          "id": "pcie-ffc",
           "name": "PCIe FFC",
           "type": "ffc-cable",
           "direction": "input",
           "position": "right",
           "rules": {},
-          "metadata": {}
+          "metadata": {},
+          "icon": "memory"
         }
       ],
       "nestedSystemId": null,
-      "position": { "x": 0, "y": 0 },
+      "position": {
+        "x": 0,
+        "y": 0
+      },
       "metadata": {}
     },
     {
@@ -2919,6 +3014,488 @@
       ],
       "nestedSystemId": null,
       "position": { "x": 0, "y": 0 },
+      "metadata": {}
+    },
+    {
+      "id": "c13-to-uk-template",
+      "name": "C13 to UK",
+      "type": "cable",
+      "properties": {
+        "type": "C13-C14",
+        "voltage": "250V",
+        "current": "10A"
+      },
+      "icon": "power-cable",
+      "categories": [
+        "Cable",
+        "Power"
+      ],
+      "interfaces": [
+        {
+          "id": "c13-female",
+          "name": "C13 (Female)",
+          "type": "power",
+          "direction": "output",
+          "position": "left",
+          "rules": {},
+          "metadata": {},
+          "icon": "pdu"
+        },
+        {
+          "id": "uk",
+          "name": "UK",
+          "type": "power",
+          "direction": "input",
+          "position": "right",
+          "rules": {},
+          "metadata": {},
+          "icon": "power-socket-uk"
+        }
+      ],
+      "nestedSystemId": null,
+      "position": {
+        "x": 0,
+        "y": 0
+      },
+      "metadata": {}
+    },
+    {
+      "id": "c13-to-uk-(2)-template",
+      "name": "C13 to UK (2)",
+      "type": "cable",
+      "properties": {
+        "type": "C13-C14",
+        "voltage": "250V",
+        "current": "10A"
+      },
+      "icon": "power-cable",
+      "categories": [
+        "Cable",
+        "Power"
+      ],
+      "interfaces": [
+        {
+          "id": "c13-female",
+          "name": "C13 (Female)",
+          "type": "power",
+          "direction": "output",
+          "position": "left",
+          "rules": {},
+          "metadata": {},
+          "icon": "pdu"
+        },
+        {
+          "id": "uk-1",
+          "name": "UK 1",
+          "type": "power",
+          "direction": "input",
+          "position": "right",
+          "rules": {},
+          "metadata": {},
+          "icon": "power-socket-uk"
+        },
+        {
+          "id": "uk-2",
+          "name": "UK 2",
+          "type": "power",
+          "direction": "input",
+          "position": "right",
+          "rules": {},
+          "metadata": {},
+          "icon": "power-socket-uk"
+        }
+      ],
+      "nestedSystemId": null,
+      "position": {
+        "x": 0,
+        "y": 0
+      },
+      "metadata": {}
+    },
+    {
+      "id": "c13-to-uk-(4)-template",
+      "name": "C13 to UK (4)",
+      "type": "cable",
+      "properties": {
+        "type": "C13-C14",
+        "voltage": "250V",
+        "current": "10A"
+      },
+      "icon": "power-cable",
+      "categories": [
+        "Cable",
+        "Power"
+      ],
+      "interfaces": [
+        {
+          "id": "c13-female",
+          "name": "C13 (Female)",
+          "type": "power",
+          "direction": "output",
+          "position": "left",
+          "rules": {},
+          "metadata": {},
+          "icon": "pdu"
+        },
+        {
+          "id": "uk-1",
+          "name": "UK 1",
+          "type": "power",
+          "direction": "input",
+          "position": "right",
+          "rules": {},
+          "metadata": {},
+          "icon": "power-socket-uk"
+        },
+        {
+          "id": "uk-2",
+          "name": "UK 2",
+          "type": "power",
+          "direction": "input",
+          "position": "right",
+          "rules": {},
+          "metadata": {},
+          "icon": "power-socket-uk"
+        },
+        {
+          "id": "uk-3",
+          "name": "UK 3",
+          "type": "power",
+          "direction": "input",
+          "position": "right",
+          "rules": {},
+          "metadata": {},
+          "icon": "power-socket-uk"
+        },
+        {
+          "id": "uk-4",
+          "name": "UK 4",
+          "type": "power",
+          "direction": "input",
+          "position": "right",
+          "rules": {},
+          "metadata": {},
+          "icon": "power-socket-uk"
+        }
+      ],
+      "nestedSystemId": null,
+      "position": {
+        "x": 0,
+        "y": 0
+      },
+      "metadata": {}
+    },
+    {
+      "id": "uk-to-5v-usb-c-template",
+      "name": "UK to 5V USB-C",
+      "type": "psu",
+      "properties": {
+        "type": "C13-C14",
+        "voltage": "250V",
+        "current": "10A"
+      },
+      "icon": "power-cable",
+      "categories": [
+        "Cable",
+        "Power"
+      ],
+      "interfaces": [
+        {
+          "id": "uk-plug",
+          "name": "UK Plug",
+          "type": "power",
+          "direction": "output",
+          "position": "left",
+          "rules": {},
+          "metadata": {},
+          "icon": "power-plug"
+        },
+        {
+          "id": "usb-c",
+          "name": "USB-C",
+          "type": "power",
+          "direction": "output",
+          "position": "right",
+          "rules": {},
+          "metadata": {},
+          "icon": "usb-c-port"
+        }
+      ],
+      "nestedSystemId": null,
+      "position": {
+        "x": 0,
+        "y": 0
+      },
+      "metadata": {}
+    },
+    {
+      "id": "uk-extension-(4)-template",
+      "name": "UK Extension (4)",
+      "type": "cable",
+      "properties": {
+        "type": "C13-C14",
+        "voltage": "250V",
+        "current": "10A"
+      },
+      "icon": "power-cable",
+      "categories": [
+        "Cable",
+        "Power"
+      ],
+      "interfaces": [
+        {
+          "id": "uk",
+          "name": "UK",
+          "type": "power",
+          "direction": "output",
+          "position": "left",
+          "rules": {},
+          "metadata": {},
+          "icon": "power-plug"
+        },
+        {
+          "id": "uk-1",
+          "name": "UK 1",
+          "type": "power",
+          "direction": "input",
+          "position": "right",
+          "rules": {},
+          "metadata": {},
+          "icon": "power-socket-uk"
+        },
+        {
+          "id": "uk-2",
+          "name": "UK 2",
+          "type": "power",
+          "direction": "input",
+          "position": "right",
+          "rules": {},
+          "metadata": {},
+          "icon": "power-socket-uk"
+        },
+        {
+          "id": "uk-3",
+          "name": "UK 3",
+          "type": "power",
+          "direction": "input",
+          "position": "right",
+          "rules": {},
+          "metadata": {},
+          "icon": "power-socket-uk"
+        },
+        {
+          "id": "uk-4",
+          "name": "UK 4",
+          "type": "power",
+          "direction": "input",
+          "position": "right",
+          "rules": {},
+          "metadata": {},
+          "icon": "power-socket-uk"
+        }
+      ],
+      "nestedSystemId": null,
+      "position": {
+        "x": 0,
+        "y": 0
+      },
+      "metadata": {}
+    },
+    {
+      "id": "tower-pc-template",
+      "name": "Tower PC",
+      "type": "pc",
+      "properties": {},
+      "icon": "server",
+      "categories": [
+        "Hardware",
+        "Compute"
+      ],
+      "interfaces": [
+        {
+          "id": "room",
+          "name": "Room",
+          "type": "physical",
+          "direction": "output",
+          "position": "left",
+          "rules": {},
+          "metadata": {},
+          "icon": "door"
+        },
+        {
+          "id": "psu",
+          "name": "PSU",
+          "type": "power",
+          "direction": "input",
+          "position": "left",
+          "rules": {},
+          "metadata": {},
+          "icon": "pdu"
+        },
+        {
+          "id": "1gbe-1",
+          "name": "1GbE 1",
+          "type": "network",
+          "direction": "input",
+          "position": "left",
+          "rules": {},
+          "metadata": {},
+          "icon": "ethernet"
+        },
+        {
+          "id": "1gbe-2",
+          "name": "1GbE 2",
+          "type": "network",
+          "direction": "input",
+          "position": "right",
+          "rules": {},
+          "metadata": {},
+          "icon": "ethernet"
+        },
+        {
+          "id": "drive-bay-1",
+          "name": "Drive Bay 1",
+          "type": "physical",
+          "direction": "input",
+          "position": "right",
+          "rules": {},
+          "metadata": {},
+          "icon": "harddisk"
+        },
+        {
+          "id": "usb",
+          "name": "USB",
+          "type": "data",
+          "direction": "input",
+          "position": "right",
+          "rules": {},
+          "metadata": {},
+          "icon": "usb"
+        }
+      ],
+      "nestedSystemId": null,
+      "position": {
+        "x": 0,
+        "y": 0
+      },
+      "metadata": {}
+    },
+    {
+      "id": "laptop-template",
+      "name": "Laptop",
+      "type": "pc",
+      "properties": {},
+      "icon": "server",
+      "categories": [
+        "Hardware",
+        "Compute"
+      ],
+      "interfaces": [
+        {
+          "id": "charging-port",
+          "name": "Charging Port",
+          "type": "power",
+          "direction": "input",
+          "position": "left",
+          "rules": {},
+          "metadata": {},
+          "icon": "power-plug"
+        },
+        {
+          "id": "1gbe-1",
+          "name": "1GbE 1",
+          "type": "network",
+          "direction": "input",
+          "position": "left",
+          "rules": {},
+          "metadata": {},
+          "icon": "ethernet"
+        },
+        {
+          "id": "drive-bay-1",
+          "name": "Drive Bay 1",
+          "type": "physical",
+          "direction": "input",
+          "position": "right",
+          "rules": {},
+          "metadata": {},
+          "icon": "harddisk"
+        },
+        {
+          "id": "usb",
+          "name": "USB",
+          "type": "data",
+          "direction": "input",
+          "position": "right",
+          "rules": {},
+          "metadata": {},
+          "icon": "usb"
+        },
+        {
+          "id": "wi-fi",
+          "name": "Wi-Fi",
+          "type": "network",
+          "direction": "input",
+          "position": "left",
+          "rules": {},
+          "metadata": {},
+          "icon": "wifi"
+        }
+      ],
+      "nestedSystemId": null,
+      "position": {
+        "x": 0,
+        "y": 0
+      },
+      "metadata": {}
+    },
+    {
+      "id": "wi-fi-access-point-template",
+      "name": "Wi-Fi Access Point",
+      "type": "wifi-ap",
+      "properties": {},
+      "icon": "access-point",
+      "categories": [
+        "Hardware",
+        "Compute"
+      ],
+      "interfaces": [
+        {
+          "id": "1gbe-1",
+          "name": "1GbE 1",
+          "type": "network",
+          "direction": "input",
+          "position": "left",
+          "rules": {},
+          "metadata": {},
+          "icon": "ethernet"
+        },
+        {
+          "id": "wi-fi",
+          "name": "Wi-Fi",
+          "type": "network",
+          "direction": "input",
+          "position": "right",
+          "rules": {},
+          "metadata": {},
+          "icon": "wifi"
+        },
+        {
+          "id": "1gbe-2",
+          "name": "1GbE 2",
+          "type": "network",
+          "direction": "input",
+          "position": "left",
+          "rules": {},
+          "metadata": {},
+          "icon": "ethernet"
+        }
+      ],
+      "nestedSystemId": null,
+      "position": {
+        "x": 0,
+        "y": 0
+      },
       "metadata": {}
     }
   ]
