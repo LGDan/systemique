@@ -55,6 +55,12 @@ const contextMenuItems = computed(() => {
       action: 'copyAsJSONTemplate'
     },
     {
+      id: 'duplicate',
+      label: 'Duplicate',
+      icon: '📑',
+      action: 'duplicate'
+    },
+    {
       id: 'send-to-library',
       label: 'Send to Library',
       icon: '📚',
@@ -81,6 +87,8 @@ function handleMenuSelect(item) {
     handleCopyAsJSON()
   } else if (item.action === 'copyAsJSONTemplate') {
     handleCopyAsJSONTemplate()
+  } else if (item.action === 'duplicate') {
+    handleDuplicate()
   } else if (item.action === 'sendToLibrary') {
     handleSendToLibrary()
   } else if (item.action === 'delete') {
@@ -227,6 +235,45 @@ async function handleCopyAsJSONTemplate() {
   } catch (error) {
     console.error('Error copying component template to clipboard:', error)
     alert(`Failed to copy component template to clipboard: ${error.message}`)
+  }
+}
+
+function handleDuplicate() {
+  try {
+    const originalComponent = component.value
+    if (!originalComponent) {
+      alert('No component selected to duplicate.')
+      return
+    }
+
+    // Create a deep copy of the component
+    const componentData = originalComponent.toJSON()
+    const duplicatedComponent = Component.fromJSON(componentData)
+    
+    // Generate new unique ID for the component
+    duplicatedComponent.id = generateUniqueId('component')
+    
+    // Offset position so duplicate doesn't overlap (offset by 50px)
+    duplicatedComponent.position = {
+      x: originalComponent.position.x + 50,
+      y: originalComponent.position.y + 50
+    }
+    
+    // Clear nested system reference (duplicate shouldn't share nested system)
+    duplicatedComponent.nestedSystemId = null
+    
+    // Generate new IDs for all interfaces to avoid conflicts
+    duplicatedComponent.interfaces = duplicatedComponent.interfaces.map(iface => {
+      const newInterfaceId = generateUniqueId('interface')
+      iface.id = newInterfaceId
+      return iface
+    })
+    
+    // Add the duplicated component to the system
+    systemStore.addComponent(duplicatedComponent)
+  } catch (error) {
+    console.error('Error duplicating component:', error)
+    alert(`Failed to duplicate component: ${error.message}`)
   }
 }
 
