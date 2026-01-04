@@ -48,6 +48,7 @@ function updateComponent() {
     component.value.type = localProperties.value.type
     component.value.icon = localProperties.value.icon
     component.value.properties = localProperties.value.properties
+    systemStore.saveToLocalStorage()
   }
 }
 
@@ -57,6 +58,7 @@ function addInterface() {
   const newInterfaceId = `interface-${Date.now()}-${Math.random().toString(36).substr(2, 9)}`
   const newInterface = new Interface(newInterfaceId, 'New Interface', 'custom', 'input')
   component.value.addInterface(newInterface)
+  systemStore.saveToLocalStorage()
 }
 
 function updateInterface(updatedInterface) {
@@ -65,12 +67,14 @@ function updateInterface(updatedInterface) {
   const iface = component.value.getInterface(updatedInterface.id)
   if (iface) {
     Object.assign(iface, updatedInterface)
+    systemStore.saveToLocalStorage()
   }
 }
 
 function removeInterface(interfaceId) {
   if (!component.value) return
   component.value.removeInterface(interfaceId)
+  systemStore.saveToLocalStorage()
 }
 
 function duplicateInterface(interfaceId) {
@@ -95,9 +99,11 @@ function duplicateInterface(interfaceId) {
   )
   newInterface.position = sourceInterface.position
   newInterface.icon = sourceInterface.icon
+  newInterface.access = sourceInterface.access
   newInterface.metadata = { ...sourceInterface.metadata }
   
   component.value.addInterface(newInterface)
+  systemStore.saveToLocalStorage()
 }
 
 /**

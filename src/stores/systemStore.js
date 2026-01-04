@@ -1,9 +1,10 @@
 import { defineStore } from 'pinia'
-import { ref, computed } from 'vue'
+import { ref, computed, watch } from 'vue'
 import { System } from '../models/System.js'
 import { Component } from '../models/Component.js'
 import { Connection } from '../models/Connection.js'
 import { Interface } from '../models/Interface.js'
+import { PersistenceService } from '../utils/persistenceService.js'
 
 export const useSystemStore = defineStore('system', () => {
   // Current system being viewed
@@ -15,9 +16,24 @@ export const useSystemStore = defineStore('system', () => {
 
   // Initialize with a root system
   const rootSystemId = 'root'
-  const rootSystem = new System(rootSystemId, 'Root System')
-  systems.value.set(rootSystemId, rootSystem)
-  currentSystemId.value = rootSystemId
+  let rootSystem = new System(rootSystemId, 'Root System')
+  
+  // Try to load from localStorage on initialization
+  const storedSystem = PersistenceService.loadFromLocalStorage()
+  if (storedSystem) {
+    rootSystem = storedSystem
+    // If stored system has a different ID, use it
+    if (storedSystem.id !== rootSystemId) {
+      systems.value.set(storedSystem.id, storedSystem)
+      currentSystemId.value = storedSystem.id
+    } else {
+      systems.value.set(rootSystemId, rootSystem)
+      currentSystemId.value = rootSystemId
+    }
+  } else {
+    systems.value.set(rootSystemId, rootSystem)
+    currentSystemId.value = rootSystemId
+  }
 
   // Computed
   const currentSystem = computed(() => {
@@ -50,6 +66,7 @@ export const useSystemStore = defineStore('system', () => {
     const system = currentSystem.value
     if (system) {
       system.addComponent(component)
+      autoSave()
     }
   }
 
@@ -57,6 +74,7 @@ export const useSystemStore = defineStore('system', () => {
     const system = currentSystem.value
     if (system) {
       system.removeComponent(componentId)
+      autoSave()
     }
   }
 
@@ -69,6 +87,7 @@ export const useSystemStore = defineStore('system', () => {
     const system = currentSystem.value
     if (system) {
       system.addConnection(connection)
+      autoSave()
     }
   }
 
@@ -76,6 +95,7 @@ export const useSystemStore = defineStore('system', () => {
     const system = currentSystem.value
     if (system) {
       system.removeConnection(connectionId)
+      autoSave()
     }
   }
 
@@ -117,8 +137,56 @@ export const useSystemStore = defineStore('system', () => {
   function importSystem(json) {
     const system = System.fromJSON(json)
     systems.value.set(system.id, system)
+    currentSystemId.value = system.id
+    saveToLocalStorage()
     return system.id
   }
+
+  // Save current system to localStorage
+  function saveToLocalStorage() {
+    const system = currentSystem.value
+    if (system) {
+      PersistenceService.saveToLocalStorage(system)
+    }
+  }
+
+  // Load system from localStorage
+  function loadFromLocalStorage() {
+    const storedSystem = PersistenceService.loadFromLocalStorage()
+    if (storedSystem) {
+      systems.value.set(storedSystem.id, storedSystem)
+      currentSystemId.value = storedSystem.id
+      return true
+    }
+    return false
+  }
+
+  // Clear localStorage
+  function clearLocalStorage() {
+    PersistenceService.clearLocalStorage()
+  }
+
+  // Debounced auto-save
+  let saveTimeout = null
+  function autoSave() {
+    if (saveTimeout) {
+      clearTimeout(saveTimeout)
+    }
+    saveTimeout = setTimeout(() => {
+      saveToLocalStorage()
+    }, 500) // Debounce by 500ms
+  }
+
+  // Watch for changes to the current system and auto-save
+  watch(
+    () => currentSystem.value,
+    () => {
+      if (currentSystem.value) {
+        autoSave()
+      }
+    },
+    { deep: true }
+  )
 
   return {
     // State
@@ -144,7 +212,10 @@ export const useSystemStore = defineStore('system', () => {
     drillUp,
     createNestedSystem,
     exportSystem,
-    importSystem
+    importSystem,
+    saveToLocalStorage,
+    loadFromLocalStorage,
+    clearLocalStorage
   }
 })
 

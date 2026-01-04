@@ -7,11 +7,13 @@ import GroupDialog from './components/GroupDialog.vue'
 import { useSystemStore } from './stores/systemStore.js'
 import { useVueFlow } from '@vue-flow/core'
 import { ExportService } from './utils/exportService.js'
+import { PersistenceService } from './utils/persistenceService.js'
 
 const systemStore = useSystemStore()
 const { getSelectedNodes } = useVueFlow()
 
 const showGroupDialog = ref(false)
+const importFileInputRef = ref(null)
 
 const selectedComponentIds = computed(() => {
   return getSelectedNodes.value.map(n => n.id)
@@ -22,6 +24,27 @@ function handleExport() {
   if (system) {
     ExportService.downloadJSON(system)
   }
+}
+
+function handleImportClick() {
+  importFileInputRef.value?.click()
+}
+
+async function handleImportFile(event) {
+  const file = event.target.files?.[0]
+  if (!file) return
+
+  try {
+    const system = await PersistenceService.importFromFile(file)
+    systemStore.importSystem(system.toJSON())
+    alert(`Successfully imported system: ${system.name}`)
+  } catch (error) {
+    console.error('Failed to import system:', error)
+    alert('Failed to import system: ' + error.message)
+  }
+
+  // Clear the file input
+  event.target.value = ''
 }
 
 function handleGroup() {
@@ -41,9 +64,19 @@ function handleGroup() {
         <button @click="handleGroup" :disabled="selectedComponentIds.length < 2" class="action-button">
           Group Components
         </button>
+        <button @click="handleImportClick" class="action-button">
+          Import System
+        </button>
         <button @click="handleExport" class="action-button primary">
           Export System
         </button>
+        <input
+          ref="importFileInputRef"
+          type="file"
+          accept=".json"
+          style="display: none"
+          @change="handleImportFile"
+        />
       </div>
     </div>
 

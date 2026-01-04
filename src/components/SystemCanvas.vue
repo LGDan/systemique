@@ -39,16 +39,24 @@ watch(() => systemStore.currentSystem?.connections.length, () => {
 
 // Handle node changes (position updates, deletion, etc.)
 onNodesChange((changes) => {
+  let positionChanged = false
+  
   changes.forEach(change => {
     if (change.type === 'position' && change.dragging === false) {
       const component = systemStore.getComponent(change.id)
       if (component && change.position) {
         component.position = change.position
+        positionChanged = true
       }
     } else if (change.type === 'remove') {
       systemStore.removeComponent(change.id)
     }
   })
+  
+  // Save position changes to localStorage (only once per batch)
+  if (positionChanged) {
+    systemStore.saveToLocalStorage()
+  }
 })
 
 // Handle edge changes
