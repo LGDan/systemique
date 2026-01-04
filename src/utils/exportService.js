@@ -57,5 +57,60 @@ export class ExportService {
   static exportDocumentation(system, allSystems = null) {
     return generateDocumentation(system, allSystems)
   }
+
+  /**
+   * Export BOM as CSV format
+   * CSV includes: ID, Name, Type, Icon
+   */
+  static exportBOMToCSV(system) {
+    const components = system.components || []
+    
+    // CSV header
+    const headers = ['ID', 'Name', 'Type', 'Icon']
+    
+    // CSV rows
+    const rows = components.map(component => {
+      // Escape CSV values (handle commas, quotes, newlines)
+      const escapeCSV = (value) => {
+        if (value === null || value === undefined) {
+          return ''
+        }
+        const stringValue = String(value)
+        // If value contains comma, quote, or newline, wrap in quotes and escape quotes
+        if (stringValue.includes(',') || stringValue.includes('"') || stringValue.includes('\n')) {
+          return `"${stringValue.replace(/"/g, '""')}"`
+        }
+        return stringValue
+      }
+      
+      return [
+        escapeCSV(component.id),
+        escapeCSV(component.name),
+        escapeCSV(component.type),
+        escapeCSV(component.icon || '')
+      ].join(',')
+    })
+    
+    // Combine header and rows
+    const csvContent = [headers.join(','), ...rows].join('\n')
+    
+    return csvContent
+  }
+
+  /**
+   * Download BOM as CSV file
+   */
+  static downloadBOMCSV(system, filename = null) {
+    const csv = this.exportBOMToCSV(system)
+    const blob = new Blob([csv], { type: 'text/csv;charset=utf-8;' })
+    const url = URL.createObjectURL(blob)
+    const link = document.createElement('a')
+    link.href = url
+    link.download = filename || `bom-${system.name}-${Date.now()}.csv`
+    document.body.appendChild(link)
+    link.click()
+    document.body.removeChild(link)
+    URL.revokeObjectURL(url)
+  }
 }
 

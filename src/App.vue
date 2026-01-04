@@ -26,6 +26,17 @@ function handleExport() {
   }
 }
 
+function handleExportBOM() {
+  const system = systemStore.currentSystem
+  if (system) {
+    if (system.components.length === 0) {
+      alert('No components to export in the current system.')
+      return
+    }
+    ExportService.downloadBOMCSV(system)
+  }
+}
+
 function handleImportClick() {
   importFileInputRef.value?.click()
 }
@@ -69,6 +80,9 @@ function handleGroup() {
         </button>
         <button @click="handleExport" class="action-button primary">
           Export System
+        </button>
+        <button @click="handleExportBOM" class="action-button">
+          Export BOM (CSV)
         </button>
         <input
           ref="importFileInputRef"
