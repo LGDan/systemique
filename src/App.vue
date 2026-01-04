@@ -49,9 +49,18 @@ async function handleImportFile(event) {
   if (!file) return
 
   try {
-    const system = await PersistenceService.importFromFile(file)
-    systemStore.importSystem(system.toJSON())
-    alert(`Successfully imported system: ${system.name}`)
+    const result = await PersistenceService.importFromFile(file)
+    systemStore.importSystem(result.system.toJSON())
+    
+    // Import interface types and rules if present
+    if (result.interfaceTypes || result.interfaceRules) {
+      PersistenceService.importInterfaceConfig(result.interfaceTypes, result.interfaceRules)
+    }
+    
+    const message = result.interfaceTypes || result.interfaceRules
+      ? `Successfully imported system: ${result.system.name}\nInterface types and rules have been imported.`
+      : `Successfully imported system: ${result.system.name}`
+    alert(message)
   } catch (error) {
     console.error('Failed to import system:', error)
     alert('Failed to import system: ' + error.message)

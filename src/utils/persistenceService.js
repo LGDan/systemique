@@ -1,5 +1,8 @@
 import { ExportService } from './exportService.js'
 import { System } from '../models/System.js'
+import { useInterfaceTypesStore } from '../stores/interfaceTypesStore.js'
+import { useInterfaceRulesStore } from '../stores/interfaceRulesStore.js'
+import { InterfaceType } from '../models/InterfaceType.js'
 
 const STORAGE_KEY = 'systemique-design-state'
 
@@ -13,10 +16,15 @@ export class PersistenceService {
    */
   static saveToLocalStorage(system) {
     try {
+      const typesStore = useInterfaceTypesStore()
+      const rulesStore = useInterfaceRulesStore()
+      
       const exportData = {
         version: '1.0',
         savedAt: new Date().toISOString(),
-        system: system.toJSON()
+        system: system.toJSON(),
+        interfaceTypes: typesStore.getAllTypes().map(t => t.toJSON()),
+        interfaceRules: rulesStore.getAllRules()
       }
       
       const jsonString = JSON.stringify(exportData, null, 2)
@@ -31,6 +39,7 @@ export class PersistenceService {
   /**
    * Load system from localStorage
    * Returns the system object or null if not found/invalid
+   * Also restores interface types and rules if present
    */
   static loadFromLocalStorage() {
     try {
@@ -45,6 +54,26 @@ export class PersistenceService {
       if (!data.system) {
         console.warn('Invalid stored data format')
         return null
+      }
+
+      // Restore interface types if present
+      if (data.interfaceTypes && Array.isArray(data.interfaceTypes)) {
+        const typesStore = useInterfaceTypesStore()
+        typesStore.importTypes(data.interfaceTypes)
+      }
+
+      // Restore interface rules if present
+      if (data.interfaceRules && typeof data.interfaceRules === 'object') {
+        const rulesStore = useInterfaceRulesStore()
+        // Clear existing rules
+        rulesStore.clearAllRules()
+        // Load the rules
+        Object.entries(data.interfaceRules).forEach(([key, value]) => {
+          const [type1, type2] = key.split('-')
+          if (type1 && type2) {
+            rulesStore.setRule(type1, type2, value)
+          }
+        })
       }
 
       // Reconstruct system from JSON
@@ -78,6 +107,8 @@ export class PersistenceService {
 
   /**
    * Import system from JSON string (same format as export)
+   * Also imports interface types and rules if present
+   * Returns an object with { system, interfaceTypes, interfaceRules }
    */
   static importFromJSON(jsonString) {
     try {
@@ -95,10 +126,41 @@ export class PersistenceService {
       }
 
       const system = System.fromJSON(systemData)
-      return system
+      
+      return {
+        system,
+        interfaceTypes: data.interfaceTypes || null,
+        interfaceRules: data.interfaceRules || null
+      }
     } catch (error) {
       console.error('Failed to import from JSON:', error)
       throw new Error(`Failed to import system: ${error.message}`)
+    }
+  }
+
+  /**
+   * Import interface types and rules into their respective stores
+   */
+  static importInterfaceConfig(interfaceTypes, interfaceRules) {
+    const typesStore = useInterfaceTypesStore()
+    const rulesStore = useInterfaceRulesStore()
+
+    // Import interface types
+    if (interfaceTypes && Array.isArray(interfaceTypes)) {
+      typesStore.importTypes(interfaceTypes)
+    }
+
+    // Import interface rules
+    if (interfaceRules && typeof interfaceRules === 'object') {
+      // Clear existing rules
+      rulesStore.clearAllRules()
+      // Load the rules
+      Object.entries(interfaceRules).forEach(([key, value]) => {
+        const [type1, type2] = key.split('-')
+        if (type1 && type2) {
+          rulesStore.setRule(type1, type2, value)
+        }
+      })
     }
   }
 

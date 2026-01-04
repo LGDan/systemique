@@ -1,5 +1,7 @@
 import { generateBOM } from './bomGenerator.js'
 import { generateDocumentation } from './documentGenerator.js'
+import { useInterfaceTypesStore } from '../stores/interfaceTypesStore.js'
+import { useInterfaceRulesStore } from '../stores/interfaceRulesStore.js'
 
 /**
  * Export Service - Handles exporting systems to various formats
@@ -8,7 +10,7 @@ export class ExportService {
   /**
    * Export system to JSON format
    */
-  static exportToJSON(system, includeBOM = true, includeDocs = true) {
+  static exportToJSON(system, includeBOM = true, includeDocs = true, includeInterfaceConfig = true) {
     const exportData = {
       version: '1.0',
       exportedAt: new Date().toISOString(),
@@ -23,6 +25,15 @@ export class ExportService {
       // For full documentation, we'd need all systems
       // For now, just document the current system
       exportData.documentation = generateDocumentation(system)
+    }
+
+    // Include interface types and rules
+    if (includeInterfaceConfig) {
+      const typesStore = useInterfaceTypesStore()
+      const rulesStore = useInterfaceRulesStore()
+      
+      exportData.interfaceTypes = typesStore.getAllTypes().map(t => t.toJSON())
+      exportData.interfaceRules = rulesStore.getAllRules()
     }
 
     return JSON.stringify(exportData, null, 2)

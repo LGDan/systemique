@@ -90,13 +90,49 @@ export const useInterfaceTypesStore = defineStore('interfaceTypes', () => {
     updateType(id, { color })
   }
 
+  /**
+   * Import types from JSON array
+   * Merges with existing types - updates if ID exists, adds if new
+   */
+  function importTypes(typesData) {
+    if (!Array.isArray(typesData)) {
+      console.error('Invalid types data for import')
+      return
+    }
+
+    typesData.forEach(typeData => {
+      try {
+        const type = InterfaceType.fromJSON(typeData)
+        const existingType = interfaceTypes.value.find(t => t.id === type.id)
+        
+        if (existingType) {
+          // Update existing type
+          updateType(type.id, {
+            name: type.name,
+            description: type.description,
+            color: type.color,
+            icon: type.icon
+          })
+        } else {
+          // Add new type - but preserve the original ID
+          // We need to add it directly to maintain the ID
+          interfaceTypes.value.push(type)
+          saveToLocalStorage()
+        }
+      } catch (error) {
+        console.error('Failed to import interface type:', typeData, error)
+      }
+    })
+  }
+
   return {
     getAllTypes,
     getType,
     updateType,
     addType,
     removeType,
-    updateTypeColor
+    updateTypeColor,
+    importTypes
   }
 })
 
