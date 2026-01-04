@@ -9,6 +9,7 @@ export class Interface {
     this.direction = direction // 'input' or 'output'
     this.position = direction === 'input' ? 'left' : 'right' // 'top', 'bottom', 'left', 'right'
     this.icon = null // Optional icon name for the interface
+    this.access = null // Access level: 'trusted', 'untrusted', 'ignored', or null (unset)
     this.validationRules = validationRules // Custom validation rules
     this.metadata = {} // Additional metadata
   }
@@ -23,6 +24,7 @@ export class Interface {
     )
     iface.position = json.position || (json.direction === 'input' ? 'left' : 'right')
     iface.icon = json.icon || null
+    iface.access = json.access || null
     iface.metadata = json.metadata || {}
     return iface
   }
@@ -35,6 +37,7 @@ export class Interface {
       direction: this.direction,
       position: this.position,
       icon: this.icon,
+      access: this.access,
       validationRules: this.validationRules,
       metadata: this.metadata
     }

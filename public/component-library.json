@@ -942,6 +942,68 @@
       "nestedSystemId": null,
       "position": { "x": 0, "y": 0 },
       "metadata": {}
+    },
+    {
+      "id": "sata-hdd-template",
+      "name": "SATA HDD",
+      "type": "hardware",
+      "properties": {},
+      "icon": "harddisk",
+      "categories": ["Hardware", "Storage"],
+      "interfaces": [
+        {
+          "id": "sata-in",
+          "name": "SATA",
+          "type": "data",
+          "direction": "input",
+          "position": "left",
+          "rules": {},
+          "metadata": {}
+        },
+        {
+          "id": "sata-power-in",
+          "name": "SATA Power",
+          "type": "power",
+          "direction": "input",
+          "position": "left",
+          "rules": {},
+          "metadata": {}
+        }
+      ],
+      "nestedSystemId": null,
+      "position": { "x": 0, "y": 0 },
+      "metadata": {}
+    },
+    {
+      "id": "sata-ssd-template",
+      "name": "SATA SSD",
+      "type": "hardware",  
+      "properties": {},
+      "icon": "ssd",
+      "categories": ["Hardware", "Storage"],
+      "interfaces": [
+        {
+          "id": "sata-in",
+          "name": "SATA",
+          "type": "data",
+          "direction": "input",
+          "position": "left",
+          "rules": {},
+          "metadata": {}
+        },
+        {
+          "id": "sata-power-in",
+          "name": "SATA Power",
+          "type": "power",
+          "direction": "input",
+          "position": "left",
+          "rules": {},
+          "metadata": {}
+        }
+      ],
+      "nestedSystemId": null,
+      "position": { "x": 0, "y": 0 },
+      "metadata": {}
     }
   ]
 }

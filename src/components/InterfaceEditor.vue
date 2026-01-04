@@ -21,6 +21,7 @@ const localInterface = ref({
   direction: props.interface.direction,
   position: props.interface.position || (props.interface.direction === 'input' ? 'left' : 'right'),
   icon: props.interface.icon || null,
+  access: props.interface.access || null,
   validationRules: { ...props.interface.validationRules }
 })
 
@@ -79,6 +80,16 @@ function duplicateInterface() {
           <option value="bottom">Bottom</option>
           <option value="left">Left</option>
           <option value="right">Right</option>
+        </select>
+      </div>
+
+      <div class="field">
+        <label>Access</label>
+        <select v-model="localInterface.access" @change="updateInterface" class="field-input">
+          <option :value="null">Unset</option>
+          <option value="trusted">Trusted</option>
+          <option value="untrusted">Untrusted</option>
+          <option value="ignored">Ignored</option>
         </select>
       </div>
 
