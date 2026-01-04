@@ -14,7 +14,7 @@ import { Connection } from '../models/Connection.js'
 const systemStore = useSystemStore()
 const libraryStore = useComponentLibraryStore()
 const vueFlow = useVueFlow()
-const { onConnect, addEdges, removeEdges, onNodesChange, onEdgesChange, addNodes, screenToFlowCoordinate } = vueFlow
+const { onConnect, addEdges, removeEdges, onNodesChange, onEdgesChange, addNodes, screenToFlowCoordinate, onNodeDragStop } = vueFlow
 
 const nodes = ref([])
 const edges = ref([])
@@ -37,15 +37,35 @@ watch(() => systemStore.currentSystem?.connections.length, () => {
   }
 })
 
+// Handle node drag stop - this fires when dragging ends
+if (onNodeDragStop) {
+  onNodeDragStop((event) => {
+    const component = systemStore.getComponent(event.node.id)
+    if (component && event.node.position) {
+      // Update component position
+      component.position = {
+        x: event.node.position.x,
+        y: event.node.position.y
+      }
+      // Save to localStorage
+      systemStore.saveToLocalStorage()
+    }
+  })
+}
+
 // Handle node changes (position updates, deletion, etc.)
 onNodesChange((changes) => {
   let positionChanged = false
   
   changes.forEach(change => {
     if (change.type === 'position' && change.dragging === false) {
+      // Fallback: handle position changes when dragging ends
       const component = systemStore.getComponent(change.id)
       if (component && change.position) {
-        component.position = change.position
+        component.position = {
+          x: change.position.x,
+          y: change.position.y
+        }
         positionChanged = true
       }
     } else if (change.type === 'remove') {
