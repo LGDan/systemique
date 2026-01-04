@@ -3,6 +3,7 @@ import { computed, ref, onMounted, onUnmounted } from 'vue'
 import { Position } from '@vue-flow/core'
 import InterfaceHandle from './InterfaceHandle.vue'
 import ContextMenu from './ContextMenu.vue'
+import InstallationGuideModal from './InstallationGuideModal.vue'
 import MdiIcon from './MdiIcon.vue'
 import { useSystemStore } from '../stores/systemStore.js'
 import { useComponentLibraryStore } from '../stores/componentLibraryStore.js'
@@ -48,9 +49,16 @@ const interfacesByPosition = computed(() => {
 
 const contextMenuVisible = ref(false)
 const contextMenuPosition = ref({ x: 0, y: 0 })
+const installationGuideVisible = ref(false)
 
 const contextMenuItems = computed(() => {
   return [
+    {
+      id: 'installation-guide',
+      label: 'Installation Guide',
+      icon: '📖',
+      action: 'installationGuide'
+    },
     {
       id: 'copy-as-json',
       label: 'Copy as JSON',
@@ -92,7 +100,9 @@ function handleContextMenu(event) {
 }
 
 function handleMenuSelect(item) {
-  if (item.action === 'copyAsJSON') {
+  if (item.action === 'installationGuide') {
+    installationGuideVisible.value = true
+  } else if (item.action === 'copyAsJSON') {
     handleCopyAsJSON()
   } else if (item.action === 'copyAsJSONTemplate') {
     handleCopyAsJSONTemplate()
@@ -377,6 +387,11 @@ function handleSendToLibrary() {
         :items="contextMenuItems"
         @close="contextMenuVisible = false"
         @select="handleMenuSelect"
+      />
+      <InstallationGuideModal
+        :visible="installationGuideVisible"
+        :component-id="component?.id"
+        @close="installationGuideVisible = false"
       />
     </Teleport>
   </div>
