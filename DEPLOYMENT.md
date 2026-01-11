@@ -3,6 +3,7 @@
 ## Docker Deployment
 
 ### Prerequisites
+
 - Docker (with BuildKit enabled - default in Docker 20.10+)
 - Docker Compose
 
@@ -13,6 +14,7 @@ The Dockerfile uses BuildKit cache mounts to cache npm packages between builds, 
 ### Building and Running with Docker Compose
 
 1. **Build and start the container:**
+
    ```bash
    docker-compose up -d --build
    ```
@@ -21,11 +23,13 @@ The Dockerfile uses BuildKit cache mounts to cache npm packages between builds, 
    Open your browser and navigate to `http://localhost:8080`
 
 3. **View logs:**
+
    ```bash
    docker-compose logs -f
    ```
 
 4. **Stop the container:**
+
    ```bash
    docker-compose down
    ```
@@ -33,16 +37,19 @@ The Dockerfile uses BuildKit cache mounts to cache npm packages between builds, 
 ### Building with Docker (without Compose)
 
 1. **Build the image:**
+
    ```bash
    docker build -t systemique:latest .
    ```
 
 2. **Run the container:**
+
    ```bash
    docker run -d -p 8080:80 --name systemique systemique:latest
    ```
 
 3. **Stop and remove:**
+
    ```bash
    docker stop systemique
    docker rm systemique
@@ -61,7 +68,7 @@ The Dockerfile uses BuildKit cache mounts to cache npm packages between builds, 
 ### Development vs Production
 
 The Docker setup is optimized for production builds. For development, continue using:
+
 ```bash
 npm start
 ```
-
