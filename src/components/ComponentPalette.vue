@@ -132,7 +132,7 @@ async function handleReload() {
             v-if="component.icon" 
             :name="component.icon" 
             :size="32"
-            color="#666"
+            color="white"
           />
           <span v-else>{{ component.type.charAt(0).toUpperCase() }}</span>
         </div>
