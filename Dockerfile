@@ -4,7 +4,7 @@ FROM node:20-alpine AS builder
 WORKDIR /app
 
 # Copy package files
-COPY package.json package-lock.json ./
+COPY package.json ./
 
 # Install dependencies with cache mount for faster rebuilds
 RUN --mount=type=cache,target=/root/.npm \
@@ -19,19 +19,25 @@ COPY index.html vite.config.js package.json ./
 RUN npm run build
 
 # Production stage
-FROM nginx:alpine
+FROM caddy:2-alpine
+
+# Install curl for healthchecks
+RUN apk add --no-cache curl
 
 # Copy built files from builder stage
-COPY --from=builder /app/dist /usr/share/nginx/html
+COPY --from=builder /app/dist /usr/share/caddy
 
-# Copy nginx configuration (optional, for SPA routing)
-COPY nginx.conf /etc/nginx/conf.d/default.conf
+# Copy Caddy configuration
+COPY Caddyfile /etc/caddy/Caddyfile
 
-# Expose port 80
-EXPOSE 80
+# # Create a non-root user for Caddy (Caddy runs as non-root by default)
+# # Set ownership of web root
+# RUN chown -R caddy:caddy /usr/share/caddy
 
-USER nginx
+# Expose port 8080 (high port, no root required)
+EXPOSE 8080
 
-# Start nginx
-CMD ["nginx", "-g", "daemon off;"]
+# Caddy runs as non-root by default, no USER directive needed
+# Start Caddy
+CMD ["caddy", "run", "--config", "/etc/caddy/Caddyfile"]
 
