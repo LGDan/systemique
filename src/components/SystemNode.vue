@@ -146,9 +146,9 @@ function slugify(text) {
   return text
     .toLowerCase()
     .trim()
-    .replace(/[^\w\s-]/g, '') // Remove special characters
-    .replace(/[\s_-]+/g, '-') // Replace spaces, underscores, and multiple hyphens with single hyphen
-    .replace(/^-+|-+$/g, '') // Remove leading/trailing hyphens
+    .replaceAll(/[^\w\s-]/g, '') // Remove special characters
+    .replaceAll(/[\s_-]+/g, '-') // Replace spaces, underscores, and multiple hyphens with single hyphen
+    .replaceAll(/(^-+)|(-+$)/g, '') // Remove leading/trailing hyphens
 }
 
 async function handleCopyAsJSON() {
@@ -175,7 +175,7 @@ async function handleCopyAsJSON() {
       document.body.appendChild(textArea)
       textArea.select()
       document.execCommand('copy')
-      document.body.removeChild(textArea)
+      textArea.remove()
       alert(`Component "${componentToCopy.name}" JSON copied to clipboard!`)
     }
   } catch (error) {
@@ -196,7 +196,7 @@ async function handleCopyAsJSONTemplate() {
     const jsonData = componentToCopy.toJSON()
     
     // Generate a template-friendly ID (lowercase, hyphenated)
-    const templateId = `${componentToCopy.name.toLowerCase().replace(/\s+/g, '-')}-template`
+    const templateId = `${componentToCopy.name.toLowerCase().replaceAll(/\s+/g, '-')}-template`
     
     // Create template object matching component-library.json format
     const templateData = {
@@ -248,7 +248,7 @@ async function handleCopyAsJSONTemplate() {
       document.body.appendChild(textArea)
       textArea.select()
       document.execCommand('copy')
-      document.body.removeChild(textArea)
+      textArea.remove()
       alert(`Component "${componentToCopy.name}" template JSON copied to clipboard!`)
     }
   } catch (error) {
@@ -497,7 +497,7 @@ function handleSendToLibrary() {
 
 .nested-indicator {
   background-color: #E3F2FD;
-  color: #1976D2;
+  color: #145ea9;
 }
 
 .drill-down-button {
