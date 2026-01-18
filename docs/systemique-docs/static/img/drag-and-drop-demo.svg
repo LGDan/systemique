@@ -1,0 +1,97 @@
+<svg width="400" height="300" viewBox="0 0 400 300" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <linearGradient id="grad1" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#2A8A84;stop-opacity:1" />
+      <stop offset="100%" style="stop-color:#2b726d;stop-opacity:1" />
+    </linearGradient>
+    <linearGradient id="grad2" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#2A8A84;stop-opacity:0.5" />
+      <stop offset="100%" style="stop-color:#2b726d;stop-opacity:0.5" />
+    </linearGradient>
+  </defs>
+  
+  <!-- Left component (static) -->
+  <rect x="70" y="120" width="80" height="60" rx="8" ry="8" fill="url(#grad1)"/>
+  <text x="110" y="155" text-anchor="middle" fill="white" font-family="Arial, sans-serif" font-size="11" font-weight="600">Component</text>
+  
+  <!-- Connection point on right side of left component -->
+  <circle cx="150" cy="150" r="4" fill="white" opacity="0.9"/>
+  
+  <!-- Right component (static) -->
+  <rect x="250" y="120" width="80" height="60" rx="8" ry="8" fill="url(#grad2)"/>
+  <text x="290" y="155" text-anchor="middle" fill="white" font-family="Arial, sans-serif" font-size="11" font-weight="600">Component</text>
+  
+  <!-- Connection point on left side of right component -->
+  <circle cx="250" cy="150" r="4" fill="white" opacity="0.9"/>
+  
+  <!-- Mouse cursor -->
+  <g id="cursor">
+    <path d="M 8 8 L 8 22 L 12 18 L 16 26 L 20 24 L 14 15 L 20 15 L 8 8 Z" fill="#333" stroke="#fff" stroke-width="0.5"/>
+    <circle cx="10" cy="10" r="1.5" fill="#fff"/>
+    
+    <!-- Animate cursor moving from right side of left component to left side of right component -->
+    <animateTransform
+      attributeName="transform"
+      type="translate"
+      values="142,142; 242,142; 242,142; 142,142"
+      dur="4s"
+      repeatCount="indefinite"
+      calcMode="spline"
+      keySplines="0.4 0 0.2 1; 0 0 1 1; 0.4 0 0.2 1"
+      keyTimes="0; 0.35; 0.65; 1"
+    />
+  </g>
+  
+  <!-- Connection line that appears after mouse reaches destination -->
+  <line id="connectionLine" x1="150" y1="150" x2="250" y2="150" stroke="#2A8A84" stroke-width="3" stroke-dasharray="6,4" opacity="0">
+    <!-- Animate the dash offset for flowing effect -->
+    <animate
+      attributeName="stroke-dashoffset"
+      values="0;10"
+      dur="0.6s"
+      repeatCount="indefinite"
+    />
+    <!-- Animate line appearing after mouse reaches destination, staying visible, then disappearing -->
+    <animate
+      attributeName="opacity"
+      values="0;0;0.7;0.7;0;0"
+      dur="4s"
+      repeatCount="indefinite"
+      keyTimes="0;0.35;0.4;0.65;0.7;1"
+    />
+  </line>
+  
+  <!-- Pulsing connection points when line appears -->
+  <circle cx="150" cy="150" r="4" fill="white" opacity="0.9">
+    <animate
+      attributeName="opacity"
+      values="0.9;0.9;1;1;0.9;0.9"
+      dur="4s"
+      repeatCount="indefinite"
+      keyTimes="0;0.35;0.4;0.65;0.7;1"
+    />
+    <animate
+      attributeName="r"
+      values="4;4;5;5;4;4"
+      dur="4s"
+      repeatCount="indefinite"
+      keyTimes="0;0.35;0.4;0.65;0.7;1"
+    />
+  </circle>
+  <circle cx="250" cy="150" r="4" fill="white" opacity="0.9">
+    <animate
+      attributeName="opacity"
+      values="0.9;0.9;1;1;0.9;0.9"
+      dur="4s"
+      repeatCount="indefinite"
+      keyTimes="0;0.35;0.4;0.65;0.7;1"
+    />
+    <animate
+      attributeName="r"
+      values="4;4;5;5;4;4"
+      dur="4s"
+      repeatCount="indefinite"
+      keyTimes="0;0.35;0.4;0.65;0.7;1"
+    />
+  </circle>
+</svg>
