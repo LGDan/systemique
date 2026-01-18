@@ -28,36 +28,89 @@ const filters = ref({
   targetTrust: 'all' // 'all', 'trusted', 'untrusted', 'ignored', 'unset'
 })
 
+// Helper functions for filtering
+function matchesRiskStatus(item, filterValue) {
+  if (filterValue === 'all') return true
+  return item.riskStatus === filterValue
+}
+
+function matchesBoundaryType(item, filterValue) {
+  if (filterValue === 'all') return true
+  return item.boundaryType === filterValue
+}
+
+function matchesSourceTrust(item, filterValue) {
+  if (filterValue === 'all') return true
+  const sourceTrust = item.sourceTrust || 'unset'
+  return sourceTrust === filterValue
+}
+
+function matchesTargetTrust(item, filterValue) {
+  if (filterValue === 'all') return true
+  const targetTrust = item.targetTrust || 'unset'
+  return targetTrust === filterValue
+}
+
 // Computed filtered table data
 const tableData = computed(() => {
   return allTableData.value.filter(item => {
-    // Filter by risk status
-    if (filters.value.riskStatus !== 'all') {
-      if (filters.value.riskStatus === 'secure' && item.riskStatus !== 'secure') return false
-      if (filters.value.riskStatus === 'at-risk' && item.riskStatus !== 'at-risk') return false
-      if (filters.value.riskStatus === 'unset' && item.riskStatus !== 'unset') return false
-    }
-    
-    // Filter by boundary type
-    if (filters.value.boundaryType !== 'all') {
-      if (item.boundaryType !== filters.value.boundaryType) return false
-    }
-    
-    // Filter by source trust
-    if (filters.value.sourceTrust !== 'all') {
-      const sourceTrust = item.sourceTrust || 'unset'
-      if (sourceTrust !== filters.value.sourceTrust) return false
-    }
-    
-    // Filter by target trust
-    if (filters.value.targetTrust !== 'all') {
-      const targetTrust = item.targetTrust || 'unset'
-      if (targetTrust !== filters.value.targetTrust) return false
-    }
-    
-    return true
+    return matchesRiskStatus(item, filters.value.riskStatus) &&
+           matchesBoundaryType(item, filters.value.boundaryType) &&
+           matchesSourceTrust(item, filters.value.sourceTrust) &&
+           matchesTargetTrust(item, filters.value.targetTrust)
   })
 })
+
+// Helper function to determine boundary type
+function determineBoundaryType(sourceTrust, targetTrust) {
+  if (sourceTrust === 'trusted' && targetTrust === 'untrusted') {
+    return 'trusted-to-untrusted'
+  }
+  if (sourceTrust === 'untrusted' && targetTrust === 'trusted') {
+    return 'untrusted-to-trusted'
+  }
+  if (!sourceTrust && targetTrust === 'untrusted') {
+    return 'unset-to-untrusted'
+  }
+  if (sourceTrust === 'untrusted' && !targetTrust) {
+    return 'untrusted-to-unset'
+  }
+  return null
+}
+
+// Helper function to check if boundary involves unset trust
+function isUnsetBoundary(boundaryType) {
+  return boundaryType === 'unset-to-untrusted' || boundaryType === 'untrusted-to-unset'
+}
+
+// Helper function to assess risk based on interface access
+function assessInterfaceAccessRisk(boundaryType, sourceAccess) {
+  if (sourceAccess === 'untrusted') {
+    return {
+      riskStatus: 'secure',
+      riskReason: 'Interface access properly set to Untrusted'
+    }
+  }
+  
+  if (sourceAccess === null || sourceAccess === 'Unset' || sourceAccess === 'unset') {
+    return {
+      riskStatus: 'unset',
+      riskReason: 'Interface access not set - boundary not considered'
+    }
+  }
+  
+  if (sourceAccess === 'trusted') {
+    return {
+      riskStatus: 'at-risk',
+      riskReason: 'Interface access set to Trusted but should be Untrusted for this boundary'
+    }
+  }
+  
+  return {
+    riskStatus: 'at-risk',
+    riskReason: 'Interface access not properly configured for this boundary'
+  }
+}
 
 // Determine if a boundary is secure or at risk
 function assessBoundaryRisk(sourceComponent, targetComponent, sourceInterface, targetInterface) {
@@ -66,7 +119,7 @@ function assessBoundaryRisk(sourceComponent, targetComponent, sourceInterface, t
   
   // No boundary if trust levels are the same or both unset
   if (sourceTrust === targetTrust || (!sourceTrust && !targetTrust)) {
-    return null // Not a boundary
+    return null
   }
   
   // If either is ignored, it's a special case
@@ -74,31 +127,19 @@ function assessBoundaryRisk(sourceComponent, targetComponent, sourceInterface, t
     return {
       isBoundary: true,
       boundaryType: 'ignored',
-      riskStatus: 'secure', // Ignored boundaries are considered secure
+      riskStatus: 'secure',
       riskReason: 'One or both components are marked as ignored'
     }
   }
   
   // Determine boundary type
-  let boundaryType = null
-  if (sourceTrust === 'trusted' && targetTrust === 'untrusted') {
-    boundaryType = 'trusted-to-untrusted'
-  } else if (sourceTrust === 'untrusted' && targetTrust === 'trusted') {
-    boundaryType = 'untrusted-to-trusted'
-  } else if (!sourceTrust && targetTrust === 'untrusted') {
-    // Unset to Untrusted - security hasn't been assessed
-    boundaryType = 'unset-to-untrusted'
-  } else if (sourceTrust === 'untrusted' && !targetTrust) {
-    // Untrusted to Unset - security hasn't been assessed
-    boundaryType = 'untrusted-to-unset'
-  }
-  
+  const boundaryType = determineBoundaryType(sourceTrust, targetTrust)
   if (!boundaryType) {
-    return null // Not a recognized boundary type
+    return null
   }
   
-  // For unset-to-untrusted boundaries, always mark as at-risk since security hasn't been assessed
-  if (boundaryType === 'unset-to-untrusted' || boundaryType === 'untrusted-to-unset') {
+  // For unset boundaries, always mark as at-risk
+  if (isUnsetBoundary(boundaryType)) {
     return {
       isBoundary: true,
       boundaryType,
@@ -107,45 +148,13 @@ function assessBoundaryRisk(sourceComponent, targetComponent, sourceInterface, t
     }
   }
   
-  // Check interface access
-  const sourceAccess = sourceInterface.access
-  const targetAccess = targetInterface.access
-  
-  // For security boundaries, the interface should be marked as "untrusted"
-  // Check source interface (since it's the one initiating the connection)
-  if (sourceAccess === 'untrusted') {
-    return {
-      isBoundary: true,
-      boundaryType,
-      riskStatus: 'secure',
-      riskReason: 'Interface access properly set to Untrusted'
-    }
-  }
-  
-  if (sourceAccess === null || sourceAccess === 'Unset' || sourceAccess === 'unset') {
-    return {
-      isBoundary: true,
-      boundaryType,
-      riskStatus: 'unset',
-      riskReason: 'Interface access not set - boundary not considered'
-    }
-  }
-  
-  if (sourceAccess === 'trusted') {
-    return {
-      isBoundary: true,
-      boundaryType,
-      riskStatus: 'at-risk',
-      riskReason: 'Interface access set to Trusted but should be Untrusted for this boundary'
-    }
-  }
-  
-  // Default: at risk if access is set but not to untrusted
+  // Assess risk based on interface access
+  const accessAssessment = assessInterfaceAccessRisk(boundaryType, sourceInterface.access)
   return {
     isBoundary: true,
     boundaryType,
-    riskStatus: 'at-risk',
-    riskReason: 'Interface access not properly configured for this boundary'
+    riskStatus: accessAssessment.riskStatus,
+    riskReason: accessAssessment.riskReason
   }
 }
 
@@ -260,7 +269,7 @@ function exportToCSV() {
       }
       const stringValue = String(value)
       if (stringValue.includes(',') || stringValue.includes('"') || stringValue.includes('\n')) {
-        return `"${stringValue.replace(/"/g, '""')}"`
+        return `"${stringValue.replaceAll('"', '""')}"`
       }
       return stringValue
     }
@@ -290,7 +299,7 @@ function exportToCSV() {
   link.download = `boundary-audit-${Date.now()}.csv`
   document.body.appendChild(link)
   link.click()
-  document.body.removeChild(link)
+  link.remove()
   URL.revokeObjectURL(url)
 }
 
