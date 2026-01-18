@@ -60,12 +60,12 @@ export const useInterfaceTypesStore = defineStore('interfaceTypes', () => {
 
   function addType(name, description = '', color = '#999999', icon = '⚙️') {
     // Generate a unique ID from the name
-    const baseId = name.toLowerCase().replace(/[^a-z0-9]+/g, '-')
+    const baseId = name.toLowerCase().replaceAll(/[^a-z0-9]+/g, '-')
     let id = baseId
     let counter = 1
     
     // Ensure unique ID
-    while (interfaceTypes.value.find(t => t.id === id)) {
+    while (interfaceTypes.value.some(t => t.id === id)) {
       id = `${baseId}-${counter}`
       counter++
     }
