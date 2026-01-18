@@ -1,5 +1,4 @@
 import { areTypesCompatible } from './interfaceCompatibility.js'
-import { getInterfaceType } from '../config/defaultInterfaceTypes.js'
 import { useInterfaceRulesStore } from '../stores/interfaceRulesStore.js'
 
 /**

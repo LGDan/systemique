@@ -84,7 +84,7 @@ const activeView = ref('interface-access-audit')
 }
 
 .nav-item.active {
-  background: #4ECDC4;
+  background: #31817c;
   color: white;
   font-weight: 600;
 }

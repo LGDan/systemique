@@ -51,7 +51,7 @@ export class ExportService {
     link.download = filename || `systemique-export-${system.name}-${Date.now()}.json`
     document.body.appendChild(link)
     link.click()
-    document.body.removeChild(link)
+    link.remove()
     URL.revokeObjectURL(url)
   }
 
@@ -89,7 +89,7 @@ export class ExportService {
         const stringValue = String(value)
         // If value contains comma, quote, or newline, wrap in quotes and escape quotes
         if (stringValue.includes(',') || stringValue.includes('"') || stringValue.includes('\n')) {
-          return `"${stringValue.replace(/"/g, '""')}"`
+          return `"${stringValue.replaceAll('"', '""')}"`
         }
         return stringValue
       }
@@ -120,7 +120,7 @@ export class ExportService {
     link.download = filename || `bom-${system.name}-${Date.now()}.csv`
     document.body.appendChild(link)
     link.click()
-    document.body.removeChild(link)
+    link.remove()
     URL.revokeObjectURL(url)
   }
 }

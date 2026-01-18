@@ -2,6 +2,15 @@ import { defineStore } from 'pinia'
 import { ref, computed } from 'vue'
 import { Component } from '../models/Component.js'
 
+/**
+ * Initialize with default components (fallback)
+ */
+function initializeDefaults() {
+  // This is kept as a fallback if server loading fails
+  // The actual defaults are now in the JSON file
+  console.log('Using fallback default components')
+}
+
 export const useComponentLibraryStore = defineStore('componentLibrary', () => {
   const components = ref(new Map()) // Map<componentId, Component>
   const isLoading = ref(false)
@@ -20,7 +29,7 @@ export const useComponentLibraryStore = defineStore('componentLibrary', () => {
     }
     
     // Return sorted array of categories
-    return Array.from(categorySet).sort()
+    return Array.from(categorySet).sort((a, b) => a.localeCompare(b))
   })
 
   /**
@@ -108,7 +117,7 @@ export const useComponentLibraryStore = defineStore('componentLibrary', () => {
     link.download = filename
     document.body.appendChild(link)
     link.click()
-    document.body.removeChild(link)
+    link.remove()
     URL.revokeObjectURL(url)
   }
 
@@ -116,34 +125,13 @@ export const useComponentLibraryStore = defineStore('componentLibrary', () => {
    * Import component library from file
    */
   async function importFromFile(file) {
-    return new Promise((resolve, reject) => {
-      const reader = new FileReader()
-      
-      reader.onload = async (e) => {
-        try {
-          const jsonData = e.target.result
-          const result = await loadFromJSON(jsonData)
-          resolve(result)
-        } catch (error) {
-          reject(error)
-        }
-      }
-      
-      reader.onerror = () => {
-        reject(new Error('Failed to read file'))
-      }
-      
-      reader.readAsText(file)
-    })
-  }
-
-  /**
-   * Initialize with default components (fallback)
-   */
-  function initializeDefaults() {
-    // This is kept as a fallback if server loading fails
-    // The actual defaults are now in the JSON file
-    console.log('Using fallback default components')
+    try {
+      const jsonData = await file.text()
+      const result = await loadFromJSON(jsonData)
+      return result
+    } catch (error) {
+      throw new Error('Failed to read file: ' + error.message)
+    }
   }
 
   function addComponent(component) {
@@ -171,7 +159,8 @@ export const useComponentLibraryStore = defineStore('componentLibrary', () => {
     })
   }
 
-  function createComponentFromTemplate(templateId, newId, position = { x: 0, y: 0 }) {
+  function createComponentFromTemplate(templateId, newId, position = null) {
+    const defaultPosition = position || { x: 0, y: 0 }
     const template = components.value.get(templateId)
     if (!template) {
       return null
@@ -181,7 +170,7 @@ export const useComponentLibraryStore = defineStore('componentLibrary', () => {
     const templateData = template.toJSON()
     const newComponent = Component.fromJSON(templateData)
     newComponent.id = newId
-    newComponent.position = position
+    newComponent.position = defaultPosition
     
     return newComponent
   }
