@@ -148,7 +148,7 @@ function slugify(text) {
     .trim()
     .replaceAll(/[^\w\s-]/g, '') // Remove special characters
     .replaceAll(/[\s_-]+/g, '-') // Replace spaces, underscores, and multiple hyphens with single hyphen
-    .replaceAll(/(^-+)|(-+$)/g, '') // Remove leading/trailing hyphens
+    .replaceAll(/(?:^-+)|(?:-+$)/g, '') // Remove leading/trailing hyphens
 }
 
 async function handleCopyAsJSON() {
