@@ -2,7 +2,6 @@
 import { ref, computed } from 'vue'
 import { useSystemStore } from '../stores/systemStore.js'
 import { ExportService } from '../utils/exportService.js'
-import { PersistenceService } from '../utils/persistenceService.js'
 
 const props = defineProps({
   selectedComponentIds: {

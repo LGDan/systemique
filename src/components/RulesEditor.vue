@@ -5,7 +5,6 @@ import { useInterfaceRulesStore } from '../stores/interfaceRulesStore.js'
 import { useInterfaceTypesStore } from '../stores/interfaceTypesStore.js'
 import { areTypesCompatible } from '../utils/interfaceCompatibility.js'
 import { validateConnection } from '../utils/connectionValidator.js'
-import { InterfaceType } from '../models/InterfaceType.js'
 
 const systemStore = useSystemStore()
 const rulesStore = useInterfaceRulesStore()
@@ -105,10 +104,8 @@ function handleRemoveType(typeId) {
     if (!confirm(`This type is currently in use by interfaces in your design. Removing it may cause issues. Are you sure you want to remove it?`)) {
       return
     }
-  } else {
-    if (!confirm(`Are you sure you want to remove the "${typesStore.getType(typeId)?.name}" type?`)) {
-      return
-    }
+  } else if (!confirm(`Are you sure you want to remove the "${typesStore.getType(typeId)?.name}" type?`)) {
+    return
   }
   
   typesStore.removeType(typeId)

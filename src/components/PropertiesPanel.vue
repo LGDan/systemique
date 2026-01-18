@@ -124,7 +124,7 @@ function incrementInterfaceName(name) {
   if (match) {
     // Name has trailing number - increment it
     const prefix = match[1] || ''
-    const number = parseInt(match[2], 10)
+    const number = Number.parseInt(match[2], 10)
     return `${prefix}${number + 1}`
   } else {
     // No trailing number - add " 2"

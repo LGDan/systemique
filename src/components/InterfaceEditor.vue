@@ -1,6 +1,5 @@
 <script setup>
 import { ref, computed } from 'vue'
-import { Interface } from '../models/Interface.js'
 import { useInterfaceTypesStore } from '../stores/interfaceTypesStore.js'
 import IconPicker from './IconPicker.vue'
 
