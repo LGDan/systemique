@@ -2,6 +2,7 @@
 import { ref, computed } from 'vue'
 import { useSystemStore } from '../stores/systemStore.js'
 import { useInterfaceTypesStore } from '../stores/interfaceTypesStore.js'
+import { matchesAccess, matchesConnection, matchesDirection, matchesInterfaceType } from '../utils/tableFilterUtils.js'
 
 const systemStore = useSystemStore()
 const typesStore = useInterfaceTypesStore()
@@ -28,33 +29,30 @@ const filters = ref({
   interfaceType: 'all' // 'all' or specific type ID
 })
 
+// Helper functions for filtering
+function matchesAccessFilter(item, filterValue) {
+  return matchesAccess(item, filterValue)
+}
+
+function matchesConnectionFilter(item, filterValue) {
+  return matchesConnection(item, filterValue)
+}
+
+function matchesDirectionFilter(item, filterValue) {
+  return matchesDirection(item, filterValue)
+}
+
+function matchesInterfaceTypeFilter(item, filterValue) {
+  return matchesInterfaceType(item, filterValue)
+}
+
 // Computed filtered table data
 const tableData = computed(() => {
   return allTableData.value.filter(item => {
-    // Filter by access
-    if (filters.value.access !== 'all') {
-      const itemAccess = item.access || 'Unset'
-      if (filters.value.access === 'Unset' && itemAccess !== 'Unset') return false
-      if (filters.value.access !== 'Unset' && itemAccess !== filters.value.access) return false
-    }
-    
-    // Filter by connection status
-    if (filters.value.connection !== 'all') {
-      if (filters.value.connection === 'connected' && !item.connected) return false
-      if (filters.value.connection === 'disconnected' && item.connected) return false
-    }
-    
-    // Filter by direction
-    if (filters.value.direction !== 'all') {
-      if (item.direction !== filters.value.direction) return false
-    }
-    
-    // Filter by interface type
-    if (filters.value.interfaceType !== 'all') {
-      if (item.interfaceType !== filters.value.interfaceType) return false
-    }
-    
-    return true
+    return matchesAccessFilter(item, filters.value.access) &&
+           matchesConnectionFilter(item, filters.value.connection) &&
+           matchesDirectionFilter(item, filters.value.direction) &&
+           matchesInterfaceTypeFilter(item, filters.value.interfaceType)
   })
 })
 
@@ -159,7 +157,7 @@ function exportToCSV() {
       }
       const stringValue = String(value)
       if (stringValue.includes(',') || stringValue.includes('"') || stringValue.includes('\n')) {
-        return `"${stringValue.replace(/"/g, '""')}"`
+        return `"${stringValue.replaceAll('"', '""')}"`
       }
       return stringValue
     }
@@ -184,7 +182,7 @@ function exportToCSV() {
   link.download = `interface-access-audit-${Date.now()}.csv`
   document.body.appendChild(link)
   link.click()
-  document.body.removeChild(link)
+  link.remove()
   URL.revokeObjectURL(url)
 }
 
@@ -281,8 +279,8 @@ function clearAllFilters() {
       </div>
       <div class="filters-grid">
         <div class="filter-group">
-          <label>Access</label>
-          <select v-model="filters.access" class="filter-select">
+          <label for="filter-access">Access</label>
+          <select id="filter-access" v-model="filters.access" class="filter-select">
             <option value="all">All</option>
             <option value="Unset">Unset</option>
             <option value="trusted">Trusted</option>
@@ -292,8 +290,8 @@ function clearAllFilters() {
         </div>
         
         <div class="filter-group">
-          <label>Connection</label>
-          <select v-model="filters.connection" class="filter-select">
+          <label for="filter-connection">Connection</label>
+          <select id="filter-connection" v-model="filters.connection" class="filter-select">
             <option value="all">All</option>
             <option value="connected">Connected</option>
             <option value="disconnected">Disconnected</option>
@@ -301,8 +299,8 @@ function clearAllFilters() {
         </div>
         
         <div class="filter-group">
-          <label>Direction</label>
-          <select v-model="filters.direction" class="filter-select">
+          <label for="filter-direction">Direction</label>
+          <select id="filter-direction" v-model="filters.direction" class="filter-select">
             <option value="all">All</option>
             <option value="input">Input</option>
             <option value="output">Output</option>
@@ -310,8 +308,8 @@ function clearAllFilters() {
         </div>
         
         <div class="filter-group">
-          <label>Interface Type</label>
-          <select v-model="filters.interfaceType" class="filter-select">
+          <label for="filter-interface-type">Interface Type</label>
+          <select id="filter-interface-type" v-model="filters.interfaceType" class="filter-select">
             <option value="all">All</option>
             <option v-for="typeId in availableInterfaceTypes" :key="typeId" :value="typeId">
               {{ getTypeName(typeId) }}
@@ -414,7 +412,7 @@ function clearAllFilters() {
   padding: 10px 20px;
   border: none;
   border-radius: 4px;
-  background: #4ECDC4;
+  background: #1F6B66;
   color: white;
   font-size: 13px;
   font-weight: 600;
@@ -522,7 +520,7 @@ function clearAllFilters() {
   border: 1px solid #2A8A84;
   border-radius: 4px;
   background: white;
-  color: #2A8A84;
+  color: #1F6B66;
   font-size: 12px;
   font-weight: 600;
   cursor: pointer;
@@ -530,7 +528,7 @@ function clearAllFilters() {
 }
 
 .export-button:hover {
-  background: #4ECDC4;
+  background: #1F6B66;
   color: white;
 }
 
@@ -604,7 +602,7 @@ function clearAllFilters() {
 
 .direction-badge.input {
   background: #E3F2FD;
-  color: #1976D2;
+  color: #12579c;
 }
 
 .direction-badge.output {
@@ -622,7 +620,7 @@ function clearAllFilters() {
 
 .access-badge.unset {
   background: #f0f0f0;
-  color: #999;
+  color: #6c6c6c;
 }
 
 .access-badge.trusted {
@@ -637,7 +635,7 @@ function clearAllFilters() {
 
 .access-badge.ignored {
   background: #fff3e0;
-  color: #f57c00;
+  color: #9c4e00;
 }
 
 .connected-yes {
@@ -686,7 +684,7 @@ function clearAllFilters() {
 .clear-filters-button:hover {
   background: #f5f5f5;
   border-color: #2A8A84;
-  color: #2A8A84;
+  color: #1F6B66;
 }
 
 .filters-grid {

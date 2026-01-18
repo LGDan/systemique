@@ -2,6 +2,7 @@
 import { ref, computed } from 'vue'
 import { useSystemStore } from '../stores/systemStore.js'
 import { useInterfaceTypesStore } from '../stores/interfaceTypesStore.js'
+import { matchesRiskStatus, matchesBoundaryType, matchesTrust } from '../utils/tableFilterUtils.js'
 
 const systemStore = useSystemStore()
 const typesStore = useInterfaceTypesStore()
@@ -29,26 +30,12 @@ const filters = ref({
 })
 
 // Helper functions for filtering
-function matchesRiskStatus(item, filterValue) {
-  if (filterValue === 'all') return true
-  return item.riskStatus === filterValue
+function matchesSourceTrustFilter(item, filterValue) {
+  return matchesTrust(item, 'sourceTrust', filterValue)
 }
 
-function matchesBoundaryType(item, filterValue) {
-  if (filterValue === 'all') return true
-  return item.boundaryType === filterValue
-}
-
-function matchesSourceTrust(item, filterValue) {
-  if (filterValue === 'all') return true
-  const sourceTrust = item.sourceTrust || 'unset'
-  return sourceTrust === filterValue
-}
-
-function matchesTargetTrust(item, filterValue) {
-  if (filterValue === 'all') return true
-  const targetTrust = item.targetTrust || 'unset'
-  return targetTrust === filterValue
+function matchesTargetTrustFilter(item, filterValue) {
+  return matchesTrust(item, 'targetTrust', filterValue)
 }
 
 // Computed filtered table data
@@ -56,8 +43,8 @@ const tableData = computed(() => {
   return allTableData.value.filter(item => {
     return matchesRiskStatus(item, filters.value.riskStatus) &&
            matchesBoundaryType(item, filters.value.boundaryType) &&
-           matchesSourceTrust(item, filters.value.sourceTrust) &&
-           matchesTargetTrust(item, filters.value.targetTrust)
+           matchesSourceTrustFilter(item, filters.value.sourceTrust) &&
+           matchesTargetTrustFilter(item, filters.value.targetTrust)
   })
 })
 
