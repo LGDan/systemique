@@ -148,8 +148,9 @@ function incrementInterfaceName(name) {
         <h4>Component</h4>
         
         <div class="field">
-          <label>Name</label>
+          <label for="component-name">Name</label>
           <input
+            id="component-name"
             v-model="localProperties.name"
             type="text"
             class="field-input"
@@ -158,8 +159,9 @@ function incrementInterfaceName(name) {
         </div>
 
         <div class="field">
-          <label>Type</label>
+          <label for="component-type">Type</label>
           <input
+            id="component-type"
             v-model="localProperties.type"
             type="text"
             class="field-input"
@@ -168,16 +170,18 @@ function incrementInterfaceName(name) {
         </div>
 
         <div class="field">
-          <label>Icon</label>
+          <label for="component-icon">Icon</label>
           <IconPicker 
+            id="component-icon"
             v-model="localProperties.icon"
             @update:modelValue="updateComponent"
           />
         </div>
 
         <div class="field">
-          <label>Description</label>
+          <label for="component-description">Description</label>
           <textarea
+            id="component-description"
             v-model="localProperties.description"
             class="field-input field-textarea"
             rows="4"
@@ -187,8 +191,9 @@ function incrementInterfaceName(name) {
         </div>
 
         <div class="field">
-          <label>Trust</label>
+          <label for="component-trust">Trust</label>
           <select
+            id="component-trust"
             v-model="localProperties.trust"
             class="field-input"
             @change="updateComponent"

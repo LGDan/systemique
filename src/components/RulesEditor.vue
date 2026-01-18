@@ -341,8 +341,9 @@ function getCellTitle(sourceType, targetType) {
           <!-- Add Type Form -->
           <div v-if="showAddTypeForm" class="add-type-form">
             <div class="field">
-              <label>Name *</label>
+              <label for="new-type-name">Name *</label>
               <input
+                id="new-type-name"
                 v-model="newTypeForm.name"
                 type="text"
                 placeholder="Type name"
@@ -350,8 +351,9 @@ function getCellTitle(sourceType, targetType) {
               />
             </div>
             <div class="field">
-              <label>Description</label>
+              <label for="new-type-description">Description</label>
               <textarea
+                id="new-type-description"
                 v-model="newTypeForm.description"
                 class="field-input field-textarea"
                 rows="2"
@@ -359,9 +361,10 @@ function getCellTitle(sourceType, targetType) {
               ></textarea>
             </div>
             <div class="field">
-              <label>Color</label>
+              <label for="new-type-color">Color</label>
               <div class="color-picker-wrapper">
                 <input
+                  id="new-type-color"
                   v-model="newTypeForm.color"
                   type="color"
                   class="color-picker"
@@ -371,6 +374,7 @@ function getCellTitle(sourceType, targetType) {
                   type="text"
                   class="color-input"
                   placeholder="#999999"
+                  aria-label="Color value"
                 />
               </div>
             </div>
@@ -401,8 +405,9 @@ function getCellTitle(sourceType, targetType) {
               </div>
               <div class="type-editor-fields">
                 <div class="field">
-                  <label>Name</label>
+                  <label :for="`type-name-${type.id}`">Name</label>
                   <input
+                    :id="`type-name-${type.id}`"
                     type="text"
                     :value="editingTypes.get(type.id)?.name || type.name"
                     @input="updateTypeName(type.id, $event.target.value)"
@@ -410,8 +415,9 @@ function getCellTitle(sourceType, targetType) {
                   />
                 </div>
                 <div class="field">
-                  <label>Description</label>
+                  <label :for="`type-description-${type.id}`">Description</label>
                   <textarea
+                    :id="`type-description-${type.id}`"
                     :value="editingTypes.get(type.id)?.description || type.description || ''"
                     @input="updateTypeDescription(type.id, $event.target.value)"
                     class="field-input field-textarea"
@@ -420,9 +426,10 @@ function getCellTitle(sourceType, targetType) {
                   ></textarea>
                 </div>
                 <div class="field">
-                  <label>Color</label>
+                  <label :for="`type-color-${type.id}`">Color</label>
                   <div class="color-picker-wrapper">
                     <input
+                      :id="`type-color-${type.id}`"
                       type="color"
                       :value="editingTypes.get(type.id)?.color || type.color"
                       @input="updateTypeColor(type.id, $event.target.value)"
@@ -434,6 +441,7 @@ function getCellTitle(sourceType, targetType) {
                       @input="updateTypeColor(type.id, $event.target.value)"
                       class="color-input"
                       placeholder="#999999"
+                      :aria-label="`Color value for ${type.name}`"
                     />
                   </div>
                 </div>

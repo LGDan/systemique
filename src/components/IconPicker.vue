@@ -7,6 +7,10 @@ const props = defineProps({
   modelValue: {
     type: String,
     default: null
+  },
+  id: {
+    type: String,
+    default: null
   }
 })
 
@@ -45,7 +49,7 @@ function togglePicker() {
 </script>
 
 <template>
-  <div class="icon-picker">
+  <div :id="id" class="icon-picker">
     <div class="current-icon" @click="togglePicker">
       <div v-if="modelValue" class="icon-preview">
         <MdiIcon :name="modelValue" :size="24" />

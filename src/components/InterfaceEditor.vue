@@ -58,8 +58,8 @@ function duplicateInterface() {
     
     <div class="interface-fields">
       <div class="field">
-        <label>Type</label>
-        <select v-model="localInterface.type" @change="updateInterface" class="field-input">
+        <label for="interface-type-select">Type</label>
+        <select id="interface-type-select" v-model="localInterface.type" @change="updateInterface" class="field-input">
           <option v-for="type in interfaceTypes" :key="type.id" :value="type.id">
             {{ type.name }}
           </option>
@@ -67,16 +67,16 @@ function duplicateInterface() {
       </div>
       
       <div class="field">
-        <label>Direction</label>
-        <select v-model="localInterface.direction" @change="updateInterface" class="field-input">
+        <label for="interface-direction-select">Direction</label>
+        <select id="interface-direction-select" v-model="localInterface.direction" @change="updateInterface" class="field-input">
           <option value="input">Input</option>
           <option value="output">Output</option>
         </select>
       </div>
 
       <div class="field">
-        <label>Position</label>
-        <select v-model="localInterface.position" @change="updateInterface" class="field-input">
+        <label for="interface-position-select">Position</label>
+        <select id="interface-position-select" v-model="localInterface.position" @change="updateInterface" class="field-input">
           <option value="top">Top</option>
           <option value="bottom">Bottom</option>
           <option value="left">Left</option>
@@ -85,8 +85,8 @@ function duplicateInterface() {
       </div>
 
       <div class="field">
-        <label>Access</label>
-        <select v-model="localInterface.access" @change="updateInterface" class="field-input">
+        <label for="interface-access-select">Access</label>
+        <select id="interface-access-select" v-model="localInterface.access" @change="updateInterface" class="field-input">
           <option :value="null">Unset</option>
           <option value="trusted">Trusted</option>
           <option value="untrusted">Untrusted</option>
@@ -95,11 +95,13 @@ function duplicateInterface() {
       </div>
 
       <div class="field">
-        <label>Icon</label>
-        <IconPicker 
-          v-model="localInterface.icon"
-          @update:modelValue="updateInterface"
-        />
+        <label for="interface-icon-picker">Icon</label>
+        <div id="interface-icon-picker">
+          <IconPicker 
+            v-model="localInterface.icon"
+            @update:modelValue="updateInterface"
+          />
+        </div>
       </div>
     </div>
   </div>

@@ -70,8 +70,9 @@ function cancel() {
         </p>
         
         <div class="field">
-          <label>Component Name</label>
+          <label for="group-name-input">Component Name</label>
           <input
+            id="group-name-input"
             v-model="groupName"
             type="text"
             placeholder="Enter component name"
@@ -80,8 +81,9 @@ function cancel() {
         </div>
         
         <div class="field">
-          <label>Component Type</label>
+          <label for="group-type-input">Component Type</label>
           <input
+            id="group-type-input"
             v-model="groupType"
             type="text"
             placeholder="e.g., subsystem, module"
