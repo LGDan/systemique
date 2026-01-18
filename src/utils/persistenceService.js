@@ -1,8 +1,6 @@
-import { ExportService } from './exportService.js'
 import { System } from '../models/System.js'
 import { useInterfaceTypesStore } from '../stores/interfaceTypesStore.js'
 import { useInterfaceRulesStore } from '../stores/interfaceRulesStore.js'
-import { InterfaceType } from '../models/InterfaceType.js'
 
 const STORAGE_KEY = 'systemique-design-state'
 
@@ -168,24 +166,13 @@ export class PersistenceService {
    * Import system from file
    */
   static async importFromFile(file) {
-    return new Promise((resolve, reject) => {
-      const reader = new FileReader()
-      
-      reader.onload = (event) => {
-        try {
-          const system = this.importFromJSON(event.target.result)
-          resolve(system)
-        } catch (error) {
-          reject(error)
-        }
-      }
-      
-      reader.onerror = () => {
-        reject(new Error('Failed to read file'))
-      }
-      
-      reader.readAsText(file)
-    })
+    try {
+      const text = await file.text()
+      const system = this.importFromJSON(text)
+      return system
+    } catch (error) {
+      throw new Error(`Failed to read file: ${error.message}`)
+    }
   }
 }
 
