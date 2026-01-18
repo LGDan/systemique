@@ -386,8 +386,8 @@ function filterByRiskStatus(status) {
       </div>
       <div class="filters-grid">
         <div class="filter-group">
-          <label>Risk Status</label>
-          <select v-model="filters.riskStatus" class="filter-select">
+          <label for="filter-risk-status">Risk Status</label>
+          <select id="filter-risk-status" v-model="filters.riskStatus" class="filter-select">
             <option value="all">All</option>
             <option value="secure">Secure</option>
             <option value="at-risk">At Risk</option>
@@ -396,8 +396,8 @@ function filterByRiskStatus(status) {
         </div>
         
         <div class="filter-group">
-          <label>Boundary Type</label>
-          <select v-model="filters.boundaryType" class="filter-select">
+          <label for="filter-boundary-type">Boundary Type</label>
+          <select id="filter-boundary-type" v-model="filters.boundaryType" class="filter-select">
             <option value="all">All</option>
             <option value="trusted-to-untrusted">Trusted → Untrusted</option>
             <option value="untrusted-to-trusted">Untrusted → Trusted</option>
@@ -408,8 +408,8 @@ function filterByRiskStatus(status) {
         </div>
         
         <div class="filter-group">
-          <label>Source Trust</label>
-          <select v-model="filters.sourceTrust" class="filter-select">
+          <label for="filter-source-trust">Source Trust</label>
+          <select id="filter-source-trust" v-model="filters.sourceTrust" class="filter-select">
             <option value="all">All</option>
             <option value="trusted">Trusted</option>
             <option value="untrusted">Untrusted</option>
@@ -419,8 +419,8 @@ function filterByRiskStatus(status) {
         </div>
         
         <div class="filter-group">
-          <label>Target Trust</label>
-          <select v-model="filters.targetTrust" class="filter-select">
+          <label for="filter-target-trust">Target Trust</label>
+          <select id="filter-target-trust" v-model="filters.targetTrust" class="filter-select">
             <option value="all">All</option>
             <option value="trusted">Trusted</option>
             <option value="untrusted">Untrusted</option>
