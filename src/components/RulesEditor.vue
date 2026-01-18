@@ -810,10 +810,10 @@ function getCellTitle(sourceType, targetType) {
 
 .add-type-button {
   padding: 4px 12px;
-  border: 1px solid #4ECDC4;
+  border: 1px solid #2A8A84;
   border-radius: 4px;
   background: white;
-  color: #4ECDC4;
+  color: #2A8A84;
   font-size: 11px;
   cursor: pointer;
   transition: all 0.2s;

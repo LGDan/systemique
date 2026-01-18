@@ -116,7 +116,7 @@ function togglePicker() {
 }
 
 .current-icon:hover {
-  border-color: #4ECDC4;
+  border-color: #2A8A84;
 }
 
 .icon-preview {
@@ -176,7 +176,7 @@ function togglePicker() {
 
 .icon-search:focus {
   outline: none;
-  border-color: #4ECDC4;
+  border-color: #2A8A84;
 }
 
 .clear-button {
@@ -217,12 +217,12 @@ function togglePicker() {
 
 .icon-option:hover {
   background: #f0f0f0;
-  border-color: #4ECDC4;
+  border-color: #2A8A84;
 }
 
 .icon-option.selected {
   background: #E0F7F6;
-  border-color: #4ECDC4;
+  border-color: #2A8A84;
 }
 
 .icon-label {

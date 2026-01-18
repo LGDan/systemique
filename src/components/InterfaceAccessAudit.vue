@@ -453,14 +453,14 @@ function clearAllFilters() {
 
 .stat-card.clickable:hover {
   background: #f0f0f0;
-  border-color: #4ECDC4;
+  border-color: #2A8A84;
   transform: translateY(-2px);
   box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
 }
 
 .stat-card.filter-active {
   background: #E8F5E9;
-  border-color: #4ECDC4;
+  border-color: #2A8A84;
   border-width: 2px;
 }
 
@@ -519,10 +519,10 @@ function clearAllFilters() {
 
 .export-button {
   padding: 6px 12px;
-  border: 1px solid #4ECDC4;
+  border: 1px solid #2A8A84;
   border-radius: 4px;
   background: white;
-  color: #4ECDC4;
+  color: #2A8A84;
   font-size: 12px;
   font-weight: 600;
   cursor: pointer;
@@ -685,8 +685,8 @@ function clearAllFilters() {
 
 .clear-filters-button:hover {
   background: #f5f5f5;
-  border-color: #4ECDC4;
-  color: #4ECDC4;
+  border-color: #2A8A84;
+  color: #2A8A84;
 }
 
 .filters-grid {
@@ -721,13 +721,13 @@ function clearAllFilters() {
 }
 
 .filter-select:hover {
-  border-color: #4ECDC4;
+  border-color: #2A8A84;
 }
 
 .filter-select:focus {
   outline: none;
-  border-color: #4ECDC4;
-  box-shadow: 0 0 0 2px rgba(78, 205, 196, 0.1);
+  border-color: #2A8A84;
+  box-shadow: 0 0 0 2px rgba(42, 138, 132, 0.1);
 }
 
 .filter-results-info {

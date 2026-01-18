@@ -193,8 +193,8 @@ function handleViewTab(tab) {
 
 .tab-button.active {
   background: white;
-  color: #4ECDC4;
-  border-color: #4ECDC4;
+  color: #1F6B66;
+  border-color: #1F6B66;
   border-bottom-color: white;
   position: relative;
   z-index: 1;
@@ -226,7 +226,7 @@ function handleViewTab(tab) {
 
 .action-button:hover:not(:disabled) {
   background: #f5f5f5;
-  border-color: #4ECDC4;
+  border-color: #2A8A84;
 }
 
 .action-button:disabled {
@@ -235,9 +235,9 @@ function handleViewTab(tab) {
 }
 
 .action-button.primary {
-  background: #4ECDC4;
+  background: #1F6B66;
   color: white;
-  border-color: #4ECDC4;
+  border-color: #1F6B66;
 }
 
 .action-button.primary:hover:not(:disabled) {

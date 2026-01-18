@@ -201,7 +201,7 @@ async function handleReload() {
 
 .icon-button:hover {
   background: #f5f5f5;
-  border-color: #4ECDC4;
+  border-color: #2A8A84;
 }
 
 .palette-controls {
@@ -261,7 +261,7 @@ async function handleReload() {
 }
 
 .component-item:hover {
-  border-color: #4ECDC4;
+  border-color: #2A8A84;
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
   transform: translateY(-1px);
 }

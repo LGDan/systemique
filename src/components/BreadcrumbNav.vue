@@ -77,7 +77,7 @@ function navigateToSystem(systemId) {
 
 .back-button {
   padding: 6px 12px;
-  background: #4ECDC4;
+  background: #1F6B66;
   color: white;
   border: none;
   border-radius: 4px;
@@ -107,7 +107,7 @@ function navigateToSystem(systemId) {
 .breadcrumb-link {
   background: none;
   border: none;
-  color: #4ECDC4;
+  color: #2A8A84;
   cursor: pointer;
   font-size: 12px;
   padding: 2px 4px;
@@ -115,7 +115,7 @@ function navigateToSystem(systemId) {
 }
 
 .breadcrumb-link:hover {
-  color: #3AB8B0;
+  color: #0F4A45;
 }
 
 .breadcrumb-current {

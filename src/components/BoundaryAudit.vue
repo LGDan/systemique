@@ -527,7 +527,7 @@ function filterByRiskStatus(status) {
   padding: 10px 20px;
   border: none;
   border-radius: 4px;
-  background: #4ECDC4;
+  background: #1F6B66;
   color: white;
   font-size: 13px;
   font-weight: 600;
@@ -566,14 +566,14 @@ function filterByRiskStatus(status) {
 
 .stat-card.clickable:hover {
   background: #f0f0f0;
-  border-color: #4ECDC4;
+  border-color: #2A8A84;
   transform: translateY(-2px);
   box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
 }
 
 .stat-card.filter-active {
   background: #E8F5E9;
-  border-color: #4ECDC4;
+  border-color: #2A8A84;
   border-width: 2px;
 }
 
@@ -643,8 +643,8 @@ function filterByRiskStatus(status) {
 
 .clear-filters-button:hover {
   background: #f5f5f5;
-  border-color: #4ECDC4;
-  color: #4ECDC4;
+  border-color: #2A8A84;
+  color: #1F6B66;
 }
 
 .filters-grid {
@@ -679,13 +679,13 @@ function filterByRiskStatus(status) {
 }
 
 .filter-select:hover {
-  border-color: #4ECDC4;
+  border-color: #2A8A84;
 }
 
 .filter-select:focus {
   outline: none;
-  border-color: #4ECDC4;
-  box-shadow: 0 0 0 2px rgba(78, 205, 196, 0.1);
+  border-color: #2A8A84;
+  box-shadow: 0 0 0 2px rgba(42, 138, 132, 0.1);
 }
 
 .filter-results-info {
@@ -717,10 +717,10 @@ function filterByRiskStatus(status) {
 
 .export-button {
   padding: 6px 12px;
-  border: 1px solid #4ECDC4;
+  border: 1px solid #2A8A84;
   border-radius: 4px;
   background: white;
-  color: #4ECDC4;
+  color: #1F6B66;
   font-size: 12px;
   font-weight: 600;
   cursor: pointer;
@@ -728,7 +728,7 @@ function filterByRiskStatus(status) {
 }
 
 .export-button:hover {
-  background: #4ECDC4;
+  background: #1F6B66;
   color: white;
 }
 
@@ -804,22 +804,22 @@ function filterByRiskStatus(status) {
 
 .trust-badge.trusted {
   background: #ccf2cf;
-  color: #2e7d32;
+  color: #215b24;
 }
 
 .trust-badge.untrusted {
   background: #f1bcc4;
-  color: #c62828;
+  color: #9f2020;
 }
 
 .trust-badge.ignored {
   background: #cecece;
-  color: #666;
+  color: #4d4d4d;
 }
 
 .trust-badge.unset {
   background: #f0f0f0;
-  color: #999;
+  color: #676767;
 }
 
 .access-badge {
@@ -832,7 +832,7 @@ function filterByRiskStatus(status) {
 
 .access-badge.unset {
   background: #f0f0f0;
-  color: #999;
+  color: #5c5c5c;
 }
 
 .access-badge.trusted {
@@ -847,7 +847,7 @@ function filterByRiskStatus(status) {
 
 .access-badge.ignored {
   background: #fff3e0;
-  color: #f57c00;
+  color: #a85400;
 }
 
 .cell-boundary-type {
@@ -875,7 +875,7 @@ function filterByRiskStatus(status) {
 
 .risk-badge.unset {
   background: #fff3e0;
-  color: #f57c00;
+  color: #a85400;
 }
 
 .cell-reason {
