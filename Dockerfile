@@ -4,14 +4,16 @@ FROM node:20-alpine AS builder
 WORKDIR /app
 
 # Copy package files
-COPY package.json package-lock.json* ./
+COPY package.json package-lock.json ./
 
 # Install dependencies with cache mount for faster rebuilds
 RUN --mount=type=cache,target=/root/.npm \
     npm install
 
-# Copy source code
-COPY . .
+# Copy source code and build configuration
+COPY src/ ./src/
+COPY public/ ./public/
+COPY index.html vite.config.js package.json ./
 
 # Build the application
 RUN npm run build
