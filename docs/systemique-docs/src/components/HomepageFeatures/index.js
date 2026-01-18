@@ -1,5 +1,6 @@
 import clsx from 'clsx';
 import Heading from '@theme/Heading';
+import PropTypes from 'prop-types';
 import styles from './styles.module.css';
 
 const FeatureList = [
@@ -48,13 +49,20 @@ function Feature({Svg, title, description}) {
   );
 }
 
+Feature.propTypes = {
+  Svg: PropTypes.elementType.isRequired,
+  title: PropTypes.string.isRequired,
+  description: PropTypes.node.isRequired,
+};
+
+
 export default function HomepageFeatures() {
   return (
     <section className={styles.features}>
       <div className="container">
         <div className="row">
-          {FeatureList.map((props, idx) => (
-            <Feature key={idx} {...props} />
+          {FeatureList.map(({title, Svg, description}) => (
+            <Feature key={title} title={title} Svg={Svg} description={description} />
           ))}
         </div>
       </div>

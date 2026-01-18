@@ -37,6 +37,9 @@ COPY Caddyfile /etc/caddy/Caddyfile
 # Expose port 8080 (high port, no root required)
 EXPOSE 8080
 
+# Use a non-root user for Caddy (Caddy runs as non-root by default)
+USER 1000
+
 # Caddy runs as non-root by default, no USER directive needed
 # Start Caddy
 CMD ["caddy", "run", "--config", "/etc/caddy/Caddyfile"]
