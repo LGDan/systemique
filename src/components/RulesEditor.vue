@@ -585,13 +585,13 @@ function getCellTitle(sourceType, targetType) {
 }
 
 .clear-all-button:hover {
-  background: #ff6b6b;
+  background: #b74d4d;
   color: white;
   border-color: #ff6b6b;
 }
 
 .review-button {
-  background: #4ECDC4;
+  background: #2f7d78;
   color: white;
   border-color: #4ECDC4;
 }
@@ -702,7 +702,7 @@ function getCellTitle(sourceType, targetType) {
 
 .cell-default {
   background: #f0f0f0;
-  color: #999;
+  color: #6d6d6d;
 }
 
 .cell-default-allow {
@@ -792,7 +792,7 @@ function getCellTitle(sourceType, targetType) {
   width: 24px;
   height: 24px;
   border: none;
-  background: #ff6b6b;
+  background: #b64c4c;
   color: white;
   border-radius: 4px;
   cursor: pointer;
@@ -813,19 +813,19 @@ function getCellTitle(sourceType, targetType) {
   border: 1px solid #2A8A84;
   border-radius: 4px;
   background: white;
-  color: #2A8A84;
+  color: #247872;
   font-size: 11px;
   cursor: pointer;
   transition: all 0.2s;
 }
 
 .add-type-button:hover {
-  background: #4ECDC4;
+  background: #2f7d78;
   color: white;
 }
 
 .add-type-button.active {
-  background: #ff6b6b;
+  background: #b64c4c;
   color: white;
   border-color: #ff6b6b;
 }
@@ -845,7 +845,7 @@ function getCellTitle(sourceType, targetType) {
   padding: 6px 12px;
   border: none;
   border-radius: 4px;
-  background: #4ECDC4;
+  background: #2f7d78;
   color: white;
   font-size: 11px;
   font-weight: 600;

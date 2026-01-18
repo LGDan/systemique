@@ -292,7 +292,7 @@ function incrementInterfaceName(name) {
 
 .add-button {
   padding: 4px 8px;
-  background: #4ECDC4;
+  background: #2f7d78;
   color: white;
   border: none;
   border-radius: 4px;

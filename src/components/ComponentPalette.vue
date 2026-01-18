@@ -234,7 +234,7 @@ async function handleReload() {
 }
 
 .error-message {
-  color: #e74c3c;
+  color: #b83e30;
   background: #fee;
   border: 1px solid #fcc;
   border-radius: 4px;
@@ -273,7 +273,7 @@ async function handleReload() {
 .component-icon {
   width: 40px;
   height: 40px;
-  background: #4ECDC4;
+  background: #2b726d;
   color: white;
   border-radius: 6px;
   display: flex;

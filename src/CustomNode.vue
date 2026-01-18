@@ -28,7 +28,7 @@ const counter = ref(0)
 
 .increment {
   border-radius: 4px;
-  background: #42b983;
+  background: #2e805b;
   font-size: 10px;
   color: #fff;
   cursor: pointer;

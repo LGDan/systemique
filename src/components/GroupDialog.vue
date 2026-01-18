@@ -210,7 +210,7 @@ function cancel() {
 }
 
 .create-button {
-  background: #4ECDC4;
+  background: #2f7d78;
   color: white;
 }
 

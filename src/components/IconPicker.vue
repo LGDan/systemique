@@ -181,7 +181,7 @@ function togglePicker() {
 
 .clear-button {
   padding: 4px 8px;
-  background: #f44336;
+  background: #d1382e;
   color: white;
   border: none;
   border-radius: 4px;

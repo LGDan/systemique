@@ -347,7 +347,7 @@ const hasSelection = computed(() => props.selectedComponentIds.length > 0)
 
 .menu-option.active {
   background: #E3F2FD;
-  color: #1976D2;
+  color: #145ea7;
   font-weight: 600;
 }
 

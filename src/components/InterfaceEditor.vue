@@ -133,7 +133,7 @@ function duplicateInterface() {
   width: 24px;
   height: 24px;
   border: none;
-  background: #4ECDC4;
+  background: #2d7772;
   color: white;
   border-radius: 4px;
   cursor: pointer;
@@ -152,7 +152,7 @@ function duplicateInterface() {
   width: 24px;
   height: 24px;
   border: none;
-  background: #ff6b6b;
+  background: #a24444;
   color: white;
   border-radius: 4px;
   cursor: pointer;
