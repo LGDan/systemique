@@ -1,9 +1,6 @@
 import { defineStore } from 'pinia'
 import { ref, computed, watch } from 'vue'
 import { System } from '../models/System.js'
-import { Component } from '../models/Component.js'
-import { Connection } from '../models/Connection.js'
-import { Interface } from '../models/Interface.js'
 import { PersistenceService } from '../utils/persistenceService.js'
 
 export const useSystemStore = defineStore('system', () => {
@@ -23,12 +20,12 @@ export const useSystemStore = defineStore('system', () => {
   if (storedSystem) {
     rootSystem = storedSystem
     // If stored system has a different ID, use it
-    if (storedSystem.id !== rootSystemId) {
-      systems.value.set(storedSystem.id, storedSystem)
-      currentSystemId.value = storedSystem.id
-    } else {
+    if (storedSystem.id === rootSystemId) {
       systems.value.set(rootSystemId, rootSystem)
       currentSystemId.value = rootSystemId
+    } else {
+      systems.value.set(storedSystem.id, storedSystem)
+      currentSystemId.value = storedSystem.id
     }
   } else {
     systems.value.set(rootSystemId, rootSystem)
@@ -46,7 +43,7 @@ export const useSystemStore = defineStore('system', () => {
 
   // Actions
   function createSystem(name, parentSystemId = null) {
-    const id = `system-${Date.now()}-${Math.random().toString(36).substr(2, 9)}`
+    const id = `system-${Date.now()}-${Math.random().toString(36).slice(2, 11)}`
     const system = new System(id, name, parentSystemId)
     systems.value.set(id, system)
     return id
@@ -101,7 +98,7 @@ export const useSystemStore = defineStore('system', () => {
 
   function drillDown(componentId) {
     const component = getComponent(componentId)
-    if (component && component.nestedSystemId) {
+    if (component?.nestedSystemId) {
       // Push current system to navigation stack
       navigationStack.value.push(currentSystemId.value)
       // Navigate to nested system
