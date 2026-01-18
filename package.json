@@ -11,6 +11,7 @@
     "@vue-flow/controls": "latest",
     "@vue-flow/core": "latest",
     "@vue-flow/minimap": "latest",
+    "html2canvas": "^1.4.1",
     "pinia": "^2.1.7",
     "vue": "^3.5.12"
   },

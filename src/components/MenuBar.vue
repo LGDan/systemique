@@ -140,6 +140,30 @@ function handleExportBOM() {
   closeMenu()
 }
 
+async function handleExportSVG() {
+  const system = systemStore.currentSystem
+  if (system) {
+    if (system.components.length === 0) {
+      alert('No components to export in the current system.')
+      return
+    }
+    await ExportService.downloadSVG(system)
+  }
+  closeMenu()
+}
+
+async function handleExportPNG() {
+  const system = systemStore.currentSystem
+  if (system) {
+    if (system.components.length === 0) {
+      alert('No components to export in the current system.')
+      return
+    }
+    await ExportService.downloadPNG(system)
+  }
+  closeMenu()
+}
+
 // Edit menu actions
 function handleGroup() {
   emit('group-components')
@@ -208,6 +232,12 @@ const hasSelection = computed(() => props.selectedComponentIds.length > 0)
         </div>
         <div class="menu-option" @click="handleExport" :disabled="!isDesignTab">
           <span>Export System...</span>
+        </div>
+        <div class="menu-option" @click="handleExportSVG" :disabled="!isDesignTab">
+          <span>Export as SVG...</span>
+        </div>
+        <div class="menu-option" @click="handleExportPNG" :disabled="!isDesignTab">
+          <span>Export as PNG...</span>
         </div>
         <div class="menu-option" @click="handleExportBOM" :disabled="!isDesignTab">
           <span>Export BOM (CSV)...</span>
