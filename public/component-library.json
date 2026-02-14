@@ -3313,7 +3313,7 @@
       "metadata": {}
     },
     {
-      "id": "tower-pc-template",
+      "id": "tower-computer-template",
       "name": "Tower PC",
       "type": "pc",
       "properties": {},
@@ -3374,8 +3374,78 @@
           "icon": "harddisk"
         },
         {
-          "id": "usb",
-          "name": "USB",
+          "id": "pcie-1",
+          "name": "PCIe 1",
+          "type": "physical",
+          "direction": "input",
+          "position": "left",
+          "rules": {},
+          "metadata": {},
+          "icon": "expansion-card-variant"
+        },
+        {
+          "id": "pcie-2",
+          "name": "PCIe 2",
+          "type": "physical",
+          "direction": "input",
+          "position": "left",
+          "rules": {},
+          "metadata": {},
+          "icon": "expansion-card-variant"
+        },
+        {
+          "id": "nvme-1",
+          "name": "NVMe 1",
+          "type": "physical",
+          "direction": "input",
+          "position": "right",
+          "rules": {},
+          "metadata": {},
+          "icon": "expansion-card-variant"
+        },
+        {
+          "id": "nvme-2",
+          "name": "NVMe 2",
+          "type": "physical",
+          "direction": "input",
+          "position": "right",
+          "rules": {},
+          "metadata": {},
+          "icon": "expansion-card-variant"
+        },
+        {
+          "id": "usb-1",
+          "name": "USB 1",
+          "type": "data",
+          "direction": "input",
+          "position": "right",
+          "rules": {},
+          "metadata": {},
+          "icon": "usb"
+        },
+        {
+          "id": "usb-2",
+          "name": "USB 2",
+          "type": "data",
+          "direction": "input",
+          "position": "right",
+          "rules": {},
+          "metadata": {},
+          "icon": "usb"
+        },
+        {
+          "id": "usb-3",
+          "name": "USB 3",
+          "type": "data",
+          "direction": "input",
+          "position": "right",
+          "rules": {},
+          "metadata": {},
+          "icon": "usb"
+        },
+        {
+          "id": "usb-4",
+          "name": "USB 4",
           "type": "data",
           "direction": "input",
           "position": "right",
@@ -4336,6 +4406,819 @@
           "rules": {},
           "metadata": {},
           "icon": "ethernet"
+        }
+      ],
+      "nestedSystemId": null,
+      "position": {
+        "x": 0,
+        "y": 0
+      },
+      "metadata": {}
+    },
+    {
+      "id": "raid-0-template",
+      "name": "RAID 0",
+      "type": "storage-raid",
+      "properties": {},
+      "icon": "table-column",
+      "categories": [
+        "Hardware",
+        "Storage",
+        "Data"
+      ],
+      "interfaces": [
+        {
+          "id": "block-storage-1",
+          "name": "Block Storage 1",
+          "type": "data",
+          "direction": "input",
+          "position": "left",
+          "rules": {},
+          "metadata": {},
+          "icon": "harddisk"
+        },
+        {
+          "id": "block-storage-2",
+          "name": "Block Storage 2",
+          "type": "data",
+          "direction": "input",
+          "position": "left",
+          "rules": {},
+          "metadata": {},
+          "icon": "harddisk"
+        },
+        {
+          "id": "block-storage-3",
+          "name": "Block Storage 3",
+          "type": "data",
+          "direction": "input",
+          "position": "left",
+          "rules": {},
+          "metadata": {},
+          "icon": "harddisk"
+        },
+        {
+          "id": "block-storage-4",
+          "name": "Block Storage 4",
+          "type": "data",
+          "direction": "input",
+          "position": "left",
+          "rules": {},
+          "metadata": {},
+          "icon": "harddisk"
+        },
+        {
+          "id": "block-storage",
+          "name": "Block Storage",
+          "type": "data",
+          "direction": "output",
+          "position": "right",
+          "rules": {},
+          "metadata": {},
+          "icon": "harddisk"
+        }
+      ],
+      "nestedSystemId": null,
+      "position": {
+        "x": 0,
+        "y": 0
+      },
+      "metadata": {}
+    },
+    {
+      "id": "juicefs-template",
+      "name": "JuiceFS",
+      "type": "storage-juicefs",
+      "properties": {},
+      "icon": "folder",
+      "categories": [
+        "Hardware",
+        "Storage",
+        "Data"
+      ],
+      "interfaces": [
+        {
+          "id": "s3",
+          "name": "S3",
+          "type": "data",
+          "direction": "input",
+          "position": "left",
+          "rules": {},
+          "metadata": {},
+          "icon": "bucket"
+        },
+        {
+          "id": "metadata-db",
+          "name": "Metadata DB",
+          "type": "data",
+          "direction": "input",
+          "position": "left",
+          "rules": {},
+          "metadata": {},
+          "icon": "database"
+        },
+        {
+          "id": "posix-filesystem",
+          "name": "POSIX Filesystem",
+          "type": "data",
+          "direction": "output",
+          "position": "right",
+          "rules": {},
+          "metadata": {},
+          "icon": "folder"
+        },
+        {
+          "id": "cache-drive",
+          "name": "Cache Drive",
+          "type": "data",
+          "direction": "input",
+          "position": "left",
+          "rules": {},
+          "metadata": {},
+          "icon": "folder"
+        },
+        {
+          "id": "platform",
+          "name": "Platform",
+          "type": "physical",
+          "direction": "input",
+          "position": "left",
+          "rules": {},
+          "metadata": {},
+          "icon": "application"
+        }
+      ],
+      "nestedSystemId": null,
+      "position": {
+        "x": 0,
+        "y": 0
+      },
+      "metadata": {}
+    },
+    {
+      "id": "pcie-nic-(25gbe-sfp28)-template",
+      "name": "PCIe NIC (25GbE SFP28)",
+      "type": "network-pcie-nic",
+      "properties": {},
+      "icon": "expansion-card-variant",
+      "categories": [
+        "Hardware",
+        "Network"
+      ],
+      "interfaces": [
+        {
+          "id": "pcie",
+          "name": "PCIe",
+          "type": "physical",
+          "direction": "output",
+          "position": "right",
+          "rules": {},
+          "metadata": {},
+          "icon": "expansion-card-variant"
+        },
+        {
+          "id": "sfp28-port-1",
+          "name": "SFP28 Port 1",
+          "type": "network",
+          "direction": "input",
+          "position": "left",
+          "rules": {},
+          "metadata": {},
+          "icon": "ethernet"
+        },
+        {
+          "id": "sfp28-port-2",
+          "name": "SFP28 Port 2",
+          "type": "network",
+          "direction": "input",
+          "position": "left",
+          "rules": {},
+          "metadata": {},
+          "icon": "ethernet"
+        }
+      ],
+      "nestedSystemId": null,
+      "position": {
+        "x": 0,
+        "y": 0
+      },
+      "metadata": {}
+    },
+    {
+      "id": "nvme-drive-(1tb)-template",
+      "name": "NVMe Drive (1TB)",
+      "type": "Data Storage",
+      "properties": {},
+      "icon": "harddisk",
+      "categories": [
+        "Hardware",
+        "Storage"
+      ],
+      "interfaces": [
+        {
+          "id": "m2",
+          "name": "M.2",
+          "type": "physical",
+          "direction": "output",
+          "position": "left",
+          "rules": {},
+          "metadata": {},
+          "icon": "expansion-card-variant"
+        },
+        {
+          "id": "block-storage",
+          "name": "Block Storage",
+          "type": "data",
+          "direction": "input",
+          "position": "right",
+          "rules": {},
+          "metadata": {},
+          "icon": "table-row"
+        }
+      ],
+      "nestedSystemId": null,
+      "position": {
+        "x": 0,
+        "y": 0
+      },
+      "metadata": {}
+    },
+    {
+      "id": "mbr-partitioning-template",
+      "name": "MBR Partitioning",
+      "type": "Partition Table",
+      "properties": {},
+      "icon": "table",
+      "categories": [
+        "Hardware"
+      ],
+      "interfaces": [
+        {
+          "id": "block-storage",
+          "name": "Block Storage",
+          "type": "data",
+          "direction": "input",
+          "position": "left",
+          "rules": {},
+          "metadata": {},
+          "icon": "table-row"
+        },
+        {
+          "id": "partition-table",
+          "name": "Partition Table",
+          "type": "data",
+          "direction": "output",
+          "position": "right",
+          "rules": {},
+          "metadata": {},
+          "icon": "table-column"
+        }
+      ],
+      "nestedSystemId": null,
+      "position": {
+        "x": 0,
+        "y": 0
+      },
+      "metadata": {}
+    },
+    {
+      "id": "gpt-partitioning-template",
+      "name": "GPT Partitioning",
+      "type": "Partition Table",
+      "properties": {},
+      "icon": "table",
+      "categories": [
+        "Hardware"
+      ],
+      "interfaces": [
+        {
+          "id": "block-storage",
+          "name": "Block Storage",
+          "type": "data",
+          "direction": "input",
+          "position": "left",
+          "rules": {},
+          "metadata": {},
+          "icon": "table-row"
+        },
+        {
+          "id": "partition-table",
+          "name": "Partition Table",
+          "type": "data",
+          "direction": "output",
+          "position": "right",
+          "rules": {},
+          "metadata": {},
+          "icon": "table-column"
+        }
+      ],
+      "nestedSystemId": null,
+      "position": {
+        "x": 0,
+        "y": 0
+      },
+      "metadata": {}
+    },
+    {
+      "id": "ntfs-template",
+      "name": "NTFS",
+      "type": "Filesystem",
+      "properties": {},
+      "icon": "database",
+      "categories": [
+        "Hardware"
+      ],
+      "interfaces": [
+        {
+          "id": "partition-table",
+          "name": "Partition Table",
+          "type": "data",
+          "direction": "input",
+          "position": "left",
+          "rules": {},
+          "metadata": {},
+          "icon": "table-column"
+        },
+        {
+          "id": "filesystem",
+          "name": "Filesystem",
+          "type": "data",
+          "direction": "output",
+          "position": "right",
+          "rules": {},
+          "metadata": {},
+          "icon": "folder"
+        }
+      ],
+      "nestedSystemId": null,
+      "position": {
+        "x": 0,
+        "y": 0
+      },
+      "metadata": {}
+    },
+    {
+      "id": "fat32-template",
+      "name": "FAT32",
+      "type": "Filesystem",
+      "properties": {},
+      "icon": "database",
+      "categories": [
+        "Hardware"
+      ],
+      "interfaces": [
+        {
+          "id": "partition-table",
+          "name": "Partition Table",
+          "type": "data",
+          "direction": "input",
+          "position": "left",
+          "rules": {},
+          "metadata": {},
+          "icon": "table-column"
+        },
+        {
+          "id": "filesystem",
+          "name": "Filesystem",
+          "type": "data",
+          "direction": "output",
+          "position": "right",
+          "rules": {},
+          "metadata": {},
+          "icon": "folder"
+        }
+      ],
+      "nestedSystemId": null,
+      "position": {
+        "x": 0,
+        "y": 0
+      },
+      "metadata": {}
+    },
+    {
+      "id": "apfs-template",
+      "name": "APFS",
+      "type": "Filesystem",
+      "properties": {},
+      "icon": "database",
+      "categories": [
+        "Hardware"
+      ],
+      "interfaces": [
+        {
+          "id": "partition-table",
+          "name": "Partition Table",
+          "type": "data",
+          "direction": "input",
+          "position": "left",
+          "rules": {},
+          "metadata": {},
+          "icon": "table-column"
+        },
+        {
+          "id": "filesystem",
+          "name": "Filesystem",
+          "type": "data",
+          "direction": "output",
+          "position": "right",
+          "rules": {},
+          "metadata": {},
+          "icon": "folder"
+        }
+      ],
+      "nestedSystemId": null,
+      "position": {
+        "x": 0,
+        "y": 0
+      },
+      "metadata": {}
+    },
+    {
+      "id": "xfs-template",
+      "name": "XFS",
+      "type": "Filesystem",
+      "properties": {},
+      "icon": "database",
+      "categories": [
+        "Hardware"
+      ],
+      "interfaces": [
+        {
+          "id": "partition-table",
+          "name": "Partition Table",
+          "type": "data",
+          "direction": "input",
+          "position": "left",
+          "rules": {},
+          "metadata": {},
+          "icon": "table-column"
+        },
+        {
+          "id": "filesystem",
+          "name": "Filesystem",
+          "type": "data",
+          "direction": "output",
+          "position": "right",
+          "rules": {},
+          "metadata": {},
+          "icon": "folder"
+        }
+      ],
+      "nestedSystemId": null,
+      "position": {
+        "x": 0,
+        "y": 0
+      },
+      "metadata": {}
+    },
+    {
+      "id": "ext4-template",
+      "name": "EXT4",
+      "type": "Filesystem",
+      "properties": {},
+      "icon": "database",
+      "categories": [
+        "Hardware"
+      ],
+      "interfaces": [
+        {
+          "id": "partition-table",
+          "name": "Partition Table",
+          "type": "data",
+          "direction": "input",
+          "position": "left",
+          "rules": {},
+          "metadata": {},
+          "icon": "table-column"
+        },
+        {
+          "id": "filesystem",
+          "name": "Filesystem",
+          "type": "data",
+          "direction": "output",
+          "position": "right",
+          "rules": {},
+          "metadata": {},
+          "icon": "folder"
+        }
+      ],
+      "nestedSystemId": null,
+      "position": {
+        "x": 0,
+        "y": 0
+      },
+      "metadata": {}
+    },
+    {
+      "id": "virtual-disk-template",
+      "name": "Virtual Disk",
+      "type": "Virtual Disk",
+      "properties": {},
+      "icon": "harddisk",
+      "categories": [
+        "Hardware",
+        "Storage"
+      ],
+      "interfaces": [
+        {
+          "id": "filesystem",
+          "name": "Filesystem",
+          "type": "physical",
+          "direction": "output",
+          "position": "left",
+          "rules": {},
+          "metadata": {},
+          "icon": "folder"
+        },
+        {
+          "id": "block-storage",
+          "name": "Block Storage",
+          "type": "data",
+          "direction": "input",
+          "position": "right",
+          "rules": {},
+          "metadata": {},
+          "icon": "table-row"
+        }
+      ],
+      "nestedSystemId": null,
+      "position": {
+        "x": 0,
+        "y": 0
+      },
+      "metadata": {}
+    },
+    {
+      "id": "sqlite-instance-template",
+      "name": "SQLite Instance",
+      "type": "SQLite File",
+      "properties": {},
+      "icon": "database",
+      "categories": [
+        "Software",
+        "Storage",
+        "Data"
+      ],
+      "interfaces": [
+        {
+          "id": "filesystem",
+          "name": "Filesystem",
+          "type": "data",
+          "direction": "input",
+          "position": "left",
+          "rules": {},
+          "metadata": {},
+          "icon": "folder"
+        },
+        {
+          "id": "tables",
+          "name": "Tables",
+          "type": "data",
+          "direction": "input",
+          "position": "right",
+          "rules": {},
+          "metadata": {},
+          "icon": "table"
+        },
+        {
+          "id": "sqlite",
+          "name": "SQLite",
+          "type": "data",
+          "direction": "output",
+          "position": "right",
+          "rules": {},
+          "metadata": {},
+          "icon": "database"
+        }
+      ],
+      "nestedSystemId": null,
+      "position": {
+        "x": 0,
+        "y": 0
+      },
+      "metadata": {}
+    },
+    {
+      "id": "s3-instance-template",
+      "name": "S3 Instance",
+      "type": "S3",
+      "properties": {},
+      "icon": "database",
+      "categories": [
+        "Software",
+        "Storage",
+        "Data"
+      ],
+      "interfaces": [
+        {
+          "id": "s3-service",
+          "name": "S3 Service",
+          "type": "data",
+          "direction": "input",
+          "position": "left",
+          "rules": {},
+          "metadata": {},
+          "icon": "server"
+        },
+        {
+          "id": "buckets",
+          "name": "Buckets",
+          "type": "data",
+          "direction": "output",
+          "position": "right",
+          "rules": {},
+          "metadata": {},
+          "icon": "bucket"
+        }
+      ],
+      "nestedSystemId": null,
+      "position": {
+        "x": 0,
+        "y": 0
+      },
+      "metadata": {}
+    },
+    {
+      "id": "s3-bucket-template",
+      "name": "S3 Bucket",
+      "type": "S3 Bucket",
+      "properties": {},
+      "icon": "bucket",
+      "categories": [
+        "Software",
+        "Storage",
+        "Data"
+      ],
+      "interfaces": [
+        {
+          "id": "s3-instance",
+          "name": "S3 Instance",
+          "type": "data",
+          "direction": "input",
+          "position": "left",
+          "rules": {},
+          "metadata": {},
+          "icon": "bucket"
+        },
+        {
+          "id": "filesystem",
+          "name": "Filesystem",
+          "type": "data",
+          "direction": "output",
+          "position": "right",
+          "rules": {},
+          "metadata": {},
+          "icon": "folder"
+        }
+      ],
+      "nestedSystemId": null,
+      "position": {
+        "x": 0,
+        "y": 0
+      },
+      "metadata": {}
+    },
+    {
+      "id": "aws-s3-template",
+      "name": "AWS S3",
+      "type": "S3 Provider",
+      "properties": {},
+      "icon": "cloud",
+      "categories": [
+        "Software",
+        "Storage",
+        "Data"
+      ],
+      "interfaces": [
+        {
+          "id": "s3-service",
+          "name": "S3 Service",
+          "type": "data",
+          "direction": "output",
+          "position": "right",
+          "rules": {},
+          "metadata": {},
+          "icon": "server"
+        }
+      ],
+      "nestedSystemId": null,
+      "position": {
+        "x": 0,
+        "y": 0
+      },
+      "metadata": {}
+    },
+    {
+      "id": "azure-blob-template",
+      "name": "Azure Blob",
+      "type": "S3 Provider",
+      "properties": {},
+      "icon": "cloud",
+      "categories": [
+        "Software",
+        "Storage",
+        "Data"
+      ],
+      "interfaces": [
+        {
+          "id": "s3-service",
+          "name": "S3 Service",
+          "type": "data",
+          "direction": "output",
+          "position": "right",
+          "rules": {},
+          "metadata": {},
+          "icon": "server"
+        }
+      ],
+      "nestedSystemId": null,
+      "position": {
+        "x": 0,
+        "y": 0
+      },
+      "metadata": {}
+    },
+    {
+      "id": "hitachi-content-platform-template",
+      "name": "Hitachi Content Platform",
+      "type": "S3 Provider",
+      "properties": {},
+      "icon": "server-rack",
+      "categories": [
+        "Software",
+        "Storage",
+        "Data"
+      ],
+      "interfaces": [
+        {
+          "id": "s3-service",
+          "name": "S3 Service",
+          "type": "data",
+          "direction": "output",
+          "position": "right",
+          "rules": {},
+          "metadata": {},
+          "icon": "server"
+        }
+      ],
+      "nestedSystemId": null,
+      "position": {
+        "x": 0,
+        "y": 0
+      },
+      "metadata": {}
+    },
+    {
+      "id": "garage-s3-template",
+      "name": "Garage S3",
+      "type": "S3 Provider",
+      "properties": {},
+      "icon": "server-rack",
+      "categories": [
+        "Software",
+        "Storage",
+        "Data"
+      ],
+      "interfaces": [
+        {
+          "id": "s3-service",
+          "name": "S3 Service",
+          "type": "data",
+          "direction": "output",
+          "position": "right",
+          "rules": {},
+          "metadata": {},
+          "icon": "server"
+        }
+      ],
+      "nestedSystemId": null,
+      "position": {
+        "x": 0,
+        "y": 0
+      },
+      "metadata": {}
+    },
+    {
+      "id": "dell-s3-template",
+      "name": "Dell S3",
+      "type": "S3 Provider",
+      "properties": {},
+      "icon": "server-rack",
+      "categories": [
+        "Software",
+        "Storage",
+        "Data"
+      ],
+      "interfaces": [
+        {
+          "id": "s3-service",
+          "name": "S3 Service",
+          "type": "data",
+          "direction": "output",
+          "position": "right",
+          "rules": {},
+          "metadata": {},
+          "icon": "server"
         }
       ],
       "nestedSystemId": null,

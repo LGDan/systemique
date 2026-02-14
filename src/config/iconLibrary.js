@@ -54,6 +54,7 @@ import {
   mdiWifi,
   mdiAccessPoint,
   mdiBluetooth,
+  mdiFolder,
   mdiFolderKey,
   mdiFolderKeyNetwork,
   mdiOfficeBuilding,
@@ -73,7 +74,20 @@ import {
   mdiEngine,
   mdiCheckboxIntermediate,
   mdiDesktopTower,
-  mdiCircleBox
+  mdiCircleBox,
+  mdiHexadecimal,
+  mdiFridgeIndustrial,
+  mdiThermometer,
+  mdiMessageAlert,
+  mdiMessage,
+  mdiEmail,
+  mdiProtocol,
+  mdiWebhook,
+  mdiGauge,
+  mdiVolumeHigh,
+  mdiFileDocument,
+  mdiFile,
+  mdiBucket,
 } from '@mdi/js'
 
 /**
@@ -111,11 +125,16 @@ export const iconRegistry = {
   'table': mdiTable,
   'table-row': mdiTableRow,
   'table-column': mdiTableColumn,
+  'folder': mdiFolder,
   'harddisk': mdiHarddisk,
   'microsd': mdiMicroSd,
   'folder-key': mdiFolderKey,
   'folder-key-network': mdiFolderKeyNetwork,
   'nas': mdiNas,
+  'hexadecimal': mdiHexadecimal,
+  'file-document': mdiFileDocument,
+  'file': mdiFile,
+  'bucket': mdiBucket,
   
   // Power
   'pdu': mdiPowerSocket,
@@ -175,8 +194,18 @@ export const iconRegistry = {
   'scanner': mdiScanner,
   'speaker': mdiSpeaker,
   'barcode': mdiBarcode,
-  'circle-box': mdiCircleBox
+  'circle-box': mdiCircleBox,
+  'fridge-industrial': mdiFridgeIndustrial,
+  'thermometer': mdiThermometer,
 
+  // Alerts, Notifications, Messages, and Comms
+  'message-alert': mdiMessageAlert,
+  'message': mdiMessage,
+  'email': mdiEmail,
+  'protocol': mdiProtocol,
+  'webhook': mdiWebhook,
+  'gauge': mdiGauge,
+  'volume-high': mdiVolumeHigh,
 }
 
 /**
