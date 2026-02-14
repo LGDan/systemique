@@ -11,10 +11,12 @@ const { getSelectedNodes } = useVueFlow()
 const systemStore = useSystemStore()
 const typesStore = useInterfaceTypesStore()
 
+const selectedNodes = computed(() => getSelectedNodes.value)
 const selectedNode = computed(() => {
-  const nodes = getSelectedNodes.value
+  const nodes = selectedNodes.value
   return nodes.length > 0 ? nodes[0] : null
 })
+const isMultipleSelection = computed(() => selectedNodes.value.length > 1)
 
 const component = computed(() => {
   if (selectedNode.value && selectedNode.value.data) {
@@ -139,8 +141,13 @@ function incrementInterfaceName(name) {
       <h3>Properties</h3>
     </div>
 
-    <div v-if="!component" class="no-selection">
+    <div v-if="selectedNodes.length === 0" class="no-selection">
       <p>Select a component to edit its properties</p>
+    </div>
+
+    <div v-else-if="isMultipleSelection" class="no-selection">
+      <p>Multiple Items Selected</p>
+      <p class="selection-count">{{ selectedNodes.length }} components</p>
     </div>
 
     <div v-else class="properties-content">
@@ -269,6 +276,12 @@ function incrementInterfaceName(name) {
   padding: 24px;
   text-align: center;
   color: #999;
+}
+
+.selection-count {
+  margin-top: 8px;
+  font-size: 12px;
+  color: #bbb;
 }
 
 .properties-content {
