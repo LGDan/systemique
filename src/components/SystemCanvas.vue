@@ -37,17 +37,19 @@ watch(() => systemStore.currentSystem?.connections.length, () => {
   }
 })
 
-// Handle node drag stop - this fires when dragging ends
+// Handle node drag stop - persist positions for all dragged nodes (supports multi-select)
 if (onNodeDragStop) {
   onNodeDragStop((event) => {
-    const component = systemStore.getComponent(event.node.id)
-    if (component && event.node.position) {
-      // Update component position
-      component.position = {
-        x: event.node.position.x,
-        y: event.node.position.y
+    const nodesToUpdate = event.nodes?.length ? event.nodes : [event.node]
+    let anyUpdated = false
+    for (const node of nodesToUpdate) {
+      const component = systemStore.getComponent(node.id)
+      if (component && node.position) {
+        component.position = { x: node.position.x, y: node.position.y }
+        anyUpdated = true
       }
-      // Save to localStorage
+    }
+    if (anyUpdated) {
       systemStore.saveToLocalStorage()
     }
   })
@@ -257,6 +259,7 @@ onMounted(() => {
       :max-zoom="4"
       :pan-on-drag="[1, 2]"
       :selection-on-drag="true"
+      :multi-selection-key-code="['Meta', 'Control']"
       :pan-on-scroll="true"
       :nodes-draggable="true"
       :nodes-connectable="true"
