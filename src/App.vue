@@ -78,6 +78,60 @@ function handleGroup() {
 function handleViewTab(tab) {
   activeTab.value = tab
 }
+
+// Default node size for alignment (right/center/bottom use this)
+const NODE_WIDTH = 120
+const NODE_HEIGHT = 80
+
+function handleArrangeAlignHorizontal(mode) {
+  const ids = selectedComponentIds.value
+  if (ids.length < 2) return
+  const system = systemStore.currentSystem
+  if (!system) return
+
+  const components = ids.map(id => systemStore.getComponent(id)).filter(Boolean)
+  if (components.length < 2) return
+
+  const minX = Math.min(...components.map(c => c.position.x))
+  const maxRight = Math.max(...components.map(c => c.position.x + NODE_WIDTH))
+  const centerX = (minX + maxRight) / 2
+
+  components.forEach(comp => {
+    if (mode === 'left') {
+      comp.position.x = minX
+    } else if (mode === 'center') {
+      comp.position.x = centerX - NODE_WIDTH / 2
+    } else if (mode === 'right') {
+      comp.position.x = maxRight - NODE_WIDTH
+    }
+  })
+  systemStore.saveToLocalStorage()
+}
+
+function handleArrangeAlignVertical(mode) {
+  const ids = selectedComponentIds.value
+  if (ids.length < 2) return
+  const system = systemStore.currentSystem
+  if (!system) return
+
+  const components = ids.map(id => systemStore.getComponent(id)).filter(Boolean)
+  if (components.length < 2) return
+
+  const minY = Math.min(...components.map(c => c.position.y))
+  const maxBottom = Math.max(...components.map(c => c.position.y + NODE_HEIGHT))
+  const centerY = (minY + maxBottom) / 2
+
+  components.forEach(comp => {
+    if (mode === 'top') {
+      comp.position.y = minY
+    } else if (mode === 'middle') {
+      comp.position.y = centerY - NODE_HEIGHT / 2
+    } else if (mode === 'bottom') {
+      comp.position.y = maxBottom - NODE_HEIGHT
+    }
+  })
+  systemStore.saveToLocalStorage()
+}
 </script>
 
 <template>
@@ -117,6 +171,8 @@ function handleViewTab(tab) {
       @new-system="handleNewSystem"
       @save-as="handleSaveAs"
       @view-tab="handleViewTab"
+      @arrange-align-horizontal="handleArrangeAlignHorizontal"
+      @arrange-align-vertical="handleArrangeAlignVertical"
     />
 
     <div v-if="activeTab === 'design'" class="app-content">

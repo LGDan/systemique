@@ -14,7 +14,7 @@ const props = defineProps({
   }
 })
 
-const emit = defineEmits(['group-components', 'import-file', 'new-system', 'open-file', 'save-as'])
+const emit = defineEmits(['group-components', 'import-file', 'new-system', 'open-file', 'save-as', 'arrange-align-horizontal', 'arrange-align-vertical'])
 
 const systemStore = useSystemStore()
 const activeMenu = ref(null)
@@ -188,6 +188,32 @@ function handleViewSecurity() {
 
 const isDesignTab = computed(() => props.activeTab === 'design')
 const hasSelection = computed(() => props.selectedComponentIds.length > 0)
+const hasMultipleSelection = computed(() => props.selectedComponentIds.length >= 2)
+
+function handleArrangeAlignLeft() {
+  emit('arrange-align-horizontal', 'left')
+  closeMenu()
+}
+function handleArrangeAlignCenterH() {
+  emit('arrange-align-horizontal', 'center')
+  closeMenu()
+}
+function handleArrangeAlignRight() {
+  emit('arrange-align-horizontal', 'right')
+  closeMenu()
+}
+function handleArrangeAlignTop() {
+  emit('arrange-align-vertical', 'top')
+  closeMenu()
+}
+function handleArrangeAlignMiddle() {
+  emit('arrange-align-vertical', 'middle')
+  closeMenu()
+}
+function handleArrangeAlignBottom() {
+  emit('arrange-align-vertical', 'bottom')
+  closeMenu()
+}
 </script>
 
 <template>
@@ -272,8 +298,30 @@ const hasSelection = computed(() => props.selectedComponentIds.length > 0)
     <div class="menu-item" @click="toggleMenu('arrange')">
       <span>Arrange</span>
       <div v-if="activeMenu === 'arrange'" class="menu-dropdown">
-        <div class="menu-option disabled">
-          <span>Coming soon...</span>
+        <div class="menu-submenu-header" style="margin: 0; border-radius: 0;">
+          <span>Horizontal</span>
+        </div>
+        <div class="menu-option" @click="handleArrangeAlignLeft" :disabled="!hasMultipleSelection || !isDesignTab">
+          <span>Align Left</span>
+        </div>
+        <div class="menu-option" @click="handleArrangeAlignCenterH" :disabled="!hasMultipleSelection || !isDesignTab">
+          <span>Align Center</span>
+        </div>
+        <div class="menu-option" @click="handleArrangeAlignRight" :disabled="!hasMultipleSelection || !isDesignTab">
+          <span>Align Right</span>
+        </div>
+        <div class="menu-separator"></div>
+        <div class="menu-submenu-header" style="margin: 0; border-radius: 0;">
+          <span>Vertical</span>
+        </div>
+        <div class="menu-option" @click="handleArrangeAlignTop" :disabled="!hasMultipleSelection || !isDesignTab">
+          <span>Align Top</span>
+        </div>
+        <div class="menu-option" @click="handleArrangeAlignMiddle" :disabled="!hasMultipleSelection || !isDesignTab">
+          <span>Align Middle</span>
+        </div>
+        <div class="menu-option" @click="handleArrangeAlignBottom" :disabled="!hasMultipleSelection || !isDesignTab">
+          <span>Align Bottom</span>
         </div>
       </div>
     </div>
