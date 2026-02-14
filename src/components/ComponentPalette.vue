@@ -8,25 +8,40 @@ const libraryStore = useComponentLibraryStore()
 const systemStore = useSystemStore()
 
 const searchQuery = ref('')
-const selectedCategory = ref('All')
 const fileInputRef = ref(null)
+// Track which category sections are expanded (default: all collapsed)
+const expandedCategories = ref({})
 
-const filteredComponents = computed(() => {
-  let components = libraryStore.getAllComponents()
-  
-  if (selectedCategory.value !== 'All') {
-    components = libraryStore.getComponentsByCategory(selectedCategory.value)
+const searchLower = computed(() => searchQuery.value.trim().toLowerCase())
+
+function isCategoryExpanded(category) {
+  return expandedCategories.value[category] === true
+}
+
+function toggleCategory(category) {
+  expandedCategories.value = {
+    ...expandedCategories.value,
+    [category]: !isCategoryExpanded(category)
   }
-  
-  if (searchQuery.value) {
-    const query = searchQuery.value.toLowerCase()
-    components = components.filter(c => 
-      c.name.toLowerCase().includes(query) ||
-      c.type.toLowerCase().includes(query)
+}
+
+// Components in a category, filtered by search
+function getComponentsForCategory(category) {
+  let components = libraryStore.getComponentsByCategory(category)
+  if (searchLower.value) {
+    components = components.filter(c =>
+      c.name.toLowerCase().includes(searchLower.value) ||
+      (c.type && c.type.toLowerCase().includes(searchLower.value))
     )
   }
-  
   return components
+}
+
+// Categories that have at least one component (after search filter)
+const visibleCategories = computed(() => {
+  const cats = libraryStore.categories || []
+  if (!searchLower.value) return cats
+  return cats.filter(cat => getComponentsForCategory(cat).length > 0)
 })
 
 function handleDragStart(event, component) {
@@ -102,13 +117,6 @@ async function handleReload() {
         placeholder="Search components..."
         class="search-input"
       />
-      
-      <select v-model="selectedCategory" class="category-select">
-        <option value="All">All Categories</option>
-        <option v-for="category in libraryStore.categories" :key="category" :value="category">
-          {{ category }}
-        </option>
-      </select>
     </div>
 
     <div v-if="libraryStore.isLoading" class="loading-message">
@@ -120,27 +128,50 @@ async function handleReload() {
     </div>
 
     <div v-else class="components-list">
-      <div
-        v-for="component in filteredComponents"
-        :key="component.id"
-        class="component-item"
-        draggable="true"
-        @dragstart="handleDragStart($event, component)"
-      >
-        <div class="component-icon">
-          <MdiIcon 
-            v-if="component.icon" 
-            :name="component.icon" 
-            :size="32"
-            color="white"
-          />
-          <span v-else>{{ component.type.charAt(0).toUpperCase() }}</span>
+      <template v-if="visibleCategories.length === 0">
+        <div class="empty-message">
+          {{ searchQuery ? 'No components match your search.' : 'No categories in library.' }}
         </div>
-        <div class="component-info">
-          <div class="component-name">{{ component.name }}</div>
-          <div class="component-type">{{ component.type }}</div>
-          <div class="component-interfaces">
-            {{ component.getInputInterfaces().length }} in / {{ component.getOutputInterfaces().length }} out
+      </template>
+      <div
+        v-for="category in visibleCategories"
+        :key="category"
+        class="category-section"
+      >
+        <button
+          type="button"
+          class="category-header"
+          :aria-expanded="isCategoryExpanded(category)"
+          @click="toggleCategory(category)"
+        >
+          <span class="category-chevron" :class="{ expanded: isCategoryExpanded(category) }">›</span>
+          <span class="category-name">{{ category }}</span>
+          <span class="category-count">{{ getComponentsForCategory(category).length }}</span>
+        </button>
+        <div v-show="isCategoryExpanded(category)" class="category-content">
+          <div
+            v-for="component in getComponentsForCategory(category)"
+            :key="component.id"
+            class="component-item"
+            draggable="true"
+            @dragstart="handleDragStart($event, component)"
+          >
+            <div class="component-icon">
+              <MdiIcon 
+                v-if="component.icon" 
+                :name="component.icon" 
+                :size="32"
+                color="white"
+              />
+              <span v-else>{{ component.type?.charAt(0)?.toUpperCase() ?? '?' }}</span>
+            </div>
+            <div class="component-info">
+              <div class="component-name">{{ component.name }}</div>
+              <div class="component-type">{{ component.type }}</div>
+              <div class="component-interfaces">
+                {{ component.getInputInterfaces().length }} in / {{ component.getOutputInterfaces().length }} out
+              </div>
+            </div>
           </div>
         </div>
       </div>
@@ -208,18 +239,15 @@ async function handleReload() {
   padding: 12px;
   background: #fff;
   border-bottom: 1px solid #ddd;
-  display: flex;
-  flex-direction: column;
-  gap: 8px;
 }
 
-.search-input,
-.category-select {
+.search-input {
   width: 100%;
   padding: 8px;
   border: 1px solid #ddd;
   border-radius: 4px;
   font-size: 12px;
+  box-sizing: border-box;
 }
 
 .loading-message,
@@ -244,7 +272,76 @@ async function handleReload() {
 .components-list {
   flex: 1;
   overflow-y: auto;
-  padding: 8px;
+  padding: 4px 8px 8px;
+}
+
+.empty-message {
+  padding: 16px;
+  text-align: center;
+  font-size: 12px;
+  color: #666;
+}
+
+.category-section {
+  margin-bottom: 4px;
+}
+
+.category-header {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  padding: 8px 10px;
+  border: none;
+  border-radius: 6px;
+  background: #e8e8e8;
+  color: #333;
+  font-size: 13px;
+  font-weight: 600;
+  cursor: pointer;
+  text-align: left;
+  transition: background 0.2s;
+}
+
+.category-header:hover {
+  background: #ddd;
+}
+
+.category-chevron {
+  flex-shrink: 0;
+  width: 16px;
+  font-size: 14px;
+  line-height: 1;
+  transition: transform 0.2s;
+}
+
+.category-chevron.expanded {
+  transform: rotate(90deg);
+}
+
+.category-name {
+  flex: 1;
+  min-width: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.category-count {
+  flex-shrink: 0;
+  font-size: 11px;
+  font-weight: 500;
+  color: #666;
+  background: rgba(0, 0, 0, 0.08);
+  padding: 2px 6px;
+  border-radius: 10px;
+}
+
+.category-content {
+  padding: 4px 0 4px 8px;
+  border-left: 2px solid #e0e0e0;
+  margin-left: 6px;
+  margin-top: 2px;
 }
 
 .component-item {
