@@ -980,6 +980,29 @@ html[data-theme='dark'] .node-icon {
   color: #999;
 }
 
+/* Component right-click context menu */
+html[data-theme='dark'] .context-menu {
+  background: #2d2d2d;
+  border-color: #444;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.5);
+}
+
+html[data-theme='dark'] .context-menu-item {
+  color: #e0e0e0;
+}
+
+html[data-theme='dark'] .context-menu-item:hover:not(.disabled) {
+  background-color: #3a3a3a;
+}
+
+html[data-theme='dark'] .context-menu-item.disabled {
+  color: #777;
+}
+
+html[data-theme='dark'] .context-menu .menu-shortcut {
+  color: #888;
+}
+
 /* Dialogs & modals */
 html[data-theme='dark'] .group-dialog,
 html[data-theme='dark'] .modal-content {
