@@ -66,7 +66,7 @@ export const useComponentLibraryStore = defineStore('componentLibrary', () => {
   /**
    * Load component library from server
    */
-  async function loadFromServer(url = '/component-library.json') {
+  async function loadFromServer(url = import.meta.env.BASE_URL + 'component-library.json') {
     isLoading.value = true
     loadError.value = null
 

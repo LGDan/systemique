@@ -1,5 +1,32 @@
 # Deployment Guide
 
+## GitHub Pages
+
+The app can be deployed to GitHub Pages via the workflow in [.github/workflows/deploy-pages.yml](.github/workflows/deploy-pages.yml).
+
+### Triggers
+
+- **Push to `main`**: each push to the default branch runs the workflow and deploys.
+- **Manual**: run the workflow from the Actions tab (workflow_dispatch).
+
+### URL
+
+The site is served at `https://<owner>.github.io/<repo>/` (e.g. `https://your-org.github.io/systemique/`).
+
+### Setup
+
+1. In the repo: **Settings → Pages**.
+2. Under **Build and deployment**, set **Source** to **GitHub Actions**.
+3. After the workflow runs, the site will be available at the URL above.
+
+### Base path
+
+The workflow sets `VITE_BASE_PATH` to `/<repo-name>/` so asset and API URLs work under the GitHub Pages subpath. For local or Docker builds, `VITE_BASE_PATH` is unset and the app uses base `/`.
+
+### SPA fallback
+
+The workflow copies `dist/index.html` to `dist/404.html` so GitHub Pages serves the app for unknown paths (same behavior as the Docker Caddy `try_files` fallback).
+
 ## Docker Deployment
 
 ### Prerequisites
