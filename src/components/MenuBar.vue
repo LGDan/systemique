@@ -1,5 +1,5 @@
 <script setup>
-import { ref, computed } from 'vue'
+import { ref, computed, onMounted, onUnmounted } from 'vue'
 import { useSystemStore } from '../stores/systemStore.js'
 import { ExportService } from '../utils/exportService.js'
 
@@ -17,6 +17,7 @@ const props = defineProps({
 const emit = defineEmits(['group-components', 'import-file', 'new-system', 'open-file', 'save-as', 'arrange-align-horizontal', 'arrange-align-vertical'])
 
 const systemStore = useSystemStore()
+const menuBarRef = ref(null)
 const activeMenu = ref(null)
 const importFileInputRef = ref(null)
 const saveAsFileInputRef = ref(null)
@@ -78,12 +79,20 @@ function closeMenu() {
   activeMenu.value = null
 }
 
-// Close menu when clicking outside
+// Close menu when clicking outside the menu bar
 function handleClickOutside(event) {
-  if (!event.target.closest('.menu-bar')) {
+  if (activeMenu.value != null && menuBarRef.value && !menuBarRef.value.contains(event.target)) {
     closeMenu()
   }
 }
+
+onMounted(() => {
+  document.addEventListener('click', handleClickOutside)
+})
+
+onUnmounted(() => {
+  document.removeEventListener('click', handleClickOutside)
+})
 
 // File menu actions
 function handleNew() {
@@ -217,7 +226,7 @@ function handleArrangeAlignBottom() {
 </script>
 
 <template>
-  <div class="menu-bar" @click="handleClickOutside">
+  <div ref="menuBarRef" class="menu-bar">
     <div class="menu-item" @click="toggleMenu('file')">
       <span>File</span>
       <div v-if="activeMenu === 'file'" class="menu-dropdown">
