@@ -673,6 +673,283 @@ html[data-theme='dark'] .security-content {
   background: #252525;
 }
 
+html[data-theme='dark'] .nav-item:hover {
+  background: #3a3a3a;
+  color: #e0e0e0;
+}
+
+/* Security reporting – Interface Access Audit & Boundary Audit */
+html[data-theme='dark'] .interface-access-audit,
+html[data-theme='dark'] .boundary-audit {
+  background: transparent;
+}
+
+html[data-theme='dark'] .audit-header h2 {
+  color: #e0e0e0;
+}
+
+html[data-theme='dark'] .audit-description {
+  color: #999;
+}
+
+html[data-theme='dark'] .run-audit-button {
+  background: #1F6B66;
+  color: white;
+}
+
+html[data-theme='dark'] .run-audit-button:hover {
+  background: #3AB8B0;
+}
+
+/* Stat cards – keep semantic tints */
+html[data-theme='dark'] .stat-card {
+  background: #2d2d2d;
+  border-color: #444;
+}
+
+html[data-theme='dark'] .stat-card.clickable:hover {
+  background: #353535;
+  border-color: #5ab8b0;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
+}
+
+html[data-theme='dark'] .stat-card.filter-active {
+  background: rgba(46, 125, 50, 0.3);
+  border-color: #5ab8b0;
+}
+
+html[data-theme='dark'] .stat-label {
+  color: #999;
+}
+
+html[data-theme='dark'] .stat-value {
+  color: #e0e0e0;
+}
+
+html[data-theme='dark'] .stat-value.trusted {
+  color: #81c784;
+}
+
+html[data-theme='dark'] .stat-value.untrusted {
+  color: #e57373;
+}
+
+html[data-theme='dark'] .stat-value.ignored {
+  color: #ffb74d;
+}
+
+html[data-theme='dark'] .stat-value.connected {
+  color: #64b5f6;
+}
+
+html[data-theme='dark'] .stat-value.disconnected {
+  color: #999;
+}
+
+html[data-theme='dark'] .stat-value.secure {
+  color: #81c784;
+}
+
+html[data-theme='dark'] .stat-value.at-risk {
+  color: #e57373;
+}
+
+html[data-theme='dark'] .stat-value.unset {
+  color: #ffb74d;
+}
+
+/* Filters section */
+html[data-theme='dark'] .filters-section {
+  background: #2d2d2d;
+  border-color: #444;
+}
+
+html[data-theme='dark'] .filters-header h4 {
+  color: #e0e0e0;
+}
+
+html[data-theme='dark'] .clear-filters-button {
+  background: #333;
+  border-color: #444;
+  color: #e0e0e0;
+}
+
+html[data-theme='dark'] .clear-filters-button:hover {
+  background: #404040;
+  border-color: #5ab8b0;
+  color: #5ab8b0;
+}
+
+html[data-theme='dark'] .filter-group label {
+  color: #999;
+}
+
+html[data-theme='dark'] .filter-select {
+  background: #333;
+  border-color: #444;
+  color: #e0e0e0;
+}
+
+html[data-theme='dark'] .filter-select:hover,
+html[data-theme='dark'] .filter-select:focus {
+  border-color: #5ab8b0;
+}
+
+html[data-theme='dark'] .filter-results-info {
+  color: #999;
+  border-top-color: #444;
+}
+
+/* Audit tables */
+html[data-theme='dark'] .table-header h3 {
+  color: #e0e0e0;
+}
+
+html[data-theme='dark'] .export-button {
+  background: #333;
+  border-color: #5ab8b0;
+  color: #5ab8b0;
+}
+
+html[data-theme='dark'] .export-button:hover {
+  background: #2f7d78;
+  color: white;
+}
+
+html[data-theme='dark'] .table-container {
+  background: #2d2d2d;
+  border-color: #444;
+}
+
+html[data-theme='dark'] .audit-table thead {
+  background: #333;
+}
+
+html[data-theme='dark'] .audit-table th {
+  color: #e0e0e0;
+  border-bottom-color: #444;
+}
+
+html[data-theme='dark'] .audit-table td {
+  border-bottom-color: #444;
+  color: #b0b0b0;
+}
+
+html[data-theme='dark'] .audit-table tbody tr:hover {
+  background: #3a3a3a;
+}
+
+html[data-theme='dark'] .cell-id {
+  color: #888;
+}
+
+html[data-theme='dark'] .cell-name {
+  color: #e0e0e0;
+}
+
+html[data-theme='dark'] .cell-type,
+html[data-theme='dark'] .cell-boundary-type {
+  color: #b0b0b0;
+}
+
+html[data-theme='dark'] .cell-reason {
+  color: #999;
+}
+
+/* Direction badges – keep blue/purple tints */
+html[data-theme='dark'] .direction-badge.input {
+  background: rgba(33, 150, 243, 0.35);
+  color: #90caf9;
+}
+
+html[data-theme='dark'] .direction-badge.output {
+  background: rgba(156, 39, 176, 0.35);
+  color: #ce93d8;
+}
+
+/* Access badges – keep trusted/untrusted/ignored/unset tints */
+html[data-theme='dark'] .access-badge.unset {
+  background: #444;
+  color: #aaa;
+}
+
+html[data-theme='dark'] .access-badge.trusted {
+  background: rgba(46, 125, 50, 0.4);
+  color: #a5d6a7;
+}
+
+html[data-theme='dark'] .access-badge.untrusted {
+  background: rgba(198, 40, 40, 0.4);
+  color: #ef9a9a;
+}
+
+html[data-theme='dark'] .access-badge.ignored {
+  background: rgba(245, 124, 0, 0.35);
+  color: #ffcc80;
+}
+
+/* Trust badges – keep tints */
+html[data-theme='dark'] .trust-badge.trusted {
+  background: rgba(46, 125, 50, 0.4);
+  color: #a5d6a7;
+}
+
+html[data-theme='dark'] .trust-badge.untrusted {
+  background: rgba(198, 40, 40, 0.4);
+  color: #ef9a9a;
+}
+
+html[data-theme='dark'] .trust-badge.ignored {
+  background: #555;
+  color: #bbb;
+}
+
+html[data-theme='dark'] .trust-badge.unset {
+  background: #444;
+  color: #aaa;
+}
+
+/* Risk badges – keep secure/at-risk/unset tints */
+html[data-theme='dark'] .risk-badge.secure {
+  background: rgba(46, 125, 50, 0.4);
+  color: #a5d6a7;
+}
+
+html[data-theme='dark'] .risk-badge.at-risk {
+  background: rgba(198, 40, 40, 0.4);
+  color: #ef9a9a;
+}
+
+html[data-theme='dark'] .risk-badge.unset {
+  background: rgba(245, 124, 0, 0.35);
+  color: #ffcc80;
+}
+
+/* Boundary audit row tints */
+html[data-theme='dark'] .audit-table tbody tr.risk-secure {
+  background: rgba(46, 125, 50, 0.15);
+}
+
+html[data-theme='dark'] .audit-table tbody tr.risk-at-risk {
+  background: rgba(198, 40, 40, 0.15);
+}
+
+html[data-theme='dark'] .audit-table tbody tr.risk-unset {
+  background: rgba(245, 124, 0, 0.12);
+}
+
+html[data-theme='dark'] .connected-yes {
+  color: #81c784;
+}
+
+html[data-theme='dark'] .connected-no {
+  color: #888;
+}
+
+html[data-theme='dark'] .audit-placeholder {
+  color: #999;
+}
+
 /* System nodes (canvas nodes) */
 html[data-theme='dark'] .system-node {
   background: #2d2d2d;
