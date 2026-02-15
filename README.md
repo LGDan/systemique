@@ -2,6 +2,11 @@
 
 **Systemique** is a powerful, browser-based systems design tool that enables you to visually design complex systems by connecting components together. Each component supports inputs and outputs, can be nested into subsystems, and includes comprehensive validation and security features.
 
+## Beware!
+
+> [!WARNING]
+> 🤖 This project is vibe-coded with a large amount of human edits due to issues with vue flow, and the need for custom components.
+
 ## Features
 
 ### 🎨 Visual Design Canvas
