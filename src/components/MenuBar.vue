@@ -11,10 +11,14 @@ const props = defineProps({
   activeTab: {
     type: String,
     default: 'design'
+  },
+  darkTheme: {
+    type: Boolean,
+    default: false
   }
 })
 
-const emit = defineEmits(['group-components', 'import-file', 'new-system', 'open-file', 'save-as', 'arrange-align-horizontal', 'arrange-align-vertical'])
+const emit = defineEmits(['group-components', 'import-file', 'new-system', 'open-file', 'save-as', 'arrange-align-horizontal', 'arrange-align-vertical', 'toggle-theme'])
 
 const systemStore = useSystemStore()
 const menuBarRef = ref(null)
@@ -195,6 +199,11 @@ function handleViewSecurity() {
   closeMenu()
 }
 
+function handleToggleTheme() {
+  emit('toggle-theme')
+  closeMenu()
+}
+
 const GITHUB_REPO_URL = 'https://github.com/LGDan/systemique'
 
 function handleOpenGitHub() {
@@ -345,8 +354,9 @@ function handleArrangeAlignBottom() {
     <div class="menu-item" @click="toggleMenu('extras')">
       <span>Extras</span>
       <div v-if="activeMenu === 'extras'" class="menu-dropdown">
-        <div class="menu-option disabled">
-          <span>Coming soon...</span>
+        <div class="menu-option" @click="handleToggleTheme" :class="{ active: darkTheme }">
+          <span>Dark theme</span>
+          <span class="menu-shortcut">{{ darkTheme ? 'On' : 'Off' }}</span>
         </div>
       </div>
     </div>

@@ -41,6 +41,30 @@ function pickRandomTip() {
   currentTip.value = tips.value[i]
 }
 
+const THEME_STORAGE_KEY = 'systemique-theme'
+const savedTheme = () => {
+  const stored = typeof localStorage === 'undefined' ? null : localStorage.getItem(THEME_STORAGE_KEY)
+  return stored ?? 'light'
+}
+const theme = ref(savedTheme())
+
+function applyTheme(value) {
+  document.documentElement.dataset.theme = value
+}
+
+function setTheme(value) {
+  theme.value = value
+  applyTheme(value)
+  try {
+    localStorage.setItem(THEME_STORAGE_KEY, value)
+  } catch {
+    /* localStorage may be disabled or full */
+  }
+}
+function toggleTheme() {
+  setTheme(theme.value === 'dark' ? 'light' : 'dark')
+}
+
 const showGroupDialog = ref(false)
 const importFileInputRef = ref(null)
 const activeTab = ref('design') // 'design', 'rules', or 'security'
@@ -105,6 +129,7 @@ function handleViewTab(tab) {
 }
 
 onMounted(() => {
+  applyTheme(theme.value)
   loadTips()
   tipIntervalId = setInterval(pickRandomTip, 10_000)
 })
@@ -206,7 +231,9 @@ function handleArrangeAlignVertical(mode) {
     <MenuBar
       :selected-component-ids="selectedComponentIds"
       :active-tab="activeTab"
+      :dark-theme="theme === 'dark'"
       @group-components="handleGroup"
+      @toggle-theme="toggleTheme"
       @import-file="handleImportClick"
       @import-file-change="handleImportFile"
       @new-system="handleNewSystem"
