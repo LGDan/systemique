@@ -1,0 +1,12 @@
+[
+  "Drag components from the palette onto the canvas.",
+  "Hold CTRL or CMD and click elements to select multiple.",
+  "When multiple components are selected, use Arrange to align them.",
+  "Use Interface Management to define which interface types can connect.",
+  "Export your system as SVG or PNG for documentation.",
+  "Set trust levels on components for security analysis.",
+  "Use the Boundary Audit to review trust boundaries.",  
+  "Connect compatible interfaces by dragging from one port to another.",
+  "Save your work with Ctrl+S or File → Save.",
+  "Load saved systems with File → Open."
+]

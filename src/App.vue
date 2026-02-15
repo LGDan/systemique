@@ -1,5 +1,5 @@
 <script setup>
-import { ref, computed } from 'vue'
+import { ref, computed, onMounted, onUnmounted } from 'vue'
 import ComponentPalette from './components/ComponentPalette.vue'
 import SystemCanvas from './components/SystemCanvas.vue'
 import PropertiesPanel from './components/PropertiesPanel.vue'
@@ -17,6 +17,29 @@ const systemStore = useSystemStore()
 const { getSelectedNodes } = useVueFlow()
 
 const logoUrl = `${import.meta.env.BASE_URL}systemique-logo.svg`
+
+const tips = ref([])
+const currentTip = ref('')
+let tipIntervalId = null
+
+async function loadTips() {
+  try {
+    const res = await fetch(`${import.meta.env.BASE_URL}tips.json`)
+    if (res.ok) {
+      const data = await res.json()
+      tips.value = Array.isArray(data) ? data : (data.tips || [])
+      pickRandomTip()
+    }
+  } catch (err) {
+    console.warn('Could not load tips:', err)
+  }
+}
+
+function pickRandomTip() {
+  if (tips.value.length === 0) return
+  const i = Math.floor(Math.random() * tips.value.length)
+  currentTip.value = tips.value[i]
+}
 
 const showGroupDialog = ref(false)
 const importFileInputRef = ref(null)
@@ -80,6 +103,15 @@ function handleGroup() {
 function handleViewTab(tab) {
   activeTab.value = tab
 }
+
+onMounted(() => {
+  loadTips()
+  tipIntervalId = setInterval(pickRandomTip, 10_000)
+})
+
+onUnmounted(() => {
+  if (tipIntervalId) clearInterval(tipIntervalId)
+})
 
 // Default node size for alignment (right/center/bottom use this)
 const NODE_WIDTH = 120
@@ -165,6 +197,10 @@ function handleArrangeAlignVertical(mode) {
           </button>
         </div>
       </div>
+      <div v-if="currentTip" class="header-tip">
+        <span class="header-tip-label">Tip:</span>
+        <span class="header-tip-text">{{ currentTip }}</span>
+      </div>
     </div>
 
     <MenuBar
@@ -219,6 +255,33 @@ function handleArrangeAlignVertical(mode) {
   background: white;
   border-bottom: 1px solid #ddd;
   z-index: 10;
+  gap: 16px;
+}
+
+.header-tip {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  flex: 1;
+  min-width: 0;
+  padding: 6px 12px;
+  background: #f0f9f8;
+  border: 1px solid #d0e8e6;
+  border-radius: 6px;
+  font-size: 12px;
+  color: #333;
+}
+
+.header-tip-label {
+  font-weight: 600;
+  color: #1F6B66;
+  flex-shrink: 0;
+}
+
+.header-tip-text {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
 }
 
 .header-left {
