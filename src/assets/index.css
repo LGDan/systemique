@@ -185,6 +185,11 @@ html[data-theme='dark'] .category-header {
   border-color: #444;
 }
 
+html[data-theme='dark'] .category-header:hover {
+  background: #3a3a3a;
+  color: #e0e0e0;
+}
+
 html[data-theme='dark'] .component-item {
   background: #2d2d2d;
   border-color: #444;
@@ -273,6 +278,97 @@ html[data-theme='dark'] .info-label {
 
 html[data-theme='dark'] .info-value {
   color: #e0e0e0;
+}
+
+/* Interface editor (properties panel) */
+html[data-theme='dark'] .interface-editor {
+  background: #2d2d2d;
+  border-color: #444;
+}
+
+html[data-theme='dark'] .interface-editor .interface-name-input {
+  background: #333;
+  border-color: #444;
+  color: #e0e0e0;
+}
+
+html[data-theme='dark'] .interface-editor .interface-name-input::placeholder {
+  color: #888;
+}
+
+html[data-theme='dark'] .interface-editor .field label {
+  color: #b0b0b0;
+}
+
+html[data-theme='dark'] .interface-editor .field-input {
+  background: #333;
+  border-color: #444;
+  color: #e0e0e0;
+}
+
+/* Icon picker */
+html[data-theme='dark'] .icon-picker .current-icon {
+  background: #333;
+  border-color: #444;
+  color: #e0e0e0;
+}
+
+html[data-theme='dark'] .icon-picker .current-icon:hover {
+  border-color: #5ab8b0;
+}
+
+html[data-theme='dark'] .icon-picker .icon-name {
+  color: #e0e0e0;
+}
+
+html[data-theme='dark'] .icon-picker .no-icon {
+  color: #999;
+}
+
+html[data-theme='dark'] .icon-picker .picker-arrow {
+  color: #999;
+}
+
+html[data-theme='dark'] .picker-dropdown {
+  background: #2d2d2d;
+  border-color: #444;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.5);
+}
+
+html[data-theme='dark'] .picker-dropdown .picker-header {
+  border-bottom-color: #444;
+}
+
+html[data-theme='dark'] .picker-dropdown .icon-search {
+  background: #333;
+  border-color: #444;
+  color: #e0e0e0;
+}
+
+html[data-theme='dark'] .picker-dropdown .icon-search::placeholder {
+  color: #888;
+}
+
+html[data-theme='dark'] .picker-dropdown .icon-search:focus {
+  border-color: #5ab8b0;
+}
+
+html[data-theme='dark'] .picker-dropdown .icon-option:hover {
+  background: #3a3a3a;
+  border-color: #5ab8b0;
+}
+
+html[data-theme='dark'] .picker-dropdown .icon-option.selected {
+  background: #1e3a4a;
+  border-color: #5ab8b0;
+}
+
+html[data-theme='dark'] .picker-dropdown .icon-label {
+  color: #999;
+}
+
+html[data-theme='dark'] .picker-dropdown .no-results {
+  color: #999;
 }
 
 /* Vue Flow canvas */
@@ -374,6 +470,18 @@ html[data-theme='dark'] .system-node__header {
 html[data-theme='dark'] .system-node .interface-handle {
   background: #444;
   border-color: #555;
+}
+
+html[data-theme='dark'] .node-name {
+  color: #e0e0e0;
+}
+
+html[data-theme='dark'] .node-type {
+  color: #999;
+}
+
+html[data-theme='dark'] .node-icon {
+  color: #999;
 }
 
 /* Dialogs & modals */
