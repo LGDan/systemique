@@ -2,6 +2,12 @@
 
 **Systemique** is a powerful, browser-based systems design tool that enables you to visually design complex systems by connecting components together. Each component supports inputs and outputs, can be nested into subsystems, and includes comprehensive validation and security features.
 
+---
+
+**[🟢 → Open Systemique Here 🔗](https://lgdan.github.io/systemique/)**
+
+---
+
 ## Beware!
 
 > [!WARNING]
@@ -245,19 +251,3 @@ Tested browsers:
 - Chrome/Edge (latest)
 - Firefox (latest)
 - Safari (latest)
-
-## Contributing
-
-This project is closed for contributions. Fork if you like though!
-
-## License
-
-MIT
-
-## Support
-
-None.
-
----
-
-**Systemique** - Design systems visually, validate connections, and generate documentation automatically.
