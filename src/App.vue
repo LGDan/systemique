@@ -16,6 +16,8 @@ import { System } from './models/System.js'
 const systemStore = useSystemStore()
 const { getSelectedNodes } = useVueFlow()
 
+const logoUrl = `${import.meta.env.BASE_URL}systemique-logo.svg`
+
 const showGroupDialog = ref(false)
 const importFileInputRef = ref(null)
 const activeTab = ref('design') // 'design', 'rules', or 'security'
@@ -138,7 +140,10 @@ function handleArrangeAlignVertical(mode) {
   <div class="app-container">
     <div class="app-header">
       <div class="header-left">
-        <h1 class="app-title">Systemique</h1>
+        <div class="app-brand">
+          <img :src="logoUrl" alt="" class="app-logo" width="32" height="32" />
+          <h1 class="app-title">Systemique</h1>
+        </div>
         <div class="tabs">
           <button 
             @click="activeTab = 'design'"
@@ -221,6 +226,17 @@ function handleArrangeAlignVertical(mode) {
   align-items: center;
   gap: 16px;
   flex: 1;
+}
+
+.app-brand {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.app-logo {
+  display: block;
+  flex-shrink: 0;
 }
 
 .tabs {
