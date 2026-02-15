@@ -195,6 +195,13 @@ function handleViewSecurity() {
   closeMenu()
 }
 
+const GITHUB_REPO_URL = 'https://github.com/LGDan/systemique'
+
+function handleOpenGitHub() {
+  window.open(GITHUB_REPO_URL, '_blank', 'noopener,noreferrer')
+  closeMenu()
+}
+
 const isDesignTab = computed(() => props.activeTab === 'design')
 const hasSelection = computed(() => props.selectedComponentIds.length > 0)
 const hasMultipleSelection = computed(() => props.selectedComponentIds.length >= 2)
@@ -347,8 +354,8 @@ function handleArrangeAlignBottom() {
     <div class="menu-item" @click="toggleMenu('help')">
       <span>Help</span>
       <div v-if="activeMenu === 'help'" class="menu-dropdown">
-        <div class="menu-option disabled">
-          <span>Coming soon...</span>
+        <div class="menu-option" @click="handleOpenGitHub">
+          <span>GitHub</span>
         </div>
       </div>
     </div>
