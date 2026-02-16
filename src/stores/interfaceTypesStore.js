@@ -2,6 +2,7 @@ import { defineStore } from 'pinia'
 import { ref } from 'vue'
 import { InterfaceType } from '../models/InterfaceType.js'
 import { DEFAULT_INTERFACE_TYPES } from '../config/defaultInterfaceTypes.js'
+import { getInterfaceTypesUrl } from '../utils/urlConfig.js'
 
 /**
  * Interface Types Store
@@ -91,6 +92,22 @@ export const useInterfaceTypesStore = defineStore('interfaceTypes', () => {
   }
 
   /**
+   * Load interface types from a JSON URL (array of type objects).
+   * Replaces current types and persists to localStorage.
+   */
+  async function loadFromServer(url = getInterfaceTypesUrl()) {
+    const response = await fetch(url)
+    if (!response.ok) {
+      throw new Error(`Failed to load interface types: ${response.statusText}`)
+    }
+    const data = await response.json()
+    const types = Array.isArray(data) ? data : (data.types ?? data.interfaceTypes ?? [])
+    interfaceTypes.value = types.map(t => InterfaceType.fromJSON(t))
+    saveToLocalStorage()
+    return { success: true, count: interfaceTypes.value.length }
+  }
+
+  /**
    * Import types from JSON array
    * Merges with existing types - updates if ID exists, adds if new
    */
@@ -132,7 +149,8 @@ export const useInterfaceTypesStore = defineStore('interfaceTypes', () => {
     addType,
     removeType,
     updateTypeColor,
-    importTypes
+    importTypes,
+    loadFromServer
   }
 })
 

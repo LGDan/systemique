@@ -1,5 +1,6 @@
 import { defineStore } from 'pinia'
 import { ref } from 'vue'
+import { getInterfaceRulesUrl } from '../utils/urlConfig.js'
 
 /**
  * Interface Rules Store
@@ -37,6 +38,29 @@ export const useInterfaceRulesStore = defineStore('interfaceRules', () => {
 
   // Initialize from localStorage
   loadFromLocalStorage()
+
+  /**
+   * Load interface rules from a JSON URL (object of "type1-type2" -> true|false).
+   * Replaces current rules and persists to localStorage.
+   */
+  async function loadFromServer(url = getInterfaceRulesUrl()) {
+    const response = await fetch(url)
+    if (!response.ok) {
+      throw new Error(`Failed to load interface rules: ${response.statusText}`)
+    }
+    const data = await response.json()
+    const rules = data && typeof data === 'object' && !Array.isArray(data)
+      ? (data.rules ?? data.interfaceRules ?? data)
+      : {}
+    typeRules.value.clear()
+    Object.entries(rules).forEach(([key, value]) => {
+      if (value === true || value === false) {
+        typeRules.value.set(key, value)
+      }
+    })
+    saveToLocalStorage()
+    return { success: true, count: typeRules.value.size }
+  }
 
   /**
    * Get rule for a type pair
@@ -104,7 +128,8 @@ export const useInterfaceRulesStore = defineStore('interfaceRules', () => {
     setRule,
     cycleRule,
     clearAllRules,
-    getAllRules
+    getAllRules,
+    loadFromServer
   }
 })
 

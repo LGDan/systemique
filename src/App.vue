@@ -10,8 +10,11 @@ import SecurityPanel from './components/SecurityPanel.vue'
 import ArchitectureLibrary from './components/ArchitectureLibrary.vue'
 import MenuBar from './components/MenuBar.vue'
 import { useSystemStore } from './stores/systemStore.js'
+import { useInterfaceTypesStore } from './stores/interfaceTypesStore.js'
+import { useInterfaceRulesStore } from './stores/interfaceRulesStore.js'
 import { useVueFlow } from '@vue-flow/core'
 import { ExportService } from './utils/exportService.js'
+import { hasInterfaceTypesUrlParam, hasInterfaceRulesUrlParam, getInterfaceTypesUrl, getInterfaceRulesUrl } from './utils/urlConfig.js'
 import { PersistenceService } from './utils/persistenceService.js'
 import { System } from './models/System.js'
 
@@ -151,6 +154,20 @@ onMounted(() => {
   applyTheme(theme.value)
   loadTips()
   tipIntervalId = setInterval(pickRandomTip, 10_000)
+
+  // Load interface types/rules from URL when query params are set
+  const typesStore = useInterfaceTypesStore()
+  const rulesStore = useInterfaceRulesStore()
+  if (hasInterfaceTypesUrlParam()) {
+    typesStore.loadFromServer(getInterfaceTypesUrl()).catch((err) => {
+      console.warn('Failed to load interface types from URL:', err.message)
+    })
+  }
+  if (hasInterfaceRulesUrlParam()) {
+    rulesStore.loadFromServer(getInterfaceRulesUrl()).catch((err) => {
+      console.warn('Failed to load interface rules from URL:', err.message)
+    })
+  }
 })
 
 onUnmounted(() => {

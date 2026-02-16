@@ -1,6 +1,7 @@
 import { defineStore } from 'pinia'
 import { ref, computed } from 'vue'
 import { Component } from '../models/Component.js'
+import { getComponentLibraryUrl } from '../utils/urlConfig.js'
 
 /**
  * Initialize with default components (fallback)
@@ -66,7 +67,7 @@ export const useComponentLibraryStore = defineStore('componentLibrary', () => {
   /**
    * Load component library from server
    */
-  async function loadFromServer(url = import.meta.env.BASE_URL + 'component-library.json') {
+  async function loadFromServer(url = getComponentLibraryUrl()) {
     isLoading.value = true
     loadError.value = null
 
