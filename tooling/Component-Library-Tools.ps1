@@ -153,6 +153,59 @@ function Invoke-ComponentValidation {
         }
     }
 
+    function Validate-PlugAndSocketInterfaces($component) {
+        # All interfaces that contain the word "plug" should be an output.
+        $component.interfaces
+        | ForEach-Object {
+            if ($_.name -like "*plug*") {
+                if ($_.direction -ne "output") {
+                    New-ComponentValidationError -Message "Interface $($_.name) is a plug but is not an output." -Component $component.name -Interface $_.name
+                }
+            }
+            if ($_.name -like "*socket*") {
+                if ($_.direction -ne "input") {
+                    New-ComponentValidationError -Message "Interface $($_.name) is a socket but is not an input." -Component $component.name -Interface $_.name
+                }
+            }
+        }
+    }
+
+    function Validate-InAndOutInterfaces($component) {
+        # All interfaces that contain the word "in" should be an input.
+        # All interfaces that contain the word "out" should be an output.
+        $component.interfaces
+        | ForEach-Object {
+            if ($_.name -ilike "* in") {
+                if ($_.direction -ne "input") {
+                    New-ComponentValidationError -Message "Interface $($_.name) is a in but is not an input." -Component $component.name -Interface $_.name
+                }
+            }
+            if ($_.name -ilike "* out") {
+                if ($_.direction -ne "output") {
+                    New-ComponentValidationError -Message "Interface $($_.name) is a out but is not an output." -Component $component.name -Interface $_.name
+                }
+            }
+        }
+    }
+
+    function Validate-InterfaceIODirectionality($interface) {
+        # Generally, interfaces on the left should be outputs and interfaces on the right should be inputs.
+        # Unless the interface is a plug or socket, in which case the direction should be determined by the name.
+        if ($interface.type -in ("power","network")) {
+            return
+        }
+        if ($interface.position -eq "left") {
+            if ($interface.direction -ne "output") {
+                New-ComponentValidationError -Message "Interface $($interface.name) is on the left but is not an output." -Component $interface.Component -Interface $interface.name
+            }
+        }
+        if ($interface.position -eq "right") {
+            if ($interface.direction -ne "input") {
+                New-ComponentValidationError -Message "Interface $($interface.name) is on the right but is not an input." -Component $interface.Component -Interface $interface.name
+            }
+        }
+    }
+
     Get-Components
     | ForEach-Object {
         Validate-ComponentName $_
@@ -161,6 +214,8 @@ function Invoke-ComponentValidation {
         Validate-ComponentIcon $_
         Validate-ComponentDescription $_
         Validate-ComponentInterfaces $_
+        Validate-PlugAndSocketInterfaces $_
+        Validate-InAndOutInterfaces $_
     }
 
     Get-AllComponentInterfaces
@@ -170,6 +225,8 @@ function Invoke-ComponentValidation {
         Validate-InterfaceDirection $_
         Validate-InterfacePosition $_
         Validate-InterfaceIcon $_
+        # Disabled because it's not always possible to determine the appropriate directionality of the interface.
+        # Validate-InterfaceIODirectionality $_
     }
 }
 

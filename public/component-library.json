@@ -3,6 +3,7 @@
   "components": [
     {
       "id": "generic-template",
+      "description": "A generic component that can be used as a starting point for a new model or component.",
       "name": "Generic",
       "type": "generic",
       "properties": {},
@@ -14,6 +15,7 @@
     },
     {
       "id": "rackmount-server-template",
+      "description": "A rackmount server component that can be used to represent a server in a model.",
       "name": "Rackmount Server",
       "type": "server",
       "properties": {},
@@ -133,6 +135,7 @@
     },
     {
       "id": "16-port-network-switch-template",
+      "description": "A 16 port network switch component that can be used to represent a network switch in a model.",
       "name": "16 Port Network Switch",
       "type": "switch",
       "properties": {},
@@ -342,6 +345,7 @@
     },
     {
       "id": "24-port-network-switch-template",
+      "description": "A 24 port network switch component that can be used to represent a network switch in a model.",
       "name": "24 Port Network Switch",
       "type": "switch",
       "properties": {},
@@ -631,6 +635,7 @@
     },
     {
       "id": "48-port-network-switch-template",
+      "description": "A 48 port network switch component that can be used to represent a network switch in a model.",
       "name": "48 Port Network Switch",
       "type": "switch",
       "properties": {},
@@ -1160,6 +1165,7 @@
     },
     {
       "id": "48-port-stackable-switch-25g-template",
+      "description": "A 48 port stackable network switch component that can be used to represent a network switch in a model.",
       "name": "48 Port Stackable Switch 25G",
       "type": "switch",
       "properties": {},
@@ -1748,47 +1754,8 @@
       "metadata": {}
     },
     {
-      "id": "database-template",
-      "name": "Database",
-      "type": "database",
-      "properties": {},
-      "icon": "database",
-      "categories": ["Software", "Storage", "Data"],
-      "interfaces": [
-        {
-          "id": "network-in",
-          "name": "Network",
-          "type": "network",
-          "direction": "input",
-          "position": "left",
-          "rules": {},
-          "metadata": {}
-        },
-        {
-          "id": "data-out",
-          "name": "Data",
-          "type": "data",
-          "direction": "output",
-          "position": "right",
-          "rules": {},
-          "metadata": {}
-        },
-        {
-          "id": "api-out",
-          "name": "API",
-          "type": "api",
-          "direction": "output",
-          "position": "right",
-          "rules": {},
-          "metadata": {}
-        }
-      ],
-      "nestedSystemId": null,
-      "position": { "x": 0, "y": 0 },
-      "metadata": {}
-    },
-    {
       "id": "rackmount-pdu-(12)-template",
+      "description": "A 12 port rackmount power distribution unit component.",
       "name": "Rackmount PDU (12)",
       "type": "pdu",
       "properties": {},
@@ -1948,6 +1915,7 @@
     },
     {
       "id": "42u-server-rack-template",
+      "description": "A 42U server rack component that can be used to represent a server rack in a model.",
       "name": "42U Server Rack",
       "type": "rack",
       "properties": {},
@@ -2416,47 +2384,8 @@
       "metadata": {}
     },
     {
-      "id": "api-service-template",
-      "name": "API Service",
-      "type": "api-service",
-      "properties": {},
-      "icon": "api-service",
-      "categories": ["Software", "Service"],
-      "interfaces": [
-        {
-          "id": "network-in",
-          "name": "Network",
-          "type": "network",
-          "direction": "input",
-          "position": "left",
-          "rules": {},
-          "metadata": {}
-        },
-        {
-          "id": "api-out",
-          "name": "API",
-          "type": "api",
-          "direction": "output",
-          "position": "right",
-          "rules": {},
-          "metadata": {}
-        },
-        {
-          "id": "data-in",
-          "name": "Data",
-          "type": "data",
-          "direction": "input",
-          "position": "bottom",
-          "rules": {},
-          "metadata": {}
-        }
-      ],
-      "nestedSystemId": null,
-      "position": { "x": 0, "y": 0 },
-      "metadata": {}
-    },
-    {
       "id": "cable-cat5-template",
+      "description": "A RJ45 Cat5 cable component that can be used to represent a network cable in a model.",
       "name": "RJ45 Cat5 Cable",
       "type": "cable",
       "properties": {
@@ -2474,7 +2403,8 @@
           "direction": "output",
           "position": "left",
           "rules": {},
-          "metadata": {}
+          "metadata": {},
+          "icon": "ethernet-cable"
         },
         {
           "id": "end-b",
@@ -2483,7 +2413,8 @@
           "direction": "output",
           "position": "right",
           "rules": {},
-          "metadata": {}
+          "metadata": {},
+          "icon": "ethernet-cable"
         }
       ],
       "nestedSystemId": null,
@@ -2492,6 +2423,7 @@
     },
     {
       "id": "cable-cat6-template",
+      "description": "A RJ45 Cat6 cable component that can be used to represent a network cable in a model.",
       "name": "RJ45 Cat6 Cable",
       "type": "cable",
       "properties": {
@@ -2509,7 +2441,8 @@
           "direction": "output",
           "position": "left",
           "rules": {},
-          "metadata": {}
+          "metadata": {},
+          "icon": "ethernet-cable"
         },
         {
           "id": "end-b",
@@ -2518,7 +2451,8 @@
           "direction": "output",
           "position": "right",
           "rules": {},
-          "metadata": {}
+          "metadata": {},
+          "icon": "ethernet-cable"
         }
       ],
       "nestedSystemId": null,
@@ -2527,6 +2461,7 @@
     },
     {
       "id": "cable-sfp-template",
+      "description": "A SFP module component that can be used to represent a SFP module in a model.",
       "name": "SFP Module",
       "type": "cable",
       "properties": {
@@ -2543,7 +2478,8 @@
           "direction": "output",
           "position": "right",
           "rules": {},
-          "metadata": {}
+          "metadata": {},
+          "icon": "ethernet-cable"
         },
         {
           "id": "socket-end",
@@ -2552,7 +2488,8 @@
           "direction": "input",
           "position": "left",
           "rules": {},
-          "metadata": {}
+          "metadata": {},
+          "icon": "ethernet-cable"
         }
       ],
       "nestedSystemId": null,
@@ -2561,6 +2498,7 @@
     },
     {
       "id": "cable-sfp-plus-template",
+      "description": "A SFP+ cable component that can be used to represent a direct-attach SFP+ cable in a model.",
       "name": "SFP+ Cable",
       "type": "cable",
       "properties": {
@@ -2577,7 +2515,8 @@
           "direction": "output",
           "position": "right",
           "rules": {},
-          "metadata": {}
+          "metadata": {},
+          "icon": "ethernet-cable"
         },
         {
           "id": "socket-end",
@@ -2586,7 +2525,8 @@
           "direction": "output",
           "position": "left",
           "rules": {},
-          "metadata": {}
+          "metadata": {},
+          "icon": "ethernet-cable"
         }
       ],
       "nestedSystemId": null,
@@ -2595,6 +2535,7 @@
     },
     {
       "id": "cable-qsfp-plus-template",
+      "description": "A QSFP+ cable component that can be used to represent a direct-attach QSFP+ cable in a model.",
       "name": "QSFP+ Cable",
       "type": "cable",
       "properties": {
@@ -2611,7 +2552,8 @@
           "direction": "output",
           "position": "right",
           "rules": {},
-          "metadata": {}
+          "metadata": {},
+          "icon": "ethernet-cable"
         },
         {
           "id": "socket-end",
@@ -2620,7 +2562,8 @@
           "direction": "output",
           "position": "left",
           "rules": {},
-          "metadata": {}
+          "metadata": {},
+          "icon": "ethernet-cable"
         }
       ],
       "nestedSystemId": null,
@@ -2629,6 +2572,7 @@
     },
     {
       "id": "cable-qsfp28-template",
+      "description": "A QSFP28 cable component that can be used to represent a direct-attach QSFP28 cable in a model.",
       "name": "QSFP28 Cable",
       "type": "cable",
       "properties": {
@@ -2645,7 +2589,8 @@
           "direction": "output",
           "position": "right",
           "rules": {},
-          "metadata": {}
+          "metadata": {},
+          "icon": "ethernet-cable"
         },
         {
           "id": "socket-end",
@@ -2654,7 +2599,8 @@
           "direction": "output",
           "position": "left",
           "rules": {},
-          "metadata": {}
+          "metadata": {},
+          "icon": "ethernet-cable"
         }
       ],
       "nestedSystemId": null,
@@ -2663,6 +2609,7 @@
     },
     {
       "id": "c13-c14-power-cable-template",
+      "description": "A C13-C14 power cable component that can be used to represent a power cable in a model.",
       "name": "C13-C14 Power Cable",
       "type": "cable",
       "properties": {
@@ -2723,7 +2670,8 @@
           "direction": "output",
           "position": "left",
           "rules": {},
-          "metadata": {}
+          "metadata": {},
+          "icon": "usb"
         },
         {
           "id": "usb-c-end",
@@ -2732,7 +2680,8 @@
           "direction": "output",
           "position": "right",
           "rules": {},
-          "metadata": {}
+          "metadata": {},
+          "icon": "usb-c-port"
         }
       ],
       "nestedSystemId": null,
@@ -2758,7 +2707,8 @@
           "direction": "output",
           "position": "left",
           "rules": {},
-          "metadata": {}
+          "metadata": {},
+          "icon": "usb-c-port"
         },
         {
           "id": "usb-c-end-b",
@@ -2767,7 +2717,8 @@
           "direction": "output",
           "position": "right",
           "rules": {},
-          "metadata": {}
+          "metadata": {},
+          "icon": "usb-c-port"
         }
       ],
       "nestedSystemId": null,
@@ -2794,7 +2745,8 @@
           "direction": "output",
           "position": "left",
           "rules": {},
-          "metadata": {}
+          "metadata": {},
+          "icon": "ethernet-cable"
         },
         {
           "id": "lc-end-b",
@@ -2803,7 +2755,8 @@
           "direction": "output",
           "position": "right",
           "rules": {},
-          "metadata": {}
+          "metadata": {},
+          "icon": "ethernet-cable"
         }
       ],
       "nestedSystemId": null,
@@ -2830,7 +2783,8 @@
           "direction": "output",
           "position": "left",
           "rules": {},
-          "metadata": {}
+          "metadata": {},
+          "icon": "ethernet-cable"
         },
         {
           "id": "lc-end-b",
@@ -2839,7 +2793,8 @@
           "direction": "output",
           "position": "right",
           "rules": {},
-          "metadata": {}
+          "metadata": {},
+          "icon": "ethernet-cable"
         }
       ],
       "nestedSystemId": null,
@@ -2848,6 +2803,7 @@
     },
     {
       "id": "raspberry-pi-5-model-b-template",
+      "description": "A Raspberry Pi 5 Model B component that can be used to represent a Raspberry Pi 5 Model B in a model.",
       "name": "Raspberry Pi 5 Model B",
       "type": "hardware",
       "properties": {},
@@ -2980,7 +2936,8 @@
           "direction": "input",
           "position": "left",
           "rules": {},
-          "metadata": {}
+          "metadata": {},
+          "icon": "expansion-card-variant"
         },
         {
           "id": "sata-power-in",
@@ -2989,7 +2946,8 @@
           "direction": "input",
           "position": "left",
           "rules": {},
-          "metadata": {}
+          "metadata": {},
+          "icon": "power-plug"
         }
       ],
       "nestedSystemId": null,
@@ -3011,7 +2969,8 @@
           "direction": "input",
           "position": "left",
           "rules": {},
-          "metadata": {}
+          "metadata": {},
+          "icon": "expansion-card-variant"
         },
         {
           "id": "sata-power-in",
@@ -3020,7 +2979,8 @@
           "direction": "input",
           "position": "left",
           "rules": {},
-          "metadata": {}
+          "metadata": {},
+          "icon": "power-plug"
         }
       ],
       "nestedSystemId": null,
@@ -5452,6 +5412,7 @@
     },
     {
       "id": "excel-sheet-template",
+      "description": "A Excel sheet component that can be used to represent a Excel sheet in a model.",
       "name": "Excel Sheet",
       "type": "Spreadsheet Document",
       "properties": {},
@@ -5481,8 +5442,8 @@
           "icon": "api"
         },
         {
-          "id": "stored-in",
-          "name": "Stored In",
+          "id": "location",
+          "name": "Location",
           "type": "data",
           "direction": "output",
           "position": "left",
@@ -5510,6 +5471,7 @@
     },
     {
       "id": "step-template",
+      "description": "A process step component that can be used to represent a process step in a model.",
       "name": "Step",
       "type": "Process Step",
       "properties": {},
@@ -5548,6 +5510,7 @@
     },
     {
       "id": "start-template",
+      "description": "A component indicating the beginning of a process.",
       "name": "Start",
       "type": "Process Start",
       "properties": {},
@@ -5586,6 +5549,7 @@
     },
     {
       "id": "stop-template",
+      "description": "A component indicating the end of a process.",
       "name": "Stop",
       "type": "Process Stop",
       "properties": {},
@@ -5603,6 +5567,244 @@
           "rules": {},
           "metadata": {},
           "icon": "stop"
+        }
+      ],
+      "nestedSystemId": null,
+      "position": {
+        "x": 0,
+        "y": 0
+      },
+      "metadata": {}
+    },
+    {
+      "id": "0.0.0.0/0-template",
+      "name": "0.0.0.0/0",
+      "type": "IPv4 Subnet",
+      "properties": {},
+      "icon": "router",
+      "categories": [
+        "Network"
+      ],
+      "interfaces": [
+        {
+          "id": "gateway-address",
+          "name": "Gateway Address",
+          "type": "network",
+          "direction": "input",
+          "position": "right",
+          "rules": {},
+          "metadata": {},
+          "icon": "ip"
+        },
+        {
+          "id": "members",
+          "name": "Members",
+          "type": "network",
+          "direction": "input",
+          "position": "right",
+          "rules": {},
+          "metadata": {},
+          "icon": "ip"
+        },
+        {
+          "id": "bc-domain",
+          "name": "BC Domain",
+          "type": "network",
+          "direction": "output",
+          "position": "left",
+          "rules": {},
+          "metadata": {},
+          "icon": "ethernet"
+        }
+      ],
+      "nestedSystemId": null,
+      "position": {
+        "x": 0,
+        "y": 0
+      },
+      "metadata": {}
+    },
+    {
+      "id": "192.168.0.1-template",
+      "name": "192.168.0.1",
+      "type": "IPv4 Address",
+      "properties": {},
+      "icon": "ip",
+      "categories": [
+        "Network"
+      ],
+      "interfaces": [
+        {
+          "id": "subnet",
+          "name": "Subnet",
+          "type": "network",
+          "direction": "output",
+          "position": "left",
+          "rules": {},
+          "metadata": {},
+          "icon": "ip"
+        },
+        {
+          "id": "services",
+          "name": "Services",
+          "type": "data",
+          "direction": "input",
+          "position": "right",
+          "rules": {},
+          "metadata": {},
+          "icon": "server"
+        }
+      ],
+      "nestedSystemId": null,
+      "position": {
+        "x": 0,
+        "y": 0
+      },
+      "metadata": {}
+    },
+    {
+      "id": "layer-2-segment-template",
+      "name": "Layer 2 Segment",
+      "type": "Broadcast Domain",
+      "properties": {},
+      "icon": "network",
+      "categories": [
+        "Network"
+      ],
+      "interfaces": [
+        {
+          "id": "south",
+          "name": "South",
+          "type": "data",
+          "direction": "output",
+          "position": "right",
+          "rules": {},
+          "metadata": {},
+          "icon": "network"
+        },
+        {
+          "id": "north",
+          "name": "North",
+          "type": "data",
+          "direction": "output",
+          "position": "left",
+          "rules": {},
+          "metadata": {},
+          "icon": "network"
+        }
+      ],
+      "nestedSystemId": null,
+      "position": {
+        "x": 0,
+        "y": 0
+      },
+      "metadata": {}
+    },
+    {
+      "id": "keyboard-template",
+      "name": "Keyboard",
+      "type": "Keyboard",
+      "properties": {},
+      "icon": "keyboard",
+      "categories": [
+        "Misc"
+      ],
+      "interfaces": [
+        {
+          "id": "usb",
+          "name": "USB",
+          "type": "data",
+          "direction": "output",
+          "position": "left",
+          "rules": {},
+          "metadata": {},
+          "icon": "usb"
+        },
+        {
+          "id": "operator",
+          "name": "Operator",
+          "type": "physical",
+          "direction": "input",
+          "position": "right",
+          "rules": {},
+          "metadata": {},
+          "icon": "person"
+        }
+      ],
+      "nestedSystemId": null,
+      "position": {
+        "x": 0,
+        "y": 0
+      },
+      "metadata": {}
+    },
+    {
+      "id": "mouse-template",
+      "name": "Mouse",
+      "type": "Mouse",
+      "properties": {},
+      "icon": "mouse",
+      "categories": [
+        "Misc"
+      ],
+      "interfaces": [
+        {
+          "id": "usb",
+          "name": "USB",
+          "type": "data",
+          "direction": "output",
+          "position": "left",
+          "rules": {},
+          "metadata": {},
+          "icon": "usb"
+        },
+        {
+          "id": "operator",
+          "name": "Operator",
+          "type": "physical",
+          "direction": "input",
+          "position": "right",
+          "rules": {},
+          "metadata": {},
+          "icon": "person"
+        }
+      ],
+      "nestedSystemId": null,
+      "position": {
+        "x": 0,
+        "y": 0
+      },
+      "metadata": {}
+    },
+    {
+      "id": "webcam-template",
+      "name": "Webcam",
+      "type": "Webcam",
+      "properties": {},
+      "icon": "webcam",
+      "categories": [
+        "Misc"
+      ],
+      "interfaces": [
+        {
+          "id": "usb",
+          "name": "USB",
+          "type": "data",
+          "direction": "output",
+          "position": "left",
+          "rules": {},
+          "metadata": {},
+          "icon": "usb"
+        },
+        {
+          "id": "target",
+          "name": "Target",
+          "type": "physical",
+          "direction": "input",
+          "position": "right",
+          "rules": {},
+          "metadata": {},
+          "icon": "webcam"
         }
       ],
       "nestedSystemId": null,
