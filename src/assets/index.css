@@ -963,6 +963,21 @@ html[data-theme='dark'] .library-description {
   color: #999;
 }
 
+html[data-theme='dark'] .library-search {
+  background: #333;
+  border-color: #444;
+  color: #e0e0e0;
+}
+
+html[data-theme='dark'] .library-search::placeholder {
+  color: #888;
+}
+
+html[data-theme='dark'] .library-search:focus {
+  border-color: #5ab8b0;
+  box-shadow: 0 0 0 2px rgba(90, 184, 176, 0.25);
+}
+
 html[data-theme='dark'] .library-state {
   color: #999;
 }

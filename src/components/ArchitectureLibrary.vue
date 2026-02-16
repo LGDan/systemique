@@ -1,5 +1,5 @@
 <script setup>
-import { ref, onMounted } from 'vue'
+import { ref, computed, onMounted } from 'vue'
 import { useSystemStore } from '../stores/systemStore.js'
 import { PersistenceService } from '../utils/persistenceService.js'
 
@@ -9,9 +9,25 @@ const baseUrl = import.meta.env.BASE_URL
 const manifestUrl = `${baseUrl}architecture-library.json`
 
 const entries = ref([])
+const searchQuery = ref('')
 const loading = ref(true)
 const loadError = ref(null)
 const loadingEntryId = ref(null)
+
+const filteredEntries = computed(() => {
+  const q = searchQuery.value.trim().toLowerCase()
+  if (!q) return entries.value
+  return entries.value.filter((entry) => {
+    const title = (entry.title || '').toLowerCase()
+    const description = (entry.description || '').toLowerCase()
+    const tags = (entry.tags || []).map((t) => String(t).toLowerCase())
+    return (
+      title.includes(q) ||
+      description.includes(q) ||
+      tags.some((tag) => tag.includes(q))
+    )
+  })
+})
 
 onMounted(async () => {
   loading.value = true
@@ -64,6 +80,15 @@ function screenshotSrc(entry) {
       <p class="library-description">
         Curated diagrams and models. Click a tile to load it into the design canvas.
       </p>
+      <div v-if="!loading && !loadError && entries.length > 0" class="library-search-wrap">
+        <input
+          v-model="searchQuery"
+          type="search"
+          placeholder="Search titles, tags, descriptions…"
+          class="library-search"
+          aria-label="Search library"
+        />
+      </div>
     </div>
 
     <div v-if="loading" class="library-state">
@@ -78,9 +103,13 @@ function screenshotSrc(entry) {
       <p>No architectures in the library yet.</p>
     </div>
 
+    <div v-else-if="filteredEntries.length === 0" class="library-state">
+      <p>No results for "{{ searchQuery }}". Try a different search.</p>
+    </div>
+
     <div v-else class="library-grid">
       <div
-        v-for="entry in entries"
+        v-for="entry in filteredEntries"
         :key="entry.id"
         class="library-tile"
         :class="{ loading: loadingEntryId === entry.id }"
@@ -138,6 +167,34 @@ function screenshotSrc(entry) {
   font-size: 13px;
   color: #666;
   line-height: 1.5;
+}
+
+.library-search-wrap {
+  margin-top: 16px;
+  display: flex;
+  justify-content: center;
+}
+
+.library-search {
+  width: 100%;
+  max-width: 400px;
+  padding: 10px 16px;
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  font-size: 14px;
+  color: #333;
+  background: #fff;
+  transition: border-color 0.2s;
+}
+
+.library-search::placeholder {
+  color: #999;
+}
+
+.library-search:focus {
+  outline: none;
+  border-color: #2A8A84;
+  box-shadow: 0 0 0 2px rgba(42, 138, 132, 0.15);
 }
 
 .library-state {
