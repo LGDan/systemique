@@ -18,7 +18,7 @@ const props = defineProps({
   }
 })
 
-const emit = defineEmits(['group-components', 'import-file', 'new-system', 'open-file', 'save-as', 'arrange-align-horizontal', 'arrange-align-vertical', 'toggle-theme'])
+const emit = defineEmits(['group-components', 'import-file', 'new-system', 'open-file', 'save-as', 'arrange-align-horizontal', 'arrange-align-vertical', 'arrange-flip-horizontal', 'toggle-theme'])
 
 const systemStore = useSystemStore()
 const menuBarRef = ref(null)
@@ -219,6 +219,7 @@ function handleOpenGitHub() {
 const isDesignTab = computed(() => props.activeTab === 'design')
 const hasSelection = computed(() => props.selectedComponentIds.length > 0)
 const hasMultipleSelection = computed(() => props.selectedComponentIds.length >= 2)
+const hasComponents = computed(() => (systemStore.currentSystem?.components?.length ?? 0) > 0)
 
 function handleArrangeAlignLeft() {
   emit('arrange-align-horizontal', 'left')
@@ -242,6 +243,11 @@ function handleArrangeAlignMiddle() {
 }
 function handleArrangeAlignBottom() {
   emit('arrange-align-vertical', 'bottom')
+  closeMenu()
+}
+
+function handleArrangeFlipHorizontal() {
+  emit('arrange-flip-horizontal')
   closeMenu()
 }
 </script>
@@ -355,6 +361,10 @@ function handleArrangeAlignBottom() {
         </div>
         <div class="menu-option" @click="handleArrangeAlignBottom" :disabled="!hasMultipleSelection || !isDesignTab">
           <span>Align Bottom</span>
+        </div>
+        <div class="menu-separator"></div>
+        <div class="menu-option" @click="handleArrangeFlipHorizontal" :disabled="!isDesignTab || !hasComponents">
+          <span>Flip diagram (L↔R)</span>
         </div>
       </div>
     </div>
