@@ -79,6 +79,30 @@ const localProperties = ref({
   trust: null
 })
 
+// Model fields when nothing is selected (sync from store)
+const modelTitle = ref('')
+const modelDescription = ref('')
+
+watch(
+  () => [selectedNodes.value.length, systemStore.currentSystem],
+  () => {
+    if (selectedNodes.value.length === 0 && systemStore.currentSystem) {
+      modelTitle.value = systemStore.currentSystem.name ?? ''
+      const meta = systemStore.currentSystem.metadata
+      modelDescription.value = (meta && meta.description) ?? ''
+    }
+  },
+  { immediate: true, deep: true }
+)
+
+function commitModelTitle() {
+  systemStore.updateCurrentSystemName(modelTitle.value)
+}
+
+function commitModelDescription() {
+  systemStore.updateCurrentSystemDescription(modelDescription.value)
+}
+
 watch(effectiveComponent, (newComponent) => {
   if (newComponent) {
     localProperties.value = {
@@ -242,7 +266,31 @@ function incrementInterfaceName(name) {
     </div>
 
     <div v-if="selectedNodes.length === 0" class="no-selection">
-      <p>Select a component to edit its properties</p>
+      <div class="property-section model-section">
+        <h4>Model</h4>
+        <div class="field">
+          <label for="model-title">Title</label>
+          <input
+            id="model-title"
+            v-model="modelTitle"
+            type="text"
+            class="field-input"
+            @blur="commitModelTitle"
+          />
+        </div>
+        <div class="field">
+          <label for="model-description">Description</label>
+          <textarea
+            id="model-description"
+            v-model="modelDescription"
+            class="field-input field-textarea"
+            rows="3"
+            placeholder="Brief description of the model"
+            @blur="commitModelDescription"
+          />
+        </div>
+      </div>
+      <p class="no-selection-hint">Select a component to edit its properties</p>
     </div>
 
     <div v-else-if="isMultipleSelection && !allSameType" class="no-selection">
@@ -386,6 +434,16 @@ function incrementInterfaceName(name) {
   padding: 24px;
   text-align: center;
   color: #999;
+}
+
+.no-selection .model-section {
+  text-align: left;
+  margin-bottom: 0;
+}
+
+.no-selection-hint {
+  margin-top: 16px;
+  font-size: 13px;
 }
 
 .selection-count {
