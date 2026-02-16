@@ -99,7 +99,6 @@ function updateComponent() {
   const props = localProperties.value
   if (multi && multi.length > 0) {
     multi.forEach((c) => {
-      c.name = props.name
       c.type = props.type
       c.icon = props.icon
       c.properties = { ...props.properties }
@@ -255,7 +254,7 @@ function incrementInterfaceName(name) {
       <div class="property-section">
         <h4>Component</h4>
 
-        <div class="field">
+        <div v-if="!multiEditComponents" class="field">
           <label for="component-name">Name</label>
           <input
             id="component-name"
