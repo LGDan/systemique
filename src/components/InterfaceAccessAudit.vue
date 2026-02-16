@@ -4,8 +4,13 @@ import { useSystemStore } from '../stores/systemStore.js'
 import { useInterfaceTypesStore } from '../stores/interfaceTypesStore.js'
 import { matchesAccess, matchesConnection, matchesDirection, matchesInterfaceType } from '../utils/tableFilterUtils.js'
 
+const emit = defineEmits(['navigate-to-component'])
 const systemStore = useSystemStore()
 const typesStore = useInterfaceTypesStore()
+
+function onRowDoubleClick(componentId) {
+  emit('navigate-to-component', componentId)
+}
 
 // Stats
 const stats = ref({
@@ -344,7 +349,12 @@ function clearAllFilters() {
             </tr>
           </thead>
           <tbody>
-            <tr v-for="(item, index) in tableData" :key="index">
+            <tr
+              v-for="(item, index) in tableData"
+              :key="index"
+              @dblclick="onRowDoubleClick(item.componentId)"
+              class="row-clickable"
+            >
               <td class="cell-id">{{ item.componentId }}</td>
               <td class="cell-name">{{ item.componentName }}</td>
               <td class="cell-name">{{ item.interfaceName }}</td>
@@ -571,6 +581,10 @@ function clearAllFilters() {
 
 .audit-table tbody tr:hover {
   background: #f9f9f9;
+}
+
+.audit-table tbody tr.row-clickable {
+  cursor: pointer;
 }
 
 .audit-table tbody tr:last-child td {

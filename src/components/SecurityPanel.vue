@@ -3,7 +3,12 @@ import { ref } from 'vue'
 import InterfaceAccessAudit from './InterfaceAccessAudit.vue'
 import BoundaryAudit from './BoundaryAudit.vue'
 
+const emit = defineEmits(['navigate-to-component'])
 const activeView = ref('interface-access-audit')
+
+function handleNavigateToComponent(componentId) {
+  emit('navigate-to-component', componentId)
+}
 </script>
 
 <template>
@@ -27,8 +32,14 @@ const activeView = ref('interface-access-audit')
     </div>
     
     <div class="security-content">
-      <InterfaceAccessAudit v-if="activeView === 'interface-access-audit'" />
-      <BoundaryAudit v-if="activeView === 'boundary-audit'" />
+      <InterfaceAccessAudit
+        v-if="activeView === 'interface-access-audit'"
+        @navigate-to-component="handleNavigateToComponent"
+      />
+      <BoundaryAudit
+        v-if="activeView === 'boundary-audit'"
+        @navigate-to-component="handleNavigateToComponent"
+      />
     </div>
   </div>
 </template>

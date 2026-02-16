@@ -4,8 +4,13 @@ import { useSystemStore } from '../stores/systemStore.js'
 import { useInterfaceTypesStore } from '../stores/interfaceTypesStore.js'
 import { matchesRiskStatus, matchesBoundaryType, matchesTrust } from '../utils/tableFilterUtils.js'
 
+const emit = defineEmits(['navigate-to-component'])
 const systemStore = useSystemStore()
 const typesStore = useInterfaceTypesStore()
+
+function onRowDoubleClick(componentId) {
+  emit('navigate-to-component', componentId)
+}
 
 // Stats
 const stats = ref({
@@ -447,7 +452,12 @@ function filterByRiskStatus(status) {
             </tr>
           </thead>
           <tbody>
-            <tr v-for="(item, index) in tableData" :key="index" :class="`risk-${item.riskStatus}`">
+            <tr
+              v-for="(item, index) in tableData"
+              :key="index"
+              :class="['risk-' + item.riskStatus, 'row-clickable']"
+              @dblclick="onRowDoubleClick(item.sourceComponentId)"
+            >
               <td class="cell-name">{{ item.sourceComponentName }}</td>
               <td class="cell-name">{{ item.sourceInterfaceName }}</td>
               <td class="cell-trust">
@@ -783,6 +793,10 @@ function filterByRiskStatus(status) {
 
 .audit-table tbody tr.risk-unset {
   background: #fffbf0;
+}
+
+.audit-table tbody tr.row-clickable {
+  cursor: pointer;
 }
 
 .cell-name {

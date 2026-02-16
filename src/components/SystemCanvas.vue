@@ -28,6 +28,23 @@ watch(() => systemStore.currentSystem, (system) => {
   }
 }, { immediate: true, deep: true })
 
+// When requested from security audit (or elsewhere), select the component on the canvas
+watch(
+  () => [systemStore.navigateToComponentId, nodes.value.length],
+  ([componentId]) => {
+    if (!componentId || !nodes.value.length) return
+    const node = nodes.value.find((n) => n.id === componentId)
+    if (!node) return
+    const updated = nodes.value.map((n) => ({
+      ...n,
+      selected: n.id === componentId
+    }))
+    nodes.value = updated
+    systemStore.clearNavigateToComponent()
+  },
+  { immediate: true }
+)
+
 // Watch for changes in connections array length to catch additions
 watch(() => systemStore.currentSystem?.connections.length, () => {
   const system = systemStore.currentSystem
