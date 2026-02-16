@@ -75,6 +75,15 @@ export const useSystemStore = defineStore('system', () => {
     }
   }
 
+  // Navigate to component (e.g. from security audit double-click)
+  const navigateToComponentId = ref(null)
+  function requestNavigateToComponent(componentId) {
+    navigateToComponentId.value = componentId
+  }
+  function clearNavigateToComponent() {
+    navigateToComponentId.value = null
+  }
+
   // Computed
   const currentSystem = computed(() => {
     return systems.value.get(currentSystemId.value)
@@ -247,6 +256,9 @@ export const useSystemStore = defineStore('system', () => {
     closeNewModelModal,
     updateCurrentSystemName,
     updateCurrentSystemDescription,
+    navigateToComponentId,
+    requestNavigateToComponent,
+    clearNavigateToComponent,
     createSystem,
     getSystem,
     setCurrentSystem,

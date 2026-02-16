@@ -1,5 +1,5 @@
 <script setup>
-import { ref, onMounted, watch } from 'vue'
+import { ref, onMounted, watch, nextTick } from 'vue'
 import { VueFlow, useVueFlow } from '@vue-flow/core'
 import { Background } from '@vue-flow/background'
 import { Controls } from '@vue-flow/controls'
@@ -14,7 +14,7 @@ import { Connection } from '../models/Connection.js'
 const systemStore = useSystemStore()
 const libraryStore = useComponentLibraryStore()
 const vueFlow = useVueFlow()
-const { onConnect, addEdges, removeEdges, onNodesChange, onEdgesChange, addNodes, screenToFlowCoordinate, onNodeDragStop } = vueFlow
+const { onConnect, addEdges, removeEdges, onNodesChange, onEdgesChange, addNodes, screenToFlowCoordinate, onNodeDragStop, fitView } = vueFlow
 
 const nodes = ref([])
 const edges = ref([])
@@ -27,6 +27,28 @@ watch(() => systemStore.currentSystem, (system) => {
     edges.value = vueFlowData.edges
   }
 }, { immediate: true, deep: true })
+
+// When requested from security audit (or elsewhere), select the component on the canvas and pan to it
+watch(
+  () => [systemStore.navigateToComponentId, nodes.value.length],
+  ([componentId]) => {
+    if (!componentId || !nodes.value.length) return
+    const node = nodes.value.find((n) => n.id === componentId)
+    if (!node) return
+    const updated = nodes.value.map((n) => ({
+      ...n,
+      selected: n.id === componentId
+    }))
+    nodes.value = updated
+    systemStore.clearNavigateToComponent()
+    if (fitView) {
+      nextTick(() => {
+        fitView({ nodes: [componentId], padding: 0.2, duration: 300 })
+      })
+    }
+  },
+  { immediate: true }
+)
 
 // Watch for changes in connections array length to catch additions
 watch(() => systemStore.currentSystem?.connections.length, () => {

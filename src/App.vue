@@ -150,6 +150,11 @@ function handleOpenDesign() {
   activeTab.value = 'design'
 }
 
+function handleNavigateToComponent(componentId) {
+  activeTab.value = 'design'
+  systemStore.requestNavigateToComponent(componentId)
+}
+
 onMounted(() => {
   applyTheme(theme.value)
   loadTips()
@@ -317,7 +322,7 @@ function handleArrangeAlignVertical(mode) {
     </div>
 
     <div v-else-if="activeTab === 'security'" class="app-content security-content">
-      <SecurityPanel />
+      <SecurityPanel @navigate-to-component="handleNavigateToComponent" />
     </div>
 
     <div v-else-if="activeTab === 'library'" class="app-content library-content">
