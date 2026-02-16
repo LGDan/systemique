@@ -18,11 +18,56 @@ const selectedNode = computed(() => {
 })
 const isMultipleSelection = computed(() => selectedNodes.value.length > 1)
 
+const selectedComponents = computed(() => {
+  const nodes = selectedNodes.value
+  return nodes
+    .map((n) => systemStore.getComponent(n.id))
+    .filter((c) => c != null)
+})
+
+const allSameType = computed(() => {
+  const comps = selectedComponents.value
+  if (comps.length <= 1) return false
+  const firstType = comps[0].type
+  return comps.every((c) => c.type === firstType)
+})
+
+const multiEditComponents = computed(() => {
+  const comps = selectedComponents.value
+  if (comps.length > 1 && allSameType.value) return comps
+  return null
+})
+
 const component = computed(() => {
   if (selectedNode.value && selectedNode.value.data) {
     return systemStore.getComponent(selectedNode.value.id)
   }
   return null
+})
+
+const effectiveComponent = computed(() => {
+  const multi = multiEditComponents.value
+  if (multi && multi.length > 0) return multi[0]
+  return component.value
+})
+
+const sameInterfaceCount = computed(() => {
+  const multi = multiEditComponents.value
+  if (!multi || multi.length === 0) return true
+  const len = multi[0].interfaces.length
+  return multi.every((c) => c.interfaces.length === len)
+})
+
+const interfacesList = computed(() => {
+  const comp = effectiveComponent.value
+  if (!comp) return []
+  return comp.interfaces
+})
+
+const canEditInterfaces = computed(() => {
+  const multi = multiEditComponents.value
+  if (!multi) return true
+  return sameInterfaceCount.value
 })
 
 const localProperties = ref({
@@ -34,7 +79,7 @@ const localProperties = ref({
   trust: null
 })
 
-watch(component, (newComponent) => {
+watch(effectiveComponent, (newComponent) => {
   if (newComponent) {
     localProperties.value = {
       name: newComponent.name,
@@ -50,29 +95,58 @@ watch(component, (newComponent) => {
 const interfaceTypes = computed(() => typesStore.getAllTypes())
 
 function updateComponent() {
-  if (component.value) {
-    component.value.name = localProperties.value.name
-    component.value.type = localProperties.value.type
-    component.value.icon = localProperties.value.icon
-    component.value.properties = localProperties.value.properties
-    component.value.description = localProperties.value.description
-    component.value.trust = localProperties.value.trust
+  const multi = multiEditComponents.value
+  const props = localProperties.value
+  if (multi && multi.length > 0) {
+    multi.forEach((c) => {
+      c.type = props.type
+      c.icon = props.icon
+      c.properties = { ...props.properties }
+      c.description = props.description
+      c.trust = props.trust
+    })
+    systemStore.saveToLocalStorage()
+  } else if (component.value) {
+    component.value.name = props.name
+    component.value.type = props.type
+    component.value.icon = props.icon
+    component.value.properties = props.properties
+    component.value.description = props.description
+    component.value.trust = props.trust
     systemStore.saveToLocalStorage()
   }
 }
 
 function addInterface() {
+  const multi = multiEditComponents.value
+  if (multi && multi.length > 0) {
+    multi.forEach((comp) => {
+      const newInterfaceId = `interface-${Date.now()}-${Math.random().toString(36).substr(2, 9)}`
+      const newInterface = new Interface(newInterfaceId, 'New Interface', 'custom', 'input')
+      comp.addInterface(newInterface)
+    })
+    systemStore.saveToLocalStorage()
+    return
+  }
   if (!component.value) return
-  
   const newInterfaceId = `interface-${Date.now()}-${Math.random().toString(36).substr(2, 9)}`
   const newInterface = new Interface(newInterfaceId, 'New Interface', 'custom', 'input')
   component.value.addInterface(newInterface)
   systemStore.saveToLocalStorage()
 }
 
-function updateInterface(updatedInterface) {
+function updateInterface(updatedInterface, index) {
+  const multi = multiEditComponents.value
+  if (multi && multi.length > 0 && typeof index === 'number') {
+    multi.forEach((comp) => {
+      if (comp.interfaces[index]) {
+        Object.assign(comp.interfaces[index], updatedInterface)
+      }
+    })
+    systemStore.saveToLocalStorage()
+    return
+  }
   if (!component.value) return
-  
   const iface = component.value.getInterface(updatedInterface.id)
   if (iface) {
     Object.assign(iface, updatedInterface)
@@ -80,25 +154,52 @@ function updateInterface(updatedInterface) {
   }
 }
 
-function removeInterface(interfaceId) {
+function removeInterface(interfaceId, index) {
+  const multi = multiEditComponents.value
+  if (multi && multi.length > 0 && typeof index === 'number') {
+    multi.forEach((comp) => {
+      if (comp.interfaces[index]) {
+        const idToRemove = comp.interfaces[index].id
+        comp.removeInterface(idToRemove)
+      }
+    })
+    systemStore.saveToLocalStorage()
+    return
+  }
   if (!component.value) return
   component.value.removeInterface(interfaceId)
   systemStore.saveToLocalStorage()
 }
 
-function duplicateInterface(interfaceId) {
+function duplicateInterface(interfaceId, index) {
+  const multi = multiEditComponents.value
+  if (multi && multi.length > 0 && typeof index === 'number') {
+    multi.forEach((comp) => {
+      const sourceInterface = comp.interfaces[index]
+      if (!sourceInterface) return
+      const newInterfaceId = `interface-${Date.now()}-${Math.random().toString(36).substr(2, 9)}`
+      const incrementedName = incrementInterfaceName(sourceInterface.name)
+      const newInterface = new Interface(
+        newInterfaceId,
+        incrementedName,
+        sourceInterface.type,
+        sourceInterface.direction,
+        sourceInterface.validationRules
+      )
+      newInterface.position = sourceInterface.position
+      newInterface.icon = sourceInterface.icon
+      newInterface.access = sourceInterface.access
+      newInterface.metadata = { ...sourceInterface.metadata }
+      comp.addInterface(newInterface)
+    })
+    systemStore.saveToLocalStorage()
+    return
+  }
   if (!component.value) return
-  
   const sourceInterface = component.value.getInterface(interfaceId)
   if (!sourceInterface) return
-  
-  // Generate new ID
   const newInterfaceId = `interface-${Date.now()}-${Math.random().toString(36).substr(2, 9)}`
-  
-  // Extract and increment number from name
   const incrementedName = incrementInterfaceName(sourceInterface.name)
-  
-  // Create new interface with all properties copied
   const newInterface = new Interface(
     newInterfaceId,
     incrementedName,
@@ -110,7 +211,6 @@ function duplicateInterface(interfaceId) {
   newInterface.icon = sourceInterface.icon
   newInterface.access = sourceInterface.access
   newInterface.metadata = { ...sourceInterface.metadata }
-  
   component.value.addInterface(newInterface)
   systemStore.saveToLocalStorage()
 }
@@ -145,7 +245,7 @@ function incrementInterfaceName(name) {
       <p>Select a component to edit its properties</p>
     </div>
 
-    <div v-else-if="isMultipleSelection" class="no-selection">
+    <div v-else-if="isMultipleSelection && !allSameType" class="no-selection">
       <p>Multiple Items Selected</p>
       <p class="selection-count">{{ selectedNodes.length }} components</p>
     </div>
@@ -153,8 +253,8 @@ function incrementInterfaceName(name) {
     <div v-else class="properties-content">
       <div class="property-section">
         <h4>Component</h4>
-        
-        <div class="field">
+
+        <div v-if="!multiEditComponents" class="field">
           <label for="component-name">Name</label>
           <input
             id="component-name"
@@ -178,7 +278,7 @@ function incrementInterfaceName(name) {
 
         <div class="field">
           <label for="component-icon">Icon</label>
-          <IconPicker 
+          <IconPicker
             id="component-icon"
             v-model="localProperties.icon"
             @update:modelValue="updateComponent"
@@ -216,17 +316,19 @@ function incrementInterfaceName(name) {
       <div class="property-section">
         <div class="section-header">
           <h4>Interfaces</h4>
-          <button @click="addInterface" class="add-button">+ Add</button>
+          <button v-if="canEditInterfaces" @click="addInterface" class="add-button">+ Add</button>
         </div>
-
-        <div class="interfaces-list">
+        <p v-if="multiEditComponents && !sameInterfaceCount" class="interfaces-vary-note">
+          Interfaces vary; select one component to edit interfaces.
+        </p>
+        <div v-else class="interfaces-list">
           <InterfaceEditor
-            v-for="iface in component.interfaces"
-            :key="iface.id"
+            v-for="(iface, index) in interfacesList"
+            :key="multiEditComponents ? `multi-${index}` : iface.id"
             :interface="iface"
-            @update="updateInterface"
-            @remove="removeInterface"
-            @duplicate="duplicateInterface"
+            @update="(upd) => updateInterface(upd, multiEditComponents ? index : undefined)"
+            @remove="(id) => removeInterface(id, multiEditComponents ? index : undefined)"
+            @duplicate="(id) => duplicateInterface(id, multiEditComponents ? index : undefined)"
           />
         </div>
       </div>
@@ -234,14 +336,22 @@ function incrementInterfaceName(name) {
       <div class="property-section">
         <h4>Metadata</h4>
         <div class="metadata-info">
-          <div class="info-item">
-            <span class="info-label">Component ID:</span>
-            <span class="info-value">{{ component.id }}</span>
-          </div>
-          <div v-if="component.hasNestedSystem()" class="info-item">
-            <span class="info-label">Has nested system:</span>
-            <span class="info-value">Yes</span>
-          </div>
+          <template v-if="multiEditComponents">
+            <div class="info-item">
+              <span class="info-label">Editing</span>
+              <span class="info-value">{{ multiEditComponents.length }} components</span>
+            </div>
+          </template>
+          <template v-else-if="effectiveComponent">
+            <div class="info-item">
+              <span class="info-label">Component ID:</span>
+              <span class="info-value">{{ effectiveComponent.id }}</span>
+            </div>
+            <div v-if="effectiveComponent.hasNestedSystem()" class="info-item">
+              <span class="info-label">Has nested system:</span>
+              <span class="info-value">Yes</span>
+            </div>
+          </template>
         </div>
       </div>
     </div>
@@ -348,6 +458,13 @@ function incrementInterfaceName(name) {
   min-height: 80px;
   font-family: inherit;
   line-height: 1.4;
+}
+
+.interfaces-vary-note {
+  margin: 0;
+  font-size: 12px;
+  color: #666;
+  font-style: italic;
 }
 
 .interfaces-list {
