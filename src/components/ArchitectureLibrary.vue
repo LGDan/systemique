@@ -6,6 +6,7 @@ import { getArchitectureLibraryUrl } from '../utils/urlConfig.js'
 
 const emit = defineEmits(['open-design'])
 
+const baseUrl = import.meta.env.BASE_URL || '/'
 const manifestUrl = getArchitectureLibraryUrl()
 
 const entries = ref([])
