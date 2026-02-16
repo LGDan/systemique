@@ -203,6 +203,26 @@ function handleArrangeAlignHorizontal(mode) {
   systemStore.saveToLocalStorage()
 }
 
+function handleArrangeFlipHorizontal() {
+  const system = systemStore.currentSystem
+  if (!system?.components?.length) return
+
+  const components = system.components
+  const minX = Math.min(...components.map(c => c.position.x))
+  const maxRight = Math.max(...components.map(c => c.position.x + NODE_WIDTH))
+  const centerX = (minX + maxRight) / 2
+
+  components.forEach((comp) => {
+    comp.position.x = 2 * centerX - comp.position.x - NODE_WIDTH
+    ;(comp.interfaces || []).forEach((iface) => {
+      if (iface.position === 'left') iface.position = 'right'
+      else if (iface.position === 'right') iface.position = 'left'
+    })
+  })
+  systemStore.saveToLocalStorage()
+  window.location.reload()
+}
+
 function handleArrangeAlignVertical(mode) {
   const ids = selectedComponentIds.value
   if (ids.length < 2) return
@@ -283,6 +303,7 @@ function handleArrangeAlignVertical(mode) {
       @view-tab="handleViewTab"
       @arrange-align-horizontal="handleArrangeAlignHorizontal"
       @arrange-align-vertical="handleArrangeAlignVertical"
+      @arrange-flip-horizontal="handleArrangeFlipHorizontal"
     />
 
     <div v-if="activeTab === 'design'" class="app-content">
