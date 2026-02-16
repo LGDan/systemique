@@ -8,6 +8,10 @@
 
 ---
 
+![Screenshot](docs/systemique-docs/static/img/screenshot.png)
+
+---
+
 ## Beware!
 
 > [!WARNING]
