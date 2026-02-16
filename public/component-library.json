@@ -5227,6 +5227,286 @@
         "y": 0
       },
       "metadata": {}
+    },
+    {
+      "id": "person-template",
+      "name": "Person",
+      "type": "Person",
+      "properties": {},
+      "icon": "person",
+      "categories": [
+        "Misc"
+      ],
+      "interfaces": [
+        {
+          "id": "eyes",
+          "name": "Eyes",
+          "type": "physical",
+          "direction": "input",
+          "position": "right",
+          "rules": {},
+          "metadata": {},
+          "icon": "eye"
+        },
+        {
+          "id": "ears",
+          "name": "Ears",
+          "type": "physical",
+          "direction": "input",
+          "position": "right",
+          "rules": {},
+          "metadata": {},
+          "icon": "ear-hearing"
+        },
+        {
+          "id": "taste",
+          "name": "Taste",
+          "type": "physical",
+          "direction": "input",
+          "position": "right",
+          "rules": {},
+          "metadata": {},
+          "icon": "emoticon-tongue"
+        },
+        {
+          "id": "voice",
+          "name": "Voice",
+          "type": "physical",
+          "direction": "output",
+          "position": "right",
+          "rules": {},
+          "metadata": {},
+          "icon": "account-voice"
+        },
+        {
+          "id": "ideas",
+          "name": "Ideas",
+          "type": "physical",
+          "direction": "output",
+          "position": "right",
+          "rules": {},
+          "metadata": {},
+          "icon": "brain"
+        },
+        {
+          "id": "data",
+          "name": "Data",
+          "type": "physical",
+          "direction": "output",
+          "position": "right",
+          "rules": {},
+          "metadata": {},
+          "icon": "keyboard"
+        },
+        {
+          "id": "strength",
+          "name": "Strength",
+          "type": "physical",
+          "direction": "output",
+          "position": "right",
+          "rules": {},
+          "metadata": {},
+          "icon": "arm-flex"
+        }
+      ],
+      "nestedSystemId": null,
+      "position": {
+        "x": 0,
+        "y": 0
+      },
+      "metadata": {}
+    },
+    {
+      "id": "data-entry-form-template",
+      "name": "Data Entry Form",
+      "type": "Data Entry Form",
+      "properties": {},
+      "icon": "form-textbox",
+      "categories": [
+        "Data"
+      ],
+      "interfaces": [
+        {
+          "id": "human-input",
+          "name": "Human Input",
+          "type": "physical",
+          "direction": "input",
+          "position": "left",
+          "rules": {},
+          "metadata": {},
+          "icon": "keyboard"
+        },
+        {
+          "id": "data-rows",
+          "name": "Data Rows",
+          "type": "data",
+          "direction": "input",
+          "position": "right",
+          "rules": {},
+          "metadata": {},
+          "icon": "table-row"
+        },
+        {
+          "id": "form-components",
+          "name": "Form Components",
+          "type": "data",
+          "direction": "input",
+          "position": "bottom",
+          "rules": {},
+          "metadata": {},
+          "icon": "form-textbox"
+        }
+      ],
+      "nestedSystemId": null,
+      "position": {
+        "x": 0,
+        "y": 0
+      },
+      "metadata": {}
+    },
+    {
+      "id": "form-text-template",
+      "name": "Form Text",
+      "type": "Form Text Field",
+      "properties": {},
+      "icon": "form-textbox",
+      "categories": [
+        "Data"
+      ],
+      "interfaces": [
+        {
+          "id": "linked-form",
+          "name": "Linked Form",
+          "type": "data",
+          "direction": "output",
+          "position": "left",
+          "rules": {},
+          "metadata": {},
+          "icon": "form-textbox"
+        },
+        {
+          "id": "data-out",
+          "name": "Data Out",
+          "type": "data",
+          "direction": "output",
+          "position": "right",
+          "rules": {},
+          "metadata": {},
+          "icon": "form-textbox"
+        }
+      ],
+      "nestedSystemId": null,
+      "position": {
+        "x": 0,
+        "y": 0
+      },
+      "metadata": {}
+    },
+    {
+      "id": "form-constrained-field-template",
+      "name": "Form Constrained Field",
+      "type": "Form Constrained Field",
+      "properties": {},
+      "icon": "form-dropdown",
+      "categories": [
+        "Data"
+      ],
+      "interfaces": [
+        {
+          "id": "linked-form",
+          "name": "Linked Form",
+          "type": "data",
+          "direction": "output",
+          "position": "left",
+          "rules": {},
+          "metadata": {},
+          "icon": "form-textbox"
+        },
+        {
+          "id": "data-out",
+          "name": "Data Out",
+          "type": "data",
+          "direction": "output",
+          "position": "right",
+          "rules": {},
+          "metadata": {},
+          "icon": "form-dropdown"
+        },
+        {
+          "id": "options",
+          "name": "Options",
+          "type": "data",
+          "direction": "input",
+          "position": "left",
+          "rules": {},
+          "metadata": {},
+          "icon": "table-column"
+        }
+      ],
+      "nestedSystemId": null,
+      "position": {
+        "x": 0,
+        "y": 0
+      },
+      "metadata": {}
+    },
+    {
+      "id": "excel-sheet-template",
+      "name": "Excel Sheet",
+      "type": "Spreadsheet Document",
+      "properties": {},
+      "icon": "table",
+      "categories": [
+        "Data"
+      ],
+      "interfaces": [
+        {
+          "id": "manual-input",
+          "name": "Manual Input",
+          "type": "physical",
+          "direction": "input",
+          "position": "left",
+          "rules": {},
+          "metadata": {},
+          "icon": "keyboard"
+        },
+        {
+          "id": "automated-input",
+          "name": "Automated Input",
+          "type": "data",
+          "direction": "input",
+          "position": "left",
+          "rules": {},
+          "metadata": {},
+          "icon": "api"
+        },
+        {
+          "id": "stored-in",
+          "name": "Stored In",
+          "type": "data",
+          "direction": "output",
+          "position": "left",
+          "rules": {},
+          "metadata": {},
+          "icon": "folder"
+        },
+        {
+          "id": "table-data",
+          "name": "Table Data",
+          "type": "data",
+          "direction": "output",
+          "position": "right",
+          "rules": {},
+          "metadata": {},
+          "icon": "table"
+        }
+      ],
+      "nestedSystemId": null,
+      "position": {
+        "x": 0,
+        "y": 0
+      },
+      "metadata": {}
     }
   ]
 }
