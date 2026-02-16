@@ -246,6 +246,10 @@ html[data-theme='dark'] .selection-count {
   color: #999;
 }
 
+html[data-theme='dark'] .interfaces-vary-note {
+  color: #999;
+}
+
 html[data-theme='dark'] .field label {
   color: #b0b0b0;
 }
