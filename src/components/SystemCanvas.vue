@@ -1,5 +1,5 @@
 <script setup>
-import { ref, onMounted, watch, nextTick } from 'vue'
+import { ref, onMounted, onUnmounted, watch, nextTick, computed } from 'vue'
 import { VueFlow, useVueFlow } from '@vue-flow/core'
 import { Background } from '@vue-flow/background'
 import { Controls } from '@vue-flow/controls'
@@ -10,14 +10,21 @@ import { useSystemStore } from '../stores/systemStore.js'
 import { useComponentLibraryStore } from '../stores/componentLibraryStore.js'
 import { validateConnectionAttempt } from '../utils/connectionValidator.js'
 import { Connection } from '../models/Connection.js'
+import { Component } from '../models/Component.js'
 
 const systemStore = useSystemStore()
 const libraryStore = useComponentLibraryStore()
 const vueFlow = useVueFlow()
-const { onConnect, addEdges, removeEdges, onNodesChange, onEdgesChange, addNodes, screenToFlowCoordinate, onNodeDragStop, fitView } = vueFlow
+const { getSelectedNodes, onConnect, addEdges, removeEdges, onNodesChange, onEdgesChange, addNodes, screenToFlowCoordinate, onNodeDragStop, fitView } = vueFlow
 
 const nodes = ref([])
 const edges = ref([])
+const spacePressed = ref(false)
+
+const NODE_WIDTH = 120
+const NODE_HEIGHT = 80
+
+const panOnDrag = computed(() => (spacePressed.value ? [0, 1, 2] : [1, 2]))
 
 // Watch for system changes and update canvas
 watch(() => systemStore.currentSystem, (system) => {
@@ -250,7 +257,115 @@ function handleDragOver(event) {
   event.dataTransfer.dropEffect = 'copy'
 }
 
+function isInputLike(el) {
+  if (!el || !el.tagName) return false
+  const tag = el.tagName.toLowerCase()
+  const role = el.getAttribute?.('role')
+  return tag === 'input' || tag === 'textarea' || tag === 'select' || role === 'textbox' || el.isContentEditable
+}
+
+function alignHorizontalCenter() {
+  const selected = getSelectedNodes.value
+  if (selected.length < 2) return
+  const system = systemStore.currentSystem
+  if (!system) return
+  const components = selected.map((n) => systemStore.getComponent(n.id)).filter(Boolean)
+  if (components.length < 2) return
+  const minX = Math.min(...components.map((c) => c.position.x))
+  const maxRight = Math.max(...components.map((c) => c.position.x + NODE_WIDTH))
+  const centerX = (minX + maxRight) / 2
+  components.forEach((comp) => {
+    comp.position.x = centerX - NODE_WIDTH / 2
+  })
+  systemStore.saveToLocalStorage()
+}
+
+function alignVerticalMiddle() {
+  const selected = getSelectedNodes.value
+  if (selected.length < 2) return
+  const system = systemStore.currentSystem
+  if (!system) return
+  const components = selected.map((n) => systemStore.getComponent(n.id)).filter(Boolean)
+  if (components.length < 2) return
+  const minY = Math.min(...components.map((c) => c.position.y))
+  const maxBottom = Math.max(...components.map((c) => c.position.y + NODE_HEIGHT))
+  const centerY = (minY + maxBottom) / 2
+  components.forEach((comp) => {
+    comp.position.y = centerY - NODE_HEIGHT / 2
+  })
+  systemStore.saveToLocalStorage()
+}
+
+function duplicateSelection() {
+  const selected = getSelectedNodes.value
+  if (selected.length === 0) return
+  const system = systemStore.currentSystem
+  if (!system) return
+  const newIds = []
+  selected.forEach((node) => {
+    const comp = systemStore.getComponent(node.id)
+    if (!comp) return
+    const json = comp.toJSON()
+    const newCompId = `component-${Date.now()}-${Math.random().toString(36).slice(2, 9)}`
+    json.id = newCompId
+    json.position = { x: (json.position?.x ?? 0) + 30, y: (json.position?.y ?? 0) + 30 }
+    json.interfaces = (json.interfaces || []).map((i) => ({
+      ...i,
+      id: `interface-${Date.now()}-${Math.random().toString(36).slice(2, 11)}`
+    }))
+    const newComp = Component.fromJSON(json)
+    systemStore.addComponent(newComp)
+    newIds.push(newCompId)
+  })
+  nextTick(() => {
+    nodes.value = nodes.value.map((n) => ({
+      ...n,
+      selected: newIds.includes(n.id)
+    }))
+  })
+}
+
+function handleKeyDown(event) {
+  if (isInputLike(event.target)) return
+  if (event.key === ' ') {
+    spacePressed.value = true
+    event.preventDefault()
+    return
+  }
+  if (event.key === 'Delete' || event.key === 'Backspace') {
+    const selected = getSelectedNodes.value
+    if (selected.length > 0) {
+      event.preventDefault()
+      selected.forEach((node) => systemStore.removeComponent(node.id))
+    }
+    return
+  }
+  if ((event.metaKey || event.ctrlKey) && event.key.toLowerCase() === 'h') {
+    event.preventDefault()
+    alignHorizontalCenter()
+    return
+  }
+  if ((event.metaKey || event.ctrlKey) && event.key.toLowerCase() === 'v') {
+    event.preventDefault()
+    alignVerticalMiddle()
+    return
+  }
+  if ((event.metaKey || event.ctrlKey) && event.key.toLowerCase() === 'd') {
+    event.preventDefault()
+    duplicateSelection()
+  }
+}
+
+function handleKeyUp(event) {
+  if (event.key === ' ') {
+    spacePressed.value = false
+    event.preventDefault()
+  }
+}
+
 onMounted(() => {
+  document.addEventListener('keydown', handleKeyDown)
+  document.addEventListener('keyup', handleKeyUp)
   // Set up drag and drop on the viewport
   const viewport = document.querySelector('.vue-flow__viewport')
   if (viewport) {
@@ -261,11 +376,15 @@ onMounted(() => {
   // Close context menus when clicking on canvas
   const canvas = document.querySelector('.system-canvas')
   if (canvas) {
-    canvas.addEventListener('click', (e) => {
-      // Close any open context menus by dispatching a custom event
+    canvas.addEventListener('click', () => {
       document.dispatchEvent(new CustomEvent('close-context-menus'))
     })
   }
+})
+
+onUnmounted(() => {
+  document.removeEventListener('keydown', handleKeyDown)
+  document.removeEventListener('keyup', handleKeyUp)
 })
 </script>
 
@@ -279,7 +398,7 @@ onMounted(() => {
       :default-zoom="1.5"
       :min-zoom="0.2"
       :max-zoom="4"
-      :pan-on-drag="[1, 2]"
+      :pan-on-drag="panOnDrag"
       :selection-on-drag="true"
       :multi-selection-key-code="['Meta', 'Control']"
       :pan-on-scroll="true"
