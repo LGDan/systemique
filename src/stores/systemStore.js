@@ -17,9 +17,11 @@ export const useSystemStore = defineStore('system', () => {
   
   // Try to load from localStorage on initialization
   const storedSystem = PersistenceService.loadFromLocalStorage()
+  const showNewModelModal = ref(false)
+  const newModelModalReason = ref(null)
+
   if (storedSystem) {
     rootSystem = storedSystem
-    // If stored system has a different ID, use it
     if (storedSystem.id === rootSystemId) {
       systems.value.set(rootSystemId, rootSystem)
       currentSystemId.value = rootSystemId
@@ -30,6 +32,47 @@ export const useSystemStore = defineStore('system', () => {
   } else {
     systems.value.set(rootSystemId, rootSystem)
     currentSystemId.value = rootSystemId
+    showNewModelModal.value = true
+    newModelModalReason.value = 'first-load'
+  }
+
+  function requestNewModelModal() {
+    showNewModelModal.value = true
+    newModelModalReason.value = 'new'
+  }
+
+  function applyNewModelInfo({ name, description }) {
+    const system = currentSystem.value
+    if (system) {
+      system.name = name ?? system.name
+      if (!system.metadata) system.metadata = {}
+      system.metadata.description = description ?? system.metadata.description
+      saveToLocalStorage()
+    }
+    showNewModelModal.value = false
+    newModelModalReason.value = null
+  }
+
+  function closeNewModelModal() {
+    showNewModelModal.value = false
+    newModelModalReason.value = null
+  }
+
+  function updateCurrentSystemName(name) {
+    const system = currentSystem.value
+    if (system) {
+      system.name = name
+      saveToLocalStorage()
+    }
+  }
+
+  function updateCurrentSystemDescription(description) {
+    const system = currentSystem.value
+    if (system) {
+      if (!system.metadata) system.metadata = {}
+      system.metadata.description = description
+      saveToLocalStorage()
+    }
   }
 
   // Computed
@@ -191,12 +234,19 @@ export const useSystemStore = defineStore('system', () => {
     systems,
     navigationStack,
     rootSystemId,
-    
+    showNewModelModal,
+    newModelModalReason,
+
     // Computed
     currentSystem,
     canGoBack,
-    
+
     // Actions
+    requestNewModelModal,
+    applyNewModelInfo,
+    closeNewModelModal,
+    updateCurrentSystemName,
+    updateCurrentSystemDescription,
     createSystem,
     getSystem,
     setCurrentSystem,

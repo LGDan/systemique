@@ -4,6 +4,7 @@ import ComponentPalette from './components/ComponentPalette.vue'
 import SystemCanvas from './components/SystemCanvas.vue'
 import PropertiesPanel from './components/PropertiesPanel.vue'
 import GroupDialog from './components/GroupDialog.vue'
+import NewModelModal from './components/NewModelModal.vue'
 import RulesEditor from './components/RulesEditor.vue'
 import SecurityPanel from './components/SecurityPanel.vue'
 import ArchitectureLibrary from './components/ArchitectureLibrary.vue'
@@ -75,11 +76,24 @@ const selectedComponentIds = computed(() => {
 })
 
 function handleNewSystem() {
-  if (confirm('Create a new system? Any unsaved changes will be lost.')) {
-    const newSystem = new System(`system-${Date.now()}`, 'New System')
+  systemStore.requestNewModelModal()
+}
+
+function handleNewModelSubmit({ title, description }) {
+  const reason = systemStore.newModelModalReason
+  if (reason === 'first-load') {
+    systemStore.applyNewModelInfo({ name: title, description })
+  } else if (reason === 'new') {
+    const newSystem = new System(`system-${Date.now()}`, title)
+    if (!newSystem.metadata) newSystem.metadata = {}
+    newSystem.metadata.description = description ?? ''
     systemStore.importSystem(newSystem.toJSON())
-    systemStore.saveToLocalStorage()
+    systemStore.closeNewModelModal()
   }
+}
+
+function handleNewModelClose() {
+  systemStore.closeNewModelModal()
 }
 
 function handleSaveAs() {
@@ -277,6 +291,14 @@ function handleArrangeAlignVertical(mode) {
       :selected-component-ids="selectedComponentIds"
       @close="showGroupDialog = false"
       @created="showGroupDialog = false"
+    />
+
+    <NewModelModal
+      :visible="systemStore.showNewModelModal"
+      :initial-title="systemStore.newModelModalReason === 'first-load' && systemStore.currentSystem ? systemStore.currentSystem.name : ''"
+      :initial-description="systemStore.newModelModalReason === 'first-load' ? (systemStore.currentSystem?.metadata?.description ?? '') : ''"
+      @submit="handleNewModelSubmit"
+      @close="handleNewModelClose"
     />
   </div>
 </template>
