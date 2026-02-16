@@ -1,5 +1,5 @@
 <script setup>
-import { ref, computed, onMounted } from 'vue'
+import { ref, computed, onMounted, nextTick, watch } from 'vue'
 import { useSystemStore } from '../stores/systemStore.js'
 import { PersistenceService } from '../utils/persistenceService.js'
 
@@ -13,6 +13,7 @@ const searchQuery = ref('')
 const loading = ref(true)
 const loadError = ref(null)
 const loadingEntryId = ref(null)
+const entryToLoad = ref(null)
 
 const filteredEntries = computed(() => {
   const q = searchQuery.value.trim().toLowerCase()
@@ -44,6 +45,36 @@ onMounted(async () => {
     loading.value = false
   }
 })
+
+const confirmDialogRef = ref(null)
+
+function openConfirmModal(entry) {
+  entryToLoad.value = entry
+}
+
+function closeConfirmModal() {
+  confirmDialogRef.value?.close()
+  entryToLoad.value = null
+}
+
+function onDialogClick(e) {
+  if (e.target === confirmDialogRef.value) {
+    closeConfirmModal()
+  }
+}
+
+watch(entryToLoad, async (entry) => {
+  if (!entry) return
+  await nextTick()
+  confirmDialogRef.value?.showModal()
+})
+
+async function confirmLoad() {
+  const entry = entryToLoad.value
+  if (!entry) return
+  closeConfirmModal()
+  await loadEntry(entry)
+}
 
 async function loadEntry(entry) {
   loadingEntryId.value = entry.id
@@ -113,7 +144,7 @@ function screenshotSrc(entry) {
         :key="entry.id"
         class="library-tile"
         :class="{ loading: loadingEntryId === entry.id }"
-        @click="loadEntry(entry)"
+        @click="openConfirmModal(entry)"
       >
         <div class="tile-image-wrap">
           <img
@@ -137,6 +168,27 @@ function screenshotSrc(entry) {
         <div v-if="loadingEntryId === entry.id" class="tile-loading">Loading…</div>
       </div>
     </div>
+
+    <dialog
+      v-if="entryToLoad"
+      ref="confirmDialogRef"
+      class="confirm-modal-dialog"
+      aria-labelledby="confirm-modal-title"
+      @close="entryToLoad = null"
+      @click="onDialogClick"
+    >
+      <div class="confirm-modal" @click.stop>
+        <h3 id="confirm-modal-title" class="confirm-modal-title">Load architecture?</h3>
+        <p v-if="entryToLoad" class="confirm-modal-message">
+          <strong>{{ entryToLoad.title }}</strong> will replace your current design on the canvas. This cannot be undone.
+        </p>
+        <p class="confirm-modal-sub">Do you want to continue?</p>
+        <div class="confirm-modal-actions">
+          <button type="button" class="confirm-modal-btn cancel" @click="closeConfirmModal">Cancel</button>
+          <button type="button" class="confirm-modal-btn primary" @click="confirmLoad">Load</button>
+        </div>
+      </div>
+    </dialog>
   </div>
 </template>
 
@@ -327,5 +379,89 @@ function screenshotSrc(entry) {
   font-size: 14px;
   font-weight: 600;
   color: #1F6B66;
+}
+
+.confirm-modal-dialog {
+  padding: 0;
+  margin: 0;
+  border: none;
+  max-width: none;
+  width: 100%;
+  height: 100%;
+  background: transparent;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.confirm-modal-dialog::backdrop {
+  background: rgba(0, 0, 0, 0.4);
+}
+
+.confirm-modal {
+  background: #fff;
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.2);
+  padding: 24px;
+  max-width: 400px;
+  width: 100%;
+}
+
+.confirm-modal-title {
+  margin: 0 0 12px;
+  font-size: 18px;
+  font-weight: 600;
+  color: #333;
+}
+
+.confirm-modal-message {
+  margin: 0;
+  font-size: 14px;
+  color: #666;
+  line-height: 1.5;
+}
+
+.confirm-modal-sub {
+  margin: 12px 0 20px;
+  font-size: 13px;
+  color: #666;
+}
+
+.confirm-modal-actions {
+  display: flex;
+  justify-content: flex-end;
+  gap: 12px;
+}
+
+.confirm-modal-btn {
+  padding: 8px 20px;
+  border-radius: 6px;
+  font-size: 13px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background-color 0.2s, border-color 0.2s;
+}
+
+.confirm-modal-btn.cancel {
+  background: #fff;
+  border: 1px solid #ddd;
+  color: #333;
+}
+
+.confirm-modal-btn.cancel:hover {
+  background: #f5f5f5;
+  border-color: #ccc;
+}
+
+.confirm-modal-btn.primary {
+  background: #1F6B66;
+  border: 1px solid #1F6B66;
+  color: white;
+}
+
+.confirm-modal-btn.primary:hover {
+  background: #3AB8B0;
+  border-color: #3AB8B0;
 }
 </style>
