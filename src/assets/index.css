@@ -950,6 +950,122 @@ html[data-theme='dark'] .audit-placeholder {
   color: #999;
 }
 
+/* Architecture Library */
+html[data-theme='dark'] .architecture-library {
+  background: #252525;
+}
+
+html[data-theme='dark'] .library-title {
+  color: #e0e0e0;
+}
+
+html[data-theme='dark'] .library-description {
+  color: #999;
+}
+
+html[data-theme='dark'] .library-search {
+  background: #333;
+  border-color: #444;
+  color: #e0e0e0;
+}
+
+html[data-theme='dark'] .library-search::placeholder {
+  color: #888;
+}
+
+html[data-theme='dark'] .library-search:focus {
+  border-color: #5ab8b0;
+  box-shadow: 0 0 0 2px rgba(90, 184, 176, 0.25);
+}
+
+html[data-theme='dark'] .library-state {
+  color: #999;
+}
+
+html[data-theme='dark'] .library-state.library-error {
+  color: #e57373;
+}
+
+html[data-theme='dark'] .library-tile {
+  background: #2d2d2d;
+  border-color: #444;
+}
+
+html[data-theme='dark'] .library-tile:hover {
+  border-color: #5ab8b0;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+}
+
+html[data-theme='dark'] .tile-image-wrap {
+  background: #333;
+}
+
+html[data-theme='dark'] .tile-image-fallback {
+  background: #3a3a3a;
+}
+
+html[data-theme='dark'] .tile-fallback-text {
+  color: #777;
+}
+
+html[data-theme='dark'] .tile-title {
+  color: #e0e0e0;
+}
+
+html[data-theme='dark'] .tile-description {
+  color: #999;
+}
+
+html[data-theme='dark'] .tile-tag {
+  background: rgba(46, 125, 50, 0.35);
+  color: #a5d6a7;
+}
+
+html[data-theme='dark'] .tile-loading {
+  background: rgba(26, 26, 26, 0.9);
+  color: #5ab8b0;
+}
+
+html[data-theme='dark'] .confirm-modal {
+  background: #2d2d2d;
+  border-color: #444;
+}
+
+html[data-theme='dark'] .confirm-modal-title {
+  color: #e0e0e0;
+}
+
+html[data-theme='dark'] .confirm-modal-message,
+html[data-theme='dark'] .confirm-modal-sub {
+  color: #b0b0b0;
+}
+
+html[data-theme='dark'] .confirm-modal-message strong {
+  color: #e0e0e0;
+}
+
+html[data-theme='dark'] .confirm-modal-btn.cancel {
+  background: #333;
+  border-color: #444;
+  color: #e0e0e0;
+}
+
+html[data-theme='dark'] .confirm-modal-btn.cancel:hover {
+  background: #404040;
+  border-color: #555;
+}
+
+html[data-theme='dark'] .confirm-modal-btn.primary {
+  background: #1F6B66;
+  border-color: #1F6B66;
+  color: white;
+}
+
+html[data-theme='dark'] .confirm-modal-btn.primary:hover {
+  background: #3AB8B0;
+  border-color: #3AB8B0;
+}
+
 /* System nodes (canvas nodes) */
 html[data-theme='dark'] .system-node {
   background: #2d2d2d;

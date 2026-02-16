@@ -1,0 +1,38 @@
+{
+  "version": "1.0",
+  "system": {
+    "id": "sample-arch-1",
+    "name": "Sample Architecture",
+    "parentSystemId": null,
+    "components": [
+      {
+        "id": "comp-1",
+        "name": "Example Component",
+        "type": "generic",
+        "properties": {},
+        "interfaces": [
+          {
+            "id": "iface-1",
+            "name": "Output",
+            "type": "data",
+            "direction": "output",
+            "position": "right",
+            "icon": null,
+            "access": null,
+            "validationRules": {},
+            "metadata": {}
+          }
+        ],
+        "nestedSystemId": null,
+        "position": { "x": 200, "y": 150 },
+        "metadata": {},
+        "icon": null,
+        "categories": [],
+        "description": "A sample component from the Architecture Library.",
+        "trust": null
+      }
+    ],
+    "connections": [],
+    "metadata": {}
+  }
+}

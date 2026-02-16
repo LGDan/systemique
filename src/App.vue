@@ -6,6 +6,7 @@ import PropertiesPanel from './components/PropertiesPanel.vue'
 import GroupDialog from './components/GroupDialog.vue'
 import RulesEditor from './components/RulesEditor.vue'
 import SecurityPanel from './components/SecurityPanel.vue'
+import ArchitectureLibrary from './components/ArchitectureLibrary.vue'
 import MenuBar from './components/MenuBar.vue'
 import { useSystemStore } from './stores/systemStore.js'
 import { useVueFlow } from '@vue-flow/core'
@@ -128,6 +129,10 @@ function handleViewTab(tab) {
   activeTab.value = tab
 }
 
+function handleOpenDesign() {
+  activeTab.value = 'design'
+}
+
 onMounted(() => {
   applyTheme(theme.value)
   loadTips()
@@ -220,6 +225,12 @@ function handleArrangeAlignVertical(mode) {
           >
             Security
           </button>
+          <button 
+            @click="activeTab = 'library'"
+            :class="['tab-button', { active: activeTab === 'library' }]"
+          >
+            Architecture Library
+          </button>
         </div>
       </div>
       <div v-if="currentTip" class="header-tip">
@@ -255,6 +266,10 @@ function handleArrangeAlignVertical(mode) {
 
     <div v-else-if="activeTab === 'security'" class="app-content security-content">
       <SecurityPanel />
+    </div>
+
+    <div v-else-if="activeTab === 'library'" class="app-content library-content">
+      <ArchitectureLibrary @open-design="handleOpenDesign" />
     </div>
 
     <GroupDialog
@@ -413,7 +428,8 @@ function handleArrangeAlignVertical(mode) {
   overflow: hidden;
 }
 
-.rules-content {
+.rules-content,
+.library-content {
   display: flex;
   flex-direction: column;
 }
