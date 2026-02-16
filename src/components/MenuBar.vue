@@ -199,6 +199,11 @@ function handleViewSecurity() {
   closeMenu()
 }
 
+function handleViewLibrary() {
+  emit('view-tab', 'library')
+  closeMenu()
+}
+
 function handleToggleTheme() {
   emit('toggle-theme')
   closeMenu()
@@ -316,6 +321,9 @@ function handleArrangeAlignBottom() {
         </div>
         <div class="menu-option" @click="handleViewSecurity" :class="{ active: activeTab === 'security' }">
           <span>Security</span>
+        </div>
+        <div class="menu-option" @click="handleViewLibrary" :class="{ active: activeTab === 'library' }">
+          <span>Architecture Library</span>
         </div>
       </div>
     </div>

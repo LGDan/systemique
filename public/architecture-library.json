@@ -1,0 +1,10 @@
+[
+  {
+    "id": "sample-architecture",
+    "title": "Sample Architecture",
+    "description": "A minimal reference diagram with one component. Use this as a starting point or template.",
+    "screenshot": "architecture-library/screenshots/placeholder.svg",
+    "modelUrl": "architecture-library/models/sample.json",
+    "tags": ["reference", "starter", "minimal"]
+  }
+]
