@@ -2,11 +2,11 @@
 import { ref, computed, onMounted, nextTick, watch } from 'vue'
 import { useSystemStore } from '../stores/systemStore.js'
 import { PersistenceService } from '../utils/persistenceService.js'
+import { getArchitectureLibraryUrl } from '../utils/urlConfig.js'
 
 const emit = defineEmits(['open-design'])
 
-const baseUrl = import.meta.env.BASE_URL
-const manifestUrl = `${baseUrl}architecture-library.json`
+const manifestUrl = getArchitectureLibraryUrl()
 
 const entries = ref([])
 const searchQuery = ref('')

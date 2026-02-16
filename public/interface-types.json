@@ -1,0 +1,44 @@
+[
+  {
+    "id": "power",
+    "name": "Power",
+    "color": "#FF6B6B",
+    "icon": "⚡",
+    "description": "Electrical power connection"
+  },
+  {
+    "id": "network",
+    "name": "Network",
+    "color": "#4ECDC4",
+    "icon": "🌐",
+    "description": "Network/data connection"
+  },
+  {
+    "id": "data",
+    "name": "Data",
+    "color": "#45B7D1",
+    "icon": "💾",
+    "description": "Data structure or database connection"
+  },
+  {
+    "id": "physical",
+    "name": "Physical",
+    "color": "#96CEB4",
+    "icon": "📦",
+    "description": "Physical/spatial relationship"
+  },
+  {
+    "id": "api",
+    "name": "API",
+    "color": "#FFEAA7",
+    "icon": "🔌",
+    "description": "API or service interface"
+  },
+  {
+    "id": "custom",
+    "name": "Custom",
+    "color": "#DDA0DD",
+    "icon": "⚙️",
+    "description": "Custom interface type"
+  }
+]
