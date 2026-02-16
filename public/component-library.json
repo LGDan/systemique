@@ -5507,6 +5507,110 @@
         "y": 0
       },
       "metadata": {}
+    },
+    {
+      "id": "step-template",
+      "name": "Step",
+      "type": "Process Step",
+      "properties": {},
+      "icon": "arrow-right",
+      "categories": [
+        "Process"
+      ],
+      "interfaces": [
+        {
+          "id": "data-in",
+          "name": "Data In",
+          "type": "data",
+          "direction": "input",
+          "position": "left",
+          "rules": {},
+          "metadata": {},
+          "icon": "table"
+        },
+        {
+          "id": "data-out",
+          "name": "Data Out",
+          "type": "data",
+          "direction": "output",
+          "position": "right",
+          "rules": {},
+          "metadata": {},
+          "icon": "table"
+        }
+      ],
+      "nestedSystemId": null,
+      "position": {
+        "x": 0,
+        "y": 0
+      },
+      "metadata": {}
+    },
+    {
+      "id": "start-template",
+      "name": "Start",
+      "type": "Process Start",
+      "properties": {},
+      "icon": "play",
+      "categories": [
+        "Process"
+      ],
+      "interfaces": [
+        {
+          "id": "trigger-in",
+          "name": "Trigger In",
+          "type": "physical",
+          "direction": "input",
+          "position": "left",
+          "rules": {},
+          "metadata": {},
+          "icon": "play"
+        },
+        {
+          "id": "first-step",
+          "name": "First Step",
+          "type": "data",
+          "direction": "output",
+          "position": "right",
+          "rules": {},
+          "metadata": {},
+          "icon": "play"
+        }
+      ],
+      "nestedSystemId": null,
+      "position": {
+        "x": 0,
+        "y": 0
+      },
+      "metadata": {}
+    },
+    {
+      "id": "stop-template",
+      "name": "Stop",
+      "type": "Process Stop",
+      "properties": {},
+      "icon": "stop",
+      "categories": [
+        "Process"
+      ],
+      "interfaces": [
+        {
+          "id": "final-step-in",
+          "name": "Final Step In",
+          "type": "data",
+          "direction": "input",
+          "position": "left",
+          "rules": {},
+          "metadata": {},
+          "icon": "stop"
+        }
+      ],
+      "nestedSystemId": null,
+      "position": {
+        "x": 0,
+        "y": 0
+      },
+      "metadata": {}
     }
   ]
 }
