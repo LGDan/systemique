@@ -5879,6 +5879,162 @@
         "y": 0
       },
       "metadata": {}
+    },
+    {
+      "id": "web-server-template",
+      "name": "Web Server",
+      "type": "Web Server",
+      "properties": {},
+      "icon": "web",
+      "categories": [
+        "Misc"
+      ],
+      "interfaces": [
+        {
+          "id": "http",
+          "name": "HTTP",
+          "type": "data",
+          "direction": "input",
+          "position": "left",
+          "rules": {},
+          "metadata": {},
+          "icon": "web"
+        },
+        {
+          "id": "https",
+          "name": "HTTPS",
+          "type": "data",
+          "direction": "input",
+          "position": "left",
+          "rules": {},
+          "metadata": {},
+          "icon": "lock"
+        },
+        {
+          "id": "static-content",
+          "name": "Static Content",
+          "type": "data",
+          "direction": "input",
+          "position": "right",
+          "rules": {},
+          "metadata": {},
+          "icon": "folder"
+        },
+        {
+          "id": "dynamic-content",
+          "name": "Dynamic Content",
+          "type": "data",
+          "direction": "input",
+          "position": "right",
+          "rules": {},
+          "metadata": {},
+          "icon": "server"
+        },
+        {
+          "id": "config",
+          "name": "Config",
+          "type": "data",
+          "direction": "input",
+          "position": "right",
+          "rules": {},
+          "metadata": {},
+          "icon": "code-braces"
+        },
+        {
+          "id": "cert",
+          "name": "Cert",
+          "type": "data",
+          "direction": "input",
+          "position": "right",
+          "rules": {},
+          "metadata": {},
+          "icon": "key"
+        }
+      ],
+      "nestedSystemId": null,
+      "position": {
+        "x": 0,
+        "y": 0
+      },
+      "metadata": {}
+    },
+    {
+      "id": "http-cache-template",
+      "name": "HTTP Cache",
+      "type": "HTTP Cache",
+      "properties": {},
+      "icon": "web",
+      "categories": [
+        "Misc"
+      ],
+      "interfaces": [
+        {
+          "id": "http",
+          "name": "HTTP",
+          "type": "data",
+          "direction": "input",
+          "position": "left",
+          "rules": {},
+          "metadata": {},
+          "icon": "web"
+        },
+        {
+          "id": "https",
+          "name": "HTTPS",
+          "type": "data",
+          "direction": "input",
+          "position": "left",
+          "rules": {},
+          "metadata": {},
+          "icon": "lock"
+        },
+        {
+          "id": "cache-storage",
+          "name": "Cache Storage",
+          "type": "data",
+          "direction": "input",
+          "position": "left",
+          "rules": {},
+          "metadata": {},
+          "icon": "folder"
+        },
+        {
+          "id": "dynamic-content",
+          "name": "Dynamic Content",
+          "type": "data",
+          "direction": "input",
+          "position": "right",
+          "rules": {},
+          "metadata": {},
+          "icon": "server"
+        },
+        {
+          "id": "config",
+          "name": "Config",
+          "type": "data",
+          "direction": "input",
+          "position": "right",
+          "rules": {},
+          "metadata": {},
+          "icon": "code-braces"
+        },
+        {
+          "id": "cert",
+          "name": "Cert",
+          "type": "data",
+          "direction": "input",
+          "position": "right",
+          "rules": {},
+          "metadata": {},
+          "icon": "key"
+        }
+      ],
+      "nestedSystemId": null,
+      "position": {
+        "x": 0,
+        "y": 0
+      },
+      "metadata": {}
     }
   ]
 }

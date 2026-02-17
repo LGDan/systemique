@@ -86,6 +86,18 @@ const contextMenuItems = computed(() => {
       action: 'sendToLibrary'
     },
     {
+      id: 'interface-flip-lr',
+      label: 'Interface Flip (LR)',
+      icon: '↔️',
+      action: 'interfaceFlipLR'
+    },
+    {
+      id: 'interface-flip-tb',
+      label: 'Interface Flip (TB)',
+      icon: '↕️',
+      action: 'interfaceFlipTB'
+    },
+    {
       id: 'delete',
       label: 'Delete',
       icon: '🗑️',
@@ -112,6 +124,10 @@ function handleMenuSelect(item) {
     handleDuplicate()
   } else if (item.action === 'sendToLibrary') {
     handleSendToLibrary()
+  } else if (item.action === 'interfaceFlipLR') {
+    handleInterfaceFlipLR()
+  } else if (item.action === 'interfaceFlipTB') {
+    handleInterfaceFlipTB()
   } else if (item.action === 'delete') {
     systemStore.removeComponent(component.value.id)
   }
@@ -296,6 +312,26 @@ function handleDuplicate() {
     console.error('Error duplicating component:', error)
     toastStore.show(`Failed to duplicate component: ${error.message}`, 'error')
   }
+}
+
+function handleInterfaceFlipLR() {
+  const comp = component.value
+  if (!comp?.interfaces?.length) return
+  comp.interfaces.forEach((iface) => {
+    if (iface.position === 'left') iface.position = 'right'
+    else if (iface.position === 'right') iface.position = 'left'
+  })
+  systemStore.saveToLocalStorage()
+}
+
+function handleInterfaceFlipTB() {
+  const comp = component.value
+  if (!comp?.interfaces?.length) return
+  comp.interfaces.forEach((iface) => {
+    if (iface.position === 'top') iface.position = 'bottom'
+    else if (iface.position === 'bottom') iface.position = 'top'
+  })
+  systemStore.saveToLocalStorage()
 }
 
 function handleSendToLibrary() {
