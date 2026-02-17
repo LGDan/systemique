@@ -1,4 +1,5 @@
 import { System } from '../models/System.js'
+import { importFromDrawio } from './drawioImport.js'
 import { useInterfaceTypesStore } from '../stores/interfaceTypesStore.js'
 import { useInterfaceRulesStore } from '../stores/interfaceRulesStore.js'
 
@@ -173,6 +174,15 @@ export class PersistenceService {
     } catch (error) {
       throw new Error(`Failed to read file: ${error.message}`)
     }
+  }
+
+  /**
+   * Import system from draw.io XML file (exported from Systemique).
+   * Returns { system }; no interface types/rules in draw.io format.
+   */
+  static async importFromDrawioFile(file) {
+    const text = await file.text()
+    return importFromDrawio(text)
   }
 }
 

@@ -1,0 +1,86 @@
+{
+  "id": "component-1771367089222-fr1d8bo64",
+  "name": "HTTP Cache",
+  "type": "HTTP Cache",
+  "properties": {},
+  "interfaces": [
+    {
+      "id": "interface-1771367089222-rzfbe1nbq",
+      "name": "HTTP",
+      "type": "data",
+      "direction": "input",
+      "position": "left",
+      "icon": "web",
+      "access": null,
+      "validationRules": {},
+      "metadata": {}
+    },
+    {
+      "id": "interface-1771367089222-3ypv5d86v",
+      "name": "HTTPS",
+      "type": "data",
+      "direction": "input",
+      "position": "left",
+      "icon": "lock",
+      "access": null,
+      "validationRules": {},
+      "metadata": {}
+    },
+    {
+      "id": "interface-1771367089222-k67160vie",
+      "name": "Cache Storage",
+      "type": "data",
+      "direction": "input",
+      "position": "left",
+      "icon": "folder",
+      "access": null,
+      "validationRules": {},
+      "metadata": {}
+    },
+    {
+      "id": "interface-1771367089222-aklaov16x",
+      "name": "Dynamic Content",
+      "type": "data",
+      "direction": "input",
+      "position": "right",
+      "icon": "server",
+      "access": null,
+      "validationRules": {},
+      "metadata": {}
+    },
+    {
+      "id": "interface-1771367089222-dcqetmfyh",
+      "name": "Config",
+      "type": "data",
+      "direction": "input",
+      "position": "right",
+      "icon": "code-braces",
+      "access": null,
+      "validationRules": {},
+      "metadata": {}
+    },
+    {
+      "id": "interface-1771367089222-29cninpd6",
+      "name": "Cert",
+      "type": "data",
+      "direction": "input",
+      "position": "right",
+      "icon": "key",
+      "access": null,
+      "validationRules": {},
+      "metadata": {}
+    }
+  ],
+  "nestedSystemId": null,
+  "position": {
+    "x": 293.9179650751968,
+    "y": 766.35170458509
+  },
+  "metadata": {},
+  "icon": "web",
+  "categories": [
+    "Misc"
+  ],
+  "description": "A web caching server component.",
+  "trust": null
+}

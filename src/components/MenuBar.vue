@@ -19,13 +19,14 @@ const props = defineProps({
   }
 })
 
-const emit = defineEmits(['group-components', 'import-file', 'new-system', 'open-file', 'save-as', 'arrange-align-horizontal', 'arrange-align-vertical', 'arrange-flip-horizontal', 'toggle-theme'])
+const emit = defineEmits(['group-components', 'import-file', 'import-file-change', 'import-drawio-change', 'new-system', 'open-file', 'save-as', 'arrange-align-horizontal', 'arrange-align-vertical', 'arrange-flip-horizontal', 'toggle-theme'])
 
 const systemStore = useSystemStore()
 const toastStore = useToastStore()
 const menuBarRef = ref(null)
 const activeMenu = ref(null)
 const importFileInputRef = ref(null)
+const importDrawioFileInputRef = ref(null)
 const saveAsFileInputRef = ref(null)
 
 // Recent files (stored in localStorage)
@@ -135,6 +136,11 @@ function handleImport() {
   closeMenu()
 }
 
+function handleImportDrawio() {
+  importDrawioFileInputRef.value?.click()
+  closeMenu()
+}
+
 function handleExport() {
   const system = systemStore.currentSystem
   if (system) {
@@ -175,6 +181,18 @@ async function handleExportPNG() {
       return
     }
     await ExportService.downloadPNG(system)
+  }
+  closeMenu()
+}
+
+async function handleExportDrawio() {
+  const system = systemStore.currentSystem
+  if (system) {
+    if (system.components.length === 0) {
+      toastStore.show('No components to export in the current system.', 'error')
+      return
+    }
+    ExportService.downloadDrawio(system)
   }
   closeMenu()
 }
@@ -294,6 +312,9 @@ function handleArrangeFlipHorizontal() {
         <div class="menu-option" @click="handleImport" :disabled="!isDesignTab">
           <span>Import System...</span>
         </div>
+        <div class="menu-option" @click="handleImportDrawio" :disabled="!isDesignTab">
+          <span>Import from draw.io…</span>
+        </div>
         <div class="menu-option" @click="handleExport" :disabled="!isDesignTab">
           <span>Export System...</span>
         </div>
@@ -302,6 +323,9 @@ function handleArrangeFlipHorizontal() {
         </div>
         <div class="menu-option" @click="handleExportPNG" :disabled="!isDesignTab">
           <span>Export as PNG...</span>
+        </div>
+        <div class="menu-option" @click="handleExportDrawio" :disabled="!isDesignTab">
+          <span>Export as draw.io…</span>
         </div>
         <div class="menu-option" @click="handleExportBOM" :disabled="!isDesignTab">
           <span>Export BOM (CSV)...</span>
@@ -396,6 +420,13 @@ function handleArrangeFlipHorizontal() {
       accept=".json"
       style="display: none"
       @change="$emit('import-file-change', $event)"
+    />
+    <input
+      ref="importDrawioFileInputRef"
+      type="file"
+      accept=".drawio,.xml"
+      style="display: none"
+      @change="$emit('import-drawio-change', $event)"
     />
   </div>
 </template>
