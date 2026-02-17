@@ -1,5 +1,5 @@
 <script setup>
-import { ref, computed, onMounted, onUnmounted } from 'vue'
+import { ref, computed, watch, onMounted, onUnmounted } from 'vue'
 import ComponentPalette from './components/ComponentPalette.vue'
 import SystemCanvas from './components/SystemCanvas.vue'
 import PropertiesPanel from './components/PropertiesPanel.vue'
@@ -80,6 +80,15 @@ const activeTab = ref('design') // 'design', 'rules', or 'security'
 const selectedComponentIds = computed(() => {
   return getSelectedNodes.value.map(n => n.id)
 })
+
+// Keep browser tab title in sync with model name
+watch(
+  () => systemStore.currentSystem?.name,
+  (name) => {
+    document.title = name && name.trim() ? `${name.trim()} - Systemique` : 'Systemique'
+  },
+  { immediate: true }
+)
 
 function handleNewSystem() {
   systemStore.requestNewModelModal()
