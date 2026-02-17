@@ -1761,7 +1761,6 @@
       "properties": {},
       "icon": "pdu",
       "categories": [
-        "Hardware",
         "Power"
       ],
       "interfaces": [
@@ -2394,7 +2393,7 @@
         "maxLength": "100m"
       },
       "icon": "ethernet-cable",
-      "categories": ["Cable - Network", "Network"],
+      "categories": ["Cable - Network"],
       "interfaces": [
         {
           "id": "end-a",
@@ -2432,7 +2431,7 @@
         "maxLength": "55m"
       },
       "icon": "ethernet-cable",
-      "categories": ["Cable - Network", "Network"],
+      "categories": ["Cable - Network"],
       "interfaces": [
         {
           "id": "end-a",
@@ -2469,7 +2468,7 @@
         "maxSpeed": "1Gbps"
       },
       "icon": "fiber-cable",
-      "categories": ["Cable - Network", "Network"],
+      "categories": ["Cable - Network"],
       "interfaces": [
         {
           "id": "plug-end",
@@ -2506,7 +2505,7 @@
         "maxSpeed": "10Gbps"
       },
       "icon": "fiber-cable",
-      "categories": ["Cable - Network", "Network"],
+      "categories": ["Cable - Network"],
       "interfaces": [
         {
           "id": "plug-end",
@@ -2543,7 +2542,7 @@
         "maxSpeed": "40Gbps"
       },
       "icon": "fiber-cable",
-      "categories": ["Cable - Network", "Network"],
+      "categories": ["Cable - Network"],
       "interfaces": [
         {
           "id": "plug-end",
@@ -2580,7 +2579,7 @@
         "maxSpeed": "100Gbps"
       },
       "icon": "fiber-cable",
-      "categories": ["Cable - Network", "Network"],
+      "categories": ["Cable - Network"],
       "interfaces": [
         {
           "id": "plug-end",
@@ -2619,8 +2618,7 @@
       },
       "icon": "power-cable",
       "categories": [
-        "Cable - Power",
-        "Power"
+        "Cable - Power"
       ],
       "interfaces": [
         {
@@ -2736,7 +2734,7 @@
         "maxDistance": "10km"
       },
       "icon": "fiber-cable",
-      "categories": ["Cable - Network", "Network", "Fiber"],
+      "categories": ["Cable - Network", "Fiber"],
       "interfaces": [
         {
           "id": "lc-end-a",
@@ -2774,7 +2772,7 @@
         "maxDistance": "550m"
       },
       "icon": "fiber-cable",
-      "categories": ["Cable - Network", "Network", "Fiber"],
+      "categories": ["Cable - Network", "Fiber"],
       "interfaces": [
         {
           "id": "lc-end-a",
@@ -2998,8 +2996,7 @@
       },
       "icon": "power-cable",
       "categories": [
-        "Cable - Power",
-        "Power"
+        "Cable - Power"
       ],
       "interfaces": [
         {
@@ -3041,8 +3038,7 @@
       },
       "icon": "power-cable",
       "categories": [
-        "Cable - Power",
-        "Power"
+        "Cable - Power"
       ],
       "interfaces": [
         {
@@ -3094,8 +3090,7 @@
       },
       "icon": "power-cable",
       "categories": [
-        "Cable - Power",
-        "Power"
+        "Cable - Power"
       ],
       "interfaces": [
         {
@@ -4227,8 +4222,7 @@
       },
       "icon": "power-cable",
       "categories": [
-        "Cable",
-        "Power"
+        "Cable - Power"
       ],
       "interfaces": [
         {
@@ -4263,15 +4257,11 @@
       "id": "uk-13a-socket-template",
       "name": "UK 13A Socket",
       "type": "cable",
-      "properties": {
-        "category": "Cat5",
-        "maxSpeed": "100Mbps",
-        "maxLength": "100m"
-      },
+      "properties": {},
       "icon": "circle-box",
       "categories": [
-        "Cable",
-        "Network"
+        "Cable - Power",
+        "Power"
       ],
       "interfaces": [
         {
@@ -4323,7 +4313,7 @@
       },
       "icon": "circle-box",
       "categories": [
-        "Cable",
+        "Cable - Network",
         "Network"
       ],
       "interfaces": [
