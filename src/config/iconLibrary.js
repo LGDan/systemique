@@ -122,6 +122,9 @@ import {
   mdiFood,
   mdiPuzzle,
   mdiArmFlex,
+  mdiChip,
+  mdiSourceRepository,
+  mdiFileCode,
 } from '@mdi/js'
 
 /**
@@ -170,7 +173,9 @@ export const iconRegistry = {
   'file-document': mdiFileDocument,
   'file': mdiFile,
   'bucket': mdiBucket,
-  
+  'chip': mdiChip,
+  'source-repository': mdiSourceRepository,
+
   // Power
   'pdu': mdiPowerSocket,
   'power-socket-us': mdiPowerSocketUs,
@@ -277,6 +282,7 @@ export const iconRegistry = {
   'food': mdiFood,
   'puzzle': mdiPuzzle,
   'arm-flex': mdiArmFlex,
+  'file-code': mdiFileCode,
 }
 
 /**

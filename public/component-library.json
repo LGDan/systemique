@@ -2394,7 +2394,7 @@
         "maxLength": "100m"
       },
       "icon": "ethernet-cable",
-      "categories": ["Cable", "Network"],
+      "categories": ["Cable - Network", "Network"],
       "interfaces": [
         {
           "id": "end-a",
@@ -2432,7 +2432,7 @@
         "maxLength": "55m"
       },
       "icon": "ethernet-cable",
-      "categories": ["Cable", "Network"],
+      "categories": ["Cable - Network", "Network"],
       "interfaces": [
         {
           "id": "end-a",
@@ -2469,7 +2469,7 @@
         "maxSpeed": "1Gbps"
       },
       "icon": "fiber-cable",
-      "categories": ["Cable", "Network"],
+      "categories": ["Cable - Network", "Network"],
       "interfaces": [
         {
           "id": "plug-end",
@@ -2489,7 +2489,7 @@
           "position": "left",
           "rules": {},
           "metadata": {},
-          "icon": "ethernet-cable"
+          "icon": "laser-pointer"
         }
       ],
       "nestedSystemId": null,
@@ -2506,7 +2506,7 @@
         "maxSpeed": "10Gbps"
       },
       "icon": "fiber-cable",
-      "categories": ["Cable", "Network"],
+      "categories": ["Cable - Network", "Network"],
       "interfaces": [
         {
           "id": "plug-end",
@@ -2526,7 +2526,7 @@
           "position": "left",
           "rules": {},
           "metadata": {},
-          "icon": "ethernet-cable"
+          "icon": "laser-pointer"
         }
       ],
       "nestedSystemId": null,
@@ -2543,7 +2543,7 @@
         "maxSpeed": "40Gbps"
       },
       "icon": "fiber-cable",
-      "categories": ["Cable", "Network"],
+      "categories": ["Cable - Network", "Network"],
       "interfaces": [
         {
           "id": "plug-end",
@@ -2563,7 +2563,7 @@
           "position": "left",
           "rules": {},
           "metadata": {},
-          "icon": "ethernet-cable"
+          "icon": "laser-pointer"
         }
       ],
       "nestedSystemId": null,
@@ -2580,7 +2580,7 @@
         "maxSpeed": "100Gbps"
       },
       "icon": "fiber-cable",
-      "categories": ["Cable", "Network"],
+      "categories": ["Cable - Network", "Network"],
       "interfaces": [
         {
           "id": "plug-end",
@@ -2600,7 +2600,7 @@
           "position": "left",
           "rules": {},
           "metadata": {},
-          "icon": "ethernet-cable"
+          "icon": "laser-pointer"
         }
       ],
       "nestedSystemId": null,
@@ -2619,7 +2619,7 @@
       },
       "icon": "power-cable",
       "categories": [
-        "Cable",
+        "Cable - Power",
         "Power"
       ],
       "interfaces": [
@@ -2661,7 +2661,7 @@
         "maxSpeed": "5Gbps"
       },
       "icon": "usb-cable",
-      "categories": ["Cable", "Data"],
+      "categories": ["Cable - Data", "Data"],
       "interfaces": [
         {
           "id": "usb-a-end",
@@ -2698,7 +2698,7 @@
         "maxSpeed": "10Gbps"
       },
       "icon": "usb-cable",
-      "categories": ["Cable", "Data"],
+      "categories": ["Cable - Data", "Data"],
       "interfaces": [
         {
           "id": "usb-c-end-a",
@@ -2736,7 +2736,7 @@
         "maxDistance": "10km"
       },
       "icon": "fiber-cable",
-      "categories": ["Cable", "Network", "Fiber"],
+      "categories": ["Cable - Network", "Network", "Fiber"],
       "interfaces": [
         {
           "id": "lc-end-a",
@@ -2774,7 +2774,7 @@
         "maxDistance": "550m"
       },
       "icon": "fiber-cable",
-      "categories": ["Cable", "Network", "Fiber"],
+      "categories": ["Cable - Network", "Network", "Fiber"],
       "interfaces": [
         {
           "id": "lc-end-a",
@@ -2924,7 +2924,7 @@
     {
       "id": "sata-hdd-template",
       "name": "SATA HDD",
-      "type": "hardware",
+      "type": "SATA HDD",
       "properties": {},
       "icon": "harddisk",
       "categories": ["Hardware", "Storage"],
@@ -2940,14 +2940,14 @@
           "icon": "expansion-card-variant"
         },
         {
-          "id": "sata-power-in",
-          "name": "SATA Power",
-          "type": "power",
+          "id": "block-storage",
+          "name": "Block Storage",
+          "type": "data",
           "direction": "input",
-          "position": "left",
+          "position": "right",
           "rules": {},
           "metadata": {},
-          "icon": "power-plug"
+          "icon": "table-row"
         }
       ],
       "nestedSystemId": null,
@@ -2957,9 +2957,9 @@
     {
       "id": "sata-ssd-template",
       "name": "SATA SSD",
-      "type": "hardware",  
+      "type": "SATA SSD",  
       "properties": {},
-      "icon": "ssd",
+      "icon": "chip",
       "categories": ["Hardware", "Storage"],
       "interfaces": [
         {
@@ -2973,14 +2973,14 @@
           "icon": "expansion-card-variant"
         },
         {
-          "id": "sata-power-in",
-          "name": "SATA Power",
-          "type": "power",
+          "id": "block-storage",
+          "name": "Block Storage",
+          "type": "data",
           "direction": "input",
-          "position": "left",
+          "position": "right",
           "rules": {},
           "metadata": {},
-          "icon": "power-plug"
+          "icon": "table-row"
         }
       ],
       "nestedSystemId": null,
@@ -2998,7 +2998,7 @@
       },
       "icon": "power-cable",
       "categories": [
-        "Cable",
+        "Cable - Power",
         "Power"
       ],
       "interfaces": [
@@ -3041,7 +3041,7 @@
       },
       "icon": "power-cable",
       "categories": [
-        "Cable",
+        "Cable - Power",
         "Power"
       ],
       "interfaces": [
@@ -3094,7 +3094,7 @@
       },
       "icon": "power-cable",
       "categories": [
-        "Cable",
+        "Cable - Power",
         "Power"
       ],
       "interfaces": [
@@ -3167,7 +3167,7 @@
       },
       "icon": "power-cable",
       "categories": [
-        "Cable",
+        "Cable - Power",
         "Power"
       ],
       "interfaces": [
@@ -3210,7 +3210,7 @@
       },
       "icon": "power-cable",
       "categories": [
-        "Cable",
+        "Cable - Power",
         "Power"
       ],
       "interfaces": [
