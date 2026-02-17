@@ -179,6 +179,18 @@ async function handleExportPNG() {
   closeMenu()
 }
 
+async function handleExportDrawio() {
+  const system = systemStore.currentSystem
+  if (system) {
+    if (system.components.length === 0) {
+      toastStore.show('No components to export in the current system.', 'error')
+      return
+    }
+    ExportService.downloadDrawio(system)
+  }
+  closeMenu()
+}
+
 // Edit menu actions
 function handleGroup() {
   emit('group-components')
@@ -302,6 +314,9 @@ function handleArrangeFlipHorizontal() {
         </div>
         <div class="menu-option" @click="handleExportPNG" :disabled="!isDesignTab">
           <span>Export as PNG...</span>
+        </div>
+        <div class="menu-option" @click="handleExportDrawio" :disabled="!isDesignTab">
+          <span>Export as draw.io…</span>
         </div>
         <div class="menu-option" @click="handleExportBOM" :disabled="!isDesignTab">
           <span>Export BOM (CSV)...</span>

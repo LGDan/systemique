@@ -1,0 +1,50 @@
+<mxfile host="app.diagrams.net" agent="Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/130.0.0.0 Safari/537.36" version="29.4.0">
+  <diagram name="Page-1" id="YbwyYJSdFhBCxnroASYC">
+    <mxGraphModel dx="2583" dy="1351" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="827" pageHeight="1169" math="0" shadow="0">
+      <root>
+        <mxCell id="0" />
+        <mxCell id="1" parent="0" />
+        <object label="" placeholders="1" name="HTTP Cache" type="HTTP Cache" properties="{}" nestedSystemId="" metadata="{}" icon="web" categories="[&quot;Misc&quot;]" description="A web caching server component." trust="" id="component-1771367089222-fr1d8bo64">
+          <mxCell connectable="0" parent="1" style="group" vertex="1">
+            <mxGeometry height="100" width="240" x="293.9179650751968" y="766.35170458509" as="geometry" />
+          </mxCell>
+        </object>
+        <object label="%name%&lt;div&gt;&lt;i&gt;&lt;font style=&quot;font-size: 10px;&quot;&gt;%type%&lt;/font&gt;&lt;/i&gt;&lt;/div&gt;" placeholders="1" id="component-1771367089222-fr1d8bo64-bgrect">
+          <mxCell parent="component-1771367089222-fr1d8bo64" style="rounded=1;whiteSpace=wrap;html=1;align=center;" vertex="1">
+            <mxGeometry height="100" width="240" as="geometry" />
+          </mxCell>
+        </object>
+        <object label="%name%" placeholders="1" name="HTTP" type="data" direction="input" position="left" icon="web" access="" validationRules="{}" metadata="{}" id="interface-1771367089222-rzfbe1nbq">
+          <mxCell parent="component-1771367089222-fr1d8bo64" style="ellipse;html=1;aspect=fixed;labelPosition=left;verticalLabelPosition=middle;align=right;verticalAlign=middle;spacing=20;labelBackgroundColor=default;" vertex="1">
+            <mxGeometry height="20" width="20" x="10" y="10" as="geometry" />
+          </mxCell>
+        </object>
+        <object label="%name%" placeholders="1" name="HTTPS" type="data" direction="input" position="left" icon="lock" access="" validationRules="{}" metadata="{}" id="interface-1771367089222-3ypv5d86v">
+          <mxCell parent="component-1771367089222-fr1d8bo64" style="ellipse;html=1;aspect=fixed;labelPosition=left;verticalLabelPosition=middle;align=right;verticalAlign=middle;spacing=20;labelBackgroundColor=default;" vertex="1">
+            <mxGeometry height="20" width="20" x="10" y="40" as="geometry" />
+          </mxCell>
+        </object>
+        <object label="%name%" placeholders="1" name="Cache Storage" type="data" direction="input" position="left" icon="folder" access="" validationRules="{}" metadata="{}" id="interface-1771367089222-k67160vie">
+          <mxCell parent="component-1771367089222-fr1d8bo64" style="ellipse;html=1;aspect=fixed;labelPosition=left;verticalLabelPosition=middle;align=right;verticalAlign=middle;spacing=20;labelBackgroundColor=default;" vertex="1">
+            <mxGeometry height="20" width="20" x="10" y="70" as="geometry" />
+          </mxCell>
+        </object>
+        <object label="%name%" placeholders="1" name="Dynamic Content" type="data" direction="input" position="right" icon="server" access="" validationRules="{}" metadata="{}" id="interface-1771367089222-aklaov16x">
+          <mxCell parent="component-1771367089222-fr1d8bo64" style="ellipse;html=1;aspect=fixed;labelPosition=right;verticalLabelPosition=middle;align=left;verticalAlign=middle;spacing=20;labelBackgroundColor=default;" vertex="1">
+            <mxGeometry height="20" width="20" x="210" y="10" as="geometry" />
+          </mxCell>
+        </object>
+        <object label="%name%" placeholders="1" name="Config" type="data" direction="input" position="right" icon="code-braces" access="" validationRules="{}" metadata="{}" id="interface-1771367089222-dcqetmfyh">
+          <mxCell parent="component-1771367089222-fr1d8bo64" style="ellipse;html=1;aspect=fixed;labelPosition=right;verticalLabelPosition=middle;align=left;verticalAlign=middle;spacing=20;labelBackgroundColor=default;" vertex="1">
+            <mxGeometry height="20" width="20" x="210" y="40" as="geometry" />
+          </mxCell>
+        </object>
+        <object label="%name%" placeholders="1" name="Cert" type="data" direction="input" position="right" icon="key" access="" validationRules="{}" metadata="{}" id="interface-1771367089222-29cninpd6">
+          <mxCell parent="component-1771367089222-fr1d8bo64" style="ellipse;html=1;aspect=fixed;labelPosition=right;verticalLabelPosition=middle;align=left;verticalAlign=middle;spacing=20;labelBackgroundColor=default;" vertex="1">
+            <mxGeometry height="20" width="20" x="210" y="70" as="geometry" />
+          </mxCell>
+        </object>
+      </root>
+    </mxGraphModel>
+  </diagram>
+</mxfile>

@@ -1,6 +1,7 @@
 import { getActivePinia } from 'pinia'
 import { generateBOM } from './bomGenerator.js'
 import { generateDocumentation } from './documentGenerator.js'
+import { exportToDrawio } from './drawioExport.js'
 import { useInterfaceTypesStore } from '../stores/interfaceTypesStore.js'
 import { useInterfaceRulesStore } from '../stores/interfaceRulesStore.js'
 import { useToastStore } from '../stores/toastStore.js'
@@ -121,6 +122,29 @@ export class ExportService {
     const link = document.createElement('a')
     link.href = url
     link.download = filename || `bom-${system.name}-${Date.now()}.csv`
+    document.body.appendChild(link)
+    link.click()
+    link.remove()
+    URL.revokeObjectURL(url)
+  }
+
+  /**
+   * Export system to draw.io uncompressed XML string
+   */
+  static exportToDrawio(system) {
+    return exportToDrawio(system)
+  }
+
+  /**
+   * Download system as draw.io file
+   */
+  static downloadDrawio(system, filename = null) {
+    const xml = this.exportToDrawio(system)
+    const blob = new Blob([xml], { type: 'application/xml' })
+    const url = URL.createObjectURL(blob)
+    const link = document.createElement('a')
+    link.href = url
+    link.download = filename || `${system.name}-${Date.now()}.drawio`
     document.body.appendChild(link)
     link.click()
     link.remove()
