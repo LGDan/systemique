@@ -125,6 +125,23 @@ import {
   mdiChip,
   mdiSourceRepository,
   mdiFileCode,
+  mdiLock,
+  mdiShield,
+  mdiArrowDecision,
+  mdiLockOpen,
+  mdiRouter,
+  mdiRoutes,
+  mdiEmailFast,
+  mdiTimer,
+  mdiDatabaseClock,
+  mdiTimerSand,
+  mdiRabbit,
+  mdiAtom,
+  mdiAtomVariant,
+  mdiBeaker,
+  mdiDna,
+  mdiFlask,
+  mdiScale,
 } from '@mdi/js'
 
 /**
@@ -283,6 +300,23 @@ export const iconRegistry = {
   'puzzle': mdiPuzzle,
   'arm-flex': mdiArmFlex,
   'file-code': mdiFileCode,
+  'lock': mdiLock,
+  'shield': mdiShield,
+  'arrow-decision': mdiArrowDecision,
+  'lock-open': mdiLockOpen,
+  'router-alt': mdiRouter,
+  'routes': mdiRoutes,
+  'email-fast': mdiEmailFast,
+  'timer': mdiTimer,
+  'database-clock': mdiDatabaseClock,
+  'timer-sand': mdiTimerSand,
+  'rabbit': mdiRabbit,
+  'atom': mdiAtom,
+  'atom-variant': mdiAtomVariant,
+  'beaker': mdiBeaker,
+  'dna': mdiDna,
+  'flask': mdiFlask,
+  'scale': mdiScale
 }
 
 /**

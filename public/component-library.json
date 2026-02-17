@@ -5803,6 +5803,82 @@
         "y": 0
       },
       "metadata": {}
+    },
+    {
+      "id": "configuration-template",
+      "name": "Configuration",
+      "type": "Configuration File",
+      "properties": {},
+      "icon": "file-code",
+      "categories": [
+        "Misc"
+      ],
+      "interfaces": [
+        {
+          "id": "configuration",
+          "name": "Configuration",
+          "type": "data",
+          "direction": "output",
+          "position": "left",
+          "rules": {},
+          "metadata": {},
+          "icon": "code-braces"
+        },
+        {
+          "id": "items",
+          "name": "Items",
+          "type": "data",
+          "direction": "input",
+          "position": "right",
+          "rules": {},
+          "metadata": {},
+          "icon": "cog"
+        },
+        {
+          "id": "stored",
+          "name": "Stored",
+          "type": "data",
+          "direction": "output",
+          "position": "left",
+          "rules": {},
+          "metadata": {},
+          "icon": "folder"
+        }
+      ],
+      "nestedSystemId": null,
+      "position": {
+        "x": 0,
+        "y": 0
+      },
+      "metadata": {}
+    },
+    {
+      "id": "config-item-template",
+      "name": "Config Item",
+      "type": "Configuration Item",
+      "properties": {},
+      "icon": "cog",
+      "categories": [
+        "Misc"
+      ],
+      "interfaces": [
+        {
+          "id": "item",
+          "name": "Item",
+          "type": "data",
+          "direction": "output",
+          "position": "left",
+          "rules": {},
+          "metadata": {},
+          "icon": "cog"
+        }
+      ],
+      "nestedSystemId": null,
+      "position": {
+        "x": 0,
+        "y": 0
+      },
+      "metadata": {}
     }
   ]
 }
