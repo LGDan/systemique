@@ -176,5 +176,25 @@ const labelAccessClass = computed(() => {
   transform-origin: bottom left;
   white-space: nowrap;
 }
+
+/* Dark theme: light text on dark label background */
+html[data-theme='dark'] .interface-label {
+  color: #e0e0e0;
+  background: rgba(45, 45, 45, 0.95);
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.3);
+}
+
+html[data-theme='dark'] .interface-label.access-trusted {
+  color: #81c784;
+}
+
+html[data-theme='dark'] .interface-label.access-untrusted {
+  color: #e57373;
+}
+
+html[data-theme='dark'] .interface-label.access-ignored {
+  color: #9e9e9e;
+  text-decoration: line-through;
+}
 </style>
 

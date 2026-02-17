@@ -41,6 +41,36 @@ html[data-theme='dark'] #app {
   background: #1a1a1a;
 }
 
+/* Dark theme scrollbars (WebKit + Firefox) */
+html[data-theme='dark'] {
+  scrollbar-color: #555 #252525;
+  scrollbar-width: thin;
+}
+
+html[data-theme='dark'] *::-webkit-scrollbar {
+  width: 12px;
+  height: 12px;
+}
+
+html[data-theme='dark'] *::-webkit-scrollbar-track {
+  background: #252525;
+  border-radius: 6px;
+}
+
+html[data-theme='dark'] *::-webkit-scrollbar-thumb {
+  background: #555;
+  border-radius: 6px;
+  border: 3px solid #252525;
+}
+
+html[data-theme='dark'] *::-webkit-scrollbar-thumb:hover {
+  background: #666;
+}
+
+html[data-theme='dark'] *::-webkit-scrollbar-corner {
+  background: #252525;
+}
+
 /* App header & tabs */
 html[data-theme='dark'] .app-header {
   background: #252525;
@@ -387,6 +417,28 @@ html[data-theme='dark'] .vue-flow__background {
 html[data-theme='dark'] .vue-flow__minimap {
   background: #2d2d2d;
   border: 1px solid #444;
+}
+
+html[data-theme='dark'] .vue-flow__controls {
+  box-shadow: 0 0 2px 1px rgba(0, 0, 0, 0.4);
+}
+
+html[data-theme='dark'] .vue-flow__controls-button {
+  background: #2d2d2d;
+  border-color: #444;
+}
+
+html[data-theme='dark'] .vue-flow__controls-button:hover {
+  background: #3d3d3d;
+}
+
+html[data-theme='dark'] .vue-flow__controls-button svg {
+  fill: #e0e0e0;
+}
+
+html[data-theme='dark'] .vue-flow__controls-button:disabled svg {
+  fill: #666;
+  fill-opacity: 0.6;
 }
 
 /* Rules / Interface management */
