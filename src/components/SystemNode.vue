@@ -6,6 +6,7 @@ import ContextMenu from './ContextMenu.vue'
 import InstallationGuideModal from './InstallationGuideModal.vue'
 import MdiIcon from './MdiIcon.vue'
 import { useSystemStore } from '../stores/systemStore.js'
+import { useToastStore } from '../stores/toastStore.js'
 import { useComponentLibraryStore } from '../stores/componentLibraryStore.js'
 import { Component } from '../models/Component.js'
 
@@ -21,6 +22,7 @@ const props = defineProps({
 })
 
 const systemStore = useSystemStore()
+const toastStore = useToastStore()
 const libraryStore = useComponentLibraryStore()
 
 const component = computed(() => {
@@ -155,7 +157,7 @@ async function handleCopyAsJSON() {
   try {
     const componentToCopy = component.value
     if (!componentToCopy) {
-      alert('No component selected to copy.')
+      toastStore.show('No component selected to copy.', 'error')
       return
     }
 
@@ -165,7 +167,7 @@ async function handleCopyAsJSON() {
     // Copy to clipboard
     if (navigator.clipboard && navigator.clipboard.writeText) {
       await navigator.clipboard.writeText(jsonString)
-      alert(`Component "${componentToCopy.name}" JSON copied to clipboard!`)
+      toastStore.show(`Component "${componentToCopy.name}" JSON copied to clipboard!`, 'success')
     } else {
       // Fallback for older browsers
       const textArea = document.createElement('textarea')
@@ -176,11 +178,11 @@ async function handleCopyAsJSON() {
       textArea.select()
       document.execCommand('copy')
       textArea.remove()
-      alert(`Component "${componentToCopy.name}" JSON copied to clipboard!`)
+      toastStore.show(`Component "${componentToCopy.name}" JSON copied to clipboard!`, 'success')
     }
   } catch (error) {
     console.error('Error copying component to clipboard:', error)
-    alert(`Failed to copy component to clipboard: ${error.message}`)
+    toastStore.show(`Failed to copy component to clipboard: ${error.message}`, 'error')
   }
 }
 
@@ -188,7 +190,7 @@ async function handleCopyAsJSONTemplate() {
   try {
     const componentToCopy = component.value
     if (!componentToCopy) {
-      alert('No component selected to copy.')
+      toastStore.show('No component selected to copy.', 'error')
       return
     }
 
@@ -238,7 +240,7 @@ async function handleCopyAsJSONTemplate() {
     // Copy to clipboard
     if (navigator.clipboard && navigator.clipboard.writeText) {
       await navigator.clipboard.writeText(jsonString)
-      alert(`Component "${componentToCopy.name}" template JSON copied to clipboard!`)
+      toastStore.show(`Component "${componentToCopy.name}" template JSON copied to clipboard!`, 'success')
     } else {
       // Fallback for older browsers
       const textArea = document.createElement('textarea')
@@ -249,11 +251,11 @@ async function handleCopyAsJSONTemplate() {
       textArea.select()
       document.execCommand('copy')
       textArea.remove()
-      alert(`Component "${componentToCopy.name}" template JSON copied to clipboard!`)
+      toastStore.show(`Component "${componentToCopy.name}" template JSON copied to clipboard!`, 'success')
     }
   } catch (error) {
     console.error('Error copying component template to clipboard:', error)
-    alert(`Failed to copy component template to clipboard: ${error.message}`)
+    toastStore.show(`Failed to copy component template to clipboard: ${error.message}`, 'error')
   }
 }
 
@@ -261,7 +263,7 @@ function handleDuplicate() {
   try {
     const originalComponent = component.value
     if (!originalComponent) {
-      alert('No component selected to duplicate.')
+      toastStore.show('No component selected to duplicate.', 'error')
       return
     }
 
@@ -292,7 +294,7 @@ function handleDuplicate() {
     systemStore.addComponent(duplicatedComponent)
   } catch (error) {
     console.error('Error duplicating component:', error)
-    alert(`Failed to duplicate component: ${error.message}`)
+    toastStore.show(`Failed to duplicate component: ${error.message}`, 'error')
   }
 }
 
@@ -300,7 +302,7 @@ function handleSendToLibrary() {
   try {
     const originalComponent = component.value
     if (!originalComponent) {
-      alert('No component selected to send to library.')
+      toastStore.show('No component selected to send to library.', 'error')
       return
     }
 
@@ -311,10 +313,10 @@ function handleSendToLibrary() {
     templateComponent.nestedSystemId = null // Clear any nested system references
 
     libraryStore.addComponent(templateComponent)
-    alert(`Component "${originalComponent.name}" has been added to the library!`)
+    toastStore.show(`Component "${originalComponent.name}" has been added to the library!`, 'success')
   } catch (error) {
     console.error('Error sending component to library:', error)
-    alert(`Failed to add component to library: ${error.message}`)
+    toastStore.show(`Failed to add component to library: ${error.message}`, 'error')
   }
 }
 </script>

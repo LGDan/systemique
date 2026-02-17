@@ -1,6 +1,7 @@
 <script setup>
 import { ref, computed } from 'vue'
 import { useSystemStore } from '../stores/systemStore.js'
+import { useToastStore } from '../stores/toastStore.js'
 import { useInterfaceTypesStore } from '../stores/interfaceTypesStore.js'
 import { matchesRiskStatus, matchesBoundaryType, matchesTrust } from '../utils/tableFilterUtils.js'
 
@@ -235,7 +236,7 @@ function runAudit() {
 
 function exportToCSV() {
   if (tableData.value.length === 0) {
-    alert('No data to export. Please run the audit first.')
+    useToastStore().show('No data to export. Please run the audit first.', 'error')
     return
   }
   

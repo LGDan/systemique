@@ -2,10 +2,12 @@
 import { ref, computed } from 'vue'
 import { useComponentLibraryStore } from '../stores/componentLibraryStore.js'
 import { useSystemStore } from '../stores/systemStore.js'
+import { useToastStore } from '../stores/toastStore.js'
 import MdiIcon from './MdiIcon.vue'
 
 const libraryStore = useComponentLibraryStore()
 const systemStore = useSystemStore()
+const toastStore = useToastStore()
 
 const searchQuery = ref('')
 const fileInputRef = ref(null)
@@ -58,7 +60,7 @@ function handleExport() {
     libraryStore.downloadJSON()
   } catch (error) {
     console.error('Failed to export library:', error)
-    alert('Failed to export library: ' + error.message)
+    toastStore.show('Failed to export library: ' + error.message, 'error')
   }
 }
 
@@ -72,10 +74,10 @@ async function handleImportFile(event) {
 
   try {
     const result = await libraryStore.importFromFile(file)
-    alert(`Successfully imported ${result.count} components!`)
+    toastStore.show(`Successfully imported ${result.count} components!`, 'success')
   } catch (error) {
     console.error('Failed to import library:', error)
-    alert('Failed to import library: ' + error.message)
+    toastStore.show('Failed to import library: ' + error.message, 'error')
   }
 
   // Clear the file input
@@ -85,10 +87,10 @@ async function handleImportFile(event) {
 async function handleReload() {
   try {
     const result = await libraryStore.loadFromServer()
-    alert(`Successfully loaded ${result.count} components from server!`)
+    toastStore.show(`Successfully loaded ${result.count} components from server!`, 'success')
   } catch (error) {
     console.error('Failed to reload library:', error)
-    alert('Failed to reload library: ' + error.message)
+    toastStore.show('Failed to reload library: ' + error.message, 'error')
   }
 }
 </script>
