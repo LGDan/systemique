@@ -1,6 +1,7 @@
 <script setup>
 import { ref, computed, onMounted, onUnmounted } from 'vue'
 import { useSystemStore } from '../stores/systemStore.js'
+import { useToastStore } from '../stores/toastStore.js'
 import { ExportService } from '../utils/exportService.js'
 
 const props = defineProps({
@@ -21,6 +22,7 @@ const props = defineProps({
 const emit = defineEmits(['group-components', 'import-file', 'new-system', 'open-file', 'save-as', 'arrange-align-horizontal', 'arrange-align-vertical', 'arrange-flip-horizontal', 'toggle-theme'])
 
 const systemStore = useSystemStore()
+const toastStore = useToastStore()
 const menuBarRef = ref(null)
 const activeMenu = ref(null)
 const importFileInputRef = ref(null)
@@ -113,13 +115,13 @@ function handleOpen() {
 
 function handleOpenRecent(file) {
   // For now, just show a message - in a real app, you'd load the file
-  alert(`Opening ${file.name}...\n\nNote: File path loading not yet implemented.`)
+  toastStore.show(`Opening ${file.name}...\n\nNote: File path loading not yet implemented.`)
   closeMenu()
 }
 
 function handleSave() {
   systemStore.saveToLocalStorage()
-  alert('System saved successfully!')
+  toastStore.show('System saved successfully!', 'success')
   closeMenu()
 }
 
@@ -145,7 +147,7 @@ function handleExportBOM() {
   const system = systemStore.currentSystem
   if (system) {
     if (system.components.length === 0) {
-      alert('No components to export in the current system.')
+      toastStore.show('No components to export in the current system.', 'error')
       return
     }
     ExportService.downloadBOMCSV(system)
@@ -157,7 +159,7 @@ async function handleExportSVG() {
   const system = systemStore.currentSystem
   if (system) {
     if (system.components.length === 0) {
-      alert('No components to export in the current system.')
+      toastStore.show('No components to export in the current system.', 'error')
       return
     }
     await ExportService.downloadSVG(system)
@@ -169,7 +171,7 @@ async function handleExportPNG() {
   const system = systemStore.currentSystem
   if (system) {
     if (system.components.length === 0) {
-      alert('No components to export in the current system.')
+      toastStore.show('No components to export in the current system.', 'error')
       return
     }
     await ExportService.downloadPNG(system)

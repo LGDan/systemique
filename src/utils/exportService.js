@@ -1,7 +1,9 @@
+import { getActivePinia } from 'pinia'
 import { generateBOM } from './bomGenerator.js'
 import { generateDocumentation } from './documentGenerator.js'
 import { useInterfaceTypesStore } from '../stores/interfaceTypesStore.js'
 import { useInterfaceRulesStore } from '../stores/interfaceRulesStore.js'
+import { useToastStore } from '../stores/toastStore.js'
 import { getInterfaceType } from '../config/defaultInterfaceTypes.js'
 
 /**
@@ -576,7 +578,8 @@ export class ExportService {
         URL.revokeObjectURL(url)
       } catch (fallbackError) {
         console.error('Failed to export PNG:', fallbackError)
-        alert(`Failed to export PNG: ${fallbackError.message}`)
+        const pinia = getActivePinia()
+        if (pinia) useToastStore(pinia).show(`Failed to export PNG: ${fallbackError.message}`, 'error')
       }
     }
   }

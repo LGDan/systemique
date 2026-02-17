@@ -9,7 +9,9 @@ import RulesEditor from './components/RulesEditor.vue'
 import SecurityPanel from './components/SecurityPanel.vue'
 import ArchitectureLibrary from './components/ArchitectureLibrary.vue'
 import MenuBar from './components/MenuBar.vue'
+import Toast from './components/Toast.vue'
 import { useSystemStore } from './stores/systemStore.js'
+import { useToastStore } from './stores/toastStore.js'
 import { useInterfaceTypesStore } from './stores/interfaceTypesStore.js'
 import { useInterfaceRulesStore } from './stores/interfaceRulesStore.js'
 import { useVueFlow } from '@vue-flow/core'
@@ -19,6 +21,7 @@ import { PersistenceService } from './utils/persistenceService.js'
 import { System } from './models/System.js'
 
 const systemStore = useSystemStore()
+const toastStore = useToastStore()
 const { getSelectedNodes } = useVueFlow()
 
 const logoUrl = `${import.meta.env.BASE_URL}systemique-logo.svg`
@@ -126,10 +129,10 @@ async function handleImportFile(event) {
     const message = result.interfaceTypes || result.interfaceRules
       ? `Successfully imported system: ${result.system.name}\nInterface types and rules have been imported.`
       : `Successfully imported system: ${result.system.name}`
-    alert(message)
+    toastStore.show(message, 'success')
   } catch (error) {
     console.error('Failed to import system:', error)
-    alert('Failed to import system: ' + error.message)
+    toastStore.show('Failed to import system: ' + error.message, 'error')
   }
 
   // Clear the file input
@@ -343,6 +346,8 @@ function handleArrangeAlignVertical(mode) {
       @submit="handleNewModelSubmit"
       @close="handleNewModelClose"
     />
+
+    <Toast />
   </div>
 </template>
 

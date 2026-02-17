@@ -1,12 +1,14 @@
 <script setup>
 import { ref, computed, watch } from 'vue'
 import { useSystemStore } from '../stores/systemStore.js'
+import { useToastStore } from '../stores/toastStore.js'
 import { useInterfaceRulesStore } from '../stores/interfaceRulesStore.js'
 import { useInterfaceTypesStore } from '../stores/interfaceTypesStore.js'
 import { areTypesCompatible } from '../utils/interfaceCompatibility.js'
 import { validateConnection } from '../utils/connectionValidator.js'
 
 const systemStore = useSystemStore()
+const toastStore = useToastStore()
 const rulesStore = useInterfaceRulesStore()
 const typesStore = useInterfaceTypesStore()
 
@@ -79,7 +81,7 @@ const newTypeForm = ref({
 
 function handleAddType() {
   if (!newTypeForm.value.name.trim()) {
-    alert('Please enter a type name')
+    toastStore.show('Please enter a type name', 'error')
     return
   }
   

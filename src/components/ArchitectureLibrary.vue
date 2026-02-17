@@ -1,6 +1,7 @@
 <script setup>
 import { ref, computed, onMounted, nextTick, watch } from 'vue'
 import { useSystemStore } from '../stores/systemStore.js'
+import { useToastStore } from '../stores/toastStore.js'
 import { PersistenceService } from '../utils/persistenceService.js'
 import { getArchitectureLibraryUrl } from '../utils/urlConfig.js'
 
@@ -93,7 +94,7 @@ async function loadEntry(entry) {
     emit('open-design')
   } catch (err) {
     console.error('Architecture Library model load failed:', err)
-    alert(`Could not load architecture: ${err.message || 'Unknown error'}.`)
+    useToastStore().show(`Could not load architecture: ${err.message || 'Unknown error'}.`, 'error')
   } finally {
     loadingEntryId.value = null
   }

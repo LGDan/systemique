@@ -7,6 +7,7 @@ import { MiniMap } from '@vue-flow/minimap'
 import SystemNode from './SystemNode.vue'
 import CustomEdge from '../CustomEdge.vue'
 import { useSystemStore } from '../stores/systemStore.js'
+import { useToastStore } from '../stores/toastStore.js'
 import { useComponentLibraryStore } from '../stores/componentLibraryStore.js'
 import { validateConnectionAttempt } from '../utils/connectionValidator.js'
 import { Connection } from '../models/Connection.js'
@@ -203,7 +204,7 @@ onConnect((params) => {
   )
 
   if (!validation.valid) {
-    alert(`Connection failed: ${validation.reason}`)
+    useToastStore().show(`Connection failed: ${validation.reason}`, 'error')
     return
   }
 
