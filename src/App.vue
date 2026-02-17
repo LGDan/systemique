@@ -148,6 +148,23 @@ async function handleImportFile(event) {
   event.target.value = ''
 }
 
+async function handleImportDrawioFile(event) {
+  const file = event.target.files?.[0]
+  if (!file) return
+
+  try {
+    const result = await PersistenceService.importFromDrawioFile(file)
+    systemStore.importSystem(result.system.toJSON())
+    systemStore.saveToLocalStorage()
+    toastStore.show(`Imported from draw.io: ${result.system.name}`, 'success')
+  } catch (error) {
+    console.error('Failed to import from draw.io:', error)
+    toastStore.show('Failed to import from draw.io: ' + error.message, 'error')
+  }
+
+  event.target.value = ''
+}
+
 function handleGroup() {
   if (selectedComponentIds.value.length >= 2) {
     showGroupDialog.value = true
@@ -315,6 +332,7 @@ function handleArrangeAlignVertical(mode) {
       @toggle-theme="toggleTheme"
       @import-file="handleImportClick"
       @import-file-change="handleImportFile"
+      @import-drawio-change="handleImportDrawioFile"
       @new-system="handleNewSystem"
       @save-as="handleSaveAs"
       @view-tab="handleViewTab"
