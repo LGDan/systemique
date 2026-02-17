@@ -18,6 +18,10 @@ const props = defineProps({
   data: {
     type: Object,
     required: true
+  },
+  selected: {
+    type: Boolean,
+    default: false
   }
 })
 
@@ -358,7 +362,7 @@ function handleSendToLibrary() {
 </script>
 
 <template>
-  <div class="system-node" :class="trustClass" @contextmenu.prevent="handleContextMenu">
+  <div class="system-node" :class="[trustClass, { 'node-selected': selected }]" @contextmenu.prevent="handleContextMenu">
     <!-- Top interfaces -->
     <div v-if="interfacesByPosition.top.length > 0" class="interfaces interfaces-top">
       <InterfaceHandle
@@ -461,6 +465,18 @@ function handleSendToLibrary() {
 
 .system-node.trust-ignored {
   background: #cecece;
+}
+
+/* Selected state: highlight border */
+.system-node.node-selected {
+  border-color: #1F6B66;
+  border-width: 3px;
+  box-shadow: 0 0 0 1px #1F6B66, 0 2px 8px rgba(0, 0, 0, 0.15);
+}
+
+html[data-theme='dark'] .system-node.node-selected {
+  border-color: #5ab8b0;
+  box-shadow: 0 0 0 1px #5ab8b0, 0 2px 12px rgba(0, 0, 0, 0.4);
 }
 
 /* Dark mode: darker trust backgrounds so light text stays legible */
