@@ -162,9 +162,11 @@ function addInterface() {
 function updateInterface(updatedInterface, index) {
   const multi = multiEditComponents.value
   if (multi && multi.length > 0 && typeof index === 'number') {
+    const rest = { ...updatedInterface }
+    delete rest.id
     multi.forEach((comp) => {
       if (comp.interfaces[index]) {
-        Object.assign(comp.interfaces[index], updatedInterface)
+        Object.assign(comp.interfaces[index], rest)
       }
     })
     systemStore.saveToLocalStorage()
