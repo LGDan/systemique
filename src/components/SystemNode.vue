@@ -427,6 +427,19 @@ function handleSendToLibrary() {
   background: #cecece;
 }
 
+/* Dark mode: darker trust backgrounds so light text stays legible */
+html[data-theme='dark'] .system-node.trust-trusted {
+  background: #1e3b20;
+}
+
+html[data-theme='dark'] .system-node.trust-untrusted {
+  background: #4a2024;
+}
+
+html[data-theme='dark'] .system-node.trust-ignored {
+  background: #3d3d3d;
+}
+
 .node-main-row {
   display: flex;
   align-items: center;

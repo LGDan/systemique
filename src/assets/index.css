@@ -389,6 +389,28 @@ html[data-theme='dark'] .vue-flow__minimap {
   border: 1px solid #444;
 }
 
+html[data-theme='dark'] .vue-flow__controls {
+  box-shadow: 0 0 2px 1px rgba(0, 0, 0, 0.4);
+}
+
+html[data-theme='dark'] .vue-flow__controls-button {
+  background: #2d2d2d;
+  border-color: #444;
+}
+
+html[data-theme='dark'] .vue-flow__controls-button:hover {
+  background: #3d3d3d;
+}
+
+html[data-theme='dark'] .vue-flow__controls-button svg {
+  fill: #e0e0e0;
+}
+
+html[data-theme='dark'] .vue-flow__controls-button:disabled svg {
+  fill: #666;
+  fill-opacity: 0.6;
+}
+
 /* Rules / Interface management */
 html[data-theme='dark'] .interface-management {
   background: #252525;
