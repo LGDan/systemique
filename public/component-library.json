@@ -6463,6 +6463,386 @@
         "y": 0
       },
       "metadata": {}
+    },
+    {
+      "id": "crm-template",
+      "name": "CRM",
+      "type": "CRM",
+      "properties": {},
+      "icon": "handshake",
+      "categories": [
+        "Misc"
+      ],
+      "interfaces": [
+        {
+          "id": "data-out",
+          "name": "Data Out",
+          "type": "data",
+          "direction": "output",
+          "position": "left",
+          "rules": {},
+          "metadata": {},
+          "icon": "table"
+        },
+        {
+          "id": "data-in",
+          "name": "Data In",
+          "type": "data",
+          "direction": "input",
+          "position": "right",
+          "rules": {},
+          "metadata": {},
+          "icon": "table"
+        }
+      ],
+      "nestedSystemId": null,
+      "position": {
+        "x": 0,
+        "y": 0
+      },
+      "metadata": {}
+    },
+    {
+      "id": "erp-template",
+      "name": "ERP",
+      "type": "ERP",
+      "properties": {},
+      "icon": "cash",
+      "categories": [
+        "Misc"
+      ],
+      "interfaces": [
+        {
+          "id": "data-out",
+          "name": "Data Out",
+          "type": "data",
+          "direction": "output",
+          "position": "left",
+          "rules": {},
+          "metadata": {},
+          "icon": "table"
+        },
+        {
+          "id": "data-in",
+          "name": "Data In",
+          "type": "data",
+          "direction": "input",
+          "position": "right",
+          "rules": {},
+          "metadata": {},
+          "icon": "table"
+        }
+      ],
+      "nestedSystemId": null,
+      "position": {
+        "x": 0,
+        "y": 0
+      },
+      "metadata": {}
+    },
+    {
+      "id": "hris-template",
+      "name": "HRIS",
+      "type": "HRIS",
+      "properties": {},
+      "icon": "account-plus",
+      "categories": [
+        "Misc"
+      ],
+      "interfaces": [
+        {
+          "id": "data-out",
+          "name": "Data Out",
+          "type": "data",
+          "direction": "output",
+          "position": "left",
+          "rules": {},
+          "metadata": {},
+          "icon": "table"
+        },
+        {
+          "id": "data-in",
+          "name": "Data In",
+          "type": "data",
+          "direction": "input",
+          "position": "right",
+          "rules": {},
+          "metadata": {},
+          "icon": "table"
+        }
+      ],
+      "nestedSystemId": null,
+      "position": {
+        "x": 0,
+        "y": 0
+      },
+      "metadata": {}
+    },
+    {
+      "id": "oms-template",
+      "name": "OMS",
+      "type": "OMS",
+      "properties": {},
+      "icon": "invoice-list",
+      "categories": [
+        "Misc"
+      ],
+      "interfaces": [
+        {
+          "id": "data-out",
+          "name": "Data Out",
+          "type": "data",
+          "direction": "output",
+          "position": "left",
+          "rules": {},
+          "metadata": {},
+          "icon": "table"
+        },
+        {
+          "id": "data-in",
+          "name": "Data In",
+          "type": "data",
+          "direction": "input",
+          "position": "right",
+          "rules": {},
+          "metadata": {},
+          "icon": "table"
+        }
+      ],
+      "nestedSystemId": null,
+      "position": {
+        "x": 0,
+        "y": 0
+      },
+      "metadata": {}
+    },
+    {
+      "id": "corporate-website-template",
+      "name": "Corporate Website",
+      "type": "Corporate Website",
+      "properties": {},
+      "icon": "web-box",
+      "categories": [
+        "Misc"
+      ],
+      "interfaces": [
+        {
+          "id": "data-out",
+          "name": "Data Out",
+          "type": "data",
+          "direction": "output",
+          "position": "left",
+          "rules": {},
+          "metadata": {},
+          "icon": "table"
+        },
+        {
+          "id": "data-in",
+          "name": "Data In",
+          "type": "data",
+          "direction": "input",
+          "position": "right",
+          "rules": {},
+          "metadata": {},
+          "icon": "table"
+        }
+      ],
+      "nestedSystemId": null,
+      "position": {
+        "x": 0,
+        "y": 0
+      },
+      "metadata": {}
+    },
+    {
+      "id": "stock-management-template",
+      "name": "Stock Management",
+      "type": "Stock Management",
+      "properties": {},
+      "icon": "package-variant-closed",
+      "categories": [
+        "Misc"
+      ],
+      "interfaces": [
+        {
+          "id": "data-out",
+          "name": "Data Out",
+          "type": "data",
+          "direction": "output",
+          "position": "left",
+          "rules": {},
+          "metadata": {},
+          "icon": "table"
+        },
+        {
+          "id": "data-in",
+          "name": "Data In",
+          "type": "data",
+          "direction": "input",
+          "position": "right",
+          "rules": {},
+          "metadata": {},
+          "icon": "table"
+        }
+      ],
+      "nestedSystemId": null,
+      "position": {
+        "x": 0,
+        "y": 0
+      },
+      "metadata": {}
+    },
+    {
+      "id": "portfolio-management-template",
+      "name": "Portfolio Management",
+      "type": "Portfolio Management",
+      "properties": {},
+      "icon": "chart-gantt",
+      "categories": [
+        "Misc"
+      ],
+      "interfaces": [
+        {
+          "id": "data-out",
+          "name": "Data Out",
+          "type": "data",
+          "direction": "output",
+          "position": "left",
+          "rules": {},
+          "metadata": {},
+          "icon": "table"
+        },
+        {
+          "id": "data-in",
+          "name": "Data In",
+          "type": "data",
+          "direction": "input",
+          "position": "right",
+          "rules": {},
+          "metadata": {},
+          "icon": "table"
+        }
+      ],
+      "nestedSystemId": null,
+      "position": {
+        "x": 0,
+        "y": 0
+      },
+      "metadata": {}
+    },
+    {
+      "id": "work-management-template",
+      "name": "Work Management",
+      "type": "Work Management",
+      "properties": {},
+      "icon": "calendar-check",
+      "categories": [
+        "Misc"
+      ],
+      "interfaces": [
+        {
+          "id": "data-out",
+          "name": "Data Out",
+          "type": "data",
+          "direction": "output",
+          "position": "left",
+          "rules": {},
+          "metadata": {},
+          "icon": "table"
+        },
+        {
+          "id": "data-in",
+          "name": "Data In",
+          "type": "data",
+          "direction": "input",
+          "position": "right",
+          "rules": {},
+          "metadata": {},
+          "icon": "table"
+        }
+      ],
+      "nestedSystemId": null,
+      "position": {
+        "x": 0,
+        "y": 0
+      },
+      "metadata": {}
+    },
+    {
+      "id": "itsm-template",
+      "name": "ITSM",
+      "type": "ITSM",
+      "properties": {},
+      "icon": "ticket",
+      "categories": [
+        "Misc"
+      ],
+      "interfaces": [
+        {
+          "id": "data-out",
+          "name": "Data Out",
+          "type": "data",
+          "direction": "output",
+          "position": "left",
+          "rules": {},
+          "metadata": {},
+          "icon": "table"
+        },
+        {
+          "id": "data-in",
+          "name": "Data In",
+          "type": "data",
+          "direction": "input",
+          "position": "right",
+          "rules": {},
+          "metadata": {},
+          "icon": "table"
+        }
+      ],
+      "nestedSystemId": null,
+      "position": {
+        "x": 0,
+        "y": 0
+      },
+      "metadata": {}
+    },
+    {
+      "id": "service-management-template",
+      "name": "Service Management",
+      "type": "Service Management",
+      "properties": {},
+      "icon": "face-agent",
+      "categories": [
+        "Misc"
+      ],
+      "interfaces": [
+        {
+          "id": "data-out",
+          "name": "Data Out",
+          "type": "data",
+          "direction": "output",
+          "position": "left",
+          "rules": {},
+          "metadata": {},
+          "icon": "table"
+        },
+        {
+          "id": "data-in",
+          "name": "Data In",
+          "type": "data",
+          "direction": "input",
+          "position": "right",
+          "rules": {},
+          "metadata": {},
+          "icon": "table"
+        }
+      ],
+      "nestedSystemId": null,
+      "position": {
+        "x": 0,
+        "y": 0
+      },
+      "metadata": {}
     }
   ]
 }
