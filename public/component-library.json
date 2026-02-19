@@ -6471,7 +6471,7 @@
       "properties": {},
       "icon": "handshake",
       "categories": [
-        "Misc"
+        "Business"
       ],
       "interfaces": [
         {
@@ -6509,7 +6509,7 @@
       "properties": {},
       "icon": "cash",
       "categories": [
-        "Misc"
+        "Business"
       ],
       "interfaces": [
         {
@@ -6547,7 +6547,7 @@
       "properties": {},
       "icon": "account-plus",
       "categories": [
-        "Misc"
+        "Business"
       ],
       "interfaces": [
         {
@@ -6585,7 +6585,7 @@
       "properties": {},
       "icon": "invoice-list",
       "categories": [
-        "Misc"
+        "Business"
       ],
       "interfaces": [
         {
@@ -6623,7 +6623,7 @@
       "properties": {},
       "icon": "web-box",
       "categories": [
-        "Misc"
+        "Business"
       ],
       "interfaces": [
         {
@@ -6661,7 +6661,7 @@
       "properties": {},
       "icon": "package-variant-closed",
       "categories": [
-        "Misc"
+        "Business"
       ],
       "interfaces": [
         {
@@ -6699,7 +6699,7 @@
       "properties": {},
       "icon": "chart-gantt",
       "categories": [
-        "Misc"
+        "Business"
       ],
       "interfaces": [
         {
@@ -6737,7 +6737,7 @@
       "properties": {},
       "icon": "calendar-check",
       "categories": [
-        "Misc"
+        "Business"
       ],
       "interfaces": [
         {
@@ -6775,7 +6775,7 @@
       "properties": {},
       "icon": "ticket",
       "categories": [
-        "Misc"
+        "Business"
       ],
       "interfaces": [
         {
@@ -6813,7 +6813,7 @@
       "properties": {},
       "icon": "face-agent",
       "categories": [
-        "Misc"
+        "Business"
       ],
       "interfaces": [
         {
