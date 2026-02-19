@@ -6035,6 +6035,434 @@
         "y": 0
       },
       "metadata": {}
+    },
+    {
+      "id": "region-template",
+      "name": "Region",
+      "type": "Region",
+      "properties": {},
+      "icon": "flag",
+      "categories": [
+        "Estate"
+      ],
+      "interfaces": [
+        {
+          "id": "campuses",
+          "name": "Campuses",
+          "type": "physical",
+          "direction": "input",
+          "position": "right",
+          "rules": {},
+          "metadata": {},
+          "icon": "city"
+        }
+      ],
+      "nestedSystemId": null,
+      "position": {
+        "x": 0,
+        "y": 0
+      },
+      "metadata": {}
+    },
+    {
+      "id": "campus-template",
+      "name": "Campus",
+      "type": "Campus",
+      "properties": {},
+      "icon": "city",
+      "categories": [
+        "Estate"
+      ],
+      "interfaces": [
+        {
+          "id": "sites",
+          "name": "Sites",
+          "type": "physical",
+          "direction": "input",
+          "position": "right",
+          "rules": {},
+          "metadata": {},
+          "icon": "domain"
+        },
+        {
+          "id": "region",
+          "name": "Region",
+          "type": "physical",
+          "direction": "output",
+          "position": "left",
+          "rules": {},
+          "metadata": {},
+          "icon": "flag"
+        }
+      ],
+      "nestedSystemId": null,
+      "position": {
+        "x": 0,
+        "y": 0
+      },
+      "metadata": {}
+    },
+    {
+      "id": "site-template",
+      "name": "Site",
+      "type": "Site",
+      "properties": {},
+      "icon": "domain",
+      "categories": [
+        "Estate"
+      ],
+      "interfaces": [
+        {
+          "id": "campus",
+          "name": "Campus",
+          "type": "physical",
+          "direction": "output",
+          "position": "left",
+          "rules": {},
+          "metadata": {},
+          "icon": "city"
+        },
+        {
+          "id": "buildings",
+          "name": "Buildings",
+          "type": "physical",
+          "direction": "input",
+          "position": "right",
+          "rules": {},
+          "metadata": {},
+          "icon": "office-building"
+        }
+      ],
+      "nestedSystemId": null,
+      "position": {
+        "x": 0,
+        "y": 0
+      },
+      "metadata": {}
+    },
+    {
+      "id": "building-template",
+      "name": "Building",
+      "type": "Building",
+      "properties": {},
+      "icon": "office-building",
+      "categories": [
+        "Estate"
+      ],
+      "interfaces": [
+        {
+          "id": "site",
+          "name": "Site",
+          "type": "physical",
+          "direction": "output",
+          "position": "left",
+          "rules": {},
+          "metadata": {},
+          "icon": "domain"
+        },
+        {
+          "id": "floors",
+          "name": "Floors",
+          "type": "physical",
+          "direction": "input",
+          "position": "right",
+          "rules": {},
+          "metadata": {},
+          "icon": "stairs"
+        }
+      ],
+      "nestedSystemId": null,
+      "position": {
+        "x": 0,
+        "y": 0
+      },
+      "metadata": {}
+    },
+    {
+      "id": "floor-template",
+      "name": "Floor",
+      "type": "Floor",
+      "properties": {},
+      "icon": "stairs",
+      "categories": [
+        "Estate"
+      ],
+      "interfaces": [
+        {
+          "id": "building",
+          "name": "Building",
+          "type": "physical",
+          "direction": "output",
+          "position": "left",
+          "rules": {},
+          "metadata": {},
+          "icon": "office-building"
+        },
+        {
+          "id": "rooms",
+          "name": "Rooms",
+          "type": "physical",
+          "direction": "input",
+          "position": "right",
+          "rules": {},
+          "metadata": {},
+          "icon": "door"
+        }
+      ],
+      "nestedSystemId": null,
+      "position": {
+        "x": 0,
+        "y": 0
+      },
+      "metadata": {}
+    },
+    {
+      "id": "room-template",
+      "name": "Room",
+      "type": "Room",
+      "properties": {},
+      "icon": "door",
+      "categories": [
+        "Estate"
+      ],
+      "interfaces": [
+        {
+          "id": "floor",
+          "name": "Floor",
+          "type": "physical",
+          "direction": "output",
+          "position": "left",
+          "rules": {},
+          "metadata": {},
+          "icon": "stairs"
+        },
+        {
+          "id": "contents",
+          "name": "Contents",
+          "type": "physical",
+          "direction": "input",
+          "position": "right",
+          "rules": {},
+          "metadata": {},
+          "icon": "component"
+        }
+      ],
+      "nestedSystemId": null,
+      "position": {
+        "x": 0,
+        "y": 0
+      },
+      "metadata": {}
+    },
+    {
+      "id": "plant-room-template",
+      "name": "Plant Room",
+      "type": "Plant Room",
+      "properties": {},
+      "icon": "hvac",
+      "categories": [
+        "Estate"
+      ],
+      "interfaces": [
+        {
+          "id": "floor",
+          "name": "Floor",
+          "type": "physical",
+          "direction": "output",
+          "position": "left",
+          "rules": {},
+          "metadata": {},
+          "icon": "stairs"
+        },
+        {
+          "id": "plant",
+          "name": "Plant",
+          "type": "physical",
+          "direction": "input",
+          "position": "right",
+          "rules": {},
+          "metadata": {},
+          "icon": "fan"
+        }
+      ],
+      "nestedSystemId": null,
+      "position": {
+        "x": 0,
+        "y": 0
+      },
+      "metadata": {}
+    },
+    {
+      "id": "factory-floor-template",
+      "name": "Factory Floor",
+      "type": "Factory Floor",
+      "properties": {},
+      "icon": "factory",
+      "categories": [
+        "Estate"
+      ],
+      "interfaces": [
+        {
+          "id": "building",
+          "name": "Building",
+          "type": "physical",
+          "direction": "output",
+          "position": "left",
+          "rules": {},
+          "metadata": {},
+          "icon": "office-building"
+        },
+        {
+          "id": "workstations",
+          "name": "Workstations",
+          "type": "physical",
+          "direction": "input",
+          "position": "right",
+          "rules": {},
+          "metadata": {},
+          "icon": "desk"
+        }
+      ],
+      "nestedSystemId": null,
+      "position": {
+        "x": 0,
+        "y": 0
+      },
+      "metadata": {}
+    },
+    {
+      "id": "workstation-template",
+      "name": "Workstation",
+      "type": "Workstation",
+      "properties": {},
+      "icon": "desk",
+      "categories": [
+        "Estate"
+      ],
+      "interfaces": [
+        {
+          "id": "location",
+          "name": "Location",
+          "type": "physical",
+          "direction": "output",
+          "position": "left",
+          "rules": {},
+          "metadata": {},
+          "icon": "door"
+        },
+        {
+          "id": "tools",
+          "name": "Tools",
+          "type": "physical",
+          "direction": "input",
+          "position": "right",
+          "rules": {},
+          "metadata": {},
+          "icon": "tools"
+        }
+      ],
+      "nestedSystemId": null,
+      "position": {
+        "x": 0,
+        "y": 0
+      },
+      "metadata": {}
+    },
+    {
+      "id": "laboratory-template",
+      "name": "Laboratory",
+      "type": "Laboratory",
+      "properties": {},
+      "icon": "flask",
+      "categories": [
+        "Estate"
+      ],
+      "interfaces": [
+        {
+          "id": "floor",
+          "name": "Floor",
+          "type": "physical",
+          "direction": "output",
+          "position": "left",
+          "rules": {},
+          "metadata": {},
+          "icon": "stairs"
+        },
+        {
+          "id": "tools",
+          "name": "Tools",
+          "type": "physical",
+          "direction": "input",
+          "position": "right",
+          "rules": {},
+          "metadata": {},
+          "icon": "tools"
+        },
+        {
+          "id": "instrumentation",
+          "name": "Instrumentation",
+          "type": "physical",
+          "direction": "input",
+          "position": "right",
+          "rules": {},
+          "metadata": {},
+          "icon": "scale"
+        }
+      ],
+      "nestedSystemId": null,
+      "position": {
+        "x": 0,
+        "y": 0
+      },
+      "metadata": {}
+    },
+    {
+      "id": "cleanroom-template",
+      "name": "Cleanroom",
+      "type": "Cleanroom",
+      "properties": {},
+      "icon": "biohazard",
+      "categories": [
+        "Estate"
+      ],
+      "interfaces": [
+        {
+          "id": "floor",
+          "name": "Floor",
+          "type": "physical",
+          "direction": "output",
+          "position": "left",
+          "rules": {},
+          "metadata": {},
+          "icon": "stairs"
+        },
+        {
+          "id": "tools",
+          "name": "Tools",
+          "type": "physical",
+          "direction": "input",
+          "position": "right",
+          "rules": {},
+          "metadata": {},
+          "icon": "tools"
+        },
+        {
+          "id": "instrumentation",
+          "name": "Instrumentation",
+          "type": "physical",
+          "direction": "input",
+          "position": "right",
+          "rules": {},
+          "metadata": {},
+          "icon": "scale"
+        }
+      ],
+      "nestedSystemId": null,
+      "position": {
+        "x": 0,
+        "y": 0
+      },
+      "metadata": {}
     }
   ]
 }
