@@ -28,6 +28,14 @@ const NODE_WIDTH = 120
 const NODE_HEIGHT = 80
 const PASTE_OFFSET = { x: 40, y: 40 }
 
+// Configurable axis overlay labels
+const AXIS_LABELS = {
+  yBottom: 'Less Abstract',
+  yTop: 'More Abstract',
+  xLeft: 'Closer to People',
+  xRight: 'Further from People'
+}
+
 const panOnDrag = computed(() => (spacePressed.value ? [0, 1, 2] : [1, 2]))
 
 // Watch for system changes and update canvas
@@ -535,6 +543,19 @@ onUnmounted(() => {
         <CustomEdge v-bind="edgeProps" />
       </template>
     </VueFlow>
+
+    <div class="canvas-axis-overlays" aria-hidden="true">
+      <div class="axis-overlay axis-y">
+        <div class="axis-gradient axis-gradient-y"></div>
+        <span class="axis-label axis-label-y-bottom">{{ AXIS_LABELS.yBottom }}</span>
+        <span class="axis-label axis-label-y-top">{{ AXIS_LABELS.yTop }}</span>
+      </div>
+      <div class="axis-overlay axis-x">
+        <div class="axis-gradient axis-gradient-x"></div>
+        <span class="axis-label axis-label-x-left">{{ AXIS_LABELS.xLeft }}</span>
+        <span class="axis-label axis-label-x-right">{{ AXIS_LABELS.xRight }}</span>
+      </div>
+    </div>
   </div>
 </template>
 
@@ -548,6 +569,112 @@ onUnmounted(() => {
 .vue-flow-system {
   width: 100%;
   height: 100%;
+}
+
+/* Axis overlays: non-interactive, fixed to left and bottom */
+.canvas-axis-overlays {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  z-index: 5;
+}
+
+.axis-overlay {
+  position: absolute;
+}
+
+.axis-gradient {
+  position: absolute;
+  border-radius: 4px;
+}
+
+/* Y axis: left side, gradient bottom (neutral) → top (green) */
+.axis-y {
+  left: 0;
+  top: 0;
+  bottom: 0;
+  width: 28px;
+}
+
+.axis-gradient-y {
+  left: 4px;
+  top: 32px;
+  bottom: 32px;
+  width: 12px;
+  background: linear-gradient(to top, #1F6B66, #fff);
+}
+
+.axis-label-y-bottom,
+.axis-label-y-top {
+  position: absolute;
+  left: 0;
+  width: 120px;
+  font-size: 11px;
+  color: #555;
+  white-space: nowrap;
+  transform-origin: left center;
+  transform: rotate(-90deg);
+}
+
+.axis-label-y-bottom {
+  bottom: 8px;
+  left: 4px;
+  text-align: left;
+}
+
+.axis-label-y-top {
+  top: 8px;
+  left: 4px;
+  transform: rotate(90deg);
+  transform-origin: left center;
+}
+
+/* X axis: bottom, gradient left (neutral) → right (green) */
+.axis-x {
+  left: 0;
+  right: 0;
+  bottom: 0;
+  height: 28px;
+}
+
+.axis-gradient-x {
+  left: 32px;
+  right: 32px;
+  bottom: 4px;
+  height: 12px;
+  background: linear-gradient(to right, #fff, #1F6B66);
+}
+
+.axis-label-x-left,
+.axis-label-x-right {
+  position: absolute;
+  bottom: 4px;
+  font-size: 11px;
+  color: #555;
+}
+
+.axis-label-x-left {
+  left: 8px;
+}
+
+.axis-label-x-right {
+  right: 8px;
+}
+
+/* Dark theme: gradient from dark to green */
+html[data-theme='dark'] .axis-gradient-y {
+  background: linear-gradient(to top, #1F6B66, #2d2d2d);
+}
+
+html[data-theme='dark'] .axis-gradient-x {
+  background: linear-gradient(to right, #2d2d2d, #1F6B66);
+}
+
+html[data-theme='dark'] .axis-label-y-bottom,
+html[data-theme='dark'] .axis-label-y-top,
+html[data-theme='dark'] .axis-label-x-left,
+html[data-theme='dark'] .axis-label-x-right {
+  color: #b0b0b0;
 }
 </style>
 
