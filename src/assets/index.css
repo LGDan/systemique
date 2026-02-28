@@ -789,6 +789,43 @@ html[data-theme='dark'] .complexity-review .complexity-empty {
   color: #999;
 }
 
+/* CONOPS Manager */
+html[data-theme='dark'] .conops-manager-panel .conops-header-text h2 {
+  color: #e0e0e0;
+}
+
+html[data-theme='dark'] .conops-manager-panel .conops-description {
+  color: #999;
+}
+
+html[data-theme='dark'] .conops-manager-panel .horizon-tab {
+  background: #2d2d2d;
+  border-color: #444;
+  color: #b0b0b0;
+}
+
+html[data-theme='dark'] .conops-manager-panel .horizon-tab:hover {
+  background: #3a3a3a;
+  color: #e0e0e0;
+}
+
+html[data-theme='dark'] .conops-manager-panel .horizon-tab.active {
+  background: #31817c;
+  color: white;
+  border-color: #31817c;
+}
+
+html[data-theme='dark'] .conops-manager-panel .conops-empty {
+  background: #2d2d2d;
+  border-color: #444;
+  color: #999;
+}
+
+html[data-theme='dark'] .conops-manager-panel .table-container {
+  background: #2d2d2d;
+  border-color: #444;
+}
+
 html[data-theme='dark'] .audit-header h2 {
   color: #e0e0e0;
 }

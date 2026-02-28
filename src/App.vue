@@ -11,6 +11,7 @@ import RulesEditor from './components/RulesEditor.vue'
 import SecurityPanel from './components/SecurityPanel.vue'
 import ArchitectureLibrary from './components/ArchitectureLibrary.vue'
 import BOMManagerPanel from './components/BOMManagerPanel.vue'
+import CONOPSManagerPanel from './components/CONOPSManagerPanel.vue'
 import MenuBar from './components/MenuBar.vue'
 import Toast from './components/Toast.vue'
 import { useSystemStore } from './stores/systemStore.js'
@@ -395,6 +396,13 @@ function handleArrangeAlignVertical(mode) {
           >
             BOM Manager
           </button>
+          <button
+            type="button"
+            @click="activeTab = 'conops'"
+            :class="['tab-button', { active: activeTab === 'conops' }]"
+          >
+            CONOPS Manager
+          </button>
         </div>
       </div>
       <div v-if="currentTip" class="header-tip">
@@ -447,6 +455,10 @@ function handleArrangeAlignVertical(mode) {
 
     <div v-else-if="activeTab === 'bom'" class="app-content bom-content">
       <BOMManagerPanel />
+    </div>
+
+    <div v-else-if="activeTab === 'conops'" class="app-content conops-content">
+      <CONOPSManagerPanel />
     </div>
 
     <GroupDialog
@@ -629,7 +641,8 @@ function handleArrangeAlignVertical(mode) {
 
 .rules-content,
 .library-content,
-.bom-content {
+.bom-content,
+.conops-content {
   display: flex;
   flex-direction: column;
 }
