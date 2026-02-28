@@ -222,6 +222,7 @@ import {
   mdiChartBubble,
   mdiCalculator,
   mdiCalculatorVariant,
+  mdiRadioTower,
 } from '@mdi/js'
 
 /**
@@ -253,6 +254,7 @@ export const iconRegistry = {
   'access-point': mdiAccessPoint,
   'bluetooth': mdiBluetooth,
   'signal-cellular-3': mdiSignalCellular3,
+  'radio-tower': mdiRadioTower,
 
   // Storage & Data
   'database': mdiDatabase,
