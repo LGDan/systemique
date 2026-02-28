@@ -2659,7 +2659,9 @@
         "maxSpeed": "5Gbps"
       },
       "icon": "usb-cable",
-      "categories": ["Cable - Data", "Data"],
+      "categories": [
+        "Cable - Data"
+      ],
       "interfaces": [
         {
           "id": "usb-a-end",
@@ -2696,7 +2698,9 @@
         "maxSpeed": "10Gbps"
       },
       "icon": "usb-cable",
-      "categories": ["Cable - Data", "Data"],
+      "categories": [
+        "Cable - Data"
+      ],
       "interfaces": [
         {
           "id": "usb-c-end-a",
@@ -4372,9 +4376,7 @@
       "properties": {},
       "icon": "table-column",
       "categories": [
-        "Hardware",
-        "Storage",
-        "Data"
+        "Data Storage"
       ],
       "interfaces": [
         {
@@ -4442,9 +4444,7 @@
       "properties": {},
       "icon": "folder",
       "categories": [
-        "Hardware",
-        "Storage",
-        "Data"
+        "Software - Storage"
       ],
       "interfaces": [
         {
@@ -4905,9 +4905,7 @@
       "properties": {},
       "icon": "database",
       "categories": [
-        "Software",
-        "Storage",
-        "Data"
+        "Software - Storage"
       ],
       "interfaces": [
         {
@@ -4955,9 +4953,7 @@
       "properties": {},
       "icon": "database",
       "categories": [
-        "Software",
-        "Storage",
-        "Data"
+        "Cloud - Storage"
       ],
       "interfaces": [
         {
@@ -5035,9 +5031,7 @@
       "properties": {},
       "icon": "cloud",
       "categories": [
-        "Software",
-        "Storage",
-        "Data"
+        "Cloud - Storage"
       ],
       "interfaces": [
         {
@@ -5065,9 +5059,7 @@
       "properties": {},
       "icon": "cloud",
       "categories": [
-        "Software",
-        "Storage",
-        "Data"
+        "Cloud - Storage"
       ],
       "interfaces": [
         {
@@ -5095,9 +5087,7 @@
       "properties": {},
       "icon": "server-rack",
       "categories": [
-        "Software",
-        "Storage",
-        "Data"
+        "Storage"
       ],
       "interfaces": [
         {
@@ -5125,9 +5115,7 @@
       "properties": {},
       "icon": "server-rack",
       "categories": [
-        "Software",
-        "Storage",
-        "Data"
+        "Software - Storage"
       ],
       "interfaces": [
         {
@@ -5155,9 +5143,7 @@
       "properties": {},
       "icon": "server-rack",
       "categories": [
-        "Software",
-        "Storage",
-        "Data"
+        "Data Storage"
       ],
       "interfaces": [
         {
@@ -5185,7 +5171,7 @@
       "properties": {},
       "icon": "person",
       "categories": [
-        "Misc"
+        "People"
       ],
       "interfaces": [
         {
@@ -5697,7 +5683,7 @@
       "properties": {},
       "icon": "keyboard",
       "categories": [
-        "Misc"
+        "Hardware - Peripherals"
       ],
       "interfaces": [
         {
@@ -5735,7 +5721,7 @@
       "properties": {},
       "icon": "mouse",
       "categories": [
-        "Misc"
+        "Hardware - Peripherals"
       ],
       "interfaces": [
         {
@@ -5773,7 +5759,7 @@
       "properties": {},
       "icon": "webcam",
       "categories": [
-        "Misc"
+        "Hardware - Peripherals"
       ],
       "interfaces": [
         {
@@ -5811,7 +5797,7 @@
       "properties": {},
       "icon": "file-code",
       "categories": [
-        "Misc"
+        "Configuration"
       ],
       "interfaces": [
         {
@@ -5859,7 +5845,7 @@
       "properties": {},
       "icon": "cog",
       "categories": [
-        "Misc"
+        "Configuration"
       ],
       "interfaces": [
         {
@@ -5887,7 +5873,7 @@
       "properties": {},
       "icon": "web",
       "categories": [
-        "Misc"
+        "Software - Servers"
       ],
       "interfaces": [
         {
@@ -5965,7 +5951,7 @@
       "properties": {},
       "icon": "web",
       "categories": [
-        "Misc"
+        "Software - Servers"
       ],
       "interfaces": [
         {
