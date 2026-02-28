@@ -546,9 +546,9 @@ onUnmounted(() => {
 
     <div class="canvas-axis-overlays" aria-hidden="true">
       <div class="axis-float axis-float-y">
-        <span class="axis-label axis-label-y-top">{{ AXIS_LABELS.yTop }}</span>
+        <span class="axis-label axis-label-y-top"><span class="axis-label-text">{{ AXIS_LABELS.yTop }}</span></span>
         <div class="axis-gradient axis-gradient-y"></div>
-        <span class="axis-label axis-label-y-bottom">{{ AXIS_LABELS.yBottom }}</span>
+        <span class="axis-label axis-label-y-bottom"><span class="axis-label-text">{{ AXIS_LABELS.yBottom }}</span></span>
       </div>
       <div class="axis-float axis-float-x">
         <span class="axis-label axis-label-x-left">{{ AXIS_LABELS.xLeft }}</span>
@@ -595,39 +595,61 @@ onUnmounted(() => {
   display: flex;
   flex-direction: column;
   align-items: center;
-  padding: 10px 0;
+  padding: 0;
 }
 
 .axis-label-y-top {
+  flex-shrink: 0;
+  height: 22px;
+  width: 32px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+  overflow: visible;
+}
+
+.axis-label-y-top .axis-label-text {
   position: absolute;
-  top: 10px;
-  left: 0;
+  left: 50%;
   width: 120px;
+  text-align: center;
+  white-space: nowrap;
   font-size: 11px;
   color: #555;
-  white-space: nowrap;
-  transform-origin: left center;
-  transform: rotate(90deg);
+  transform: translateX(-50%) rotate(90deg);
+  transform-origin: center center;
 }
 
 .axis-gradient-y {
   flex: 1;
-  min-height: 48px;
+  min-height: 0;
   width: 12px;
   border-radius: 6px;
   background: linear-gradient(to top, #1F6B66, #fff);
 }
 
 .axis-label-y-bottom {
+  flex-shrink: 0;
+  height: 22px;
+  width: 32px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+  overflow: visible;
+}
+
+.axis-label-y-bottom .axis-label-text {
   position: absolute;
-  bottom: 10px;
-  left: 0;
+  left: 50%;
   width: 120px;
+  text-align: center;
+  white-space: nowrap;
   font-size: 11px;
   color: #555;
-  white-space: nowrap;
-  transform-origin: left center;
-  transform: rotate(-90deg);
+  transform: translateX(-50%) rotate(-90deg);
+  transform-origin: center center;
 }
 
 /* X axis: bottom — label, gradient (middle), label */
@@ -678,8 +700,8 @@ html[data-theme='dark'] .axis-gradient-x {
   background: linear-gradient(to right, #2d2d2d, #1F6B66);
 }
 
-html[data-theme='dark'] .axis-label-y-bottom,
-html[data-theme='dark'] .axis-label-y-top,
+html[data-theme='dark'] .axis-label-y-bottom .axis-label-text,
+html[data-theme='dark'] .axis-label-y-top .axis-label-text,
 html[data-theme='dark'] .axis-label-x-left,
 html[data-theme='dark'] .axis-label-x-right {
   color: #b0b0b0;
