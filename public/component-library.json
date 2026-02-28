@@ -21,8 +21,7 @@
       "properties": {},
       "icon": "server",
       "categories": [
-        "Hardware",
-        "Compute"
+        "Hardware - Compute"
       ],
       "interfaces": [
         {
@@ -141,8 +140,7 @@
       "properties": {},
       "icon": "switch",
       "categories": [
-        "Hardware",
-        "Network"
+        "Hardware - Network"
       ],
       "interfaces": [
         {
@@ -1171,8 +1169,7 @@
       "properties": {},
       "icon": "switch",
       "categories": [
-        "Hardware",
-        "Network"
+        "Hardware - Network"
       ],
       "interfaces": [
         {
@@ -1920,8 +1917,7 @@
       "properties": {},
       "icon": "rack",
       "categories": [
-        "Hardware",
-        "Infrastructure"
+        "Hardware - Infrastructure"
       ],
       "interfaces": [
         {
@@ -2929,7 +2925,7 @@
       "type": "SATA HDD",
       "properties": {},
       "icon": "harddisk",
-      "categories": ["Hardware", "Storage"],
+      "categories": ["Hardware - Storage"],
       "interfaces": [
         {
           "id": "sata-in",
@@ -2962,7 +2958,7 @@
       "type": "SATA SSD",  
       "properties": {},
       "icon": "chip",
-      "categories": ["Hardware", "Storage"],
+      "categories": ["Hardware - Storage"],
       "interfaces": [
         {
           "id": "sata-in",
@@ -3209,8 +3205,7 @@
       },
       "icon": "power-cable",
       "categories": [
-        "Cable - Power",
-        "Power"
+        "Cable - Power"
       ],
       "interfaces": [
         {
@@ -3278,8 +3273,7 @@
       "properties": {},
       "icon": "server",
       "categories": [
-        "Hardware",
-        "Compute"
+        "Hardware - Compute"
       ],
       "interfaces": [
         {
@@ -3427,8 +3421,7 @@
       "properties": {},
       "icon": "server",
       "categories": [
-        "Hardware",
-        "Compute"
+        "Hardware - Compute"
       ],
       "interfaces": [
         {
@@ -3496,8 +3489,7 @@
       "properties": {},
       "icon": "access-point",
       "categories": [
-        "Hardware",
-        "Compute"
+        "Hardware - Network"
       ],
       "interfaces": [
         {
@@ -3613,7 +3605,7 @@
       "properties": {},
       "icon": "application",
       "categories": [
-        "Hardware"
+        "Software - Applications"
       ],
       "interfaces": [
         {
@@ -3857,8 +3849,7 @@
       "properties": {},
       "icon": "database",
       "categories": [
-        "Software",
-        "Compute"
+        "Software - Containers"
       ],
       "interfaces": [
         {
@@ -3916,8 +3907,7 @@
       "properties": {},
       "icon": "package-variant-closed",
       "categories": [
-        "Software",
-        "Compute"
+        "Software - Containers"
       ],
       "interfaces": [
         {
@@ -3955,8 +3945,7 @@
       "properties": {},
       "icon": "package-variant-closed",
       "categories": [
-        "Software",
-        "Compute"
+        "Software - Containers"
       ],
       "interfaces": [
         {
@@ -3994,8 +3983,7 @@
       "properties": {},
       "icon": "engine",
       "categories": [
-        "Software",
-        "Compute"
+        "Software - Containers"
       ],
       "interfaces": [
         {
@@ -4033,8 +4021,7 @@
       "properties": {},
       "icon": "engine",
       "categories": [
-        "Software",
-        "Compute"
+        "Software - Compute"
       ],
       "interfaces": [
         {
@@ -4072,8 +4059,7 @@
       "properties": {},
       "icon": "application",
       "categories": [
-        "Software",
-        "Compute"
+        "Software"
       ],
       "interfaces": [
         {
@@ -4111,7 +4097,7 @@
       "properties": {},
       "icon": "application-braces",
       "categories": [
-        "Hardware"
+        "Software - Applications"
       ],
       "interfaces": [
         {
@@ -4163,8 +4149,7 @@
       },
       "icon": "circle-box",
       "categories": [
-        "Cable",
-        "Network"
+        "Cable - Network"
       ],
       "interfaces": [
         {
@@ -4264,8 +4249,7 @@
       "properties": {},
       "icon": "circle-box",
       "categories": [
-        "Cable - Power",
-        "Power"
+        "Cable - Power"
       ],
       "interfaces": [
         {
@@ -4317,8 +4301,7 @@
       },
       "icon": "circle-box",
       "categories": [
-        "Cable - Network",
-        "Network"
+        "Cable - Network"
       ],
       "interfaces": [
         {
@@ -4512,8 +4495,7 @@
       "properties": {},
       "icon": "expansion-card-variant",
       "categories": [
-        "Hardware",
-        "Network"
+        "Hardware - Network"
       ],
       "interfaces": [
         {
@@ -4561,8 +4543,7 @@
       "properties": {},
       "icon": "harddisk",
       "categories": [
-        "Hardware",
-        "Storage"
+        "Hardware - Storage"
       ],
       "interfaces": [
         {
