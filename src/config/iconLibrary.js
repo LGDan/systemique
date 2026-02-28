@@ -220,6 +220,8 @@ import {
   mdiGraph,
   mdiChartArc,
   mdiChartBubble,
+  mdiCalculator,
+  mdiCalculatorVariant,
 } from '@mdi/js'
 
 /**
@@ -463,6 +465,8 @@ export const iconRegistry = {
   'code-json': mdiCodeJson,
   'select-group': mdiSelectGroup,
   'file-send': mdiFileSend,
+  'calculator': mdiCalculator,
+  'calculator-variant': mdiCalculatorVariant,
 
   // Data Viz
   'chart-bar': mdiChartBar,
