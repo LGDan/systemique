@@ -6843,6 +6843,34 @@
         "y": 0
       },
       "metadata": {}
+    },
+    {
+      "id": "model-note-template",
+      "name": "Model Note",
+      "type": "note",
+      "properties": {},
+      "icon": "note",
+      "categories": [
+        "Misc"
+      ],
+      "interfaces": [
+        {
+          "id": "link",
+          "name": "Link",
+          "type": "physical",
+          "direction": "output",
+          "position": "bottom",
+          "rules": {},
+          "metadata": {},
+          "icon": "note-text"
+        }
+      ],
+      "nestedSystemId": null,
+      "position": {
+        "x": 0,
+        "y": 0
+      },
+      "metadata": {}
     }
   ]
 }
