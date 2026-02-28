@@ -3,20 +3,34 @@ import { computed, ref } from 'vue'
 import { useSystemStore } from '../stores/systemStore.js'
 import { useBomManagerStore } from '../stores/bomManagerStore.js'
 import { useToastStore } from '../stores/toastStore.js'
-import { generateBOM } from '../utils/bomGenerator.js'
 
 const systemStore = useSystemStore()
 const bomStore = useBomManagerStore()
 const toastStore = useToastStore()
 const importFileInputRef = ref(null)
+const expandedTypes = ref(new Set())
 
-const bom = computed(() => {
+/** BOM grouped by type only; each group has type, quantity, and instances (name, description). */
+const typeGroups = computed(() => {
   const system = systemStore.currentSystem
-  if (!system) return null
-  return generateBOM(system)
+  if (!system?.components?.length) return []
+  const byType = new Map()
+  system.components.forEach(comp => {
+    const type = comp.type ?? 'generic'
+    if (!byType.has(type)) {
+      byType.set(type, { type, quantity: 0, instances: [] })
+    }
+    const group = byType.get(type)
+    group.quantity += 1
+    group.instances.push({
+      name: comp.name ?? '',
+      description: comp.description ?? ''
+    })
+  })
+  return Array.from(byType.values())
 })
 
-const rows = computed(() => bom.value?.components ?? [])
+const rows = computed(() => typeGroups.value)
 
 const stats = computed(() => {
   const components = rows.value
@@ -119,6 +133,17 @@ function formatCurrency(value) {
   const s = bomStore.currency.symbol
   return `${s}${Number(value).toLocaleString(undefined, { minimumFractionDigits: 0, maximumFractionDigits: 2 })}`
 }
+
+function toggleExpanded(type) {
+  const next = new Set(expandedTypes.value)
+  if (next.has(type)) next.delete(type)
+  else next.add(type)
+  expandedTypes.value = next
+}
+
+function isExpanded(type) {
+  return expandedTypes.value.has(type)
+}
 </script>
 
 <template>
@@ -209,6 +234,7 @@ function formatCurrency(value) {
         <table class="audit-table">
           <thead>
             <tr>
+              <th class="col-expand"></th>
               <th>Name</th>
               <th>Type</th>
               <th>Quantity</th>
@@ -217,55 +243,88 @@ function formatCurrency(value) {
               <th>Shipping lead (days)</th>
               <th>Implementation lead (days)</th>
               <th>Line total</th>
+              <th>Description</th>
             </tr>
           </thead>
           <tbody>
-            <tr v-for="(row, index) in rows" :key="index">
-              <td class="cell-name">{{ row.name }}</td>
-              <td class="cell-type">{{ row.type }}</td>
-              <td class="cell-quantity">{{ row.quantity }}</td>
-              <td class="cell-editable">
-                <input
-                  type="number"
-                  min="0"
-                  step="any"
-                  :value="getTypeData(row.type).pricePerUnit"
-                  @input="updateTypeField(row.type, 'pricePerUnit', ($event.target).value)"
-                  class="bom-input"
-                />
-              </td>
-              <td class="cell-editable">
-                <input
-                  type="number"
-                  min="0"
-                  step="any"
-                  :value="getTypeData(row.type).implementationCost"
-                  @input="updateTypeField(row.type, 'implementationCost', ($event.target).value)"
-                  class="bom-input"
-                />
-              </td>
-              <td class="cell-editable">
-                <input
-                  type="number"
-                  min="0"
-                  step="1"
-                  :value="getTypeData(row.type).shippingLeadTime"
-                  @input="updateTypeField(row.type, 'shippingLeadTime', ($event.target).value)"
-                  class="bom-input"
-                />
-              </td>
-              <td class="cell-editable">
-                <input
-                  type="number"
-                  min="0"
-                  step="1"
-                  :value="getTypeData(row.type).implementationLeadTime"
-                  @input="updateTypeField(row.type, 'implementationLeadTime', ($event.target).value)"
-                  class="bom-input"
-                />
-              </td>
-              <td class="cell-total">{{ formatCurrency((row.quantity || 0) * (getTypeData(row.type).pricePerUnit || 0)) }}</td>
-            </tr>
+            <template v-for="(row, index) in rows" :key="row.type">
+              <!-- Type summary row -->
+              <tr class="bom-type-row">
+                <td class="cell-expand">
+                  <button
+                    type="button"
+                    class="bom-expand-btn"
+                    :class="{ expanded: isExpanded(row.type) }"
+                    :aria-label="isExpanded(row.type) ? 'Collapse' : 'Expand'"
+                    @click="toggleExpanded(row.type)"
+                  >
+                    <span class="bom-expand-icon" aria-hidden="true">▶</span>
+                  </button>
+                </td>
+                <td class="cell-name">{{ row.type }}</td>
+                <td class="cell-type">{{ row.type }}</td>
+                <td class="cell-quantity">{{ row.quantity }}</td>
+                <td class="cell-editable">
+                  <input
+                    type="number"
+                    min="0"
+                    step="any"
+                    :value="getTypeData(row.type).pricePerUnit"
+                    @input="updateTypeField(row.type, 'pricePerUnit', ($event.target).value)"
+                    class="bom-input"
+                  />
+                </td>
+                <td class="cell-editable">
+                  <input
+                    type="number"
+                    min="0"
+                    step="any"
+                    :value="getTypeData(row.type).implementationCost"
+                    @input="updateTypeField(row.type, 'implementationCost', ($event.target).value)"
+                    class="bom-input"
+                  />
+                </td>
+                <td class="cell-editable">
+                  <input
+                    type="number"
+                    min="0"
+                    step="1"
+                    :value="getTypeData(row.type).shippingLeadTime"
+                    @input="updateTypeField(row.type, 'shippingLeadTime', ($event.target).value)"
+                    class="bom-input"
+                  />
+                </td>
+                <td class="cell-editable">
+                  <input
+                    type="number"
+                    min="0"
+                    step="1"
+                    :value="getTypeData(row.type).implementationLeadTime"
+                    @input="updateTypeField(row.type, 'implementationLeadTime', ($event.target).value)"
+                    class="bom-input"
+                  />
+                </td>
+                <td class="cell-total">{{ formatCurrency((row.quantity || 0) * (getTypeData(row.type).pricePerUnit || 0)) }}</td>
+                <td class="cell-desc"></td>
+              </tr>
+              <!-- Instance rows when expanded -->
+              <tr
+                v-for="(inst, i) in (isExpanded(row.type) ? row.instances : [])"
+                :key="`${row.type}-${i}`"
+                class="bom-instance-row"
+              >
+                <td class="cell-expand"></td>
+                <td class="cell-name cell-instance-name">{{ inst.name }}</td>
+                <td class="cell-type"></td>
+                <td class="cell-quantity">1</td>
+                <td class="cell-editable"></td>
+                <td class="cell-editable"></td>
+                <td class="cell-editable"></td>
+                <td class="cell-editable"></td>
+                <td class="cell-total"></td>
+                <td class="cell-desc cell-instance-desc">{{ inst.description }}</td>
+              </tr>
+            </template>
           </tbody>
         </table>
       </div>
@@ -440,6 +499,75 @@ function formatCurrency(value) {
   font-size: 11px;
   text-transform: uppercase;
   letter-spacing: 0.5px;
+}
+
+.col-expand {
+  width: 36px;
+  padding: 8px;
+  vertical-align: middle;
+}
+
+.cell-expand {
+  width: 36px;
+  padding: 6px 8px;
+  vertical-align: middle;
+}
+
+.bom-expand-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 24px;
+  height: 24px;
+  padding: 0;
+  border: none;
+  border-radius: 4px;
+  background: transparent;
+  color: #555;
+  cursor: pointer;
+  transition: background 0.15s, color 0.15s, transform 0.2s;
+}
+
+.bom-expand-btn:hover {
+  background: #eee;
+  color: #333;
+}
+
+.bom-expand-icon {
+  display: inline-block;
+  font-size: 10px;
+  transition: transform 0.2s;
+}
+
+.bom-expand-btn.expanded .bom-expand-icon {
+  transform: rotate(90deg);
+}
+
+.bom-type-row {
+  background: #fff;
+}
+
+.bom-instance-row {
+  background: #fafafa;
+}
+
+.bom-instance-row .cell-instance-name {
+  padding-left: 28px;
+  font-weight: 400;
+  color: #555;
+}
+
+.cell-desc {
+  max-width: 240px;
+  font-size: 11px;
+  color: #666;
+  line-height: 1.35;
+}
+
+.cell-instance-desc {
+  color: #666;
+  white-space: pre-wrap;
+  word-break: break-word;
 }
 
 .audit-table td {
