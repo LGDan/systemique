@@ -756,8 +756,37 @@ html[data-theme='dark'] .nav-item:hover {
 
 /* Security reporting – Interface Access Audit & Boundary Audit */
 html[data-theme='dark'] .interface-access-audit,
-html[data-theme='dark'] .boundary-audit {
+html[data-theme='dark'] .boundary-audit,
+html[data-theme='dark'] .complexity-review {
   background: transparent;
+}
+
+html[data-theme='dark'] .complexity-review .chart-section {
+  background: #2d2d2d;
+  border-color: #444;
+}
+
+html[data-theme='dark'] .complexity-review .chart-title {
+  color: #e0e0e0;
+}
+
+html[data-theme='dark'] .complexity-review .chart-label,
+html[data-theme='dark'] .complexity-review .chart-value {
+  color: #e0e0e0;
+}
+
+html[data-theme='dark'] .complexity-review .chart-bar-track {
+  background: #444;
+}
+
+html[data-theme='dark'] .complexity-review .chart-bar-fill {
+  background: #31817c;
+}
+
+html[data-theme='dark'] .complexity-review .complexity-empty {
+  background: #2d2d2d;
+  border-color: #444;
+  color: #999;
 }
 
 html[data-theme='dark'] .audit-header h2 {

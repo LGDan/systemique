@@ -2,6 +2,7 @@
 import { ref } from 'vue'
 import InterfaceAccessAudit from './InterfaceAccessAudit.vue'
 import BoundaryAudit from './BoundaryAudit.vue'
+import ComplexityReview from './ComplexityReview.vue'
 
 const emit = defineEmits(['navigate-to-component'])
 const activeView = ref('interface-access-audit')
@@ -28,6 +29,12 @@ function handleNavigateToComponent(componentId) {
         >
           Boundary Audit
         </button>
+        <button 
+          @click="activeView = 'complexity-review'"
+          :class="['nav-item', { active: activeView === 'complexity-review' }]"
+        >
+          Complexity Review
+        </button>
       </nav>
     </div>
     
@@ -40,6 +47,7 @@ function handleNavigateToComponent(componentId) {
         v-if="activeView === 'boundary-audit'"
         @navigate-to-component="handleNavigateToComponent"
       />
+      <ComplexityReview v-if="activeView === 'complexity-review'" />
     </div>
   </div>
 </template>
