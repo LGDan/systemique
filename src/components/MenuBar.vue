@@ -29,6 +29,7 @@ const systemStore = useSystemStore()
 const toastStore = useToastStore()
 const menuBarRef = ref(null)
 const activeMenu = ref(null)
+const fileImportExportOpen = ref(false)
 const importFileInputRef = ref(null)
 const importDrawioFileInputRef = ref(null)
 const saveAsFileInputRef = ref(null)
@@ -81,13 +82,16 @@ loadRecentFiles()
 function toggleMenu(menuName) {
   if (activeMenu.value === menuName) {
     activeMenu.value = null
+    fileImportExportOpen.value = false
   } else {
     activeMenu.value = menuName
+    if (menuName !== 'file') fileImportExportOpen.value = false
   }
 }
 
 function closeMenu() {
   activeMenu.value = null
+  fileImportExportOpen.value = false
 }
 
 // Close menu when clicking outside the menu bar
@@ -322,26 +326,46 @@ function handleArrangeFlipHorizontal() {
           <span class="menu-shortcut">Ctrl+Shift+S</span>
         </div>
         <div class="menu-separator"></div>
-        <div class="menu-option" @click="handleImport" :disabled="!isDesignTab">
-          <span>Import System...</span>
-        </div>
-        <div class="menu-option" @click="handleImportDrawio" :disabled="!isDesignTab">
-          <span>Import from draw.io…</span>
-        </div>
-        <div class="menu-option" @click="handleExportSVG" :disabled="!isDesignTab">
-          <span>Export as SVG...</span>
-        </div>
-        <div class="menu-option" @click="handleExportPNG" :disabled="!isDesignTab">
-          <span>Export as PNG...</span>
-        </div>
-        <div class="menu-option" @click="handleExportDrawio" :disabled="!isDesignTab">
-          <span>Export as draw.io…</span>
-        </div>
-        <div class="menu-option" @click="handleExportAsLink" :disabled="!isDesignTab">
-          <span>Export As Link…</span>
-        </div>
-        <div class="menu-option" @click="handleExportBOM" :disabled="!isDesignTab">
-          <span>Export BOM (CSV)...</span>
+        <div
+          class="menu-flyout-wrapper"
+          @mouseleave="fileImportExportOpen = false"
+        >
+          <div
+            class="menu-option menu-submenu-trigger"
+            @mouseenter="fileImportExportOpen = true"
+          >
+            <span>Import / Export</span>
+            <span class="menu-chevron">▶</span>
+          </div>
+          <div
+            v-if="fileImportExportOpen"
+            class="menu-dropdown menu-flyout"
+            @mouseenter="fileImportExportOpen = true"
+            @mouseleave="fileImportExportOpen = false"
+          >
+            <div class="menu-option" @click="handleImport" :disabled="!isDesignTab">
+              <span>Import System...</span>
+            </div>
+            <div class="menu-option" @click="handleImportDrawio" :disabled="!isDesignTab">
+              <span>Import from draw.io…</span>
+            </div>
+            <div class="menu-separator"></div>
+            <div class="menu-option" @click="handleExportSVG" :disabled="!isDesignTab">
+              <span>Export as SVG...</span>
+            </div>
+            <div class="menu-option" @click="handleExportPNG" :disabled="!isDesignTab">
+              <span>Export as PNG...</span>
+            </div>
+            <div class="menu-option" @click="handleExportDrawio" :disabled="!isDesignTab">
+              <span>Export as draw.io…</span>
+            </div>
+            <div class="menu-option" @click="handleExportAsLink" :disabled="!isDesignTab">
+              <span>Export As Link…</span>
+            </div>
+            <div class="menu-option" @click="handleExportBOM" :disabled="!isDesignTab">
+              <span>Export BOM (CSV)...</span>
+            </div>
+          </div>
         </div>
       </div>
     </div>
@@ -560,6 +584,23 @@ function handleArrangeFlipHorizontal() {
 .menu-submenu-item {
   padding-left: 24px;
   font-size: 12px;
+}
+
+.menu-flyout-wrapper {
+  position: relative;
+}
+
+.menu-submenu-trigger .menu-chevron {
+  font-size: 10px;
+  color: #999;
+  margin-left: auto;
+}
+
+.menu-flyout {
+  left: 100%;
+  top: 0;
+  margin-top: 0;
+  margin-left: 2px;
 }
 </style>
 
