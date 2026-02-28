@@ -545,14 +545,14 @@ onUnmounted(() => {
     </VueFlow>
 
     <div class="canvas-axis-overlays" aria-hidden="true">
-      <div class="axis-overlay axis-y">
+      <div class="axis-float axis-float-y">
+        <span class="axis-label axis-label-y-top">{{ AXIS_LABELS.yTop }}</span>
         <div class="axis-gradient axis-gradient-y"></div>
         <span class="axis-label axis-label-y-bottom">{{ AXIS_LABELS.yBottom }}</span>
-        <span class="axis-label axis-label-y-top">{{ AXIS_LABELS.yTop }}</span>
       </div>
-      <div class="axis-overlay axis-x">
-        <div class="axis-gradient axis-gradient-x"></div>
+      <div class="axis-float axis-float-x">
         <span class="axis-label axis-label-x-left">{{ AXIS_LABELS.xLeft }}</span>
+        <div class="axis-gradient axis-gradient-x"></div>
         <span class="axis-label axis-label-x-right">{{ AXIS_LABELS.xRight }}</span>
       </div>
     </div>
@@ -571,7 +571,7 @@ onUnmounted(() => {
   height: 100%;
 }
 
-/* Axis overlays: non-interactive, fixed to left and bottom */
+/* Axis overlays: floating containers with shadow, text at ends, gradient in middle */
 .canvas-axis-overlays {
   position: absolute;
   inset: 0;
@@ -579,34 +579,48 @@ onUnmounted(() => {
   z-index: 5;
 }
 
-.axis-overlay {
+.axis-float {
   position: absolute;
+  background: rgba(255, 255, 255, 0.95);
+  border-radius: 8px;
+  box-shadow: 0 2px 12px rgba(0, 0, 0, 0.12);
 }
 
-.axis-gradient {
-  position: absolute;
-  border-radius: 4px;
+/* Y axis: left side — label at top, gradient (middle), label at bottom */
+.axis-float-y {
+  left: 8px;
+  top: 8px;
+  bottom: 8px;
+  width: 32px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 10px 0;
 }
 
-/* Y axis: left side, gradient bottom (neutral) → top (green) */
-.axis-y {
+.axis-label-y-top {
+  position: absolute;
+  top: 10px;
   left: 0;
-  top: 0;
-  bottom: 0;
-  width: 28px;
+  width: 120px;
+  font-size: 11px;
+  color: #555;
+  white-space: nowrap;
+  transform-origin: left center;
+  transform: rotate(90deg);
 }
 
 .axis-gradient-y {
-  left: 4px;
-  top: 32px;
-  bottom: 32px;
+  flex: 1;
+  min-height: 48px;
   width: 12px;
+  border-radius: 6px;
   background: linear-gradient(to top, #1F6B66, #fff);
 }
 
-.axis-label-y-bottom,
-.axis-label-y-top {
+.axis-label-y-bottom {
   position: absolute;
+  bottom: 10px;
   left: 0;
   width: 120px;
   font-size: 11px;
@@ -616,52 +630,46 @@ onUnmounted(() => {
   transform: rotate(-90deg);
 }
 
-.axis-label-y-bottom {
+/* X axis: bottom — label, gradient (middle), label */
+.axis-float-x {
+  left: 8px;
+  right: 8px;
   bottom: 8px;
-  left: 4px;
-  text-align: left;
-}
-
-.axis-label-y-top {
-  top: 8px;
-  left: 4px;
-  transform: rotate(90deg);
-  transform-origin: left center;
-}
-
-/* X axis: bottom, gradient left (neutral) → right (green) */
-.axis-x {
-  left: 0;
-  right: 0;
-  bottom: 0;
-  height: 28px;
-}
-
-.axis-gradient-x {
-  left: 32px;
-  right: 32px;
-  bottom: 4px;
-  height: 12px;
-  background: linear-gradient(to right, #fff, #1F6B66);
-}
-
-.axis-label-x-left,
-.axis-label-x-right {
-  position: absolute;
-  bottom: 4px;
-  font-size: 11px;
-  color: #555;
+  height: 32px;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  padding: 0 10px;
 }
 
 .axis-label-x-left {
-  left: 8px;
+  flex-shrink: 0;
+  font-size: 11px;
+  color: #555;
+  margin-right: 8px;
+}
+
+.axis-gradient-x {
+  flex: 1;
+  min-width: 48px;
+  height: 12px;
+  border-radius: 6px;
+  background: linear-gradient(to right, #fff, #1F6B66);
 }
 
 .axis-label-x-right {
-  right: 8px;
+  flex-shrink: 0;
+  font-size: 11px;
+  color: #555;
+  margin-left: 8px;
 }
 
-/* Dark theme: gradient from dark to green */
+/* Dark theme: floating panel and gradient */
+html[data-theme='dark'] .axis-float {
+  background: rgba(45, 45, 45, 0.95);
+  box-shadow: 0 2px 12px rgba(0, 0, 0, 0.35);
+}
+
 html[data-theme='dark'] .axis-gradient-y {
   background: linear-gradient(to top, #1F6B66, #2d2d2d);
 }
