@@ -9,6 +9,7 @@ import { useSystemStore } from '../stores/systemStore.js'
 import { useToastStore } from '../stores/toastStore.js'
 import { useComponentLibraryStore } from '../stores/componentLibraryStore.js'
 import { Component } from '../models/Component.js'
+import { marked } from 'marked'
 
 const props = defineProps({
   id: {
@@ -40,6 +41,15 @@ const trustClass = computed(() => {
   if (trust === 'untrusted') return 'trust-untrusted'
   if (trust === 'ignored') return 'trust-ignored'
   return null
+})
+
+const isNote = computed(() => component.value?.type === 'note')
+
+const noteBodyHtml = computed(() => {
+  if (!isNote.value) return ''
+  const desc = component.value?.description
+  if (desc == null || desc === '') return ''
+  return marked(desc)
 })
 
 // Group interfaces by position
@@ -416,19 +426,25 @@ function handleSendToLibrary() {
       </div>
 
       <!-- Node content -->
-      <div class="node-content">
-        <div class="node-header">
-          <div class="node-title-row">
-            <MdiIcon 
-              v-if="component.icon" 
-              :name="component.icon" 
-              :size="20"
-              class="node-icon"
-            />
-            <div class="node-name">{{ component.name }}</div>
+      <div class="node-content" :class="{ 'node-content-note': isNote }">
+        <template v-if="isNote">
+          <div class="node-note-title">{{ component.name }}</div>
+          <div v-if="noteBodyHtml" class="node-note-body" v-html="noteBodyHtml"></div>
+        </template>
+        <template v-else>
+          <div class="node-header">
+            <div class="node-title-row">
+              <MdiIcon 
+                v-if="component.icon" 
+                :name="component.icon" 
+                :size="20"
+                class="node-icon"
+              />
+              <div class="node-name">{{ component.name }}</div>
+            </div>
+            <div v-if="component.type !== 'generic'" class="node-type">{{ component.type }}</div>
           </div>
-          <div v-if="component.type !== 'generic'" class="node-type">{{ component.type }}</div>
-        </div>
+        </template>
       </div>
 
       <!-- Right interfaces -->
@@ -564,6 +580,64 @@ html[data-theme='dark'] .system-node.trust-ignored {
   font-size: 10px;
   color: #666;
   text-transform: uppercase;
+}
+
+/* Note variant: title + markdown body */
+.node-content-note {
+  min-width: 180px;
+  max-width: 320px;
+}
+
+.node-note-title {
+  font-weight: 600;
+  font-size: 14px;
+  color: #333;
+  margin-bottom: 6px;
+  padding-bottom: 4px;
+  border-bottom: 1px solid rgba(0, 0, 0, 0.1);
+}
+
+html[data-theme='dark'] .node-note-title {
+  color: #e0e0e0;
+  border-bottom-color: rgba(255, 255, 255, 0.15);
+}
+
+.node-note-body {
+  font-size: 12px;
+  color: #444;
+  line-height: 1.45;
+  max-height: 200px;
+  overflow-y: auto;
+  text-align: left;
+}
+
+.node-note-body :deep(p) {
+  margin: 0 0 0.5em;
+}
+
+.node-note-body :deep(p:last-child) {
+  margin-bottom: 0;
+}
+
+.node-note-body :deep(ul),
+.node-note-body :deep(ol) {
+  margin: 0.25em 0;
+  padding-left: 1.25em;
+}
+
+.node-note-body :deep(code) {
+  font-size: 0.9em;
+  background: rgba(0, 0, 0, 0.06);
+  padding: 0.15em 0.35em;
+  border-radius: 4px;
+}
+
+html[data-theme='dark'] .node-note-body {
+  color: #c0c0c0;
+}
+
+html[data-theme='dark'] .node-note-body :deep(code) {
+  background: rgba(255, 255, 255, 0.1);
 }
 
 .interfaces {
