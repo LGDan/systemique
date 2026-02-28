@@ -14,6 +14,13 @@ import { validateConnectionAttempt } from '../utils/connectionValidator.js'
 import { Connection } from '../models/Connection.js'
 import { Component } from '../models/Component.js'
 
+const props = defineProps({
+  axisOverlaysVisible: {
+    type: Boolean,
+    default: true
+  }
+})
+
 const systemStore = useSystemStore()
 const clipboardStore = useClipboardStore()
 const libraryStore = useComponentLibraryStore()
@@ -544,7 +551,7 @@ onUnmounted(() => {
       </template>
     </VueFlow>
 
-    <div class="canvas-axis-overlays" aria-hidden="true">
+    <div v-if="axisOverlaysVisible" class="canvas-axis-overlays" aria-hidden="true">
       <div class="axis-float axis-float-y">
         <span class="axis-label axis-label-y-top"><span class="axis-label-text">{{ AXIS_LABELS.yTop }}</span></span>
         <div class="axis-gradient axis-gradient-y"></div>
