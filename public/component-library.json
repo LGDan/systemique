@@ -6871,6 +6871,656 @@
         "y": 0
       },
       "metadata": {}
+    },
+    {
+      "id": "filter-template",
+      "name": "Filter",
+      "type": "Filter Process",
+      "properties": {},
+      "icon": "table-filter",
+      "categories": [
+        "Data Processing"
+      ],
+      "interfaces": [
+        {
+          "id": "data-in",
+          "name": "Data In",
+          "type": "data",
+          "direction": "input",
+          "position": "left",
+          "rules": {},
+          "metadata": {},
+          "icon": "table"
+        },
+        {
+          "id": "data-out",
+          "name": "Data Out",
+          "type": "data",
+          "direction": "output",
+          "position": "right",
+          "rules": {},
+          "metadata": {},
+          "icon": "table"
+        },
+        {
+          "id": "filter-criteria",
+          "name": "Filter Criteria",
+          "type": "data",
+          "direction": "input",
+          "position": "left",
+          "rules": {},
+          "metadata": {},
+          "icon": "cog"
+        }
+      ],
+      "nestedSystemId": null,
+      "position": {
+        "x": 0,
+        "y": 0
+      },
+      "metadata": {}
+    },
+    {
+      "id": "group-template",
+      "name": "Group",
+      "type": "Group Process",
+      "properties": {},
+      "icon": "format-list-group",
+      "categories": [
+        "Data Processing"
+      ],
+      "interfaces": [
+        {
+          "id": "data-in",
+          "name": "Data In",
+          "type": "data",
+          "direction": "input",
+          "position": "left",
+          "rules": {},
+          "metadata": {},
+          "icon": "table"
+        },
+        {
+          "id": "data-out",
+          "name": "Data Out",
+          "type": "data",
+          "direction": "output",
+          "position": "right",
+          "rules": {},
+          "metadata": {},
+          "icon": "table"
+        },
+        {
+          "id": "group-criteria",
+          "name": "Group Criteria",
+          "type": "data",
+          "direction": "input",
+          "position": "left",
+          "rules": {},
+          "metadata": {},
+          "icon": "cog"
+        }
+      ],
+      "nestedSystemId": null,
+      "position": {
+        "x": 0,
+        "y": 0
+      },
+      "metadata": {}
+    },
+    {
+      "id": "map-template",
+      "name": "Map",
+      "type": "Map Process",
+      "properties": {},
+      "icon": "function-variant",
+      "categories": [
+        "Data Processing"
+      ],
+      "interfaces": [
+        {
+          "id": "data-in",
+          "name": "Data In",
+          "type": "data",
+          "direction": "input",
+          "position": "left",
+          "rules": {},
+          "metadata": {},
+          "icon": "table"
+        },
+        {
+          "id": "data-out",
+          "name": "Data Out",
+          "type": "data",
+          "direction": "output",
+          "position": "right",
+          "rules": {},
+          "metadata": {},
+          "icon": "table"
+        },
+        {
+          "id": "map-function",
+          "name": "Map Function",
+          "type": "data",
+          "direction": "input",
+          "position": "left",
+          "rules": {},
+          "metadata": {},
+          "icon": "function"
+        }
+      ],
+      "nestedSystemId": null,
+      "position": {
+        "x": 0,
+        "y": 0
+      },
+      "metadata": {}
+    },
+    {
+      "id": "project-template",
+      "name": "Project",
+      "type": "Project Process",
+      "properties": {},
+      "icon": "select-group",
+      "categories": [
+        "Data Processing"
+      ],
+      "interfaces": [
+        {
+          "id": "data-in",
+          "name": "Data In",
+          "type": "data",
+          "direction": "input",
+          "position": "left",
+          "rules": {},
+          "metadata": {},
+          "icon": "table"
+        },
+        {
+          "id": "data-out",
+          "name": "Data Out",
+          "type": "data",
+          "direction": "output",
+          "position": "right",
+          "rules": {},
+          "metadata": {},
+          "icon": "table"
+        },
+        {
+          "id": "project-fields",
+          "name": "Project Fields",
+          "type": "data",
+          "direction": "input",
+          "position": "left",
+          "rules": {},
+          "metadata": {},
+          "icon": "table-row"
+        }
+      ],
+      "nestedSystemId": null,
+      "position": {
+        "x": 0,
+        "y": 0
+      },
+      "metadata": {}
+    },
+    {
+      "id": "join-template",
+      "name": "Join",
+      "type": "Join Process",
+      "properties": {},
+      "icon": "set-center",
+      "categories": [
+        "Data Processing"
+      ],
+      "interfaces": [
+        {
+          "id": "dataset-left",
+          "name": "Dataset Left",
+          "type": "data",
+          "direction": "input",
+          "position": "left",
+          "rules": {},
+          "metadata": {},
+          "icon": "table"
+        },
+        {
+          "id": "dataset-right",
+          "name": "Dataset Right",
+          "type": "data",
+          "direction": "output",
+          "position": "left",
+          "rules": {},
+          "metadata": {},
+          "icon": "table"
+        },
+        {
+          "id": "join-criteria",
+          "name": "Join Criteria",
+          "type": "data",
+          "direction": "input",
+          "position": "left",
+          "rules": {},
+          "metadata": {},
+          "icon": "cog"
+        },
+        {
+          "id": "data-out",
+          "name": "Data Out",
+          "type": "data",
+          "direction": "output",
+          "position": "right",
+          "rules": {},
+          "metadata": {},
+          "icon": "table"
+        }
+      ],
+      "nestedSystemId": null,
+      "position": {
+        "x": 0,
+        "y": 0
+      },
+      "metadata": {}
+    },
+    {
+      "id": "convert-to-csv-template",
+      "name": "Convert to CSV",
+      "type": "Data to CSV",
+      "properties": {},
+      "icon": "file-delimited",
+      "categories": [
+        "Data Processing"
+      ],
+      "interfaces": [
+        {
+          "id": "data-in",
+          "name": "Data In",
+          "type": "data",
+          "direction": "input",
+          "position": "left",
+          "rules": {},
+          "metadata": {},
+          "icon": "table"
+        },
+        {
+          "id": "csv-out",
+          "name": "CSV Out",
+          "type": "data",
+          "direction": "output",
+          "position": "right",
+          "rules": {},
+          "metadata": {},
+          "icon": "file-delimited"
+        }
+      ],
+      "nestedSystemId": null,
+      "position": {
+        "x": 0,
+        "y": 0
+      },
+      "metadata": {}
+    },
+    {
+      "id": "convert-from-csv-template",
+      "name": "Convert From CSV",
+      "type": "CSV to Data",
+      "properties": {},
+      "icon": "file-delimited",
+      "categories": [
+        "Data Processing"
+      ],
+      "interfaces": [
+        {
+          "id": "data-out",
+          "name": "Data Out",
+          "type": "data",
+          "direction": "output",
+          "position": "right",
+          "rules": {},
+          "metadata": {},
+          "icon": "table"
+        },
+        {
+          "id": "csv-in",
+          "name": "CSV In",
+          "type": "data",
+          "direction": "input",
+          "position": "left",
+          "rules": {},
+          "metadata": {},
+          "icon": "file-delimited"
+        }
+      ],
+      "nestedSystemId": null,
+      "position": {
+        "x": 0,
+        "y": 0
+      },
+      "metadata": {}
+    },
+    {
+      "id": "convert-to-json-template",
+      "name": "Convert to JSON",
+      "type": "Data to JSON",
+      "properties": {},
+      "icon": "code-json",
+      "categories": [
+        "Data Processing"
+      ],
+      "interfaces": [
+        {
+          "id": "data-in",
+          "name": "Data In",
+          "type": "data",
+          "direction": "input",
+          "position": "left",
+          "rules": {},
+          "metadata": {},
+          "icon": "table"
+        },
+        {
+          "id": "json-out",
+          "name": "JSON Out",
+          "type": "data",
+          "direction": "output",
+          "position": "right",
+          "rules": {},
+          "metadata": {},
+          "icon": "code-json"
+        }
+      ],
+      "nestedSystemId": null,
+      "position": {
+        "x": 0,
+        "y": 0
+      },
+      "metadata": {}
+    },
+    {
+      "id": "convert-from-json-template",
+      "name": "Convert From JSON",
+      "type": "JSON to Data",
+      "properties": {},
+      "icon": "code-json",
+      "categories": [
+        "Data Processing"
+      ],
+      "interfaces": [
+        {
+          "id": "data-out",
+          "name": "Data Out",
+          "type": "data",
+          "direction": "output",
+          "position": "right",
+          "rules": {},
+          "metadata": {},
+          "icon": "table"
+        },
+        {
+          "id": "json-in",
+          "name": "JSON In",
+          "type": "data",
+          "direction": "input",
+          "position": "left",
+          "rules": {},
+          "metadata": {},
+          "icon": "code-json"
+        }
+      ],
+      "nestedSystemId": null,
+      "position": {
+        "x": 0,
+        "y": 0
+      },
+      "metadata": {}
+    },
+    {
+      "id": "convert-to-parquet-template",
+      "name": "Convert To Parquet",
+      "type": "Data to Parquet",
+      "properties": {},
+      "icon": "zip-box",
+      "categories": [
+        "Data Processing"
+      ],
+      "interfaces": [
+        {
+          "id": "data-in",
+          "name": "Data In",
+          "type": "data",
+          "direction": "input",
+          "position": "left",
+          "rules": {},
+          "metadata": {},
+          "icon": "table"
+        },
+        {
+          "id": "parquet-out",
+          "name": "Parquet Out",
+          "type": "data",
+          "direction": "output",
+          "position": "right",
+          "rules": {},
+          "metadata": {},
+          "icon": "zip-box"
+        }
+      ],
+      "nestedSystemId": null,
+      "position": {
+        "x": 0,
+        "y": 0
+      },
+      "metadata": {}
+    },
+    {
+      "id": "convert-from-parquet-template",
+      "name": "Convert From Parquet",
+      "type": "Parquet to Data",
+      "properties": {},
+      "icon": "zip-box",
+      "categories": [
+        "Data Processing"
+      ],
+      "interfaces": [
+        {
+          "id": "data-out",
+          "name": "Data Out",
+          "type": "data",
+          "direction": "output",
+          "position": "right",
+          "rules": {},
+          "metadata": {},
+          "icon": "table"
+        },
+        {
+          "id": "parquet-in",
+          "name": "Parquet In",
+          "type": "data",
+          "direction": "input",
+          "position": "left",
+          "rules": {},
+          "metadata": {},
+          "icon": "zip-box"
+        }
+      ],
+      "nestedSystemId": null,
+      "position": {
+        "x": 0,
+        "y": 0
+      },
+      "metadata": {}
+    },
+    {
+      "id": "convert-to-excel-template",
+      "name": "Convert To Excel",
+      "type": "Data to Excel",
+      "properties": {},
+      "icon": "table",
+      "categories": [
+        "Data Processing"
+      ],
+      "interfaces": [
+        {
+          "id": "data-in",
+          "name": "Data In",
+          "type": "data",
+          "direction": "input",
+          "position": "left",
+          "rules": {},
+          "metadata": {},
+          "icon": "table"
+        },
+        {
+          "id": "excel-out",
+          "name": "Excel Out",
+          "type": "data",
+          "direction": "output",
+          "position": "right",
+          "rules": {},
+          "metadata": {},
+          "icon": "file"
+        }
+      ],
+      "nestedSystemId": null,
+      "position": {
+        "x": 0,
+        "y": 0
+      },
+      "metadata": {}
+    },
+    {
+      "id": "convert-from-excel-template",
+      "name": "Convert From Excel",
+      "type": "Excel to Data",
+      "properties": {},
+      "icon": "table",
+      "categories": [
+        "Data Processing"
+      ],
+      "interfaces": [
+        {
+          "id": "data-out",
+          "name": "Data Out",
+          "type": "data",
+          "direction": "output",
+          "position": "right",
+          "rules": {},
+          "metadata": {},
+          "icon": "table"
+        },
+        {
+          "id": "excel-in",
+          "name": "Excel In",
+          "type": "data",
+          "direction": "input",
+          "position": "left",
+          "rules": {},
+          "metadata": {},
+          "icon": "file"
+        }
+      ],
+      "nestedSystemId": null,
+      "position": {
+        "x": 0,
+        "y": 0
+      },
+      "metadata": {}
+    },
+    {
+      "id": "file-transfer-template",
+      "name": "File Transfer",
+      "type": "File Transfer",
+      "properties": {},
+      "icon": "file-send",
+      "categories": [
+        "Data Processing"
+      ],
+      "interfaces": [
+        {
+          "id": "file-in",
+          "name": "File In",
+          "type": "data",
+          "direction": "input",
+          "position": "left",
+          "rules": {},
+          "metadata": {},
+          "icon": "file"
+        },
+        {
+          "id": "target-config",
+          "name": "Target Config",
+          "type": "data",
+          "direction": "input",
+          "position": "left",
+          "rules": {},
+          "metadata": {},
+          "icon": "code-braces"
+        },
+        {
+          "id": "protocol",
+          "name": "Protocol",
+          "type": "data",
+          "direction": "input",
+          "position": "left",
+          "rules": {},
+          "metadata": {},
+          "icon": "hexadecimal"
+        },
+        {
+          "id": "target",
+          "name": "Target",
+          "type": "data",
+          "direction": "output",
+          "position": "right",
+          "rules": {},
+          "metadata": {},
+          "icon": "server"
+        }
+      ],
+      "nestedSystemId": null,
+      "position": {
+        "x": 0,
+        "y": 0
+      },
+      "metadata": {}
+    },
+    {
+      "id": "directory-sync-template",
+      "name": "Directory Sync",
+      "type": "Directory Sync",
+      "properties": {},
+      "icon": "sync",
+      "categories": [
+        "Data Processing"
+      ],
+      "interfaces": [
+        {
+          "id": "directory-a",
+          "name": "Directory A",
+          "type": "data",
+          "direction": "input",
+          "position": "left",
+          "rules": {},
+          "metadata": {},
+          "icon": "folder"
+        },
+        {
+          "id": "directory-b",
+          "name": "Directory B",
+          "type": "data",
+          "direction": "input",
+          "position": "right",
+          "rules": {},
+          "metadata": {},
+          "icon": "folder"
+        }
+      ],
+      "nestedSystemId": null,
+      "position": {
+        "x": 0,
+        "y": 0
+      },
+      "metadata": {}
     }
   ]
 }
