@@ -250,6 +250,11 @@ function handleViewBom() {
   closeMenu()
 }
 
+function handleViewConops() {
+  emit('view-tab', 'conops')
+  closeMenu()
+}
+
 function handleToggleAxisOverlays() {
   emit('toggle-axis-overlays')
   closeMenu()
@@ -423,6 +428,9 @@ function handleArrangeFlipHorizontal() {
         </div>
         <div class="menu-option" @click="handleViewBom" :class="{ active: activeTab === 'bom' }">
           <span>BOM Manager</span>
+        </div>
+        <div class="menu-option" @click="handleViewConops" :class="{ active: activeTab === 'conops' }">
+          <span>CONOPS Manager</span>
         </div>
         <div class="menu-separator"></div>
         <div class="menu-option" @click="handleToggleAxisOverlays" :class="{ active: axisOverlaysVisible }">
