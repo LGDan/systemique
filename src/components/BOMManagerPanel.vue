@@ -196,11 +196,11 @@ function isExpanded(type) {
           <div class="stat-label">Sum implementation lead (days)</div>
           <div class="stat-value">{{ stats.sumImplementationLeadTime }}</div>
         </div>
-        <div class="stat-card">
+        <div class="stat-card stat-card-best">
           <div class="stat-label">Timeline best case (days)</div>
           <div class="stat-value">{{ stats.timelineBestCaseDays }}</div>
         </div>
-        <div class="stat-card">
+        <div class="stat-card stat-card-worst">
           <div class="stat-label">Timeline worst case (days)</div>
           <div class="stat-value">{{ stats.timelineWorstCaseDays }}</div>
         </div>
@@ -427,6 +427,14 @@ function isExpanded(type) {
   font-size: 24px;
   font-weight: 700;
   color: #333;
+}
+
+.stat-card-best .stat-value {
+  color: #1F6B66;
+}
+
+.stat-card-worst .stat-value {
+  color: #c53030;
 }
 
 .import-export-section {
