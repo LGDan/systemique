@@ -14,6 +14,13 @@ import { validateConnectionAttempt } from '../utils/connectionValidator.js'
 import { Connection } from '../models/Connection.js'
 import { Component } from '../models/Component.js'
 
+const props = defineProps({
+  axisOverlaysVisible: {
+    type: Boolean,
+    default: true
+  }
+})
+
 const systemStore = useSystemStore()
 const clipboardStore = useClipboardStore()
 const libraryStore = useComponentLibraryStore()
@@ -27,6 +34,14 @@ const spacePressed = ref(false)
 const NODE_WIDTH = 120
 const NODE_HEIGHT = 80
 const PASTE_OFFSET = { x: 40, y: 40 }
+
+// Configurable axis overlay labels
+const AXIS_LABELS = {
+  yBottom: 'Less Abstract',
+  yTop: 'More Abstract',
+  xLeft: 'Closer to People',
+  xRight: 'Further from People'
+}
 
 const panOnDrag = computed(() => (spacePressed.value ? [0, 1, 2] : [1, 2]))
 
@@ -535,6 +550,19 @@ onUnmounted(() => {
         <CustomEdge v-bind="edgeProps" />
       </template>
     </VueFlow>
+
+    <div v-if="axisOverlaysVisible" class="canvas-axis-overlays" aria-hidden="true">
+      <div class="axis-float axis-float-y">
+        <span class="axis-label axis-label-y-top"><span class="axis-label-text">{{ AXIS_LABELS.yTop }}</span></span>
+        <div class="axis-gradient axis-gradient-y"></div>
+        <span class="axis-label axis-label-y-bottom"><span class="axis-label-text">{{ AXIS_LABELS.yBottom }}</span></span>
+      </div>
+      <div class="axis-float axis-float-x">
+        <span class="axis-label axis-label-x-left">{{ AXIS_LABELS.xLeft }}</span>
+        <div class="axis-gradient axis-gradient-x"></div>
+        <span class="axis-label axis-label-x-right">{{ AXIS_LABELS.xRight }}</span>
+      </div>
+    </div>
   </div>
 </template>
 
@@ -548,6 +576,142 @@ onUnmounted(() => {
 .vue-flow-system {
   width: 100%;
   height: 100%;
+}
+
+/* Axis overlays: floating containers with shadow, text at ends, gradient in middle */
+.canvas-axis-overlays {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  z-index: 5;
+}
+
+.axis-float {
+  position: absolute;
+  background: rgba(255, 255, 255, 0.95);
+  border-radius: 8px;
+  box-shadow: 0 2px 12px rgba(0, 0, 0, 0.12);
+}
+
+/* Y axis: left side — label at top, gradient (middle), label at bottom */
+.axis-float-y {
+  left: 8px;
+  top: 8px;
+  bottom: 140px;
+  width: 32px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 0;
+}
+
+.axis-label-y-top {
+  flex-shrink: 0;
+  height: 90px;
+  width: 32px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+  overflow: visible;
+}
+
+.axis-label-y-top .axis-label-text {
+  position: absolute;
+  left: 50%;
+  width: 120px;
+  text-align: center;
+  white-space: nowrap;
+  font-size: 11px;
+  color: #555;
+  transform: translateX(-50%) rotate(90deg);
+  transform-origin: center center;
+}
+
+.axis-gradient-y {
+  flex: 1;
+  min-height: 0;
+  width: 12px;
+  border-radius: 6px;
+  background: linear-gradient(to bottom, #1F6B66, #fff);
+}
+
+.axis-label-y-bottom {
+  flex-shrink: 0;
+  height: 90px;
+  width: 32px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+  overflow: visible;
+}
+
+.axis-label-y-bottom .axis-label-text {
+  position: absolute;
+  left: 50%;
+  width: 120px;
+  text-align: center;
+  white-space: nowrap;
+  font-size: 11px;
+  color: #555;
+  transform: translateX(-50%) rotate(90deg);
+  transform-origin: center center;
+}
+
+/* X axis: bottom — label, gradient (middle), label */
+.axis-float-x {
+  left: 50px;
+  right: 8px;
+  bottom: 8px;
+  height: 32px;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  padding: 0 10px;
+}
+
+.axis-label-x-left {
+  flex-shrink: 0;
+  font-size: 11px;
+  color: #555;
+  margin-right: 8px;
+}
+
+.axis-gradient-x {
+  flex: 1;
+  min-width: 48px;
+  height: 12px;
+  border-radius: 6px;
+  background: linear-gradient(to right, #fff, #1F6B66);
+}
+
+.axis-label-x-right {
+  flex-shrink: 0;
+  font-size: 11px;
+  color: #555;
+  margin-left: 8px;
+}
+
+/* Dark theme: floating panel and gradient */
+html[data-theme='dark'] .axis-float {
+  background: rgba(45, 45, 45, 0.95);
+  box-shadow: 0 2px 12px rgba(0, 0, 0, 0.35);
+}
+
+html[data-theme='dark'] .axis-gradient-y {
+  background: linear-gradient(to top, #1F6B66, #2d2d2d);
+}
+
+html[data-theme='dark'] .axis-gradient-x {
+  background: linear-gradient(to right, #2d2d2d, #1F6B66);
+}
+
+html[data-theme='dark'] .axis-label-y-bottom .axis-label-text,
+html[data-theme='dark'] .axis-label-y-top .axis-label-text,
+html[data-theme='dark'] .axis-label-x-left,
+html[data-theme='dark'] .axis-label-x-right {
+  color: #b0b0b0;
 }
 </style>
 

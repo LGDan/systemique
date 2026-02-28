@@ -17,13 +17,17 @@ const props = defineProps({
     type: Boolean,
     default: false
   },
+  axisOverlaysVisible: {
+    type: Boolean,
+    default: true
+  },
   hasClipboard: {
     type: Boolean,
     default: false
   }
 })
 
-const emit = defineEmits(['group-components', 'import-file', 'import-file-change', 'import-drawio-change', 'new-system', 'open-file', 'save-as', 'export-as-link', 'edit-cut', 'edit-copy', 'edit-paste', 'arrange-align-horizontal', 'arrange-align-vertical', 'arrange-flip-horizontal', 'toggle-theme'])
+const emit = defineEmits(['group-components', 'import-file', 'import-file-change', 'import-drawio-change', 'new-system', 'open-file', 'save-as', 'export-as-link', 'edit-cut', 'edit-copy', 'edit-paste', 'arrange-align-horizontal', 'arrange-align-vertical', 'arrange-flip-horizontal', 'toggle-theme', 'toggle-axis-overlays'])
 
 const systemStore = useSystemStore()
 const toastStore = useToastStore()
@@ -241,6 +245,11 @@ function handleViewLibrary() {
   closeMenu()
 }
 
+function handleToggleAxisOverlays() {
+  emit('toggle-axis-overlays')
+  closeMenu()
+}
+
 function handleToggleTheme() {
   emit('toggle-theme')
   closeMenu()
@@ -406,6 +415,10 @@ function handleArrangeFlipHorizontal() {
         </div>
         <div class="menu-option" @click="handleViewLibrary" :class="{ active: activeTab === 'library' }">
           <span>Architecture Library</span>
+        </div>
+        <div class="menu-separator"></div>
+        <div class="menu-option" @click="handleToggleAxisOverlays" :class="{ active: axisOverlaysVisible }">
+          <span>Axis overlays</span>
         </div>
       </div>
     </div>

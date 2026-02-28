@@ -82,6 +82,7 @@ const showGroupDialog = ref(false)
 const showExportLinkModal = ref(false)
 const showLoadSharedModal = ref(false)
 const pendingSharedPayload = ref(null)
+const axisOverlaysVisible = ref(true)
 const importFileInputRef = ref(null)
 const systemCanvasRef = ref(null)
 const activeTab = ref('design') // 'design', 'rules', or 'security'
@@ -399,9 +400,11 @@ function handleArrangeAlignVertical(mode) {
       :selected-component-ids="selectedComponentIds"
       :active-tab="activeTab"
       :dark-theme="theme === 'dark'"
+      :axis-overlays-visible="axisOverlaysVisible"
       :has-clipboard="hasClipboard"
       @group-components="handleGroup"
       @toggle-theme="toggleTheme"
+      @toggle-axis-overlays="axisOverlaysVisible = !axisOverlaysVisible"
       @import-file="handleImportClick"
       @import-file-change="handleImportFile"
       @import-drawio-change="handleImportDrawioFile"
@@ -419,7 +422,7 @@ function handleArrangeAlignVertical(mode) {
 
     <div v-if="activeTab === 'design'" class="app-content">
       <ComponentPalette />
-      <SystemCanvas ref="systemCanvasRef" />
+      <SystemCanvas ref="systemCanvasRef" :axis-overlays-visible="axisOverlaysVisible" />
       <PropertiesPanel />
     </div>
 
