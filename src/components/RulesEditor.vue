@@ -14,6 +14,9 @@ const typesStore = useInterfaceTypesStore()
 
 const interfaceTypes = computed(() => typesStore.getAllTypes())
 
+// Vertical tab: 'interface-types' | 'connection-rules' | 'rule-review'
+const activeView = ref('interface-types')
+
 // Local state for editing interface types
 const editingTypes = ref(new Map())
 
@@ -252,81 +255,38 @@ function getCellTitle(sourceType, targetType) {
 
 <template>
   <div class="interface-management">
-    <div class="management-header">
-      <h2>Interface Management</h2>
+    <div class="management-navbar">
+      <h3 class="navbar-title">Interface Management</h3>
+      <nav class="navbar-menu">
+        <button
+          @click="activeView = 'interface-types'"
+          :class="['nav-item', { active: activeView === 'interface-types' }]"
+        >
+          Interface Types
+        </button>
+        <button
+          @click="activeView = 'connection-rules'"
+          :class="['nav-item', { active: activeView === 'connection-rules' }]"
+        >
+          Connection Rules
+        </button>
+        <button
+          @click="activeView = 'rule-review'"
+          :class="['nav-item', { active: activeView === 'rule-review' }]"
+        >
+          Rule Review
+        </button>
+      </nav>
     </div>
 
     <div class="management-content">
-      <!-- Left side: Rules Matrix -->
-      <div class="left-panel">
-        <div class="panel-section">
-          <div class="section-header">
-            <h3>Connection Rules Matrix</h3>
-            <button @click="rulesStore.clearAllRules()" class="clear-all-button">
-              Clear All Rules
-            </button>
-          </div>
-          <p class="section-description">
-            Click cells to toggle connection rules between interface types. 
-            <strong>Default</strong> (○) uses compatibility matrix, <strong>Allow</strong> (✓) always allows, <strong>Deny</strong> (✗) always blocks.
-          </p>
-
-          <div class="matrix-container">
-            <div class="matrix-table">
-              <!-- Header row -->
-              <div class="matrix-row header-row">
-                <div class="matrix-cell header-cell corner"></div>
-                <div 
-                  v-for="targetType in interfaceTypes" 
-                  :key="targetType.id"
-                  class="matrix-cell header-cell"
-                  :style="{ borderLeftColor: targetType.color }"
-                >
-                  <div class="type-label">{{ targetType.name }}</div>
-                  <div class="type-id">{{ targetType.id }}</div>
-                </div>
-              </div>
-
-              <!-- Data rows -->
-              <div 
-                v-for="sourceType in interfaceTypes" 
-                :key="sourceType.id"
-                class="matrix-row"
-              >
-                <!-- Source type label -->
-                <div 
-                  class="matrix-cell header-cell source-label"
-                  :style="{ borderTopColor: sourceType.color }"
-                >
-                  <div class="type-label">{{ sourceType.name }}</div>
-                  <div class="type-id">{{ sourceType.id }}</div>
-                </div>
-
-                <!-- Rule cells -->
-                <div
-                  v-for="targetType in interfaceTypes"
-                  :key="`${sourceType.id}-${targetType.id}`"
-                  class="matrix-cell rule-cell"
-                  :class="getCellClass(sourceType.id, targetType.id)"
-                  :title="getCellTitle(sourceType.id, targetType.id)"
-                  @click="handleCellClick(sourceType.id, targetType.id)"
-                >
-                  <span class="cell-emoji">{{ getCellEmoji(sourceType.id, targetType.id) }}</span>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-
-      <!-- Right side: Interface Types & Rule Review -->
-      <div class="right-panel">
-        <!-- Interface Types Editor -->
+      <!-- Tab: Interface Types (table) -->
+      <div v-if="activeView === 'interface-types'" class="tab-pane tab-interface-types">
         <div class="panel-section">
           <div class="section-header">
             <h3>Interface Types</h3>
-            <button 
-              @click="showAddTypeForm = !showAddTypeForm" 
+            <button
+              @click="showAddTypeForm = !showAddTypeForm"
               class="add-type-button"
               :class="{ active: showAddTypeForm }"
             >
@@ -337,7 +297,6 @@ function getCellTitle(sourceType, targetType) {
             Edit interface type names, descriptions, and colors. Add or remove types.
           </p>
 
-          <!-- Add Type Form -->
           <div v-if="showAddTypeForm" class="add-type-form">
             <div class="field">
               <label for="new-type-name">Name *</label>
@@ -382,74 +341,137 @@ function getCellTitle(sourceType, targetType) {
             </button>
           </div>
 
-          <div class="types-list">
-            <div 
-              v-for="type in interfaceTypes" 
-              :key="type.id"
-              class="type-editor"
-            >
-              <div class="type-editor-header">
-                <div class="type-header-left">
-                  <div class="type-color-indicator" :style="{ backgroundColor: type.color }"></div>
-                  <span class="type-id-label">{{ type.id }}</span>
-                  <span v-if="isTypeInUse(type.id)" class="in-use-badge" title="This type is in use">In Use</span>
-                </div>
-                <button 
-                  @click="handleRemoveType(type.id)"
-                  class="remove-type-button"
-                  title="Remove type"
-                >
-                  ×
-                </button>
-              </div>
-              <div class="type-editor-fields">
-                <div class="field">
-                  <label :for="`type-name-${type.id}`">Name</label>
-                  <input
-                    :id="`type-name-${type.id}`"
-                    type="text"
-                    :value="editingTypes.get(type.id)?.name || type.name"
-                    @input="updateTypeName(type.id, $event.target.value)"
-                    class="field-input"
-                  />
-                </div>
-                <div class="field">
-                  <label :for="`type-description-${type.id}`">Description</label>
-                  <textarea
-                    :id="`type-description-${type.id}`"
-                    :value="editingTypes.get(type.id)?.description || type.description || ''"
-                    @input="updateTypeDescription(type.id, $event.target.value)"
-                    class="field-input field-textarea"
-                    rows="2"
-                    placeholder="Enter description..."
-                  ></textarea>
-                </div>
-                <div class="field">
-                  <label :for="`type-color-${type.id}`">Color</label>
-                  <div class="color-picker-wrapper">
+          <div class="table-container">
+            <table class="audit-table interface-types-table">
+              <thead>
+                <tr>
+                  <th>ID</th>
+                  <th>Name</th>
+                  <th>Description</th>
+                  <th>Color</th>
+                  <th>In Use</th>
+                  <th>Actions</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr v-for="type in interfaceTypes" :key="type.id">
+                  <td class="cell-id">{{ type.id }}</td>
+                  <td class="cell-editable">
                     <input
-                      :id="`type-color-${type.id}`"
-                      type="color"
-                      :value="editingTypes.get(type.id)?.color || type.color"
-                      @input="updateTypeColor(type.id, $event.target.value)"
-                      class="color-picker"
-                    />
-                    <input
+                      :id="`type-name-${type.id}`"
                       type="text"
-                      :value="editingTypes.get(type.id)?.color || type.color"
-                      @input="updateTypeColor(type.id, $event.target.value)"
-                      class="color-input"
-                      placeholder="#999999"
-                      :aria-label="`Color value for ${type.name}`"
+                      :value="editingTypes.get(type.id)?.name || type.name"
+                      @input="updateTypeName(type.id, $event.target.value)"
+                      class="field-input table-input"
                     />
-                  </div>
+                  </td>
+                  <td class="cell-editable">
+                    <input
+                      :id="`type-description-${type.id}`"
+                      type="text"
+                      :value="editingTypes.get(type.id)?.description || type.description || ''"
+                      @input="updateTypeDescription(type.id, $event.target.value)"
+                      class="field-input table-input"
+                      placeholder="Description"
+                    />
+                  </td>
+                  <td class="cell-color">
+                    <div class="color-picker-wrapper inline">
+                      <input
+                        :id="`type-color-${type.id}`"
+                        type="color"
+                        :value="editingTypes.get(type.id)?.color || type.color"
+                        @input="updateTypeColor(type.id, $event.target.value)"
+                        class="color-picker"
+                      />
+                      <input
+                        type="text"
+                        :value="editingTypes.get(type.id)?.color || type.color"
+                        @input="updateTypeColor(type.id, $event.target.value)"
+                        class="color-input table-color-input"
+                        :aria-label="`Color value for ${type.name}`"
+                      />
+                    </div>
+                  </td>
+                  <td class="cell-in-use">
+                    <span v-if="isTypeInUse(type.id)" class="in-use-badge" title="This type is in use">In Use</span>
+                    <span v-else class="in-use-empty">—</span>
+                  </td>
+                  <td class="cell-actions">
+                    <button
+                      type="button"
+                      @click="handleRemoveType(type.id)"
+                      class="remove-type-button"
+                      title="Remove type"
+                    >
+                      ×
+                    </button>
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+
+      <!-- Tab: Connection Rules Matrix -->
+      <div v-if="activeView === 'connection-rules'" class="tab-pane tab-connection-rules">
+        <div class="panel-section">
+          <div class="section-header">
+            <h3>Connection Rules Matrix</h3>
+            <button @click="rulesStore.clearAllRules()" class="clear-all-button">
+              Clear All Rules
+            </button>
+          </div>
+          <p class="section-description">
+            Click cells to toggle connection rules between interface types.
+            <strong>Default</strong> (○) uses compatibility matrix, <strong>Allow</strong> (✓) always allows, <strong>Deny</strong> (✗) always blocks.
+          </p>
+
+          <div class="matrix-container">
+            <div class="matrix-table">
+              <div class="matrix-row header-row">
+                <div class="matrix-cell header-cell corner"></div>
+                <div
+                  v-for="targetType in interfaceTypes"
+                  :key="targetType.id"
+                  class="matrix-cell header-cell"
+                  :style="{ borderLeftColor: targetType.color }"
+                >
+                  <div class="type-label">{{ targetType.name }}</div>
+                  <div class="type-id">{{ targetType.id }}</div>
+                </div>
+              </div>
+              <div
+                v-for="sourceType in interfaceTypes"
+                :key="sourceType.id"
+                class="matrix-row"
+              >
+                <div
+                  class="matrix-cell header-cell source-label"
+                  :style="{ borderTopColor: sourceType.color }"
+                >
+                  <div class="type-label">{{ sourceType.name }}</div>
+                  <div class="type-id">{{ sourceType.id }}</div>
+                </div>
+                <div
+                  v-for="targetType in interfaceTypes"
+                  :key="`${sourceType.id}-${targetType.id}`"
+                  class="matrix-cell rule-cell"
+                  :class="getCellClass(sourceType.id, targetType.id)"
+                  :title="getCellTitle(sourceType.id, targetType.id)"
+                  @click="handleCellClick(sourceType.id, targetType.id)"
+                >
+                  <span class="cell-emoji">{{ getCellEmoji(sourceType.id, targetType.id) }}</span>
                 </div>
               </div>
             </div>
           </div>
         </div>
+      </div>
 
-        <!-- Rule Review -->
+      <!-- Tab: Rule Review -->
+      <div v-if="activeView === 'rule-review'" class="tab-pane tab-rule-review">
         <div class="panel-section">
           <div class="section-header">
             <h3>Rule Review</h3>
@@ -479,8 +501,8 @@ function getCellTitle(sourceType, targetType) {
 
             <div v-if="reviewResults.issues.length > 0" class="review-issues">
               <h4>Issues Found:</h4>
-              <div 
-                v-for="(issue, index) in reviewResults.issues" 
+              <div
+                v-for="(issue, index) in reviewResults.issues"
                 :key="index"
                 class="issue-item"
                 :class="issue.severity"
@@ -507,46 +529,67 @@ function getCellTitle(sourceType, targetType) {
 .interface-management {
   flex: 1;
   display: flex;
-  flex-direction: column;
   overflow: hidden;
   background: white;
 }
 
-.management-header {
-  padding: 16px;
-  border-bottom: 1px solid #ddd;
+.management-navbar {
+  width: 220px;
+  flex-shrink: 0;
   background: #f9f9f9;
+  border-right: 1px solid #ddd;
+  padding: 16px;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
 }
 
-.management-header h2 {
+.navbar-title {
   margin: 0;
-  font-size: 18px;
+  font-size: 14px;
   font-weight: 600;
   color: #333;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.navbar-menu {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.nav-item {
+  padding: 10px 12px;
+  border: none;
+  background: transparent;
+  color: #666;
+  text-align: left;
+  cursor: pointer;
+  border-radius: 4px;
+  font-size: 13px;
+  transition: all 0.2s;
+}
+
+.nav-item:hover {
+  background: #e9e9e9;
+  color: #333;
+}
+
+.nav-item.active {
+  background: #31817c;
+  color: white;
+  font-weight: 600;
 }
 
 .management-content {
   flex: 1;
-  display: flex;
-  overflow: hidden;
-  gap: 16px;
-  padding: 16px;
+  overflow: auto;
+  padding: 24px;
 }
 
-.left-panel {
-  flex: 1;
-  min-width: 0;
-  display: flex;
-  flex-direction: column;
-  overflow: hidden;
-}
-
-.right-panel {
-  width: 400px;
-  display: flex;
-  flex-direction: column;
-  gap: 16px;
-  overflow-y: auto;
+.tab-pane {
+  max-width: 100%;
 }
 
 .panel-section {
@@ -741,49 +784,77 @@ function getCellTitle(sourceType, targetType) {
   line-height: 1;
 }
 
-/* Interface Types Editor Styles */
-.types-list {
-  display: flex;
-  flex-direction: column;
-  gap: 12px;
-}
-
-.type-editor {
+/* Interface Types table */
+.table-container {
+  overflow-x: auto;
+  border: 1px solid #ddd;
+  border-radius: 6px;
   background: white;
-  border: 1px solid #ddd;
-  border-radius: 4px;
-  padding: 12px;
 }
 
-.type-editor-header {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  gap: 8px;
-  margin-bottom: 8px;
-  padding-bottom: 8px;
+.interface-types-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 12px;
+}
+
+.interface-types-table thead {
+  background: #f5f5f5;
+  position: sticky;
+  top: 0;
+  z-index: 1;
+}
+
+.interface-types-table th {
+  padding: 10px 12px;
+  text-align: left;
+  font-weight: 600;
+  color: #333;
+  border-bottom: 2px solid #ddd;
+  font-size: 11px;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.interface-types-table td {
+  padding: 8px 12px;
   border-bottom: 1px solid #eee;
+  color: #666;
+  vertical-align: middle;
 }
 
-.type-header-left {
-  display: flex;
-  align-items: center;
-  gap: 8px;
-  flex: 1;
+.interface-types-table tbody tr:hover {
+  background: #f9f9f9;
 }
 
-.type-color-indicator {
-  width: 16px;
-  height: 16px;
-  border-radius: 50%;
-  border: 1px solid #ddd;
-}
-
-.type-id-label {
-  font-size: 10px;
+.cell-id {
+  font-size: 11px;
   color: #999;
   text-transform: uppercase;
   font-weight: 600;
+  white-space: nowrap;
+}
+
+.table-input {
+  width: 100%;
+  min-width: 100px;
+  max-width: 200px;
+}
+
+.table-color-input {
+  width: 72px;
+  font-size: 11px;
+}
+
+.color-picker-wrapper.inline {
+  display: flex;
+  gap: 6px;
+  align-items: center;
+}
+
+.cell-in-use .in-use-empty {
+  color: #bbb;
+  font-size: 12px;
 }
 
 .in-use-badge {

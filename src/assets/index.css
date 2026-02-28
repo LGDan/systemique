@@ -446,20 +446,40 @@ html[data-theme='dark'] .interface-management {
   background: #252525;
 }
 
-html[data-theme='dark'] .management-header {
+html[data-theme='dark'] .management-navbar {
   background: #2d2d2d;
   border-color: #444;
+}
+
+html[data-theme='dark'] .management-navbar .navbar-title {
   color: #e0e0e0;
 }
 
-html[data-theme='dark'] .management-header h2 {
+html[data-theme='dark'] .management-navbar .nav-item {
+  color: #b0b0b0;
+}
+
+html[data-theme='dark'] .management-navbar .nav-item:hover {
+  background: #3a3a3a;
   color: #e0e0e0;
 }
 
-html[data-theme='dark'] .management-content,
-html[data-theme='dark'] .left-panel,
-html[data-theme='dark'] .right-panel {
+html[data-theme='dark'] .management-navbar .nav-item.active {
+  background: #1e3a4a;
+  color: #6eb8e8;
+}
+
+html[data-theme='dark'] .management-content {
   background: #252525;
+}
+
+html[data-theme='dark'] .interface-management .table-container {
+  background: #2d2d2d;
+  border-color: #444;
+}
+
+html[data-theme='dark'] .interface-management .add-type-form {
+  background: #2d2d2d;
   border-color: #444;
 }
 
