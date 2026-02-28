@@ -300,6 +300,8 @@ function alignVerticalMiddle() {
   systemStore.saveToLocalStorage()
 }
 
+const CLIPBOARD_MARKER = '__systemique_clipboard'
+
 function copySelection() {
   const selected = getSelectedNodes.value
   if (selected.length === 0) return
@@ -314,6 +316,10 @@ function copySelection() {
     .filter((c) => selectedIds.has(c.sourceComponentId) && selectedIds.has(c.targetComponentId))
     .map((c) => c.toJSON())
   clipboardStore.setClipboard(components, connections)
+  const payload = { [CLIPBOARD_MARKER]: true, version: 1, components, connections }
+  if (typeof navigator !== 'undefined' && navigator.clipboard?.writeText) {
+    navigator.clipboard.writeText(JSON.stringify(payload)).catch(() => {})
+  }
 }
 
 function cutSelection() {
@@ -322,8 +328,27 @@ function cutSelection() {
   selected.forEach((node) => systemStore.removeComponent(node.id))
 }
 
-function pasteSelection() {
-  const { components: comps, connections: conns } = clipboardStore.getClipboard()
+async function pasteSelection() {
+  let comps = []
+  let conns = []
+  try {
+    if (typeof navigator !== 'undefined' && navigator.clipboard?.readText) {
+      const text = await navigator.clipboard.readText()
+      const data = JSON.parse(text)
+      if (data && data[CLIPBOARD_MARKER] && Array.isArray(data.components)) {
+        comps = data.components
+        conns = data.connections ?? []
+        clipboardStore.setClipboard(comps, conns)
+      }
+    }
+  } catch {
+    // ignore: not our format or permission denied
+  }
+  if (comps.length === 0) {
+    const clip = clipboardStore.getClipboard()
+    comps = clip.components
+    conns = clip.connections
+  }
   if (comps.length === 0) return
   const system = systemStore.currentSystem
   if (!system) return
