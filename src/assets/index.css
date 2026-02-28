@@ -826,6 +826,65 @@ html[data-theme='dark'] .conops-manager-panel .table-container {
   border-color: #444;
 }
 
+/* BOM Manager & CONOPS Manager – table and inputs dark theme */
+html[data-theme='dark'] .bom-manager-panel .table-container {
+  background: #2d2d2d;
+  border-color: #444;
+}
+
+html[data-theme='dark'] .bom-manager-panel .bom-type-row,
+html[data-theme='dark'] .bom-manager-panel .bom-instance-row,
+html[data-theme='dark'] .conops-manager-panel .conops-type-row,
+html[data-theme='dark'] .conops-manager-panel .bom-instance-row {
+  background: #2d2d2d;
+}
+
+html[data-theme='dark'] .bom-manager-panel .bom-instance-row:hover,
+html[data-theme='dark'] .conops-manager-panel .bom-instance-row:hover {
+  background: #353535;
+}
+
+html[data-theme='dark'] .bom-manager-panel .bom-type-row:hover,
+html[data-theme='dark'] .conops-manager-panel .conops-type-row:hover {
+  background: #353535;
+}
+
+html[data-theme='dark'] .bom-input {
+  background: #333;
+  border-color: #444;
+  color: #e0e0e0;
+}
+
+html[data-theme='dark'] .bom-input::placeholder {
+  color: #888;
+}
+
+html[data-theme='dark'] .bom-input:focus {
+  border-color: #5ab8b0;
+  box-shadow: 0 0 0 2px rgba(90, 184, 176, 0.25);
+}
+
+html[data-theme='dark'] .bom-expand-btn {
+  color: #b0b0b0;
+}
+
+html[data-theme='dark'] .bom-expand-btn:hover {
+  background: #404040;
+  color: #e0e0e0;
+}
+
+html[data-theme='dark'] .bom-manager-panel .cell-instance-name,
+html[data-theme='dark'] .conops-manager-panel .cell-instance-name {
+  color: #b0b0b0;
+}
+
+html[data-theme='dark'] .bom-manager-panel .cell-desc,
+html[data-theme='dark'] .bom-manager-panel .cell-instance-desc,
+html[data-theme='dark'] .conops-manager-panel .cell-desc,
+html[data-theme='dark'] .conops-manager-panel .cell-instance-desc {
+  color: #999;
+}
+
 html[data-theme='dark'] .audit-header h2 {
   color: #e0e0e0;
 }
