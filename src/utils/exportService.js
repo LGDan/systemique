@@ -44,7 +44,7 @@ export class ExportService {
   }
 
   /**
-   * Export system and download as JSON file
+   * Export system and download as JSON file (no file picker; uses default filename)
    */
   static downloadJSON(system, filename = null) {
     const json = this.exportToJSON(system)
@@ -57,6 +57,42 @@ export class ExportService {
     link.click()
     link.remove()
     URL.revokeObjectURL(url)
+  }
+
+  /**
+   * Export system and save via file picker when supported; otherwise fallback to download.
+   * Returns a promise that resolves when save is complete (or picker was cancelled).
+   */
+  static async saveJSONWithPicker(system) {
+    const slug = (str) =>
+      String(str ?? '')
+        .toLowerCase()
+        .trim()
+        .replace(/\s+/g, '-')
+        .replace(/[^a-z0-9-]/g, '')
+        .replace(/-+/g, '-')
+        .replace(/^-|-$/g, '') || 'system'
+    const suggestedName = `${slug(system.name)}.systemique.json`
+    const json = this.exportToJSON(system)
+    const blob = new Blob([json], { type: 'application/json' })
+
+    if (typeof window !== 'undefined' && 'showSaveFilePicker' in window) {
+      try {
+        const handle = await window.showSaveFilePicker({
+          suggestedName,
+          types: [{ description: 'Systemique model', accept: { 'application/json': ['.systemique.json', '.json'] } }]
+        })
+        const writable = await handle.createWritable()
+        await writable.write(blob)
+        await writable.close()
+        return true
+      } catch (err) {
+        if (err.name === 'AbortError') return false
+        throw err
+      }
+    }
+    this.downloadJSON(system, suggestedName)
+    return true
   }
 
   /**
