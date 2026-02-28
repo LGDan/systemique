@@ -5,6 +5,8 @@ import SystemCanvas from './components/SystemCanvas.vue'
 import PropertiesPanel from './components/PropertiesPanel.vue'
 import GroupDialog from './components/GroupDialog.vue'
 import NewModelModal from './components/NewModelModal.vue'
+import ExportLinkModal from './components/ExportLinkModal.vue'
+import LoadSharedModelModal from './components/LoadSharedModelModal.vue'
 import RulesEditor from './components/RulesEditor.vue'
 import SecurityPanel from './components/SecurityPanel.vue'
 import ArchitectureLibrary from './components/ArchitectureLibrary.vue'
@@ -19,6 +21,7 @@ import { useVueFlow } from '@vue-flow/core'
 import { ExportService } from './utils/exportService.js'
 import { hasInterfaceTypesUrlParam, hasInterfaceRulesUrlParam, getInterfaceTypesUrl, getInterfaceRulesUrl } from './utils/urlConfig.js'
 import { PersistenceService } from './utils/persistenceService.js'
+import { getSharedDataFromUrl, clearSharedDataFromUrl } from './utils/shareLink.js'
 import { System } from './models/System.js'
 
 const systemStore = useSystemStore()
@@ -76,6 +79,9 @@ function toggleTheme() {
 }
 
 const showGroupDialog = ref(false)
+const showExportLinkModal = ref(false)
+const showLoadSharedModal = ref(false)
+const pendingSharedPayload = ref(null)
 const importFileInputRef = ref(null)
 const systemCanvasRef = ref(null)
 const activeTab = ref('design') // 'design', 'rules', or 'security'
@@ -202,6 +208,30 @@ function handleNavigateToComponent(componentId) {
   systemStore.requestNavigateToComponent(componentId)
 }
 
+function handleExportAsLink() {
+  showExportLinkModal.value = true
+}
+
+function handleLoadSharedModel() {
+  const payload = pendingSharedPayload.value
+  if (!payload) return
+  if (payload.interfaceTypes || payload.interfaceRules) {
+    PersistenceService.importInterfaceConfig(payload.interfaceTypes, payload.interfaceRules)
+  }
+  systemStore.importSystem(payload.system)
+  systemStore.saveToLocalStorage()
+  clearSharedDataFromUrl()
+  showLoadSharedModal.value = false
+  pendingSharedPayload.value = null
+  toastStore.show('Shared model loaded.', 'success')
+}
+
+function handleCancelLoadShared() {
+  clearSharedDataFromUrl()
+  showLoadSharedModal.value = false
+  pendingSharedPayload.value = null
+}
+
 onMounted(() => {
   applyTheme(theme.value)
   loadTips()
@@ -219,6 +249,22 @@ onMounted(() => {
     rulesStore.loadFromServer(getInterfaceRulesUrl()).catch((err) => {
       console.warn('Failed to load interface rules from URL:', err.message)
     })
+  }
+
+  // Check for shared model in URL (e.g. ?data=...)
+  if (typeof globalThis.window !== 'undefined' && globalThis.window.location?.search) {
+    const params = new URLSearchParams(globalThis.window.location.search)
+    if (params.has('data')) {
+      const payload = getSharedDataFromUrl()
+      if (payload) {
+        pendingSharedPayload.value = payload
+        showLoadSharedModal.value = true
+        systemStore.closeNewModelModal()
+      } else {
+        clearSharedDataFromUrl()
+        toastStore.show('Invalid or corrupted share link.', 'error')
+      }
+    }
   }
 })
 
@@ -358,6 +404,7 @@ function handleArrangeAlignVertical(mode) {
       @edit-copy="handleCopy"
       @edit-cut="handleCut"
       @edit-paste="handlePaste"
+      @export-as-link="handleExportAsLink"
       @arrange-align-horizontal="handleArrangeAlignHorizontal"
       @arrange-align-vertical="handleArrangeAlignVertical"
       @arrange-flip-horizontal="handleArrangeFlipHorizontal"
@@ -394,6 +441,18 @@ function handleArrangeAlignVertical(mode) {
       :initial-description="systemStore.newModelModalReason === 'first-load' ? (systemStore.currentSystem?.metadata?.description ?? '') : ''"
       @submit="handleNewModelSubmit"
       @close="handleNewModelClose"
+    />
+
+    <ExportLinkModal
+      :visible="showExportLinkModal"
+      @close="showExportLinkModal = false"
+    />
+
+    <LoadSharedModelModal
+      :visible="showLoadSharedModal"
+      :model-name="pendingSharedPayload?.system?.name ?? ''"
+      @load="handleLoadSharedModel"
+      @cancel="handleCancelLoadShared"
     />
 
     <Toast />

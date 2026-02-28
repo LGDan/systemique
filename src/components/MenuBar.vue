@@ -23,7 +23,7 @@ const props = defineProps({
   }
 })
 
-const emit = defineEmits(['group-components', 'import-file', 'import-file-change', 'import-drawio-change', 'new-system', 'open-file', 'save-as', 'edit-cut', 'edit-copy', 'edit-paste', 'arrange-align-horizontal', 'arrange-align-vertical', 'arrange-flip-horizontal', 'toggle-theme'])
+const emit = defineEmits(['group-components', 'import-file', 'import-file-change', 'import-drawio-change', 'new-system', 'open-file', 'save-as', 'export-as-link', 'edit-cut', 'edit-copy', 'edit-paste', 'arrange-align-horizontal', 'arrange-align-vertical', 'arrange-flip-horizontal', 'toggle-theme'])
 
 const systemStore = useSystemStore()
 const toastStore = useToastStore()
@@ -201,6 +201,11 @@ async function handleExportDrawio() {
   closeMenu()
 }
 
+function handleExportAsLink() {
+  emit('export-as-link')
+  closeMenu()
+}
+
 // Edit menu actions
 function handleCut() {
   emit('edit-cut')
@@ -342,6 +347,9 @@ function handleArrangeFlipHorizontal() {
         </div>
         <div class="menu-option" @click="handleExportDrawio" :disabled="!isDesignTab">
           <span>Export as draw.io…</span>
+        </div>
+        <div class="menu-option" @click="handleExportAsLink" :disabled="!isDesignTab">
+          <span>Export As Link…</span>
         </div>
         <div class="menu-option" @click="handleExportBOM" :disabled="!isDesignTab">
           <span>Export BOM (CSV)...</span>
