@@ -590,7 +590,7 @@ onUnmounted(() => {
 .axis-float-y {
   left: 8px;
   top: 8px;
-  bottom: 8px;
+  bottom: 140px;
   width: 32px;
   display: flex;
   flex-direction: column;
@@ -600,7 +600,7 @@ onUnmounted(() => {
 
 .axis-label-y-top {
   flex-shrink: 0;
-  height: 22px;
+  height: 90px;
   width: 32px;
   display: flex;
   align-items: center;
@@ -626,12 +626,12 @@ onUnmounted(() => {
   min-height: 0;
   width: 12px;
   border-radius: 6px;
-  background: linear-gradient(to top, #1F6B66, #fff);
+  background: linear-gradient(to bottom, #1F6B66, #fff);
 }
 
 .axis-label-y-bottom {
   flex-shrink: 0;
-  height: 22px;
+  height: 90px;
   width: 32px;
   display: flex;
   align-items: center;
@@ -648,13 +648,13 @@ onUnmounted(() => {
   white-space: nowrap;
   font-size: 11px;
   color: #555;
-  transform: translateX(-50%) rotate(-90deg);
+  transform: translateX(-50%) rotate(90deg);
   transform-origin: center center;
 }
 
 /* X axis: bottom — label, gradient (middle), label */
 .axis-float-x {
-  left: 8px;
+  left: 50px;
   right: 8px;
   bottom: 8px;
   height: 32px;
