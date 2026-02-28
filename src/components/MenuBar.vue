@@ -145,14 +145,6 @@ function handleImportDrawio() {
   closeMenu()
 }
 
-function handleExport() {
-  const system = systemStore.currentSystem
-  if (system) {
-    ExportService.downloadJSON(system)
-  }
-  closeMenu()
-}
-
 function handleExportBOM() {
   const system = systemStore.currentSystem
   if (system) {
@@ -335,9 +327,6 @@ function handleArrangeFlipHorizontal() {
         </div>
         <div class="menu-option" @click="handleImportDrawio" :disabled="!isDesignTab">
           <span>Import from draw.io…</span>
-        </div>
-        <div class="menu-option" @click="handleExport" :disabled="!isDesignTab">
-          <span>Export System...</span>
         </div>
         <div class="menu-option" @click="handleExportSVG" :disabled="!isDesignTab">
           <span>Export as SVG...</span>
