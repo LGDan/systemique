@@ -174,6 +174,8 @@ import {
   mdiFaceMask,
   mdiSafetyGoggles,
   mdiStairs,
+  mdiNote,
+  mdiNoteText,
 } from '@mdi/js'
 
 /**
@@ -380,7 +382,9 @@ export const iconRegistry = {
   'biohazard': mdiBiohazard,
   'face-mask': mdiFaceMask,
   'safety-goggles': mdiSafetyGoggles,
-  'stairs': mdiStairs
+  'stairs': mdiStairs,
+  'note': mdiNote,
+  'note-text': mdiNoteText,
 }
 
 /**

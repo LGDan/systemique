@@ -428,7 +428,17 @@ function handleSendToLibrary() {
       <!-- Node content -->
       <div class="node-content" :class="{ 'node-content-note': isNote }">
         <template v-if="isNote">
-          <div class="node-note-title">{{ component.name }}</div>
+          <div class="node-note-header">
+            <div class="node-title-row">
+              <MdiIcon
+                v-if="component.icon"
+                :name="component.icon"
+                :size="20"
+                class="node-icon"
+              />
+              <div class="node-note-title">{{ component.name }}</div>
+            </div>
+          </div>
           <div v-if="noteBodyHtml" class="node-note-body" v-html="noteBodyHtml"></div>
         </template>
         <template v-else>
@@ -588,18 +598,24 @@ html[data-theme='dark'] .system-node.trust-ignored {
   max-width: 320px;
 }
 
-.node-note-title {
-  font-weight: 600;
-  font-size: 14px;
-  color: #333;
+.node-note-header {
   margin-bottom: 6px;
   padding-bottom: 4px;
   border-bottom: 1px solid rgba(0, 0, 0, 0.1);
 }
 
+html[data-theme='dark'] .node-note-header {
+  border-bottom-color: rgba(255, 255, 255, 0.15);
+}
+
+.node-note-title {
+  font-weight: 600;
+  font-size: 14px;
+  color: #333;
+}
+
 html[data-theme='dark'] .node-note-title {
   color: #e0e0e0;
-  border-bottom-color: rgba(255, 255, 255, 0.15);
 }
 
 .node-note-body {
