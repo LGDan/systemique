@@ -97,7 +97,6 @@ import {
   mdiArrowDown,
   mdiArrowLeft,
   mdiArrowRight,
-  mdiChartBar,
   mdiFormTextbox,
   mdiFormDropdown,
   mdiFormTextarea,
@@ -153,7 +152,6 @@ import {
   mdiInvoiceList,
   mdiWebBox,
   mdiGridLarge,
-  mdiChartGantt,
   mdiBriefcase,
   mdiCalendarCheck,
   mdiFileTree,
@@ -209,7 +207,19 @@ import {
   mdiSync,
   mdiCodeJson,
   mdiSelectGroup,
-  mdiFileSend
+  mdiFileSend,
+  mdiChartBar, 
+  mdiChartGantt,
+  mdiChartLine,
+  mdiChartPie,
+  mdiChartScatterPlot,
+  mdiChartBarStacked,
+  mdiChartHistogram,
+  mdiChartBellCurve,
+  mdiChartTimelineVariant,
+  mdiGraph,
+  mdiChartArc,
+  mdiChartBubble,
 } from '@mdi/js'
 
 /**
@@ -343,7 +353,6 @@ export const iconRegistry = {
   'arrow-down': mdiArrowDown,
   'arrow-left': mdiArrowLeft,
   'arrow-right': mdiArrowRight,
-  'chart-bar': mdiChartBar,
   'form-textbox': mdiFormTextbox,
   'form-dropdown': mdiFormDropdown,
   'form-textarea': mdiFormTextarea,
@@ -396,7 +405,6 @@ export const iconRegistry = {
   'invoice-list': mdiInvoiceList,
   'web-box': mdiWebBox,
   'grid-large': mdiGridLarge,
-  'chart-gantt': mdiChartGantt,
   'briefcase': mdiBriefcase,
   'calendar-check': mdiCalendarCheck,
   'file-tree': mdiFileTree,
@@ -419,6 +427,8 @@ export const iconRegistry = {
   'stairs': mdiStairs,
   'note': mdiNote,
   'note-text': mdiNoteText,
+
+  // Data Processing
   'filter': mdiFilter,
   'table-filter': mdiTableFilter,
   'format-list-group': mdiFormatListGroup,
@@ -453,6 +463,20 @@ export const iconRegistry = {
   'code-json': mdiCodeJson,
   'select-group': mdiSelectGroup,
   'file-send': mdiFileSend,
+
+  // Data Viz
+  'chart-bar': mdiChartBar,
+  'chart-gantt': mdiChartGantt,
+  'chart-line': mdiChartLine,
+  'chart-pie': mdiChartPie,
+  'chart-scatter': mdiChartScatterPlot,
+  'chart-bar-stacked': mdiChartBarStacked,
+  'chart-histogram': mdiChartHistogram,
+  'chart-bell-curve': mdiChartBellCurve,
+  'chart-timeline-variant': mdiChartTimelineVariant,
+  'graph': mdiGraph,
+  'chart-arc': mdiChartArc,
+  'chart-bubble': mdiChartBubble,
 }
 
 /**
