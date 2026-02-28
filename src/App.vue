@@ -135,10 +135,17 @@ function handleNewModelClose() {
   systemStore.closeNewModelModal()
 }
 
-function handleSaveAs() {
+async function handleSaveAs() {
   const system = systemStore.currentSystem
-  if (system) {
-    ExportService.downloadJSON(system)
+  if (!system) return
+  try {
+    const saved = await ExportService.saveJSONWithPicker(system)
+    if (saved) {
+      toastStore.show('System saved.', 'success')
+    }
+  } catch (err) {
+    console.error('Save As failed:', err)
+    toastStore.show('Save As failed: ' + (err.message || String(err)), 'error')
   }
 }
 
