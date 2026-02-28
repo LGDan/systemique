@@ -349,8 +349,7 @@
       "properties": {},
       "icon": "switch",
       "categories": [
-        "Hardware",
-        "Network"
+        "Hardware - Network"
       ],
       "interfaces": [
         {
@@ -639,8 +638,7 @@
       "properties": {},
       "icon": "switch",
       "categories": [
-        "Hardware",
-        "Network"
+        "Hardware - Network"
       ],
       "interfaces": [
         {
@@ -1758,7 +1756,7 @@
       "properties": {},
       "icon": "pdu",
       "categories": [
-        "Power"
+        "Hardware - Infrastructure"
       ],
       "interfaces": [
         {
@@ -2734,7 +2732,7 @@
         "maxDistance": "10km"
       },
       "icon": "fiber-cable",
-      "categories": ["Cable - Network", "Fiber"],
+      "categories": ["Cable - Network"],
       "interfaces": [
         {
           "id": "lc-end-a",
@@ -2772,7 +2770,7 @@
         "maxDistance": "550m"
       },
       "icon": "fiber-cable",
-      "categories": ["Cable - Network", "Fiber"],
+      "categories": ["Cable - Network"],
       "interfaces": [
         {
           "id": "lc-end-a",
@@ -2807,8 +2805,7 @@
       "properties": {},
       "icon": "component",
       "categories": [
-        "Hardware",
-        "Compute"
+        "Hardware - Compute"
       ],
       "interfaces": [
         {
@@ -3162,8 +3159,7 @@
       },
       "icon": "power-cable",
       "categories": [
-        "Cable - Power",
-        "Power"
+        "Cable - Power"
       ],
       "interfaces": [
         {
@@ -3537,7 +3533,7 @@
       "properties": {},
       "icon": "component",
       "categories": [
-        "Hardware"
+        "Configuration"
       ],
       "interfaces": [
         {
@@ -3643,7 +3639,7 @@
       "properties": {},
       "icon": "application-braces",
       "categories": [
-        "Hardware"
+        "Configuration"
       ],
       "interfaces": [
         {
@@ -3671,7 +3667,7 @@
       "properties": {},
       "icon": "cog",
       "categories": [
-        "Hardware"
+        "Configuration"
       ],
       "interfaces": [
         {
@@ -3699,9 +3695,7 @@
       "properties": {},
       "icon": "database",
       "categories": [
-        "Software",
-        "Storage",
-        "Data"
+        "Software - Data"
       ],
       "interfaces": [
         {
@@ -3739,9 +3733,7 @@
       "properties": {},
       "icon": "table",
       "categories": [
-        "Software",
-        "Storage",
-        "Data"
+        "Software - Data"
       ],
       "interfaces": [
         {
@@ -3789,9 +3781,7 @@
       "properties": {},
       "icon": "table-column",
       "categories": [
-        "Software",
-        "Storage",
-        "Data"
+        "Software - Data"
       ],
       "interfaces": [
         {
@@ -3819,9 +3809,7 @@
       "properties": {},
       "icon": "table-column",
       "categories": [
-        "Software",
-        "Storage",
-        "Data"
+        "Software - Data"
       ],
       "interfaces": [
         {
@@ -4059,7 +4047,7 @@
       "properties": {},
       "icon": "application",
       "categories": [
-        "Software"
+        "Software - Applications"
       ],
       "interfaces": [
         {
@@ -4359,7 +4347,7 @@
       "properties": {},
       "icon": "table-column",
       "categories": [
-        "Data Storage"
+        "Hardware - Storage"
       ],
       "interfaces": [
         {
@@ -4581,7 +4569,7 @@
       "properties": {},
       "icon": "table",
       "categories": [
-        "Hardware"
+        "Software - Storage"
       ],
       "interfaces": [
         {
@@ -4619,7 +4607,7 @@
       "properties": {},
       "icon": "table",
       "categories": [
-        "Hardware"
+        "Software - Storage"
       ],
       "interfaces": [
         {
@@ -4657,7 +4645,7 @@
       "properties": {},
       "icon": "database",
       "categories": [
-        "Hardware"
+        "Software - Storage"
       ],
       "interfaces": [
         {
@@ -4695,7 +4683,7 @@
       "properties": {},
       "icon": "database",
       "categories": [
-        "Hardware"
+        "Software - Storage"
       ],
       "interfaces": [
         {
@@ -4733,7 +4721,7 @@
       "properties": {},
       "icon": "database",
       "categories": [
-        "Hardware"
+        "Software - Storage"
       ],
       "interfaces": [
         {
@@ -4771,7 +4759,7 @@
       "properties": {},
       "icon": "database",
       "categories": [
-        "Hardware"
+        "Software - Storage"
       ],
       "interfaces": [
         {
@@ -4809,7 +4797,7 @@
       "properties": {},
       "icon": "database",
       "categories": [
-        "Hardware"
+        "Software - Storage"
       ],
       "interfaces": [
         {
@@ -4847,8 +4835,7 @@
       "properties": {},
       "icon": "harddisk",
       "categories": [
-        "Hardware",
-        "Storage"
+        "Software - Storage"
       ],
       "interfaces": [
         {
@@ -4972,9 +4959,7 @@
       "properties": {},
       "icon": "bucket",
       "categories": [
-        "Software",
-        "Storage",
-        "Data"
+        "Software - Storage"
       ],
       "interfaces": [
         {
@@ -5068,7 +5053,7 @@
       "properties": {},
       "icon": "server-rack",
       "categories": [
-        "Storage"
+        "Hardware - Storage"
       ],
       "interfaces": [
         {
@@ -5124,7 +5109,7 @@
       "properties": {},
       "icon": "server-rack",
       "categories": [
-        "Data Storage"
+        "Hardware - Storage"
       ],
       "interfaces": [
         {
@@ -5540,7 +5525,7 @@
       "properties": {},
       "icon": "router",
       "categories": [
-        "Network"
+        "Software - Network"
       ],
       "interfaces": [
         {
@@ -5588,7 +5573,7 @@
       "properties": {},
       "icon": "ip",
       "categories": [
-        "Network"
+        "Software - Network"
       ],
       "interfaces": [
         {
@@ -5626,7 +5611,7 @@
       "properties": {},
       "icon": "network",
       "categories": [
-        "Network"
+        "Software - Network"
       ],
       "interfaces": [
         {
@@ -6438,7 +6423,7 @@
       "properties": {},
       "icon": "handshake",
       "categories": [
-        "Business"
+        "Software - Enterprise"
       ],
       "interfaces": [
         {
@@ -6476,7 +6461,7 @@
       "properties": {},
       "icon": "cash",
       "categories": [
-        "Business"
+        "Software - Enterprise"
       ],
       "interfaces": [
         {
@@ -6514,7 +6499,7 @@
       "properties": {},
       "icon": "account-plus",
       "categories": [
-        "Business"
+        "Software - Enterprise"
       ],
       "interfaces": [
         {
@@ -6552,7 +6537,7 @@
       "properties": {},
       "icon": "invoice-list",
       "categories": [
-        "Business"
+        "Software - Enterprise"
       ],
       "interfaces": [
         {
@@ -6590,7 +6575,7 @@
       "properties": {},
       "icon": "web-box",
       "categories": [
-        "Business"
+        "Software - Enterprise"
       ],
       "interfaces": [
         {
@@ -6628,7 +6613,7 @@
       "properties": {},
       "icon": "package-variant-closed",
       "categories": [
-        "Business"
+        "Software - Enterprise"
       ],
       "interfaces": [
         {
@@ -6666,7 +6651,7 @@
       "properties": {},
       "icon": "chart-gantt",
       "categories": [
-        "Business"
+        "Software - Enterprise"
       ],
       "interfaces": [
         {
@@ -6704,7 +6689,7 @@
       "properties": {},
       "icon": "calendar-check",
       "categories": [
-        "Business"
+        "Software - Enterprise"
       ],
       "interfaces": [
         {
@@ -6742,7 +6727,7 @@
       "properties": {},
       "icon": "ticket",
       "categories": [
-        "Business"
+        "Software - Enterprise"
       ],
       "interfaces": [
         {
@@ -6780,7 +6765,7 @@
       "properties": {},
       "icon": "face-agent",
       "categories": [
-        "Business"
+        "Software - Enterprise"
       ],
       "interfaces": [
         {
