@@ -10,6 +10,7 @@ import LoadSharedModelModal from './components/LoadSharedModelModal.vue'
 import RulesEditor from './components/RulesEditor.vue'
 import SecurityPanel from './components/SecurityPanel.vue'
 import ArchitectureLibrary from './components/ArchitectureLibrary.vue'
+import BOMManagerPanel from './components/BOMManagerPanel.vue'
 import MenuBar from './components/MenuBar.vue'
 import Toast from './components/Toast.vue'
 import { useSystemStore } from './stores/systemStore.js'
@@ -388,6 +389,12 @@ function handleArrangeAlignVertical(mode) {
           >
             Architecture Library
           </button>
+          <button 
+            @click="activeTab = 'bom'"
+            :class="['tab-button', { active: activeTab === 'bom' }]"
+          >
+            BOM Manager
+          </button>
         </div>
       </div>
       <div v-if="currentTip" class="header-tip">
@@ -436,6 +443,10 @@ function handleArrangeAlignVertical(mode) {
 
     <div v-else-if="activeTab === 'library'" class="app-content library-content">
       <ArchitectureLibrary @open-design="handleOpenDesign" />
+    </div>
+
+    <div v-else-if="activeTab === 'bom'" class="app-content bom-content">
+      <BOMManagerPanel />
     </div>
 
     <GroupDialog
@@ -617,7 +628,8 @@ function handleArrangeAlignVertical(mode) {
 }
 
 .rules-content,
-.library-content {
+.library-content,
+.bom-content {
   display: flex;
   flex-direction: column;
 }

@@ -245,6 +245,11 @@ function handleViewLibrary() {
   closeMenu()
 }
 
+function handleViewBom() {
+  emit('view-tab', 'bom')
+  closeMenu()
+}
+
 function handleToggleAxisOverlays() {
   emit('toggle-axis-overlays')
   closeMenu()
@@ -415,6 +420,9 @@ function handleArrangeFlipHorizontal() {
         </div>
         <div class="menu-option" @click="handleViewLibrary" :class="{ active: activeTab === 'library' }">
           <span>Architecture Library</span>
+        </div>
+        <div class="menu-option" @click="handleViewBom" :class="{ active: activeTab === 'bom' }">
+          <span>BOM Manager</span>
         </div>
         <div class="menu-separator"></div>
         <div class="menu-option" @click="handleToggleAxisOverlays" :class="{ active: axisOverlaysVisible }">
