@@ -26,13 +26,17 @@ const stats = computed(() => {
       totalCost: 0,
       totalImplementationCost: 0,
       maxShippingLeadTime: 0,
-      maxImplementationLeadTime: 0
+      maxImplementationLeadTime: 0,
+      sumImplementationLeadTime: 0,
+      timelineBestCaseDays: 0,
+      timelineWorstCaseDays: 0
     }
   }
   let totalCost = 0
   let totalImplementationCost = 0
   let maxShipping = 0
   let maxImplementation = 0
+  let sumImplementation = 0
   components.forEach(row => {
     const data = bomStore.getDataForType(row.type)
     totalCost += (row.quantity ?? 0) * (Number(data.pricePerUnit) || 0)
@@ -41,14 +45,20 @@ const stats = computed(() => {
     const impl = Number(data.implementationLeadTime) || 0
     if (ship > maxShipping) maxShipping = ship
     if (impl > maxImplementation) maxImplementation = impl
+    sumImplementation += (row.quantity ?? 0) * impl
   })
   const totalParts = components.reduce((sum, c) => sum + (c.quantity ?? 0), 0)
+  const timelineBestCaseDays = maxShipping + maxImplementation
+  const timelineWorstCaseDays = maxShipping + sumImplementation
   return {
     totalParts,
     totalCost,
     totalImplementationCost,
     maxShippingLeadTime: maxShipping,
-    maxImplementationLeadTime: maxImplementation
+    maxImplementationLeadTime: maxImplementation,
+    sumImplementationLeadTime: sumImplementation,
+    timelineBestCaseDays,
+    timelineWorstCaseDays
   }
 })
 
@@ -157,7 +167,22 @@ function formatCurrency(value) {
           <div class="stat-label">Max implementation lead (days)</div>
           <div class="stat-value">{{ stats.maxImplementationLeadTime }}</div>
         </div>
+        <div class="stat-card">
+          <div class="stat-label">Sum implementation lead (days)</div>
+          <div class="stat-value">{{ stats.sumImplementationLeadTime }}</div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-label">Timeline best case (days)</div>
+          <div class="stat-value">{{ stats.timelineBestCaseDays }}</div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-label">Timeline worst case (days)</div>
+          <div class="stat-value">{{ stats.timelineWorstCaseDays }}</div>
+        </div>
       </div>
+      <p class="stats-summary">
+        Cost: total and implementation cost above. Implementation lead: max = parallel, sum = series. Best case = max shipping + max implementation; worst case = max shipping + sum implementation.
+      </p>
     </div>
 
     <div class="import-export-section">
@@ -312,6 +337,13 @@ function formatCurrency(value) {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
   gap: 12px;
+}
+
+.stats-summary {
+  margin: 12px 0 0;
+  font-size: 12px;
+  color: #666;
+  line-height: 1.4;
 }
 
 .stat-card {
