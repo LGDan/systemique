@@ -8,12 +8,14 @@ import SystemNode from './SystemNode.vue'
 import CustomEdge from '../CustomEdge.vue'
 import { useSystemStore } from '../stores/systemStore.js'
 import { useToastStore } from '../stores/toastStore.js'
+import { useClipboardStore } from '../stores/clipboardStore.js'
 import { useComponentLibraryStore } from '../stores/componentLibraryStore.js'
 import { validateConnectionAttempt } from '../utils/connectionValidator.js'
 import { Connection } from '../models/Connection.js'
 import { Component } from '../models/Component.js'
 
 const systemStore = useSystemStore()
+const clipboardStore = useClipboardStore()
 const libraryStore = useComponentLibraryStore()
 const vueFlow = useVueFlow()
 const { getSelectedNodes, onConnect, addEdges, removeEdges, onNodesChange, onEdgesChange, addNodes, screenToFlowCoordinate, onNodeDragStop, fitView } = vueFlow
@@ -24,6 +26,7 @@ const spacePressed = ref(false)
 
 const NODE_WIDTH = 120
 const NODE_HEIGHT = 80
+const PASTE_OFFSET = { x: 40, y: 40 }
 
 const panOnDrag = computed(() => (spacePressed.value ? [0, 1, 2] : [1, 2]))
 
@@ -297,6 +300,103 @@ function alignVerticalMiddle() {
   systemStore.saveToLocalStorage()
 }
 
+const CLIPBOARD_MARKER = '__systemique_clipboard'
+
+function copySelection() {
+  const selected = getSelectedNodes.value
+  if (selected.length === 0) return
+  const system = systemStore.currentSystem
+  if (!system) return
+  const selectedIds = new Set(selected.map((n) => n.id))
+  const components = selected.map((node) => {
+    const comp = systemStore.getComponent(node.id)
+    return comp ? comp.toJSON() : null
+  }).filter(Boolean)
+  const connections = system.connections
+    .filter((c) => selectedIds.has(c.sourceComponentId) && selectedIds.has(c.targetComponentId))
+    .map((c) => c.toJSON())
+  clipboardStore.setClipboard(components, connections)
+  const payload = { [CLIPBOARD_MARKER]: true, version: 1, components, connections }
+  if (typeof navigator !== 'undefined' && navigator.clipboard?.writeText) {
+    navigator.clipboard.writeText(JSON.stringify(payload)).catch(() => {})
+  }
+}
+
+function cutSelection() {
+  copySelection()
+  const selected = getSelectedNodes.value
+  selected.forEach((node) => systemStore.removeComponent(node.id))
+}
+
+async function pasteSelection() {
+  let comps = []
+  let conns = []
+  try {
+    if (typeof navigator !== 'undefined' && navigator.clipboard?.readText) {
+      const text = await navigator.clipboard.readText()
+      const data = JSON.parse(text)
+      if (data && data[CLIPBOARD_MARKER] && Array.isArray(data.components)) {
+        comps = data.components
+        conns = data.connections ?? []
+        clipboardStore.setClipboard(comps, conns)
+      }
+    }
+  } catch {
+    // ignore: not our format or permission denied
+  }
+  if (comps.length === 0) {
+    const clip = clipboardStore.getClipboard()
+    comps = clip.components
+    conns = clip.connections
+  }
+  if (comps.length === 0) return
+  const system = systemStore.currentSystem
+  if (!system) return
+  const compIdMap = new Map()
+  const ifaceIdMap = new Map()
+  comps.forEach((c) => {
+    const newCompId = `component-${Date.now()}-${Math.random().toString(36).slice(2, 9)}`
+    compIdMap.set(c.id, newCompId)
+    ;(c.interfaces || []).forEach((i) => {
+      ifaceIdMap.set(i.id, `interface-${Date.now()}-${Math.random().toString(36).slice(2, 11)}`)
+    })
+  })
+  const newCompIds = []
+  comps.forEach((c) => {
+    const json = { ...c }
+    json.id = compIdMap.get(c.id)
+    json.position = {
+      x: (c.position?.x ?? 0) + PASTE_OFFSET.x,
+      y: (c.position?.y ?? 0) + PASTE_OFFSET.y
+    }
+    json.interfaces = (json.interfaces || []).map((i) => ({
+      ...i,
+      id: ifaceIdMap.get(i.id) ?? i.id
+    }))
+    const newComp = Component.fromJSON(json)
+    systemStore.addComponent(newComp)
+    newCompIds.push(newComp.id)
+  })
+  conns.forEach((conn) => {
+    const newConnId = `connection-${Date.now()}-${Math.random().toString(36).slice(2, 9)}`
+    const sourceCompId = compIdMap.get(conn.sourceComponentId)
+    const targetCompId = compIdMap.get(conn.targetComponentId)
+    const sourceIfaceId = ifaceIdMap.get(conn.sourceInterfaceId)
+    const targetIfaceId = ifaceIdMap.get(conn.targetInterfaceId)
+    if (sourceCompId && targetCompId && sourceIfaceId && targetIfaceId) {
+      systemStore.addConnection(
+        new Connection(newConnId, sourceCompId, sourceIfaceId, targetCompId, targetIfaceId, conn.metadata || {})
+      )
+    }
+  })
+  nextTick(() => {
+    nodes.value = nodes.value.map((n) => ({
+      ...n,
+      selected: newCompIds.includes(n.id)
+    }))
+  })
+}
+
 function duplicateSelection() {
   const selected = getSelectedNodes.value
   if (selected.length === 0) return
@@ -341,14 +441,29 @@ function handleKeyDown(event) {
     }
     return
   }
-  if ((event.metaKey || event.ctrlKey) && event.key.toLowerCase() === 'h') {
+  if ((event.metaKey || event.ctrlKey) && event.key.toLowerCase() === 'x') {
+    event.preventDefault()
+    cutSelection()
+    return
+  }
+  if ((event.metaKey || event.ctrlKey) && event.key.toLowerCase() === 'c') {
+    event.preventDefault()
+    copySelection()
+    return
+  }
+  if ((event.metaKey || event.ctrlKey) && event.shiftKey && event.key.toLowerCase() === 'h') {
     event.preventDefault()
     alignHorizontalCenter()
     return
   }
-  if ((event.metaKey || event.ctrlKey) && event.key.toLowerCase() === 'v') {
+  if ((event.metaKey || event.ctrlKey) && event.shiftKey && event.key.toLowerCase() === 'v') {
     event.preventDefault()
     alignVerticalMiddle()
+    return
+  }
+  if ((event.metaKey || event.ctrlKey) && event.key.toLowerCase() === 'v') {
+    event.preventDefault()
+    pasteSelection()
     return
   }
   if ((event.metaKey || event.ctrlKey) && event.key.toLowerCase() === 'd') {
@@ -363,6 +478,8 @@ function handleKeyUp(event) {
     event.preventDefault()
   }
 }
+
+defineExpose({ copySelection, cutSelection, pasteSelection })
 
 onMounted(() => {
   document.addEventListener('keydown', handleKeyDown)

@@ -1,5 +1,5 @@
 <script setup>
-import { computed, ref, onMounted, onUnmounted } from 'vue'
+import { computed, ref, inject, onMounted, onUnmounted } from 'vue'
 import { Position } from '@vue-flow/core'
 import InterfaceHandle from './InterfaceHandle.vue'
 import ContextMenu from './ContextMenu.vue'
@@ -56,9 +56,11 @@ const interfacesByPosition = computed(() => {
 const contextMenuVisible = ref(false)
 const contextMenuPosition = ref({ x: 0, y: 0 })
 const installationGuideVisible = ref(false)
+const clipboardActions = inject('clipboardActions', null)
+const hasClipboard = inject('hasClipboard', false)
 
 const contextMenuItems = computed(() => {
-  return [
+  const items = [
     {
       id: 'installation-guide',
       label: 'Installation Guide',
@@ -82,6 +84,28 @@ const contextMenuItems = computed(() => {
       label: 'Duplicate',
       icon: '📑',
       action: 'duplicate'
+    },
+    {
+      id: 'cut',
+      label: 'Cut',
+      icon: '✂️',
+      action: 'cut',
+      shortcut: 'Ctrl+X'
+    },
+    {
+      id: 'copy',
+      label: 'Copy',
+      icon: '📋',
+      action: 'copy',
+      shortcut: 'Ctrl+C'
+    },
+    {
+      id: 'paste',
+      label: 'Paste',
+      icon: '📄',
+      action: 'paste',
+      shortcut: 'Ctrl+V',
+      disabled: !(hasClipboard?.value ?? hasClipboard ?? false)
     },
     {
       id: 'send-to-library',
@@ -108,6 +132,7 @@ const contextMenuItems = computed(() => {
       action: 'delete'
     }
   ]
+  return items
 })
 
 function handleContextMenu(event) {
@@ -126,6 +151,12 @@ function handleMenuSelect(item) {
     handleCopyAsJSONTemplate()
   } else if (item.action === 'duplicate') {
     handleDuplicate()
+  } else if (item.action === 'cut' && clipboardActions?.cut) {
+    clipboardActions.cut()
+  } else if (item.action === 'copy' && clipboardActions?.copy) {
+    clipboardActions.copy()
+  } else if (item.action === 'paste' && clipboardActions?.paste) {
+    clipboardActions.paste()
   } else if (item.action === 'sendToLibrary') {
     handleSendToLibrary()
   } else if (item.action === 'interfaceFlipLR') {

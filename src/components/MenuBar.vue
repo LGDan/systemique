@@ -16,10 +16,14 @@ const props = defineProps({
   darkTheme: {
     type: Boolean,
     default: false
+  },
+  hasClipboard: {
+    type: Boolean,
+    default: false
   }
 })
 
-const emit = defineEmits(['group-components', 'import-file', 'import-file-change', 'import-drawio-change', 'new-system', 'open-file', 'save-as', 'arrange-align-horizontal', 'arrange-align-vertical', 'arrange-flip-horizontal', 'toggle-theme'])
+const emit = defineEmits(['group-components', 'import-file', 'import-file-change', 'import-drawio-change', 'new-system', 'open-file', 'save-as', 'edit-cut', 'edit-copy', 'edit-paste', 'arrange-align-horizontal', 'arrange-align-vertical', 'arrange-flip-horizontal', 'toggle-theme'])
 
 const systemStore = useSystemStore()
 const toastStore = useToastStore()
@@ -198,6 +202,18 @@ async function handleExportDrawio() {
 }
 
 // Edit menu actions
+function handleCut() {
+  emit('edit-cut')
+  closeMenu()
+}
+function handleCopy() {
+  emit('edit-copy')
+  closeMenu()
+}
+function handlePaste() {
+  emit('edit-paste')
+  closeMenu()
+}
 function handleGroup() {
   emit('group-components')
   closeMenu()
@@ -336,6 +352,19 @@ function handleArrangeFlipHorizontal() {
     <div class="menu-item" @click="toggleMenu('edit')">
       <span>Edit</span>
       <div v-if="activeMenu === 'edit'" class="menu-dropdown">
+        <div class="menu-option" @click="handleCut" :disabled="!hasSelection || !isDesignTab">
+          <span>Cut</span>
+          <span class="menu-shortcut">Ctrl+X</span>
+        </div>
+        <div class="menu-option" @click="handleCopy" :disabled="!hasSelection || !isDesignTab">
+          <span>Copy</span>
+          <span class="menu-shortcut">Ctrl+C</span>
+        </div>
+        <div class="menu-option" @click="handlePaste" :disabled="!hasClipboard || !isDesignTab">
+          <span>Paste</span>
+          <span class="menu-shortcut">Ctrl+V</span>
+        </div>
+        <div class="menu-separator"></div>
         <div class="menu-option" @click="handleGroup" :disabled="!hasSelection || !isDesignTab">
           <span>Group Components</span>
         </div>

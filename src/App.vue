@@ -1,5 +1,5 @@
 <script setup>
-import { ref, computed, watch, onMounted, onUnmounted } from 'vue'
+import { ref, computed, watch, provide, onMounted, onUnmounted } from 'vue'
 import ComponentPalette from './components/ComponentPalette.vue'
 import SystemCanvas from './components/SystemCanvas.vue'
 import PropertiesPanel from './components/PropertiesPanel.vue'
@@ -12,6 +12,7 @@ import MenuBar from './components/MenuBar.vue'
 import Toast from './components/Toast.vue'
 import { useSystemStore } from './stores/systemStore.js'
 import { useToastStore } from './stores/toastStore.js'
+import { useClipboardStore } from './stores/clipboardStore.js'
 import { useInterfaceTypesStore } from './stores/interfaceTypesStore.js'
 import { useInterfaceRulesStore } from './stores/interfaceRulesStore.js'
 import { useVueFlow } from '@vue-flow/core'
@@ -22,6 +23,7 @@ import { System } from './models/System.js'
 
 const systemStore = useSystemStore()
 const toastStore = useToastStore()
+const clipboardStore = useClipboardStore()
 const { getSelectedNodes } = useVueFlow()
 
 const logoUrl = `${import.meta.env.BASE_URL}systemique-logo.svg`
@@ -75,7 +77,23 @@ function toggleTheme() {
 
 const showGroupDialog = ref(false)
 const importFileInputRef = ref(null)
+const systemCanvasRef = ref(null)
 const activeTab = ref('design') // 'design', 'rules', or 'security'
+
+const hasClipboard = computed(() => !clipboardStore.isEmpty)
+
+function handleCopy() {
+  systemCanvasRef.value?.copySelection()
+}
+function handleCut() {
+  systemCanvasRef.value?.cutSelection()
+}
+function handlePaste() {
+  systemCanvasRef.value?.pasteSelection()
+}
+
+provide('clipboardActions', { copy: handleCopy, cut: handleCut, paste: handlePaste })
+provide('hasClipboard', hasClipboard)
 
 const selectedComponentIds = computed(() => {
   return getSelectedNodes.value.map(n => n.id)
@@ -328,6 +346,7 @@ function handleArrangeAlignVertical(mode) {
       :selected-component-ids="selectedComponentIds"
       :active-tab="activeTab"
       :dark-theme="theme === 'dark'"
+      :has-clipboard="hasClipboard"
       @group-components="handleGroup"
       @toggle-theme="toggleTheme"
       @import-file="handleImportClick"
@@ -336,6 +355,9 @@ function handleArrangeAlignVertical(mode) {
       @new-system="handleNewSystem"
       @save-as="handleSaveAs"
       @view-tab="handleViewTab"
+      @edit-copy="handleCopy"
+      @edit-cut="handleCut"
+      @edit-paste="handlePaste"
       @arrange-align-horizontal="handleArrangeAlignHorizontal"
       @arrange-align-vertical="handleArrangeAlignVertical"
       @arrange-flip-horizontal="handleArrangeFlipHorizontal"
@@ -343,7 +365,7 @@ function handleArrangeAlignVertical(mode) {
 
     <div v-if="activeTab === 'design'" class="app-content">
       <ComponentPalette />
-      <SystemCanvas />
+      <SystemCanvas ref="systemCanvasRef" />
       <PropertiesPanel />
     </div>
 
