@@ -25,12 +25,14 @@ function defaultTypeData() {
 
 const DEFAULT_HOURS_PER_WORKING_DAY = 8
 const DEFAULT_WORKING_DAYS_PER_YEAR = 260
+const DEFAULT_HOURLY_RATE = 0
 
 export const useConopsManagerStore = defineStore('conopsManager', () => {
   const typeData = ref({})
   const currency = ref({ code: 'USD', symbol: '$' })
   const hoursPerWorkingDay = ref(DEFAULT_HOURS_PER_WORKING_DAY)
   const workingDaysPerYear = ref(DEFAULT_WORKING_DAYS_PER_YEAR)
+  const hourlyRate = ref(DEFAULT_HOURLY_RATE)
 
   function loadFromLocalStorage() {
     try {
@@ -47,6 +49,9 @@ export const useConopsManagerStore = defineStore('conopsManager', () => {
         if (typeof data.workingDaysPerYear === 'number' && data.workingDaysPerYear >= 0) {
           workingDaysPerYear.value = data.workingDaysPerYear
         }
+        if (typeof data.hourlyRate === 'number' && data.hourlyRate >= 0) {
+          hourlyRate.value = data.hourlyRate
+        }
       }
     } catch (error) {
       console.error('Failed to load CONOPS manager from localStorage:', error)
@@ -59,7 +64,8 @@ export const useConopsManagerStore = defineStore('conopsManager', () => {
         typeData: typeData.value,
         currency: currency.value,
         hoursPerWorkingDay: hoursPerWorkingDay.value,
-        workingDaysPerYear: workingDaysPerYear.value
+        workingDaysPerYear: workingDaysPerYear.value,
+        hourlyRate: hourlyRate.value
       }))
     } catch (error) {
       console.error('Failed to save CONOPS manager to localStorage:', error)
@@ -104,6 +110,14 @@ export const useConopsManagerStore = defineStore('conopsManager', () => {
     }
   }
 
+  function setHourlyRate(value) {
+    const num = Number(value)
+    if (!Number.isNaN(num) && num >= 0) {
+      hourlyRate.value = num
+      saveToLocalStorage()
+    }
+  }
+
   function exportTypeData() {
     return {
       version: EXPORT_VERSION,
@@ -111,7 +125,8 @@ export const useConopsManagerStore = defineStore('conopsManager', () => {
       typeData: { ...typeData.value },
       currency: { ...currency.value },
       hoursPerWorkingDay: hoursPerWorkingDay.value,
-      workingDaysPerYear: workingDaysPerYear.value
+      workingDaysPerYear: workingDaysPerYear.value,
+      hourlyRate: hourlyRate.value
     }
   }
 
@@ -144,6 +159,10 @@ export const useConopsManagerStore = defineStore('conopsManager', () => {
       workingDaysPerYear.value = payload.workingDaysPerYear
       saveToLocalStorage()
     }
+    if (typeof payload.hourlyRate === 'number' && payload.hourlyRate >= 0) {
+      hourlyRate.value = payload.hourlyRate
+      saveToLocalStorage()
+    }
     return { success: true }
   }
 
@@ -152,12 +171,14 @@ export const useConopsManagerStore = defineStore('conopsManager', () => {
     currency,
     hoursPerWorkingDay,
     workingDaysPerYear,
+    hourlyRate,
     CURRENCIES: Object.freeze(CURRENCIES),
     getDataForType,
     setDataForType,
     setCurrency,
     setHoursPerWorkingDay,
     setWorkingDaysPerYear,
+    setHourlyRate,
     exportTypeData,
     importTypeData
   }

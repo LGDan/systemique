@@ -132,6 +132,37 @@ const maintenanceHeadcountFTE = computed(() => {
   return Math.round((annualHours / available) * 10) / 10
 })
 
+const horizonMonths = computed(() => {
+  const horizon = HORIZONS.find(h => h.id === statsHorizon.value) || HORIZONS[1]
+  return horizon.months
+})
+
+const hourlyRate = computed(() => Number(conopsStore.hourlyRate) || 0)
+
+const operationalResourceCost = computed(() => {
+  return horizonStats.value.humanOpsHours * hourlyRate.value
+})
+
+const operationalTCO = computed(() => {
+  return horizonStats.value.humanOpsCost + operationalResourceCost.value
+})
+
+const maintenanceHoursOverHorizon = computed(() => {
+  return totalMaintenanceHoursPerMonth.value * horizonMonths.value
+})
+
+const maintenanceResourceCost = computed(() => {
+  return maintenanceHoursOverHorizon.value * hourlyRate.value
+})
+
+const maintenanceTCO = computed(() => {
+  return horizonStats.value.maintenanceCost + maintenanceResourceCost.value
+})
+
+const modelTCO = computed(() => {
+  return operationalTCO.value + maintenanceTCO.value
+})
+
 function getTypeData(type) {
   return conopsStore.getDataForType(type)
 }
@@ -262,6 +293,18 @@ function isExpanded(type) {
           class="working-time-input"
         />
       </div>
+      <div class="working-time-row">
+        <label for="conops-hourly-rate">Hourly rate ({{ conopsStore.currency.symbol }}/hr)</label>
+        <input
+          id="conops-hourly-rate"
+          type="number"
+          min="0"
+          step="0.01"
+          :value="conopsStore.hourlyRate"
+          @input="conopsStore.setHourlyRate(($event.target).value)"
+          class="working-time-input"
+        />
+      </div>
     </div>
 
     <div v-if="rows.length > 0" class="horizon-tabs">
@@ -280,16 +323,36 @@ function isExpanded(type) {
     <div v-if="rows.length > 0" class="audit-stats">
       <div class="stats-grid">
         <div class="stat-card">
-          <div class="stat-label">Human operations cost</div>
+          <div class="stat-label">Operations material cost</div>
           <div class="stat-value">{{ formatCurrency(horizonStats.humanOpsCost) }}</div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-label">Operational resource cost</div>
+          <div class="stat-value">{{ formatCurrency(operationalResourceCost) }}</div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-label">Operational TCO</div>
+          <div class="stat-value">{{ formatCurrency(operationalTCO) }}</div>
         </div>
         <div class="stat-card">
           <div class="stat-label">Human operations (hours)</div>
           <div class="stat-value">{{ horizonStats.humanOpsHours.toLocaleString(undefined, { maximumFractionDigits: 0 }) }}</div>
         </div>
         <div class="stat-card">
-          <div class="stat-label">Maintenance cost</div>
+          <div class="stat-label">Maintenance material cost</div>
           <div class="stat-value">{{ formatCurrency(horizonStats.maintenanceCost) }}</div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-label">Maintenance resource cost</div>
+          <div class="stat-value">{{ formatCurrency(maintenanceResourceCost) }}</div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-label">Maintenance TCO</div>
+          <div class="stat-value">{{ formatCurrency(maintenanceTCO) }}</div>
+        </div>
+        <div class="stat-card stat-card-tco">
+          <div class="stat-label">Model TCO</div>
+          <div class="stat-value">{{ formatCurrency(modelTCO) }}</div>
         </div>
         <div class="stat-card">
           <div class="stat-label">Total maintenance hrs/mo</div>
@@ -305,7 +368,7 @@ function isExpanded(type) {
         </div>
       </div>
       <p class="stats-summary">
-        Totals for the selected time horizon. Human ops: linear (quantity × cost/hours per month × months). Maintenance: recurring cost with yearly increase % plus replacement cost (BOM price × factor %) at each replace interval. Headcount (FTE) is estimated from annual hours ÷ (working days per year × hours per working day).
+        Totals for the selected time horizon. Material cost: from table (quantity × cost per month × months). Resource cost: hours × hourly rate. TCO = material + resource. Headcount (FTE) = annual hours ÷ (working days per year × hours per working day). Model TCO = Operational TCO + Maintenance TCO.
       </p>
     </div>
 
@@ -603,6 +666,21 @@ function isExpanded(type) {
   display: flex;
   flex-direction: column;
   gap: 8px;
+}
+
+.stat-card-tco {
+  background: #e8f5e9;
+  border-color: #2e7d32;
+}
+
+.stat-card-tco .stat-label {
+  color: #1b5e20;
+  font-weight: 700;
+}
+
+.stat-card-tco .stat-value {
+  color: #1b5e20;
+  font-weight: 700;
 }
 
 .stat-label {
