@@ -58,9 +58,9 @@ function computeHorizonStats(months) {
     const conops = conopsStore.getDataForType(row.type)
     const bom = bomStore.getDataForType(row.type)
     const qty = row.quantity ?? 0
-    const costHumanOps = Number(conops.costPerMonthHumanOps) || 0
-    const hoursHumanOps = Number(conops.hoursPerMonthHumanOps) || 0
-    const costMaint = Number(conops.costPerMonthMaintenance) || 0
+    const costHumanOps = Number(conops.operationsMaterialCostPerMonth) || 0
+    const hoursHumanOps = Number(conops.operationalHoursPerMonth) || 0
+    const costMaint = Number(conops.maintenanceMaterialCostPerMonth) || 0
     const yearlyPct = Number(conops.yearlyCostIncreasePercent) || 0
     const replaceAfter = Number(conops.replaceAfterMonths) || 0
     const factorPct = Number(conops.replacementCostFactorPercent) || 0
@@ -100,7 +100,7 @@ const totalMaintenanceHoursPerMonth = computed(() => {
   return rows.value.reduce((sum, row) => {
     const conops = conopsStore.getDataForType(row.type)
     const qty = row.quantity ?? 0
-    return sum + qty * (Number(conops.hoursPerMonthMaintenance) || 0)
+    return sum + qty * (Number(conops.maintenanceHoursPerMonth) || 0)
   }, 0)
 })
 
@@ -108,7 +108,7 @@ const totalHumanOpsHoursPerMonth = computed(() => {
   return rows.value.reduce((sum, row) => {
     const conops = conopsStore.getDataForType(row.type)
     const qty = row.quantity ?? 0
-    return sum + qty * (Number(conops.hoursPerMonthHumanOps) || 0)
+    return sum + qty * (Number(conops.operationalHoursPerMonth) || 0)
   }, 0)
 })
 
@@ -168,10 +168,10 @@ function getTypeData(type) {
 }
 
 const CONOPS_FIELDS = new Set([
-  'hoursPerMonthHumanOps',
-  'costPerMonthHumanOps',
-  'hoursPerMonthMaintenance',
-  'costPerMonthMaintenance',
+  'operationalHoursPerMonth',
+  'operationsMaterialCostPerMonth',
+  'maintenanceHoursPerMonth',
+  'maintenanceMaterialCostPerMonth',
   'yearlyCostIncreasePercent',
   'replaceAfterMonths',
   'replacementCostFactorPercent'
@@ -440,8 +440,8 @@ function isExpanded(type) {
                     type="number"
                     min="0"
                     step="any"
-                    :value="getTypeData(row.type).hoursPerMonthHumanOps"
-                    @input="updateTypeField(row.type, 'hoursPerMonthHumanOps', ($event.target).value)"
+                    :value="getTypeData(row.type).operationalHoursPerMonth"
+                    @input="updateTypeField(row.type, 'operationalHoursPerMonth', ($event.target).value)"
                     class="bom-input"
                   />
                 </td>
@@ -450,8 +450,8 @@ function isExpanded(type) {
                     type="number"
                     min="0"
                     step="any"
-                    :value="getTypeData(row.type).costPerMonthHumanOps"
-                    @input="updateTypeField(row.type, 'costPerMonthHumanOps', ($event.target).value)"
+                    :value="getTypeData(row.type).operationsMaterialCostPerMonth"
+                    @input="updateTypeField(row.type, 'operationsMaterialCostPerMonth', ($event.target).value)"
                     class="bom-input"
                   />
                 </td>
@@ -460,8 +460,8 @@ function isExpanded(type) {
                     type="number"
                     min="0"
                     step="any"
-                    :value="getTypeData(row.type).hoursPerMonthMaintenance"
-                    @input="updateTypeField(row.type, 'hoursPerMonthMaintenance', ($event.target).value)"
+                    :value="getTypeData(row.type).maintenanceHoursPerMonth"
+                    @input="updateTypeField(row.type, 'maintenanceHoursPerMonth', ($event.target).value)"
                     class="bom-input"
                   />
                 </td>
@@ -470,8 +470,8 @@ function isExpanded(type) {
                     type="number"
                     min="0"
                     step="any"
-                    :value="getTypeData(row.type).costPerMonthMaintenance"
-                    @input="updateTypeField(row.type, 'costPerMonthMaintenance', ($event.target).value)"
+                    :value="getTypeData(row.type).maintenanceMaterialCostPerMonth"
+                    @input="updateTypeField(row.type, 'maintenanceMaterialCostPerMonth', ($event.target).value)"
                     class="bom-input"
                   />
                 </td>

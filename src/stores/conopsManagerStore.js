@@ -13,13 +13,27 @@ const CURRENCIES = [
 
 function defaultTypeData() {
   return {
-    hoursPerMonthHumanOps: 0,
-    costPerMonthHumanOps: 0,
-    hoursPerMonthMaintenance: 0,
-    costPerMonthMaintenance: 0,
+    operationalHoursPerMonth: 0,
+    operationsMaterialCostPerMonth: 0,
+    maintenanceHoursPerMonth: 0,
+    maintenanceMaterialCostPerMonth: 0,
     yearlyCostIncreasePercent: 0,
     replaceAfterMonths: 0,
     replacementCostFactorPercent: 0
+  }
+}
+
+/** Migrate legacy key names to current schema (for localStorage and import). */
+function migrateTypeDataEntry(values) {
+  if (!values || typeof values !== 'object') return defaultTypeData()
+  return {
+    operationalHoursPerMonth: values.operationalHoursPerMonth ?? values.hoursPerMonthHumanOps ?? 0,
+    operationsMaterialCostPerMonth: values.operationsMaterialCostPerMonth ?? values.costPerMonthHumanOps ?? 0,
+    maintenanceHoursPerMonth: values.maintenanceHoursPerMonth ?? values.hoursPerMonthMaintenance ?? 0,
+    maintenanceMaterialCostPerMonth: values.maintenanceMaterialCostPerMonth ?? values.costPerMonthMaintenance ?? 0,
+    yearlyCostIncreasePercent: values.yearlyCostIncreasePercent ?? 0,
+    replaceAfterMonths: values.replaceAfterMonths ?? 0,
+    replacementCostFactorPercent: values.replacementCostFactorPercent ?? 0
   }
 }
 
@@ -39,7 +53,12 @@ export const useConopsManagerStore = defineStore('conopsManager', () => {
       const stored = localStorage.getItem(STORAGE_KEY)
       if (stored) {
         const data = JSON.parse(stored)
-        typeData.value = data.typeData ?? {}
+        const raw = data.typeData ?? {}
+        const migrated = {}
+        for (const [type, values] of Object.entries(raw)) {
+          migrated[type] = migrateTypeDataEntry(values)
+        }
+        typeData.value = migrated
         if (data.currency?.code && data.currency?.symbol) {
           currency.value = data.currency
         }
@@ -136,15 +155,7 @@ export const useConopsManagerStore = defineStore('conopsManager', () => {
     if (typeof data === 'object' && !Array.isArray(data)) {
       Object.entries(data).forEach(([type, values]) => {
         if (values && typeof values === 'object') {
-          setDataForType(type, {
-            hoursPerMonthHumanOps: values.hoursPerMonthHumanOps,
-            costPerMonthHumanOps: values.costPerMonthHumanOps,
-            hoursPerMonthMaintenance: values.hoursPerMonthMaintenance,
-            costPerMonthMaintenance: values.costPerMonthMaintenance,
-            yearlyCostIncreasePercent: values.yearlyCostIncreasePercent,
-            replaceAfterMonths: values.replaceAfterMonths,
-            replacementCostFactorPercent: values.replacementCostFactorPercent
-          })
+          setDataForType(type, migrateTypeDataEntry(values))
         }
       })
     }
