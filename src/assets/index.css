@@ -841,7 +841,8 @@ html[data-theme='dark'] .conops-manager-panel .conops-description {
   color: #999;
 }
 
-html[data-theme='dark'] .conops-manager-panel .working-time-title {
+html[data-theme='dark'] .conops-manager-panel .working-time-title,
+html[data-theme='dark'] .conops-manager-panel .stats-group-title {
   color: #e0e0e0;
 }
 

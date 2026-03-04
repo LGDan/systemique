@@ -321,51 +321,61 @@ function isExpanded(type) {
     </div>
 
     <div v-if="rows.length > 0" class="audit-stats">
-      <div class="stats-grid">
-        <div class="stat-card">
-          <div class="stat-label">Operations material cost</div>
-          <div class="stat-value">{{ formatCurrency(horizonStats.humanOpsCost) }}</div>
+      <div class="stats-groups">
+        <div class="stats-group">
+          <h3 class="stats-group-title">Operational</h3>
+          <div class="stats-grid">
+            <div class="stat-card">
+              <div class="stat-label">Operations material cost</div>
+              <div class="stat-value">{{ formatCurrency(horizonStats.humanOpsCost) }}</div>
+            </div>
+            <div class="stat-card">
+              <div class="stat-label">Operational resource cost</div>
+              <div class="stat-value">{{ formatCurrency(operationalResourceCost) }}</div>
+            </div>
+            <div class="stat-card">
+              <div class="stat-label">Operational TCO</div>
+              <div class="stat-value">{{ formatCurrency(operationalTCO) }}</div>
+            </div>
+            <div class="stat-card">
+              <div class="stat-label">Human operations (hours)</div>
+              <div class="stat-value">{{ horizonStats.humanOpsHours.toLocaleString(undefined, { maximumFractionDigits: 0 }) }}</div>
+            </div>
+            <div class="stat-card">
+              <div class="stat-label">Operations headcount (FTE)</div>
+              <div class="stat-value">{{ operationsHeadcountFTE != null ? operationsHeadcountFTE.toLocaleString(undefined, { minimumFractionDigits: 0, maximumFractionDigits: 1 }) : '—' }}</div>
+            </div>
+          </div>
         </div>
-        <div class="stat-card">
-          <div class="stat-label">Operational resource cost</div>
-          <div class="stat-value">{{ formatCurrency(operationalResourceCost) }}</div>
+        <div class="stats-group">
+          <h3 class="stats-group-title">Maintenance</h3>
+          <div class="stats-grid">
+            <div class="stat-card">
+              <div class="stat-label">Maintenance material cost</div>
+              <div class="stat-value">{{ formatCurrency(horizonStats.maintenanceCost) }}</div>
+            </div>
+            <div class="stat-card">
+              <div class="stat-label">Maintenance resource cost</div>
+              <div class="stat-value">{{ formatCurrency(maintenanceResourceCost) }}</div>
+            </div>
+            <div class="stat-card">
+              <div class="stat-label">Maintenance TCO</div>
+              <div class="stat-value">{{ formatCurrency(maintenanceTCO) }}</div>
+            </div>
+            <div class="stat-card">
+              <div class="stat-label">Total maintenance hrs/mo</div>
+              <div class="stat-value">{{ totalMaintenanceHoursPerMonth.toLocaleString(undefined, { maximumFractionDigits: 1 }) }}</div>
+            </div>
+            <div class="stat-card">
+              <div class="stat-label">Maintenance headcount (FTE)</div>
+              <div class="stat-value">{{ maintenanceHeadcountFTE != null ? maintenanceHeadcountFTE.toLocaleString(undefined, { minimumFractionDigits: 0, maximumFractionDigits: 1 }) : '—' }}</div>
+            </div>
+          </div>
         </div>
-        <div class="stat-card">
-          <div class="stat-label">Operational TCO</div>
-          <div class="stat-value">{{ formatCurrency(operationalTCO) }}</div>
-        </div>
-        <div class="stat-card">
-          <div class="stat-label">Human operations (hours)</div>
-          <div class="stat-value">{{ horizonStats.humanOpsHours.toLocaleString(undefined, { maximumFractionDigits: 0 }) }}</div>
-        </div>
-        <div class="stat-card">
-          <div class="stat-label">Maintenance material cost</div>
-          <div class="stat-value">{{ formatCurrency(horizonStats.maintenanceCost) }}</div>
-        </div>
-        <div class="stat-card">
-          <div class="stat-label">Maintenance resource cost</div>
-          <div class="stat-value">{{ formatCurrency(maintenanceResourceCost) }}</div>
-        </div>
-        <div class="stat-card">
-          <div class="stat-label">Maintenance TCO</div>
-          <div class="stat-value">{{ formatCurrency(maintenanceTCO) }}</div>
-        </div>
-        <div class="stat-card stat-card-tco">
-          <div class="stat-label">Model TCO</div>
-          <div class="stat-value">{{ formatCurrency(modelTCO) }}</div>
-        </div>
-        <div class="stat-card">
-          <div class="stat-label">Total maintenance hrs/mo</div>
-          <div class="stat-value">{{ totalMaintenanceHoursPerMonth.toLocaleString(undefined, { maximumFractionDigits: 1 }) }}</div>
-        </div>
-        <div class="stat-card">
-          <div class="stat-label">Operations headcount (FTE)</div>
-          <div class="stat-value">{{ operationsHeadcountFTE != null ? operationsHeadcountFTE.toLocaleString(undefined, { minimumFractionDigits: 0, maximumFractionDigits: 1 }) : '—' }}</div>
-        </div>
-        <div class="stat-card">
-          <div class="stat-label">Maintenance headcount (FTE)</div>
-          <div class="stat-value">{{ maintenanceHeadcountFTE != null ? maintenanceHeadcountFTE.toLocaleString(undefined, { minimumFractionDigits: 0, maximumFractionDigits: 1 }) : '—' }}</div>
-        </div>
+      </div>
+      <div class="stat-card stat-card-tco stat-card-tco-standalone">
+        <div class="stat-label">Model TCO</div>
+        <div class="stat-value">{{ formatCurrency(modelTCO) }}</div>
       </div>
       <p class="stats-summary">
         Totals for the selected time horizon. Material cost: from table (quantity × cost per month × months). Resource cost: hours × hourly rate. TCO = material + resource. Headcount (FTE) = annual hours ÷ (working days per year × hours per working day). Model TCO = Operational TCO + Maintenance TCO.
@@ -643,6 +653,30 @@ function isExpanded(type) {
 
 .audit-stats {
   margin-top: 0;
+}
+
+.stats-groups {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 24px;
+  margin-bottom: 16px;
+}
+
+.stats-group {
+  flex: 1;
+  min-width: 280px;
+}
+
+.stats-group-title {
+  margin: 0 0 12px;
+  font-size: 14px;
+  font-weight: 600;
+  color: #333;
+}
+
+.stat-card-tco-standalone {
+  margin-bottom: 16px;
+  max-width: 320px;
 }
 
 .stats-grid {
