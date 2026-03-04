@@ -58,9 +58,9 @@ function computeHorizonStats(months) {
     const conops = conopsStore.getDataForType(row.type)
     const bom = bomStore.getDataForType(row.type)
     const qty = row.quantity ?? 0
-    const costHumanOps = Number(conops.costPerMonthHumanOps) || 0
-    const hoursHumanOps = Number(conops.hoursPerMonthHumanOps) || 0
-    const costMaint = Number(conops.costPerMonthMaintenance) || 0
+    const costHumanOps = Number(conops.operationsMaterialCostPerMonth) || 0
+    const hoursHumanOps = Number(conops.operationalHoursPerMonth) || 0
+    const costMaint = Number(conops.maintenanceMaterialCostPerMonth) || 0
     const yearlyPct = Number(conops.yearlyCostIncreasePercent) || 0
     const replaceAfter = Number(conops.replaceAfterMonths) || 0
     const factorPct = Number(conops.replacementCostFactorPercent) || 0
@@ -96,15 +96,82 @@ const horizonStats = computed(() => {
   return computeHorizonStats(horizon.months)
 })
 
+const totalMaintenanceHoursPerMonth = computed(() => {
+  return rows.value.reduce((sum, row) => {
+    const conops = conopsStore.getDataForType(row.type)
+    const qty = row.quantity ?? 0
+    return sum + qty * (Number(conops.maintenanceHoursPerMonth) || 0)
+  }, 0)
+})
+
+const totalHumanOpsHoursPerMonth = computed(() => {
+  return rows.value.reduce((sum, row) => {
+    const conops = conopsStore.getDataForType(row.type)
+    const qty = row.quantity ?? 0
+    return sum + qty * (Number(conops.operationalHoursPerMonth) || 0)
+  }, 0)
+})
+
+const availableHoursPerFTE = computed(() => {
+  const hours = Number(conopsStore.hoursPerWorkingDay) || 0
+  const days = Number(conopsStore.workingDaysPerYear) || 0
+  return hours * days
+})
+
+const operationsHeadcountFTE = computed(() => {
+  const available = availableHoursPerFTE.value
+  if (available <= 0) return null
+  const annualHours = totalHumanOpsHoursPerMonth.value * 12
+  return Math.round((annualHours / available) * 10) / 10
+})
+
+const maintenanceHeadcountFTE = computed(() => {
+  const available = availableHoursPerFTE.value
+  if (available <= 0) return null
+  const annualHours = totalMaintenanceHoursPerMonth.value * 12
+  return Math.round((annualHours / available) * 10) / 10
+})
+
+const horizonMonths = computed(() => {
+  const horizon = HORIZONS.find(h => h.id === statsHorizon.value) || HORIZONS[1]
+  return horizon.months
+})
+
+const hourlyRate = computed(() => Number(conopsStore.hourlyRate) || 0)
+
+const operationalResourceCost = computed(() => {
+  return horizonStats.value.humanOpsHours * hourlyRate.value
+})
+
+const operationalTCO = computed(() => {
+  return horizonStats.value.humanOpsCost + operationalResourceCost.value
+})
+
+const maintenanceHoursOverHorizon = computed(() => {
+  return totalMaintenanceHoursPerMonth.value * horizonMonths.value
+})
+
+const maintenanceResourceCost = computed(() => {
+  return maintenanceHoursOverHorizon.value * hourlyRate.value
+})
+
+const maintenanceTCO = computed(() => {
+  return horizonStats.value.maintenanceCost + maintenanceResourceCost.value
+})
+
+const modelTCO = computed(() => {
+  return operationalTCO.value + maintenanceTCO.value
+})
+
 function getTypeData(type) {
   return conopsStore.getDataForType(type)
 }
 
 const CONOPS_FIELDS = new Set([
-  'hoursPerMonthHumanOps',
-  'costPerMonthHumanOps',
-  'hoursPerMonthMaintenance',
-  'costPerMonthMaintenance',
+  'operationalHoursPerMonth',
+  'operationsMaterialCostPerMonth',
+  'maintenanceHoursPerMonth',
+  'maintenanceMaterialCostPerMonth',
   'yearlyCostIncreasePercent',
   'replaceAfterMonths',
   'replacementCostFactorPercent'
@@ -200,6 +267,46 @@ function isExpanded(type) {
       </div>
     </div>
 
+    <div v-if="rows.length > 0" class="working-time-section">
+      <h3 class="working-time-title">Resourcing</h3>
+      <div class="working-time-row">
+        <label for="conops-hours-per-day">Working day (hours)</label>
+        <input
+          id="conops-hours-per-day"
+          type="number"
+          min="0"
+          step="0.5"
+          :value="conopsStore.hoursPerWorkingDay"
+          @input="conopsStore.setHoursPerWorkingDay(($event.target).value)"
+          class="working-time-input"
+        />
+      </div>
+      <div class="working-time-row">
+        <label for="conops-working-days">Working days per year</label>
+        <input
+          id="conops-working-days"
+          type="number"
+          min="0"
+          step="1"
+          :value="conopsStore.workingDaysPerYear"
+          @input="conopsStore.setWorkingDaysPerYear(($event.target).value)"
+          class="working-time-input"
+        />
+      </div>
+      <div class="working-time-row">
+        <label for="conops-hourly-rate">Hourly rate ({{ conopsStore.currency.symbol }}/hr)</label>
+        <input
+          id="conops-hourly-rate"
+          type="number"
+          min="0"
+          step="0.01"
+          :value="conopsStore.hourlyRate"
+          @input="conopsStore.setHourlyRate(($event.target).value)"
+          class="working-time-input"
+        />
+      </div>
+    </div>
+
     <div v-if="rows.length > 0" class="horizon-tabs">
       <button
         v-for="h in HORIZONS"
@@ -214,22 +321,64 @@ function isExpanded(type) {
     </div>
 
     <div v-if="rows.length > 0" class="audit-stats">
-      <div class="stats-grid">
-        <div class="stat-card">
-          <div class="stat-label">Human operations cost</div>
-          <div class="stat-value">{{ formatCurrency(horizonStats.humanOpsCost) }}</div>
+      <div class="stats-groups">
+        <div class="stats-group">
+          <h3 class="stats-group-title">Operational</h3>
+          <div class="stats-grid">
+            <div class="stat-card">
+              <div class="stat-label">Operations material cost</div>
+              <div class="stat-value">{{ formatCurrency(horizonStats.humanOpsCost) }}</div>
+            </div>
+            <div class="stat-card">
+              <div class="stat-label">Operational resource cost</div>
+              <div class="stat-value">{{ formatCurrency(operationalResourceCost) }}</div>
+            </div>
+            <div class="stat-card">
+              <div class="stat-label">Operational TCO</div>
+              <div class="stat-value">{{ formatCurrency(operationalTCO) }}</div>
+            </div>
+            <div class="stat-card">
+              <div class="stat-label">Human operations (hours)</div>
+              <div class="stat-value">{{ horizonStats.humanOpsHours.toLocaleString(undefined, { maximumFractionDigits: 0 }) }}</div>
+            </div>
+            <div class="stat-card">
+              <div class="stat-label">Operations headcount (FTE)</div>
+              <div class="stat-value">{{ operationsHeadcountFTE != null ? operationsHeadcountFTE.toLocaleString(undefined, { minimumFractionDigits: 0, maximumFractionDigits: 1 }) : '—' }}</div>
+            </div>
+          </div>
         </div>
-        <div class="stat-card">
-          <div class="stat-label">Human operations (hours)</div>
-          <div class="stat-value">{{ horizonStats.humanOpsHours.toLocaleString(undefined, { maximumFractionDigits: 0 }) }}</div>
-        </div>
-        <div class="stat-card">
-          <div class="stat-label">Maintenance cost</div>
-          <div class="stat-value">{{ formatCurrency(horizonStats.maintenanceCost) }}</div>
+        <div class="stats-group">
+          <h3 class="stats-group-title">Maintenance</h3>
+          <div class="stats-grid">
+            <div class="stat-card">
+              <div class="stat-label">Maintenance material cost</div>
+              <div class="stat-value">{{ formatCurrency(horizonStats.maintenanceCost) }}</div>
+            </div>
+            <div class="stat-card">
+              <div class="stat-label">Maintenance resource cost</div>
+              <div class="stat-value">{{ formatCurrency(maintenanceResourceCost) }}</div>
+            </div>
+            <div class="stat-card">
+              <div class="stat-label">Maintenance TCO</div>
+              <div class="stat-value">{{ formatCurrency(maintenanceTCO) }}</div>
+            </div>
+            <div class="stat-card">
+              <div class="stat-label">Total maintenance hrs/mo</div>
+              <div class="stat-value">{{ totalMaintenanceHoursPerMonth.toLocaleString(undefined, { maximumFractionDigits: 1 }) }}</div>
+            </div>
+            <div class="stat-card">
+              <div class="stat-label">Maintenance headcount (FTE)</div>
+              <div class="stat-value">{{ maintenanceHeadcountFTE != null ? maintenanceHeadcountFTE.toLocaleString(undefined, { minimumFractionDigits: 0, maximumFractionDigits: 1 }) : '—' }}</div>
+            </div>
+          </div>
         </div>
       </div>
+      <div class="stat-card stat-card-tco stat-card-tco-standalone">
+        <div class="stat-label">Model TCO</div>
+        <div class="stat-value">{{ formatCurrency(modelTCO) }}</div>
+      </div>
       <p class="stats-summary">
-        Totals for the selected time horizon. Human ops: linear (quantity × cost/hours per month × months). Maintenance: recurring cost with yearly increase % plus replacement cost (BOM price × factor %) at each replace interval.
+        Totals for the selected time horizon. Material cost: from table (quantity × cost per month × months). Resource cost: hours × hourly rate. TCO = material + resource. Headcount (FTE) = annual hours ÷ (working days per year × hours per working day). Model TCO = Operational TCO + Maintenance TCO.
       </p>
     </div>
 
@@ -260,13 +409,13 @@ function isExpanded(type) {
               <th class="col-expand"></th>
               <th>Type</th>
               <th>Quantity</th>
-              <th>Hrs/mo human ops</th>
-              <th>Cost/mo human ops</th>
-              <th>Hrs/mo maint</th>
-              <th>Cost/mo maint</th>
-              <th>Yearly cost inc %</th>
+              <th>Operational hours/mo</th>
+              <th>Operations material cost</th>
+              <th>Maintenance hours/mo</th>
+              <th>Maintenance material cost</th>
+              <th>Yearly cost increase %</th>
               <th>Replace after (mo)</th>
-              <th>Repl. cost factor %</th>
+              <th>Replacement cost factor %</th>
               <th>Description</th>
             </tr>
           </thead>
@@ -291,8 +440,8 @@ function isExpanded(type) {
                     type="number"
                     min="0"
                     step="any"
-                    :value="getTypeData(row.type).hoursPerMonthHumanOps"
-                    @input="updateTypeField(row.type, 'hoursPerMonthHumanOps', ($event.target).value)"
+                    :value="getTypeData(row.type).operationalHoursPerMonth"
+                    @input="updateTypeField(row.type, 'operationalHoursPerMonth', ($event.target).value)"
                     class="bom-input"
                   />
                 </td>
@@ -301,8 +450,8 @@ function isExpanded(type) {
                     type="number"
                     min="0"
                     step="any"
-                    :value="getTypeData(row.type).costPerMonthHumanOps"
-                    @input="updateTypeField(row.type, 'costPerMonthHumanOps', ($event.target).value)"
+                    :value="getTypeData(row.type).operationsMaterialCostPerMonth"
+                    @input="updateTypeField(row.type, 'operationsMaterialCostPerMonth', ($event.target).value)"
                     class="bom-input"
                   />
                 </td>
@@ -311,8 +460,8 @@ function isExpanded(type) {
                     type="number"
                     min="0"
                     step="any"
-                    :value="getTypeData(row.type).hoursPerMonthMaintenance"
-                    @input="updateTypeField(row.type, 'hoursPerMonthMaintenance', ($event.target).value)"
+                    :value="getTypeData(row.type).maintenanceHoursPerMonth"
+                    @input="updateTypeField(row.type, 'maintenanceHoursPerMonth', ($event.target).value)"
                     class="bom-input"
                   />
                 </td>
@@ -321,8 +470,8 @@ function isExpanded(type) {
                     type="number"
                     min="0"
                     step="any"
-                    :value="getTypeData(row.type).costPerMonthMaintenance"
-                    @input="updateTypeField(row.type, 'costPerMonthMaintenance', ($event.target).value)"
+                    :value="getTypeData(row.type).maintenanceMaterialCostPerMonth"
+                    @input="updateTypeField(row.type, 'maintenanceMaterialCostPerMonth', ($event.target).value)"
                     class="bom-input"
                   />
                 </td>
@@ -440,6 +589,39 @@ function isExpanded(type) {
   min-width: 100px;
 }
 
+.working-time-section {
+  margin-bottom: 16px;
+}
+
+.working-time-title {
+  margin: 0 0 8px;
+  font-size: 14px;
+  font-weight: 600;
+  color: #333;
+}
+
+.working-time-row {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-bottom: 6px;
+}
+
+.working-time-row label {
+  font-size: 12px;
+  font-weight: 600;
+  color: #555;
+  min-width: 140px;
+}
+
+.working-time-input {
+  padding: 6px 10px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  font-size: 13px;
+  width: 80px;
+}
+
 .horizon-tabs {
   display: flex;
   gap: 4px;
@@ -473,6 +655,30 @@ function isExpanded(type) {
   margin-top: 0;
 }
 
+.stats-groups {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 24px;
+  margin-bottom: 16px;
+}
+
+.stats-group {
+  flex: 1;
+  min-width: 280px;
+}
+
+.stats-group-title {
+  margin: 0 0 12px;
+  font-size: 14px;
+  font-weight: 600;
+  color: #333;
+}
+
+.stat-card-tco-standalone {
+  margin-bottom: 16px;
+  max-width: 320px;
+}
+
 .stats-grid {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
@@ -494,6 +700,21 @@ function isExpanded(type) {
   display: flex;
   flex-direction: column;
   gap: 8px;
+}
+
+.stat-card-tco {
+  background: #e8f5e9;
+  border-color: #2e7d32;
+}
+
+.stat-card-tco .stat-label {
+  color: #1b5e20;
+  font-weight: 700;
+}
+
+.stat-card-tco .stat-value {
+  color: #1b5e20;
+  font-weight: 700;
 }
 
 .stat-label {
