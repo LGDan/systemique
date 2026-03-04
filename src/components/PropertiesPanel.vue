@@ -1,11 +1,12 @@
 <script setup>
-import { ref, computed, watch } from 'vue'
+import { ref, computed, watch, nextTick } from 'vue'
 import { useVueFlow } from '@vue-flow/core'
 import { useSystemStore } from '../stores/systemStore.js'
 import { useInterfaceTypesStore } from '../stores/interfaceTypesStore.js'
 import { Interface } from '../models/Interface.js'
 import InterfaceEditor from './InterfaceEditor.vue'
 import IconPicker from './IconPicker.vue'
+import MdiIcon from './MdiIcon.vue'
 
 const { getSelectedNodes } = useVueFlow()
 const systemStore = useSystemStore()
@@ -70,6 +71,123 @@ const canEditInterfaces = computed(() => {
   return sameInterfaceCount.value
 })
 
+// Collapsed by default; expand to edit
+const expandedInterfaceIds = ref(new Set())
+// Drag state: source index when dragging, drop target index for indicator
+const dragSourceIndex = ref(null)
+const dragOverIndex = ref(null)
+// Refs for layout-free drop indicator (avoids glitchy shift when indicator was in flow)
+const interfacesListRef = ref(null)
+const rowRefs = ref([])
+const dropIndicatorTop = ref(0)
+
+function setRowRef(el, index) {
+  if (el) rowRefs.value[index] = el
+  else rowRefs.value[index] = undefined
+}
+
+watch(
+  () => [dragSourceIndex.value, dragOverIndex.value],
+  () => {
+    if (dragSourceIndex.value === null || dragOverIndex.value === null) return
+    nextTick(() => {
+      const row = rowRefs.value[dragOverIndex.value]
+      if (dragOverIndex.value === 0) {
+        dropIndicatorTop.value = 0
+        return
+      }
+      if (!row) return
+      dropIndicatorTop.value = Math.max(0, row.offsetTop - 2)
+    })
+  }
+)
+
+function isInterfaceExpanded(iface) {
+  return expandedInterfaceIds.value.has(iface.id)
+}
+
+function toggleInterfaceExpanded(iface) {
+  const next = new Set(expandedInterfaceIds.value)
+  if (next.has(iface.id)) next.delete(iface.id)
+  else next.add(iface.id)
+  expandedInterfaceIds.value = next
+}
+
+function getTypeName(typeId) {
+  const t = typesStore.getType(typeId)
+  return t ? t.name : typeId || '—'
+}
+
+const POSITION_ICONS = {
+  top: 'arrow-up',
+  bottom: 'arrow-down',
+  left: 'arrow-left',
+  right: 'arrow-right'
+}
+
+function getPositionIconName(position) {
+  if (!position) return null
+  return POSITION_ICONS[String(position).toLowerCase()] ?? null
+}
+
+function getPositionLabel(position) {
+  if (!position) return '—'
+  const p = String(position).toLowerCase()
+  if (['left', 'right', 'top', 'bottom'].includes(p)) return p.charAt(0).toUpperCase() + p.slice(1)
+  return position
+}
+
+function reorderInterfaces(fromIndex, toIndex) {
+  if (fromIndex === toIndex) return
+  const insertAt = fromIndex < toIndex ? toIndex - 1 : toIndex
+  const multi = multiEditComponents.value
+  if (multi && multi.length > 0) {
+    multi.forEach((comp) => {
+      const arr = comp.interfaces
+      const [item] = arr.splice(fromIndex, 1)
+      if (item) arr.splice(insertAt, 0, item)
+    })
+  } else if (effectiveComponent.value) {
+    const arr = effectiveComponent.value.interfaces
+    const [item] = arr.splice(fromIndex, 1)
+    if (item) arr.splice(insertAt, 0, item)
+  }
+  systemStore.saveToLocalStorage()
+}
+
+function onDragStart(e, index) {
+  dragSourceIndex.value = index
+  e.dataTransfer.effectAllowed = 'move'
+  e.dataTransfer.setData('text/plain', String(index))
+  e.dataTransfer.setData('application/json', JSON.stringify({ index }))
+}
+
+function onDragOver(e, index) {
+  e.preventDefault()
+  e.dataTransfer.dropEffect = 'move'
+  if (dragSourceIndex.value !== null && dragSourceIndex.value !== index) {
+    dragOverIndex.value = index
+  }
+}
+
+function onDragLeave() {
+  dragOverIndex.value = null
+}
+
+function onDrop(e, targetIndex) {
+  e.preventDefault()
+  const from = dragSourceIndex.value
+  dragSourceIndex.value = null
+  dragOverIndex.value = null
+  if (from === null || from === targetIndex) return
+  reorderInterfaces(from, targetIndex)
+}
+
+function onDragEnd() {
+  dragSourceIndex.value = null
+  dragOverIndex.value = null
+}
+
 const localProperties = ref({
   name: '',
   type: '',
@@ -113,6 +231,7 @@ watch(effectiveComponent, (newComponent) => {
       description: newComponent.description || '',
       trust: newComponent.trust || null
     }
+    expandedInterfaceIds.value = new Set()
   }
 }, { immediate: true })
 
@@ -371,15 +490,47 @@ function incrementInterfaceName(name) {
         <p v-if="multiEditComponents && !sameInterfaceCount" class="interfaces-vary-note">
           Interfaces vary; select one component to edit interfaces.
         </p>
-        <div v-else class="interfaces-list">
-          <InterfaceEditor
-            v-for="(iface, index) in interfacesList"
-            :key="multiEditComponents ? `multi-${index}` : iface.id"
-            :interface="iface"
-            @update="(upd) => updateInterface(upd, multiEditComponents ? index : undefined)"
-            @remove="(id) => removeInterface(id, multiEditComponents ? index : undefined)"
-            @duplicate="(id) => duplicateInterface(id, multiEditComponents ? index : undefined)"
+        <div v-else ref="interfacesListRef" class="interfaces-list">
+          <div
+            v-if="dragSourceIndex !== null && dragOverIndex !== null"
+            class="interface-drop-indicator"
+            :style="{ top: dropIndicatorTop + 'px' }"
           />
+          <template v-for="(iface, index) in interfacesList" :key="multiEditComponents ? `multi-${index}` : iface.id">
+            <div
+              :ref="(el) => setRowRef(el, index)"
+              class="interface-row"
+              :class="{ 'interface-row-expanded': isInterfaceExpanded(iface), 'interface-row-dragging': dragSourceIndex === index }"
+              @dragover="onDragOver($event, index)"
+              @dragleave="onDragLeave"
+              @drop="onDrop($event, index)"
+            >
+              <div
+                class="interface-row-summary"
+                @click="toggleInterfaceExpanded(iface)"
+              >
+                <span class="interface-row-label">{{ iface.name || 'Unnamed' }}</span>
+                <span class="interface-row-meta">{{ getTypeName(iface.type) }} · {{ iface.direction === 'input' ? 'In' : 'Out' }} · <span class="interface-row-position" :title="getPositionLabel(iface.position)" :aria-label="getPositionLabel(iface.position)"><MdiIcon v-if="getPositionIconName(iface.position)" :name="getPositionIconName(iface.position)" :size="12" class="position-icon" /><span v-else>—</span></span></span>
+                <span class="interface-row-chevron" aria-hidden="true">{{ isInterfaceExpanded(iface) ? '▲' : '▼' }}</span>
+                <span
+                  class="interface-drag-handle"
+                  aria-label="Drag to reorder"
+                  draggable="true"
+                  @dragstart="onDragStart($event, index)"
+                  @dragend="onDragEnd"
+                  @click.stop
+                >⋮⋮</span>
+              </div>
+              <div v-show="isInterfaceExpanded(iface)" class="interface-row-body">
+                <InterfaceEditor
+                  :interface="iface"
+                  @update="(upd) => updateInterface(upd, multiEditComponents ? index : undefined)"
+                  @remove="(id) => removeInterface(id, multiEditComponents ? index : undefined)"
+                  @duplicate="(id) => duplicateInterface(id, multiEditComponents ? index : undefined)"
+                />
+              </div>
+            </div>
+          </template>
         </div>
       </div>
 
@@ -528,9 +679,108 @@ function incrementInterfaceName(name) {
 }
 
 .interfaces-list {
+  position: relative;
   display: flex;
   flex-direction: column;
-  gap: 8px;
+  gap: 0;
+}
+
+.interface-drop-indicator {
+  position: absolute;
+  left: 0;
+  right: 0;
+  height: 2px;
+  background: #2f7d78;
+  margin: 0;
+  border-radius: 1px;
+  pointer-events: none;
+  z-index: 1;
+}
+
+.interface-row {
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  margin-bottom: 6px;
+  background: #fff;
+  overflow: hidden;
+}
+
+.interface-row-dragging {
+  opacity: 0.6;
+}
+
+.interface-row-summary {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  padding: 4px 8px 4px 10px;
+  cursor: pointer;
+  min-height: 28px;
+  user-select: none;
+}
+
+.interface-row-position {
+  display: inline-flex;
+  align-items: center;
+  vertical-align: middle;
+}
+
+.interface-row-position .position-icon {
+  display: inline-block;
+}
+
+.interface-row-summary:hover {
+  background: #f5f5f5;
+}
+
+.interface-row-label {
+  flex: 1;
+  font-size: 12px;
+  font-weight: 600;
+  color: #333;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.interface-row-meta {
+  font-size: 10px;
+  color: #888;
+  flex-shrink: 0;
+}
+
+.interface-row-chevron {
+  font-size: 10px;
+  color: #666;
+  flex-shrink: 0;
+}
+
+.interface-drag-handle {
+  flex-shrink: 0;
+  padding: 4px 6px;
+  cursor: grab;
+  color: #999;
+  font-size: 12px;
+  line-height: 1;
+  border-radius: 3px;
+}
+
+.interface-drag-handle:hover {
+  color: #666;
+  background: #eee;
+}
+
+.interface-drag-handle:active {
+  cursor: grabbing;
+}
+
+.interface-row-body {
+  padding: 8px 8px;
+  border-top: 1px solid #eee;
+}
+
+.interface-row-body .interface-editor {
+  margin-bottom: 0;
 }
 
 .metadata-info {

@@ -340,6 +340,49 @@ html[data-theme='dark'] .interface-editor .field-input {
   color: #e0e0e0;
 }
 
+/* Reorderable interface rows (properties panel) */
+html[data-theme='dark'] .properties-panel .interface-drop-indicator {
+  background: #5ab8b0;
+}
+
+html[data-theme='dark'] .properties-panel .interface-row {
+  background: #2d2d2d;
+  border-color: #444;
+}
+
+html[data-theme='dark'] .properties-panel .interface-row-summary:hover {
+  background: #3a3a3a;
+}
+
+html[data-theme='dark'] .properties-panel .interface-row-label {
+  color: #e0e0e0;
+}
+
+html[data-theme='dark'] .properties-panel .interface-row-meta {
+  color: #999;
+}
+
+html[data-theme='dark'] .properties-panel .interface-row-position {
+  color: #b0b0b0;
+}
+
+html[data-theme='dark'] .properties-panel .interface-row-chevron {
+  color: #b0b0b0;
+}
+
+html[data-theme='dark'] .properties-panel .interface-drag-handle {
+  color: #999;
+}
+
+html[data-theme='dark'] .properties-panel .interface-drag-handle:hover {
+  color: #e0e0e0;
+  background: #3a3a3a;
+}
+
+html[data-theme='dark'] .properties-panel .interface-row-body {
+  border-top-color: #444;
+}
+
 /* Icon picker */
 html[data-theme='dark'] .icon-picker .current-icon {
   background: #333;
