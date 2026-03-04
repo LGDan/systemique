@@ -10,7 +10,31 @@ const conopsStore = useConopsManagerStore()
 const bomStore = useBomManagerStore()
 const toastStore = useToastStore()
 const importFileInputRef = ref(null)
+const importCsvFileInputRef = ref(null)
 const expandedTypes = ref(new Set())
+
+const CONOPS_CSV_HEADERS = [
+  'Type',
+  'Quantity',
+  'Operational hours/mo',
+  'Operations material cost',
+  'Maintenance hours/mo',
+  'Maintenance material cost',
+  'Yearly cost increase %',
+  'Replace after (mo)',
+  'Replacement cost factor %'
+]
+const CSV_HEADER_TO_FIELD = {
+  'Type': null,
+  'Quantity': null,
+  'Operational hours/mo': 'operationalHoursPerMonth',
+  'Operations material cost': 'operationsMaterialCostPerMonth',
+  'Maintenance hours/mo': 'maintenanceHoursPerMonth',
+  'Maintenance material cost': 'maintenanceMaterialCostPerMonth',
+  'Yearly cost increase %': 'yearlyCostIncreasePercent',
+  'Replace after (mo)': 'replaceAfterMonths',
+  'Replacement cost factor %': 'replacementCostFactorPercent'
+}
 
 const HORIZONS = [
   { id: '1m', label: '1 month', months: 1 },
@@ -207,6 +231,137 @@ function triggerImport() {
   importFileInputRef.value?.click()
 }
 
+function escapeCsvField(value) {
+  const s = String(value ?? '')
+  if (s.includes(',') || s.includes('"') || s.includes('\n') || s.includes('\r')) {
+    return '"' + s.replaceAll('"', '""') + '"'
+  }
+  return s
+}
+
+function exportConopsCsv() {
+  if (!rows.value.length) {
+    toastStore.show('No CONOPS data to export.', 'info')
+    return
+  }
+  const headerLine = CONOPS_CSV_HEADERS.map(escapeCsvField).join(',')
+  const dataLines = rows.value.map(row => {
+    const d = conopsStore.getDataForType(row.type)
+    return [
+      row.type,
+      row.quantity ?? 0,
+      d.operationalHoursPerMonth ?? 0,
+      d.operationsMaterialCostPerMonth ?? 0,
+      d.maintenanceHoursPerMonth ?? 0,
+      d.maintenanceMaterialCostPerMonth ?? 0,
+      d.yearlyCostIncreasePercent ?? 0,
+      d.replaceAfterMonths ?? 0,
+      d.replacementCostFactorPercent ?? 0
+    ].map(escapeCsvField).join(',')
+  })
+  const csv = [headerLine, ...dataLines].join('\r\n')
+  const blob = new Blob([csv], { type: 'text/csv;charset=utf-8' })
+  const url = URL.createObjectURL(blob)
+  const link = document.createElement('a')
+  link.href = url
+  link.download = `conops-table-${Date.now()}.csv`
+  document.body.appendChild(link)
+  link.click()
+  link.remove()
+  URL.revokeObjectURL(url)
+  toastStore.show('CONOPS table exported as CSV.', 'success')
+}
+
+function parseCsvLine(line) {
+  const out = []
+  let i = 0
+  while (i < line.length) {
+    if (line[i] === '"') {
+      let field = ''
+      i += 1
+      while (i < line.length) {
+        if (line[i] === '"') {
+          i += 1
+          if (line[i] === '"') {
+            field += '"'
+            i += 1
+          } else break
+        } else {
+          field += line[i]
+          i += 1
+        }
+      }
+      out.push(field)
+    } else {
+      const end = line.indexOf(',', i)
+      if (end === -1) {
+        out.push(line.slice(i).trim())
+        break
+      }
+      out.push(line.slice(i, end).trim())
+      i = end + 1
+    }
+  }
+  return out
+}
+
+function importConopsCsv(csvText) {
+  const lines = csvText.split(/\r?\n/).map(l => l.trim()).filter(Boolean)
+  if (lines.length < 2) {
+    return { success: false, message: 'CSV must have a header row and at least one data row.' }
+  }
+  const headerRow = parseCsvLine(lines[0])
+  const typeIdx = headerRow.indexOf('Type')
+  if (typeIdx === -1) {
+    return { success: false, message: 'CSV must include a "Type" column.' }
+  }
+  const fieldIndices = {}
+  CONOPS_CSV_HEADERS.forEach((name, i) => {
+    const idx = headerRow.indexOf(name)
+    if (idx !== -1 && CSV_HEADER_TO_FIELD[name]) {
+      fieldIndices[CSV_HEADER_TO_FIELD[name]] = idx
+    }
+  })
+  let imported = 0
+  for (let r = 1; r < lines.length; r++) {
+    const cells = parseCsvLine(lines[r])
+    const typeName = (cells[typeIdx] ?? '').trim()
+    if (!typeName) continue
+    const data = {}
+    Object.entries(fieldIndices).forEach(([field, idx]) => {
+      if (idx == null) return
+      const raw = cells[idx] ?? ''
+      const num = Number(raw)
+      data[field] = raw === '' || Number.isNaN(num) ? 0 : num
+    })
+    conopsStore.setDataForType(typeName, data)
+    imported += 1
+  }
+  return { success: true, imported }
+}
+
+function triggerImportCsv() {
+  importCsvFileInputRef.value?.click()
+}
+
+async function handleImportCsvFile(event) {
+  const file = event.target.files?.[0]
+  event.target.value = ''
+  if (!file) return
+  try {
+    const text = await file.text()
+    const result = importConopsCsv(text)
+    if (result.success) {
+      toastStore.show(`CONOPS table imported: ${result.imported} type(s) from CSV.`, 'success')
+    } else {
+      toastStore.show(result.message || 'CSV import failed.', 'error')
+    }
+  } catch (err) {
+    console.error('CONOPS CSV import failed:', err)
+    toastStore.show('Failed to import CSV: ' + (err.message || String(err)), 'error')
+  }
+}
+
 async function handleImportFile(event) {
   const file = event.target.files?.[0]
   event.target.value = ''
@@ -389,12 +544,25 @@ function isExpanded(type) {
       <button type="button" class="export-button" @click="triggerImport">
         Import CONOPS data
       </button>
+      <button type="button" class="export-button" @click="exportConopsCsv">
+        Export CSV
+      </button>
+      <button type="button" class="export-button" @click="triggerImportCsv">
+        Import CSV
+      </button>
       <input
         ref="importFileInputRef"
         type="file"
         accept=".json"
         style="display: none"
         @change="handleImportFile"
+      />
+      <input
+        ref="importCsvFileInputRef"
+        type="file"
+        accept=".csv"
+        style="display: none"
+        @change="handleImportCsvFile"
       />
     </div>
 
