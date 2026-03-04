@@ -1,5 +1,5 @@
 <script setup>
-import { ref, computed, watch } from 'vue'
+import { ref, computed, watch, nextTick } from 'vue'
 import { useVueFlow } from '@vue-flow/core'
 import { useSystemStore } from '../stores/systemStore.js'
 import { useInterfaceTypesStore } from '../stores/interfaceTypesStore.js'
@@ -76,6 +76,31 @@ const expandedInterfaceIds = ref(new Set())
 // Drag state: source index when dragging, drop target index for indicator
 const dragSourceIndex = ref(null)
 const dragOverIndex = ref(null)
+// Refs for layout-free drop indicator (avoids glitchy shift when indicator was in flow)
+const interfacesListRef = ref(null)
+const rowRefs = ref([])
+const dropIndicatorTop = ref(0)
+
+function setRowRef(el, index) {
+  if (el) rowRefs.value[index] = el
+  else rowRefs.value[index] = undefined
+}
+
+watch(
+  () => [dragSourceIndex.value, dragOverIndex.value],
+  () => {
+    if (dragSourceIndex.value === null || dragOverIndex.value === null) return
+    nextTick(() => {
+      const row = rowRefs.value[dragOverIndex.value]
+      if (dragOverIndex.value === 0) {
+        dropIndicatorTop.value = 0
+        return
+      }
+      if (!row) return
+      dropIndicatorTop.value = Math.max(0, row.offsetTop - 2)
+    })
+  }
+)
 
 function isInterfaceExpanded(iface) {
   return expandedInterfaceIds.value.has(iface.id)
@@ -465,15 +490,15 @@ function incrementInterfaceName(name) {
         <p v-if="multiEditComponents && !sameInterfaceCount" class="interfaces-vary-note">
           Interfaces vary; select one component to edit interfaces.
         </p>
-        <div v-else class="interfaces-list">
+        <div v-else ref="interfacesListRef" class="interfaces-list">
+          <div
+            v-if="dragSourceIndex !== null && dragOverIndex !== null"
+            class="interface-drop-indicator"
+            :style="{ top: dropIndicatorTop + 'px' }"
+          />
           <template v-for="(iface, index) in interfacesList" :key="multiEditComponents ? `multi-${index}` : iface.id">
             <div
-              v-if="dragOverIndex === index && dragSourceIndex !== null"
-              class="interface-drop-indicator"
-              @dragover.prevent
-              @drop="onDrop($event, index)"
-            />
-            <div
+              :ref="(el) => setRowRef(el, index)"
               class="interface-row"
               :class="{ 'interface-row-expanded': isInterfaceExpanded(iface), 'interface-row-dragging': dragSourceIndex === index }"
               @dragover="onDragOver($event, index)"
@@ -654,17 +679,22 @@ function incrementInterfaceName(name) {
 }
 
 .interfaces-list {
+  position: relative;
   display: flex;
   flex-direction: column;
   gap: 0;
 }
 
 .interface-drop-indicator {
+  position: absolute;
+  left: 0;
+  right: 0;
   height: 2px;
   background: #2f7d78;
-  margin: 2px 0;
+  margin: 0;
   border-radius: 1px;
-  flex-shrink: 0;
+  pointer-events: none;
+  z-index: 1;
 }
 
 .interface-row {
