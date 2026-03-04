@@ -23,9 +23,14 @@ function defaultTypeData() {
   }
 }
 
+const DEFAULT_HOURS_PER_WORKING_DAY = 8
+const DEFAULT_WORKING_DAYS_PER_YEAR = 260
+
 export const useConopsManagerStore = defineStore('conopsManager', () => {
   const typeData = ref({})
   const currency = ref({ code: 'USD', symbol: '$' })
+  const hoursPerWorkingDay = ref(DEFAULT_HOURS_PER_WORKING_DAY)
+  const workingDaysPerYear = ref(DEFAULT_WORKING_DAYS_PER_YEAR)
 
   function loadFromLocalStorage() {
     try {
@@ -35,6 +40,12 @@ export const useConopsManagerStore = defineStore('conopsManager', () => {
         typeData.value = data.typeData ?? {}
         if (data.currency?.code && data.currency?.symbol) {
           currency.value = data.currency
+        }
+        if (typeof data.hoursPerWorkingDay === 'number' && data.hoursPerWorkingDay >= 0) {
+          hoursPerWorkingDay.value = data.hoursPerWorkingDay
+        }
+        if (typeof data.workingDaysPerYear === 'number' && data.workingDaysPerYear >= 0) {
+          workingDaysPerYear.value = data.workingDaysPerYear
         }
       }
     } catch (error) {
@@ -46,7 +57,9 @@ export const useConopsManagerStore = defineStore('conopsManager', () => {
     try {
       localStorage.setItem(STORAGE_KEY, JSON.stringify({
         typeData: typeData.value,
-        currency: currency.value
+        currency: currency.value,
+        hoursPerWorkingDay: hoursPerWorkingDay.value,
+        workingDaysPerYear: workingDaysPerYear.value
       }))
     } catch (error) {
       console.error('Failed to save CONOPS manager to localStorage:', error)
@@ -75,12 +88,30 @@ export const useConopsManagerStore = defineStore('conopsManager', () => {
     }
   }
 
+  function setHoursPerWorkingDay(value) {
+    const num = Number(value)
+    if (!Number.isNaN(num) && num >= 0) {
+      hoursPerWorkingDay.value = num
+      saveToLocalStorage()
+    }
+  }
+
+  function setWorkingDaysPerYear(value) {
+    const num = Number(value)
+    if (!Number.isNaN(num) && num >= 0) {
+      workingDaysPerYear.value = num
+      saveToLocalStorage()
+    }
+  }
+
   function exportTypeData() {
     return {
       version: EXPORT_VERSION,
       exportedAt: new Date().toISOString(),
       typeData: { ...typeData.value },
-      currency: { ...currency.value }
+      currency: { ...currency.value },
+      hoursPerWorkingDay: hoursPerWorkingDay.value,
+      workingDaysPerYear: workingDaysPerYear.value
     }
   }
 
@@ -105,16 +136,28 @@ export const useConopsManagerStore = defineStore('conopsManager', () => {
     if (payload.currency?.code) {
       setCurrency(payload.currency.code)
     }
+    if (typeof payload.hoursPerWorkingDay === 'number' && payload.hoursPerWorkingDay >= 0) {
+      hoursPerWorkingDay.value = payload.hoursPerWorkingDay
+      saveToLocalStorage()
+    }
+    if (typeof payload.workingDaysPerYear === 'number' && payload.workingDaysPerYear >= 0) {
+      workingDaysPerYear.value = payload.workingDaysPerYear
+      saveToLocalStorage()
+    }
     return { success: true }
   }
 
   return {
     typeData,
     currency,
+    hoursPerWorkingDay,
+    workingDaysPerYear,
     CURRENCIES: Object.freeze(CURRENCIES),
     getDataForType,
     setDataForType,
     setCurrency,
+    setHoursPerWorkingDay,
+    setWorkingDaysPerYear,
     exportTypeData,
     importTypeData
   }

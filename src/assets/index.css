@@ -841,6 +841,20 @@ html[data-theme='dark'] .conops-manager-panel .conops-description {
   color: #999;
 }
 
+html[data-theme='dark'] .conops-manager-panel .working-time-title {
+  color: #e0e0e0;
+}
+
+html[data-theme='dark'] .conops-manager-panel .working-time-row label {
+  color: #b0b0b0;
+}
+
+html[data-theme='dark'] .conops-manager-panel .working-time-input {
+  background: #333;
+  border-color: #444;
+  color: #e0e0e0;
+}
+
 html[data-theme='dark'] .conops-manager-panel .horizon-tab {
   background: #2d2d2d;
   border-color: #444;

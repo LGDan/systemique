@@ -96,6 +96,42 @@ const horizonStats = computed(() => {
   return computeHorizonStats(horizon.months)
 })
 
+const totalMaintenanceHoursPerMonth = computed(() => {
+  return rows.value.reduce((sum, row) => {
+    const conops = conopsStore.getDataForType(row.type)
+    const qty = row.quantity ?? 0
+    return sum + qty * (Number(conops.hoursPerMonthMaintenance) || 0)
+  }, 0)
+})
+
+const totalHumanOpsHoursPerMonth = computed(() => {
+  return rows.value.reduce((sum, row) => {
+    const conops = conopsStore.getDataForType(row.type)
+    const qty = row.quantity ?? 0
+    return sum + qty * (Number(conops.hoursPerMonthHumanOps) || 0)
+  }, 0)
+})
+
+const availableHoursPerFTE = computed(() => {
+  const hours = Number(conopsStore.hoursPerWorkingDay) || 0
+  const days = Number(conopsStore.workingDaysPerYear) || 0
+  return hours * days
+})
+
+const operationsHeadcountFTE = computed(() => {
+  const available = availableHoursPerFTE.value
+  if (available <= 0) return null
+  const annualHours = totalHumanOpsHoursPerMonth.value * 12
+  return Math.round((annualHours / available) * 10) / 10
+})
+
+const maintenanceHeadcountFTE = computed(() => {
+  const available = availableHoursPerFTE.value
+  if (available <= 0) return null
+  const annualHours = totalMaintenanceHoursPerMonth.value * 12
+  return Math.round((annualHours / available) * 10) / 10
+})
+
 function getTypeData(type) {
   return conopsStore.getDataForType(type)
 }
@@ -200,6 +236,34 @@ function isExpanded(type) {
       </div>
     </div>
 
+    <div v-if="rows.length > 0" class="working-time-section">
+      <h3 class="working-time-title">Resourcing</h3>
+      <div class="working-time-row">
+        <label for="conops-hours-per-day">Working day (hours)</label>
+        <input
+          id="conops-hours-per-day"
+          type="number"
+          min="0"
+          step="0.5"
+          :value="conopsStore.hoursPerWorkingDay"
+          @input="conopsStore.setHoursPerWorkingDay(($event.target).value)"
+          class="working-time-input"
+        />
+      </div>
+      <div class="working-time-row">
+        <label for="conops-working-days">Working days per year</label>
+        <input
+          id="conops-working-days"
+          type="number"
+          min="0"
+          step="1"
+          :value="conopsStore.workingDaysPerYear"
+          @input="conopsStore.setWorkingDaysPerYear(($event.target).value)"
+          class="working-time-input"
+        />
+      </div>
+    </div>
+
     <div v-if="rows.length > 0" class="horizon-tabs">
       <button
         v-for="h in HORIZONS"
@@ -227,9 +291,21 @@ function isExpanded(type) {
           <div class="stat-label">Maintenance cost</div>
           <div class="stat-value">{{ formatCurrency(horizonStats.maintenanceCost) }}</div>
         </div>
+        <div class="stat-card">
+          <div class="stat-label">Total maintenance hrs/mo</div>
+          <div class="stat-value">{{ totalMaintenanceHoursPerMonth.toLocaleString(undefined, { maximumFractionDigits: 1 }) }}</div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-label">Operations headcount (FTE)</div>
+          <div class="stat-value">{{ operationsHeadcountFTE != null ? operationsHeadcountFTE.toLocaleString(undefined, { minimumFractionDigits: 0, maximumFractionDigits: 1 }) : '—' }}</div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-label">Maintenance headcount (FTE)</div>
+          <div class="stat-value">{{ maintenanceHeadcountFTE != null ? maintenanceHeadcountFTE.toLocaleString(undefined, { minimumFractionDigits: 0, maximumFractionDigits: 1 }) : '—' }}</div>
+        </div>
       </div>
       <p class="stats-summary">
-        Totals for the selected time horizon. Human ops: linear (quantity × cost/hours per month × months). Maintenance: recurring cost with yearly increase % plus replacement cost (BOM price × factor %) at each replace interval.
+        Totals for the selected time horizon. Human ops: linear (quantity × cost/hours per month × months). Maintenance: recurring cost with yearly increase % plus replacement cost (BOM price × factor %) at each replace interval. Headcount (FTE) is estimated from annual hours ÷ (working days per year × hours per working day).
       </p>
     </div>
 
@@ -438,6 +514,39 @@ function isExpanded(type) {
   font-size: 13px;
   background: white;
   min-width: 100px;
+}
+
+.working-time-section {
+  margin-bottom: 16px;
+}
+
+.working-time-title {
+  margin: 0 0 8px;
+  font-size: 14px;
+  font-weight: 600;
+  color: #333;
+}
+
+.working-time-row {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-bottom: 6px;
+}
+
+.working-time-row label {
+  font-size: 12px;
+  font-weight: 600;
+  color: #555;
+  min-width: 140px;
+}
+
+.working-time-input {
+  padding: 6px 10px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  font-size: 13px;
+  width: 80px;
 }
 
 .horizon-tabs {
