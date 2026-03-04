@@ -409,13 +409,13 @@ function isExpanded(type) {
               <th class="col-expand"></th>
               <th>Type</th>
               <th>Quantity</th>
-              <th>Hrs/mo human ops</th>
-              <th>Cost/mo human ops</th>
-              <th>Hrs/mo maint</th>
-              <th>Cost/mo maint</th>
-              <th>Yearly cost inc %</th>
+              <th>Operational hours/mo</th>
+              <th>Operations material cost</th>
+              <th>Maintenance hours/mo</th>
+              <th>Maintenance material cost</th>
+              <th>Yearly cost increase %</th>
               <th>Replace after (mo)</th>
-              <th>Repl. cost factor %</th>
+              <th>Replacement cost factor %</th>
               <th>Description</th>
             </tr>
           </thead>
