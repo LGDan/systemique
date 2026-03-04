@@ -6,6 +6,7 @@ import { useInterfaceTypesStore } from '../stores/interfaceTypesStore.js'
 import { Interface } from '../models/Interface.js'
 import InterfaceEditor from './InterfaceEditor.vue'
 import IconPicker from './IconPicker.vue'
+import MdiIcon from './MdiIcon.vue'
 
 const { getSelectedNodes } = useVueFlow()
 const systemStore = useSystemStore()
@@ -90,6 +91,25 @@ function toggleInterfaceExpanded(iface) {
 function getTypeName(typeId) {
   const t = typesStore.getType(typeId)
   return t ? t.name : typeId || '—'
+}
+
+const POSITION_ICONS = {
+  top: 'arrow-up',
+  bottom: 'arrow-down',
+  left: 'arrow-left',
+  right: 'arrow-right'
+}
+
+function getPositionIconName(position) {
+  if (!position) return null
+  return POSITION_ICONS[String(position).toLowerCase()] ?? null
+}
+
+function getPositionLabel(position) {
+  if (!position) return '—'
+  const p = String(position).toLowerCase()
+  if (['left', 'right', 'top', 'bottom'].includes(p)) return p.charAt(0).toUpperCase() + p.slice(1)
+  return position
 }
 
 function reorderInterfaces(fromIndex, toIndex) {
@@ -465,7 +485,7 @@ function incrementInterfaceName(name) {
                 @click="toggleInterfaceExpanded(iface)"
               >
                 <span class="interface-row-label">{{ iface.name || 'Unnamed' }}</span>
-                <span class="interface-row-meta">{{ getTypeName(iface.type) }} · {{ iface.direction === 'input' ? 'In' : 'Out' }}</span>
+                <span class="interface-row-meta">{{ getTypeName(iface.type) }} · {{ iface.direction === 'input' ? 'In' : 'Out' }} · <span class="interface-row-position" :title="getPositionLabel(iface.position)" :aria-label="getPositionLabel(iface.position)"><MdiIcon v-if="getPositionIconName(iface.position)" :name="getPositionIconName(iface.position)" :size="12" class="position-icon" /><span v-else>—</span></span></span>
                 <span class="interface-row-chevron" aria-hidden="true">{{ isInterfaceExpanded(iface) ? '▲' : '▼' }}</span>
                 <span
                   class="interface-drag-handle"
@@ -662,11 +682,21 @@ function incrementInterfaceName(name) {
 .interface-row-summary {
   display: flex;
   align-items: center;
-  gap: 8px;
-  padding: 8px 8px 8px 10px;
+  gap: 6px;
+  padding: 4px 8px 4px 10px;
   cursor: pointer;
-  min-height: 36px;
+  min-height: 28px;
   user-select: none;
+}
+
+.interface-row-position {
+  display: inline-flex;
+  align-items: center;
+  vertical-align: middle;
+}
+
+.interface-row-position .position-icon {
+  display: inline-block;
 }
 
 .interface-row-summary:hover {
@@ -715,7 +745,7 @@ function incrementInterfaceName(name) {
 }
 
 .interface-row-body {
-  padding: 0 8px 8px;
+  padding: 8px 8px;
   border-top: 1px solid #eee;
 }
 

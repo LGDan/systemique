@@ -362,6 +362,10 @@ html[data-theme='dark'] .properties-panel .interface-row-meta {
   color: #999;
 }
 
+html[data-theme='dark'] .properties-panel .interface-row-position {
+  color: #b0b0b0;
+}
+
 html[data-theme='dark'] .properties-panel .interface-row-chevron {
   color: #b0b0b0;
 }
