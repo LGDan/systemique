@@ -702,7 +702,6 @@ function incrementInterfaceName(name) {
   border-radius: 4px;
   margin-bottom: 6px;
   background: #fff;
-  overflow: hidden;
 }
 
 .interface-row-dragging {
