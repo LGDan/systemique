@@ -221,19 +221,23 @@ function commitModelDescription() {
   systemStore.updateCurrentSystemDescription(modelDescription.value)
 }
 
-watch(effectiveComponent, (newComponent) => {
-  if (newComponent) {
-    localProperties.value = {
-      name: newComponent.name,
-      type: newComponent.type,
-      icon: newComponent.icon,
-      properties: { ...newComponent.properties },
-      description: newComponent.description || '',
-      trust: newComponent.trust || null
+watch(
+  () => effectiveComponent.value,
+  (newComponent) => {
+    if (newComponent) {
+      localProperties.value = {
+        name: newComponent.name,
+        type: newComponent.type,
+        icon: newComponent.icon,
+        properties: { ...newComponent.properties },
+        description: newComponent.description || '',
+        trust: newComponent.trust || null
+      }
+      expandedInterfaceIds.value = new Set()
     }
-    expandedInterfaceIds.value = new Set()
-  }
-}, { immediate: true })
+  },
+  { immediate: true, deep: true }
+)
 
 const interfaceTypes = computed(() => typesStore.getAllTypes())
 

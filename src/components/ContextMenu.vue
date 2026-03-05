@@ -1,4 +1,6 @@
 <script setup>
+import { ref, watch } from 'vue'
+
 const props = defineProps({
   visible: {
     type: Boolean,
@@ -20,8 +22,25 @@ const props = defineProps({
 
 const emit = defineEmits(['close', 'select'])
 
+const openSubmenuId = ref(null)
+
+watch(() => props.visible, (v) => {
+  if (!v) openSubmenuId.value = null
+})
+
 function handleItemClick(item) {
+  if (item.children?.length) {
+    openSubmenuId.value = openSubmenuId.value === item.id ? null : item.id
+    return
+  }
+  if (item.disabled) return
   emit('select', item)
+  emit('close')
+}
+
+function handleChildClick(child) {
+  if (child.disabled) return
+  emit('select', child)
   emit('close')
 }
 
@@ -40,13 +59,34 @@ function handleBackdropClick() {
       <div
         v-for="item in items"
         :key="item.id"
-        class="context-menu-item"
-        :class="{ disabled: item.disabled }"
-        @click="!item.disabled && handleItemClick(item)"
+        class="context-menu-item-wrapper"
       >
-        <span v-if="item.icon" class="menu-icon">{{ item.icon }}</span>
-        <span class="menu-label">{{ item.label }}</span>
-        <span v-if="item.shortcut" class="menu-shortcut">{{ item.shortcut }}</span>
+        <div
+          class="context-menu-item"
+          :class="{ disabled: item.disabled, 'has-submenu': item.children?.length }"
+          @click="handleItemClick(item)"
+        >
+          <span v-if="item.icon" class="menu-icon">{{ item.icon }}</span>
+          <span class="menu-label">{{ item.label }}</span>
+          <span v-if="item.shortcut" class="menu-shortcut">{{ item.shortcut }}</span>
+          <span v-if="item.children?.length" class="submenu-arrow">▸</span>
+        </div>
+        <div
+          v-if="item.children?.length && openSubmenuId === item.id"
+          class="context-menu submenu"
+        >
+          <div
+            v-for="child in item.children"
+            :key="child.id"
+            class="context-menu-item"
+            :class="{ disabled: child.disabled }"
+            @click.stop="handleChildClick(child)"
+          >
+            <span v-if="child.icon" class="menu-icon">{{ child.icon }}</span>
+            <span class="menu-label">{{ child.label }}</span>
+            <span v-if="child.shortcut" class="menu-shortcut">{{ child.shortcut }}</span>
+          </div>
+        </div>
       </div>
     </div>
   </div>
@@ -74,6 +114,10 @@ function handleBackdropClick() {
   z-index: 10001;
 }
 
+.context-menu-item-wrapper {
+  position: relative;
+}
+
 .context-menu-item {
   display: flex;
   align-items: center;
@@ -83,6 +127,23 @@ function handleBackdropClick() {
   font-size: 13px;
   color: #333;
   transition: background-color 0.15s;
+}
+
+.context-menu-item.has-submenu .menu-label {
+  flex: 1;
+}
+
+.submenu-arrow {
+  font-size: 10px;
+  color: #999;
+}
+
+.context-menu.submenu {
+  position: absolute;
+  left: 100%;
+  top: 0;
+  min-width: 140px;
+  margin-left: 2px;
 }
 
 .context-menu-item:hover:not(.disabled) {
