@@ -1389,6 +1389,10 @@ html[data-theme='dark'] .context-menu .menu-shortcut {
   color: #888;
 }
 
+html[data-theme='dark'] .context-menu .submenu-arrow {
+  color: #888;
+}
+
 /* Dialogs & modals */
 html[data-theme='dark'] .group-dialog,
 html[data-theme='dark'] .modal-content {

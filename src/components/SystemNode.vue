@@ -78,6 +78,17 @@ const contextMenuItems = computed(() => {
       action: 'installationGuide'
     },
     {
+      id: 'set-trust',
+      label: 'Set trust',
+      icon: '🛡️',
+      children: [
+        { id: 'trust-trusted', label: 'Trusted', action: 'setTrust', value: 'trusted' },
+        { id: 'trust-untrusted', label: 'Untrusted', action: 'setTrust', value: 'untrusted' },
+        { id: 'trust-ignored', label: 'Ignored', action: 'setTrust', value: 'ignored' },
+        { id: 'trust-unset', label: 'Unset', action: 'setTrust', value: null }
+      ]
+    },
+    {
       id: 'copy-as-json',
       label: 'Copy as JSON',
       icon: '📋',
@@ -173,6 +184,11 @@ function handleMenuSelect(item) {
     handleInterfaceFlipLR()
   } else if (item.action === 'interfaceFlipTB') {
     handleInterfaceFlipTB()
+  } else if (item.action === 'setTrust') {
+    if (component.value && 'value' in item) {
+      component.value.trust = item.value ?? null
+      systemStore.saveToLocalStorage()
+    }
   } else if (item.action === 'delete') {
     systemStore.removeComponent(component.value.id)
   }
