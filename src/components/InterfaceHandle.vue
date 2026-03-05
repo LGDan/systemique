@@ -76,6 +76,28 @@ const labelAccessClass = computed(() => {
   }
   return ''
 })
+
+// Direction arrow for interface label: points in the direction of flow (into component for input, out for output)
+const directionArrow = computed(() => {
+  const pos = props.position
+  const dir = props.interface.direction
+  if (pos === Position.Left) return dir === 'input' ? '→' : '←'
+  if (pos === Position.Right) return dir === 'input' ? '←' : '→'
+  if (pos === Position.Top) return dir === 'input' ? '←' : '→'
+  if (pos === Position.Bottom) return dir === 'input' ? '←' : '→'
+  return ''
+})
+
+// Arrow after label: left/top input, right/bottom output. Otherwise arrow before.
+const arrowAfterLabel = computed(() => {
+  const pos = props.position
+  const dir = props.interface.direction
+  if (pos === Position.Left) return dir === 'input'
+  if (pos === Position.Right) return dir === 'output'
+  if (pos === Position.Top) return dir === 'input'
+  if (pos === Position.Bottom) return dir === 'output'
+  return false
+})
 </script>
 
 <template>
@@ -99,7 +121,9 @@ const labelAccessClass = computed(() => {
       />
     </Handle>
     <div class="interface-label" :class="labelAccessClass">
-      {{ interface.name }}
+      <span v-if="directionArrow && !arrowAfterLabel" class="direction-arrow" aria-hidden="true">{{ directionArrow }}</span>
+      <span class="interface-label-text">{{ interface.name }}</span>
+      <span v-if="directionArrow && arrowAfterLabel" class="direction-arrow" aria-hidden="true">{{ directionArrow }}</span>
     </div>
   </div>
 </template>
@@ -144,6 +168,15 @@ const labelAccessClass = computed(() => {
 .interface-label.access-ignored {
   color: #929292; /* Grey */
   text-decoration: line-through;
+}
+
+.direction-arrow {
+  margin: 0 2px;
+  opacity: 0.85;
+}
+
+.interface-label-text {
+  white-space: nowrap;
 }
 
 /* Label positioning for different sides */
