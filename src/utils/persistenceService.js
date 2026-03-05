@@ -4,6 +4,7 @@ import { useInterfaceTypesStore } from '../stores/interfaceTypesStore.js'
 import { useInterfaceRulesStore } from '../stores/interfaceRulesStore.js'
 
 const STORAGE_KEY = 'systemique-design-state'
+const VIEWPORT_STORAGE_KEY = 'systemique-canvas-viewport'
 
 /**
  * Persistence Service - Handles localStorage persistence for system designs
@@ -102,6 +103,36 @@ export class PersistenceService {
    */
   static hasStoredSystem() {
     return localStorage.getItem(STORAGE_KEY) !== null
+  }
+
+  /**
+   * Load saved canvas viewport (position + zoom) for restore on refresh or tab switch.
+   * @returns {{ x: number, y: number, zoom: number } | null}
+   */
+  static loadCanvasViewport() {
+    try {
+      const stored = localStorage.getItem(VIEWPORT_STORAGE_KEY)
+      if (!stored) return null
+      const v = JSON.parse(stored)
+      if (typeof v?.x !== 'number' || typeof v?.y !== 'number' || typeof v?.zoom !== 'number') return null
+      return { x: v.x, y: v.y, zoom: v.zoom }
+    } catch {
+      return null
+    }
+  }
+
+  /**
+   * Save canvas viewport to localStorage.
+   * @param {{ x: number, y: number, zoom: number }} viewport
+   */
+  static saveCanvasViewport(viewport) {
+    try {
+      if (viewport && typeof viewport.x === 'number' && typeof viewport.y === 'number' && typeof viewport.zoom === 'number') {
+        localStorage.setItem(VIEWPORT_STORAGE_KEY, JSON.stringify({ x: viewport.x, y: viewport.y, zoom: viewport.zoom }))
+      }
+    } catch (e) {
+      console.warn('Failed to save canvas viewport:', e)
+    }
   }
 
   /**

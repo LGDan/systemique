@@ -1,5 +1,5 @@
 <script setup>
-import { ref, onMounted, onUnmounted, watch, nextTick, computed } from 'vue'
+import { ref, onMounted, onBeforeUnmount, onUnmounted, watch, nextTick, computed } from 'vue'
 import { VueFlow, useVueFlow } from '@vue-flow/core'
 import { Background } from '@vue-flow/background'
 import { Controls } from '@vue-flow/controls'
@@ -11,6 +11,7 @@ import { useToastStore } from '../stores/toastStore.js'
 import { useClipboardStore } from '../stores/clipboardStore.js'
 import { useComponentLibraryStore } from '../stores/componentLibraryStore.js'
 import { validateConnectionAttempt } from '../utils/connectionValidator.js'
+import { PersistenceService } from '../utils/persistenceService.js'
 import { Connection } from '../models/Connection.js'
 import { Component } from '../models/Component.js'
 
@@ -25,7 +26,10 @@ const systemStore = useSystemStore()
 const clipboardStore = useClipboardStore()
 const libraryStore = useComponentLibraryStore()
 const vueFlow = useVueFlow()
-const { getSelectedNodes, onConnect, addEdges, removeEdges, onNodesChange, onEdgesChange, addNodes, screenToFlowCoordinate, onNodeDragStop, fitView } = vueFlow
+const { getSelectedNodes, onConnect, addEdges, removeEdges, onNodesChange, onEdgesChange, addNodes, screenToFlowCoordinate, onNodeDragStop, fitView, getViewport, onMoveEnd } = vueFlow
+
+// Restore canvas position/zoom on load or when returning to Design tab (from localStorage)
+const savedViewport = PersistenceService.loadCanvasViewport()
 
 const nodes = ref([])
 const edges = ref([])
@@ -102,6 +106,20 @@ if (onNodeDragStop) {
     }
   })
 }
+
+// Persist viewport (position + zoom) when user finishes panning/zooming
+if (onMoveEnd) {
+  onMoveEnd(() => {
+    const vp = getViewport?.()
+    if (vp) PersistenceService.saveCanvasViewport(vp)
+  })
+}
+
+// Persist viewport when leaving Design tab so it restores when returning
+onBeforeUnmount(() => {
+  const vp = getViewport?.()
+  if (vp) PersistenceService.saveCanvasViewport(vp)
+})
 
 // Handle node changes (position updates, deletion, etc.)
 onNodesChange((changes) => {
@@ -526,7 +544,8 @@ onUnmounted(() => {
     <VueFlow
       v-model:nodes="nodes"
       v-model:edges="edges"
-      fit-view-on-init
+      :fit-view-on-init="!savedViewport"
+      :default-viewport="savedViewport || undefined"
       class="vue-flow-system"
       :default-zoom="1.5"
       :min-zoom="0.2"
