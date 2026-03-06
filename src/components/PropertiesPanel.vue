@@ -221,10 +221,15 @@ function commitModelDescription() {
   systemStore.updateCurrentSystemDescription(modelDescription.value)
 }
 
+const lastEffectiveComponentId = ref(null)
+
 watch(
   () => effectiveComponent.value,
   (newComponent) => {
     if (newComponent) {
+      const isNewSelection = lastEffectiveComponentId.value !== newComponent.id
+      lastEffectiveComponentId.value = newComponent.id
+
       localProperties.value = {
         name: newComponent.name,
         type: newComponent.type,
@@ -233,7 +238,12 @@ watch(
         description: newComponent.description || '',
         trust: newComponent.trust || null
       }
-      expandedInterfaceIds.value = new Set()
+      // Only collapse expanded rows when the user selected a different component, not on every property change
+      if (isNewSelection) {
+        expandedInterfaceIds.value = new Set()
+      }
+    } else {
+      lastEffectiveComponentId.value = null
     }
   },
   { immediate: true, deep: true }
