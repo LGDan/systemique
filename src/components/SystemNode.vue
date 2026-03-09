@@ -9,6 +9,7 @@ import { useSystemStore } from '../stores/systemStore.js'
 import { useToastStore } from '../stores/toastStore.js'
 import { useComponentLibraryStore } from '../stores/componentLibraryStore.js'
 import { Component } from '../models/Component.js'
+import { Interface } from '../models/Interface.js'
 import { marked } from 'marked'
 
 const props = defineProps({
@@ -87,6 +88,12 @@ const contextMenuItems = computed(() => {
         { id: 'trust-ignored', label: 'Ignored', action: 'setTrust', value: 'ignored' },
         { id: 'trust-unset', label: 'Unset', action: 'setTrust', value: null }
       ]
+    },
+    {
+      id: 'add-note-interface',
+      label: 'Add Note Interface',
+      icon: '📝',
+      action: 'addNoteInterface'
     },
     {
       id: 'copy-as-json',
@@ -187,6 +194,15 @@ function handleMenuSelect(item) {
   } else if (item.action === 'setTrust') {
     if (component.value && 'value' in item) {
       component.value.trust = item.value ?? null
+      systemStore.saveToLocalStorage()
+    }
+  } else if (item.action === 'addNoteInterface') {
+    if (component.value) {
+      const newInterfaceId = `interface-${Date.now()}-${Math.random().toString(36).substr(2, 9)}`
+      const newInterface = new Interface(newInterfaceId, 'Note', 'physical', 'input')
+      newInterface.position = 'top'
+      newInterface.icon = 'note'
+      component.value.addInterface(newInterface)
       systemStore.saveToLocalStorage()
     }
   } else if (item.action === 'delete') {
