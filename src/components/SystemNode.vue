@@ -46,10 +46,14 @@ const trustClass = computed(() => {
 
 const isNote = computed(() => component.value?.type === 'note')
 
-const noteBodyHtml = computed(() => {
-  if (!isNote.value) return ''
-  const desc = component.value?.description
-  if (desc == null || desc === '') return ''
+const showDescriptionOnCanvas = computed(
+  () => component.value?.showDescriptionOnCanvas === true || isNote.value
+)
+
+const descriptionBodyHtml = computed(() => {
+  if (!showDescriptionOnCanvas.value || !component.value?.description) return ''
+  const desc = component.value.description.trim()
+  if (desc === '') return ''
   return marked(desc)
 })
 
@@ -471,7 +475,7 @@ function handleSendToLibrary() {
               <div class="node-note-title">{{ component.name }}</div>
             </div>
           </div>
-          <div v-if="noteBodyHtml" class="node-note-body" v-html="noteBodyHtml"></div>
+          <div v-if="descriptionBodyHtml" class="node-note-body" v-html="descriptionBodyHtml"></div>
         </template>
         <template v-else>
           <div class="node-header">
@@ -486,6 +490,7 @@ function handleSendToLibrary() {
             </div>
             <div v-if="component.type !== 'generic'" class="node-type">{{ component.type }}</div>
           </div>
+          <div v-if="descriptionBodyHtml" class="node-note-body" v-html="descriptionBodyHtml"></div>
         </template>
       </div>
 
