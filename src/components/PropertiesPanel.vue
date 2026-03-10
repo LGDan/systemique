@@ -194,7 +194,8 @@ const localProperties = ref({
   icon: null,
   properties: {},
   description: '',
-  trust: null
+  trust: null,
+  showDescriptionOnCanvas: false
 })
 
 // Model fields when nothing is selected (sync from store)
@@ -236,7 +237,8 @@ watch(
         icon: newComponent.icon,
         properties: { ...newComponent.properties },
         description: newComponent.description || '',
-        trust: newComponent.trust || null
+        trust: newComponent.trust || null,
+        showDescriptionOnCanvas: newComponent.showDescriptionOnCanvas ?? (newComponent.type === 'note')
       }
       // Only collapse expanded rows when the user selected a different component, not on every property change
       if (isNewSelection) {
@@ -261,6 +263,7 @@ function updateComponent() {
       c.properties = { ...props.properties }
       c.description = props.description
       c.trust = props.trust
+      c.showDescriptionOnCanvas = props.showDescriptionOnCanvas
     })
     systemStore.saveToLocalStorage()
   } else if (component.value) {
@@ -270,6 +273,7 @@ function updateComponent() {
     component.value.properties = props.properties
     component.value.description = props.description
     component.value.trust = props.trust
+    component.value.showDescriptionOnCanvas = props.showDescriptionOnCanvas
     systemStore.saveToLocalStorage()
   }
 }
@@ -480,6 +484,18 @@ function incrementInterfaceName(name) {
           />
         </div>
 
+        <div class="field field-checkbox">
+          <label>
+            <input
+              type="checkbox"
+              v-model="localProperties.showDescriptionOnCanvas"
+              @change="updateComponent"
+            />
+            Show description on canvas
+          </label>
+          <span class="field-hint">Render description as markdown on the component</span>
+        </div>
+
         <div class="field">
           <label for="component-trust">Trust</label>
           <select
@@ -669,6 +685,25 @@ function incrementInterfaceName(name) {
   font-size: 11px;
   color: #666;
   font-weight: 600;
+}
+
+.field-checkbox label {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  cursor: pointer;
+  font-weight: 500;
+}
+
+.field-checkbox input[type="checkbox"] {
+  margin: 0;
+}
+
+.field-hint {
+  display: block;
+  font-size: 11px;
+  color: #888;
+  margin-top: 2px;
 }
 
 .field-input {

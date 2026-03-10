@@ -17,6 +17,7 @@ export class Component {
     this.categories = [] // Array of category strings (e.g., ['Hardware', 'Network'])
     this.description = '' // Component description
     this.trust = null // Component trust level: null (unset), 'trusted', 'untrusted', 'ignored'
+    this.showDescriptionOnCanvas = false // When true, render description as markdown on the node
   }
 
   static fromJSON(json) {
@@ -34,6 +35,7 @@ export class Component {
     component.categories = json.categories || []
     component.description = json.description || ''
     component.trust = json.trust || null
+    component.showDescriptionOnCanvas = json.showDescriptionOnCanvas ?? (json.type === 'note')
     return component
   }
 
@@ -50,7 +52,8 @@ export class Component {
       icon: this.icon,
       categories: this.categories,
       description: this.description,
-      trust: this.trust
+      trust: this.trust,
+      showDescriptionOnCanvas: this.showDescriptionOnCanvas
     }
   }
 
